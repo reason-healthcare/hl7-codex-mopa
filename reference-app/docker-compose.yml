@@ -1,0 +1,120 @@
+services:
+  # ---------------------------------------------------------------------------
+  # HAPI FHIR R4 Server
+  # ---------------------------------------------------------------------------
+  hapi:
+    image: hapiproject/hapi:latest
+    container_name: ogca-hapi
+    ports:
+      - "8080:8080"
+    environment:
+      - hapi.fhir.fhir_version=R4
+      - hapi.fhir.allow_external_references=true
+      - hapi.fhir.allow_multiple_delete=true
+      - hapi.fhir.cors.allow_credentials=true
+      - hapi.fhir.cors.allowed_origin=*
+    volumes:
+      - hapi-data:/data/hapi
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/fhir/metadata"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 45s
+
+  # ---------------------------------------------------------------------------
+  # EHR (port 4000)
+  # ---------------------------------------------------------------------------
+  ehr:
+    build:
+      context: .
+      dockerfile: apps/ehr/Dockerfile
+    container_name: ogca-ehr
+    ports:
+      - "4000:4000"
+    environment:
+      - FHIR_BASE_URL=http://hapi:8080/fhir
+      - JANE_SMITH_PATIENT_ID=jane-smith
+      - SMART_AUTH_BYPASS=true
+      - PORT=4000
+    depends_on:
+      hapi:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # CDS SMART App (port 4001) — stub
+  # ---------------------------------------------------------------------------
+  smart-app:
+    build:
+      context: .
+      dockerfile: apps/smart-app/Dockerfile
+    container_name: ogca-smart-app
+    ports:
+      - "4001:4001"
+    environment:
+      - FHIR_BASE_URL=http://hapi:8080/fhir
+      - SMART_AUTH_BYPASS=true
+      - PORT=4001
+
+  # ---------------------------------------------------------------------------
+  # CRD Service (port 4002) — stub
+  # ---------------------------------------------------------------------------
+  crd-service:
+    build:
+      context: .
+      dockerfile: apps/crd-service/Dockerfile
+    container_name: ogca-crd-service
+    ports:
+      - "4002:4002"
+    environment:
+      - FHIR_BASE_URL=http://hapi:8080/fhir
+      - SMART_AUTH_BYPASS=true
+      - PORT=4002
+
+  # ---------------------------------------------------------------------------
+  # DTR Client (port 4003) — stub
+  # ---------------------------------------------------------------------------
+  dtr-client:
+    build:
+      context: .
+      dockerfile: apps/dtr-client/Dockerfile
+    container_name: ogca-dtr-client
+    ports:
+      - "4003:4003"
+    environment:
+      - FHIR_BASE_URL=http://hapi:8080/fhir
+      - SMART_AUTH_BYPASS=true
+      - PORT=4003
+
+  # ---------------------------------------------------------------------------
+  # PAS Service (port 4004) — stub
+  # ---------------------------------------------------------------------------
+  pas-service:
+    build:
+      context: .
+      dockerfile: apps/pas-service/Dockerfile
+    container_name: ogca-pas-service
+    ports:
+      - "4004:4004"
+    environment:
+      - FHIR_BASE_URL=http://hapi:8080/fhir
+      - SMART_AUTH_BYPASS=true
+      - PORT=4004
+
+  # ---------------------------------------------------------------------------
+  # Payer Backend (port 4005) — stub
+  # ---------------------------------------------------------------------------
+  payer-backend:
+    build:
+      context: .
+      dockerfile: apps/payer-backend/Dockerfile
+    container_name: ogca-payer-backend
+    ports:
+      - "4005:4005"
+    environment:
+      - FHIR_BASE_URL=http://hapi:8080/fhir
+      - SMART_AUTH_BYPASS=true
+      - PORT=4005
+
+volumes:
+  hapi-data:
