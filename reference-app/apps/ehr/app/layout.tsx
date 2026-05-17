@@ -6,11 +6,7 @@ export const metadata: Metadata = {
   description: "Oncology Guideline-Compliant Authorization — Reference EHR",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="antialiased">{children}</body>

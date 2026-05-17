@@ -1,5 +1,5 @@
 import { FhirClient, PatientSchema, BundleSchema, getPatientDisplayName } from "@ogca/fhir-client";
-import type { Condition, Observation } from "@ogca/fhir-client";
+import type { Patient, Condition, Observation } from "@ogca/fhir-client";
 import Link from "next/link";
 
 interface PageProps {
@@ -8,8 +8,7 @@ interface PageProps {
 
 async function getFhirClient() {
   // Server-side: use internal FHIR base URL directly
-  const base =
-    process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
+  const base = process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
   return new FhirClient({ baseUrl: base });
 }
 
@@ -37,7 +36,7 @@ export default async function PatientChartPage({ params }: PageProps) {
   const { id } = await params;
   const client = await getFhirClient();
 
-  let patient;
+  let patient: Patient | undefined;
   let conditions: Condition[] = [];
   let observations: Observation[] = [];
   let error: string | null = null;
@@ -45,11 +44,7 @@ export default async function PatientChartPage({ params }: PageProps) {
   try {
     patient = await client.read("Patient", id, PatientSchema);
 
-    const condBundle = await client.search(
-      "Condition",
-      { patient: id },
-      BundleSchema
-    );
+    const condBundle = await client.search("Condition", { patient: id }, BundleSchema);
     conditions = (condBundle.entry ?? [])
       .map((e) => e.resource)
       .filter((r): r is Condition => r?.resourceType === "Condition");
@@ -90,18 +85,14 @@ export default async function PatientChartPage({ params }: PageProps) {
       <div className="bg-blue-900 text-white px-6 py-3 flex items-center gap-6 text-sm">
         <span className="font-semibold text-base">{displayName}</span>
         {patient.birthDate && <span>DOB: {patient.birthDate}</span>}
-        {patient.gender && (
-          <span className="capitalize">Sex: {patient.gender}</span>
-        )}
+        {patient.gender && <span className="capitalize">Sex: {patient.gender}</span>}
         <span className="text-blue-300">FHIR ID: {patient.id}</span>
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
         {/* Demographics */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
-            Demographics
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Demographics</h2>
           <dl className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <dt className="text-gray-500">Full Name</dt>
@@ -119,12 +110,12 @@ export default async function PatientChartPage({ params }: PageProps) {
               <dt className="text-gray-500">FHIR ID</dt>
               <dd className="font-mono text-xs text-gray-600">{patient.id}</dd>
             </div>
-            {patient.identifier?.map((id, i) => (
-              <div key={i}>
+            {patient.identifier?.map((ident) => (
+              <div key={ident.value ?? ident.system ?? ident.use ?? "id"}>
                 <dt className="text-gray-500">
-                  {id.type?.coding?.[0]?.code ?? id.system ?? "Identifier"}
+                  {ident.type?.coding?.[0]?.code ?? ident.system ?? "Identifier"}
                 </dt>
-                <dd className="font-medium">{id.value ?? "—"}</dd>
+                <dd className="font-medium">{ident.value ?? "—"}</dd>
               </div>
             ))}
           </dl>
@@ -132,9 +123,7 @@ export default async function PatientChartPage({ params }: PageProps) {
 
         {/* Problem List */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
-            Problem List
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Problem List</h2>
           {conditions.length === 0 ? (
             <p className="text-gray-500 text-sm italic">No conditions recorded.</p>
           ) : (
@@ -149,10 +138,7 @@ export default async function PatientChartPage({ params }: PageProps) {
               </thead>
               <tbody>
                 {conditions.map((cond, i) => (
-                  <tr
-                    key={cond.id ?? i}
-                    className="border-t border-gray-200 hover:bg-gray-50"
-                  >
+                  <tr key={cond.id ?? i} className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="px-3 py-2">{formatCode(cond)}</td>
                     <td className="px-3 py-2 font-mono text-xs text-gray-500">
                       {cond.code?.coding?.[0]?.code ?? "—"}
@@ -160,9 +146,7 @@ export default async function PatientChartPage({ params }: PageProps) {
                     <td className="px-3 py-2 capitalize">
                       {cond.clinicalStatus?.coding?.[0]?.code ?? "—"}
                     </td>
-                    <td className="px-3 py-2">
-                      {(cond as any).onsetDateTime?.slice(0, 10) ?? "—"}
-                    </td>
+                    <td className="px-3 py-2">{cond.onsetDateTime?.slice(0, 10) ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -172,9 +156,7 @@ export default async function PatientChartPage({ params }: PageProps) {
 
         {/* Observations */}
         <section>
-          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
-            Observations
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Observations</h2>
           {observations.length === 0 ? (
             <p className="text-gray-500 text-sm italic">No observations recorded.</p>
           ) : (
@@ -189,15 +171,10 @@ export default async function PatientChartPage({ params }: PageProps) {
               </thead>
               <tbody>
                 {observations.map((obs, i) => (
-                  <tr
-                    key={obs.id ?? i}
-                    className="border-t border-gray-200 hover:bg-gray-50"
-                  >
+                  <tr key={obs.id ?? i} className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="px-3 py-2">{formatCode(obs)}</td>
                     <td className="px-3 py-2">{formatObsValue(obs)}</td>
-                    <td className="px-3 py-2">
-                      {obs.effectiveDateTime?.slice(0, 10) ?? "—"}
-                    </td>
+                    <td className="px-3 py-2">{obs.effectiveDateTime?.slice(0, 10) ?? "—"}</td>
                     <td className="px-3 py-2 capitalize">{obs.status ?? "—"}</td>
                   </tr>
                 ))}

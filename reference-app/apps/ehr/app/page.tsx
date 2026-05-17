@@ -48,8 +48,8 @@ export default function Home() {
 
         <div className="mt-10 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800">
           <strong>Phase 1 status:</strong> EHR reads Jane Smith&apos;s chart from HAPI FHIR via{" "}
-          <code className="font-mono bg-yellow-100 px-1 rounded">/api/fhir/[...path]</code>{" "}
-          proxy. All other apps are stub landing pages.
+          <code className="font-mono bg-yellow-100 px-1 rounded">/api/fhir/[...path]</code> proxy.
+          All other apps are stub landing pages.
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3 text-sm">

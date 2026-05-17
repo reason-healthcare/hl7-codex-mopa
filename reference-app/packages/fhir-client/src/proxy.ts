@@ -1,4 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+
+const FHIR_CONTENT_TYPE = "application/fhir+json";
 
 /**
  * FHIR proxy utility.
@@ -6,8 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
  * Drop into a Next.js App Router catch-all route:
  *   app/api/fhir/[...path]/route.ts
  *
- * The handler forwards all HTTP methods to the upstream FHIR server configured
- * via the FHIR_BASE_URL environment variable.
+ * Forwards all HTTP methods to the upstream FHIR server configured via
+ * the FHIR_BASE_URL environment variable.
  */
 export async function fhirProxyHandler(
   request: NextRequest,
@@ -17,40 +19,27 @@ export async function fhirProxyHandler(
     process.env.FHIR_BASE_URL?.replace(/\/$/, "") ?? "http://localhost:8080/fhir";
 
   const fhirPath = params.path.join("/");
-  const search = request.nextUrl.search ?? "";
-  const upstreamUrl = `${upstreamBase}/${fhirPath}${search}`;
+  const upstreamUrl = `${upstreamBase}/${fhirPath}${request.nextUrl.search}`;
 
   const headers: Record<string, string> = {
-    "Content-Type": "application/fhir+json",
-    Accept: "application/fhir+json",
+    "Content-Type": FHIR_CONTENT_TYPE,
+    Accept: FHIR_CONTENT_TYPE,
   };
 
-  // Forward auth header if present
   const authHeader = request.headers.get("authorization");
-  if (authHeader) {
-    headers["Authorization"] = authHeader;
-  }
+  if (authHeader) headers.Authorization = authHeader;
 
-  let body: BodyInit | null = null;
   const method = request.method;
-  if (!["GET", "HEAD", "DELETE"].includes(method)) {
-    body = await request.text();
-  }
+  const body = ["GET", "HEAD", "DELETE"].includes(method) ? undefined : await request.text();
 
   try {
-    const upstream = await fetch(upstreamUrl, {
-      method,
-      headers,
-      body: body ?? undefined,
-    });
-
+    const upstream = await fetch(upstreamUrl, { method, headers, body });
     const responseBody = await upstream.text();
 
     return new NextResponse(responseBody, {
       status: upstream.status,
       headers: {
-        "Content-Type":
-          upstream.headers.get("Content-Type") ?? "application/fhir+json",
+        "Content-Type": upstream.headers.get("Content-Type") ?? FHIR_CONTENT_TYPE,
       },
     });
   } catch (err) {
@@ -62,8 +51,7 @@ export async function fhirProxyHandler(
           {
             severity: "error",
             code: "exception",
-            diagnostics:
-              err instanceof Error ? err.message : "Upstream FHIR request failed",
+            diagnostics: err instanceof Error ? err.message : "Upstream FHIR request failed",
           },
         ],
       },
