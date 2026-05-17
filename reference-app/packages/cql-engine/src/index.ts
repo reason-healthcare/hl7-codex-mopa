@@ -12,9 +12,5 @@ export interface ElmJson {
 }
 
 export interface CqlEngine {
-  evaluate(
-    elm: ElmJson,
-    context: FhirContext,
-    expression: string
-  ): CqlResult;
+  evaluate(elm: ElmJson, context: FhirContext, expression: string): CqlResult;
 }

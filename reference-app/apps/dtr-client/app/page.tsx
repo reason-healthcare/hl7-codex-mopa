@@ -3,9 +3,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center space-y-4">
         <div className="w-16 h-16 bg-blue-900 rounded-2xl mx-auto flex items-center justify-center">
-          <span className="text-white text-2xl font-bold">
-            DT
-          </span>
+          <span className="text-white text-2xl font-bold">DT</span>
         </div>
         <h1 className="text-2xl font-semibold text-gray-800">DTR Client</h1>
         <p className="text-gray-500 text-sm max-w-sm">
@@ -16,10 +14,7 @@ export default function Home() {
           Running on port 4003
         </div>
         <div className="pt-2">
-          <a
-            href="http://localhost:4000"
-            className="text-sm text-blue-600 hover:underline"
-          >
+          <a href="http://localhost:4000" className="text-sm text-blue-600 hover:underline">
             ← Back to EHR
           </a>
         </div>
