@@ -149,9 +149,11 @@ describe("BundleSchema", () => {
         { resource: { resourceType: "Observation", status: "final", code: { text: "x" } } },
       ],
     });
+    // Bundle.entry[].resource is typed as base Resource in fhir-zod — cast to access
+    // the resourceType discriminator at runtime.
     const patients = (bundle.entry ?? [])
-      .map((e) => e.resource)
-      .filter((r): r is { resourceType: "Patient"; id?: string } => r?.resourceType === "Patient");
+      .map((e) => e.resource as { resourceType?: string; id?: string } | undefined)
+      .filter((r): r is { resourceType: string; id?: string } => r?.resourceType === "Patient");
     expect(patients).toHaveLength(1);
     expect(patients[0]?.id).toBe("p1");
   });

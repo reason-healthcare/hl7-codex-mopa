@@ -1,15 +1,22 @@
-import { FhirClient, PatientSchema, BundleSchema, getPatientDisplayName } from "@ogca/fhir-client";
-import type { Patient, Condition, Observation } from "@ogca/fhir-client";
+import {
+  Client,
+  PatientSchema,
+  BundleSchema,
+  ConditionSchema,
+  ObservationSchema,
+  getPatientDisplayName,
+} from "@ogca/fhir-client";
+import type { Condition, Observation, Patient } from "@ogca/fhir-client";
 import Link from "next/link";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-async function getFhirClient() {
-  // Server-side: use internal FHIR base URL directly
-  const base = process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
-  return new FhirClient({ baseUrl: base });
+function getFhirClient() {
+  return new Client({
+    baseUrl: process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir",
+  });
 }
 
 function formatCode(resource: Condition | Observation): string {
@@ -32,9 +39,17 @@ function formatObsValue(obs: Observation): string {
   return "—";
 }
 
+function bundleResources<T>(raw: unknown, resourceType: string, parse: (r: unknown) => T): T[] {
+  const bundle = BundleSchema.parse(raw);
+  return (bundle.entry ?? [])
+    .map((e) => e.resource)
+    .filter((r): r is NonNullable<typeof r> => r?.resourceType === resourceType)
+    .map((r) => parse(r));
+}
+
 export default async function PatientChartPage({ params }: PageProps) {
   const { id } = await params;
-  const client = await getFhirClient();
+  const client = getFhirClient();
 
   let patient: Patient | undefined;
   let conditions: Condition[] = [];
@@ -42,21 +57,22 @@ export default async function PatientChartPage({ params }: PageProps) {
   let error: string | null = null;
 
   try {
-    patient = await client.read("Patient", id, PatientSchema);
+    patient = PatientSchema.parse(await client.read({ resourceType: "Patient", id }));
 
-    const condBundle = await client.search("Condition", { patient: id }, BundleSchema);
-    conditions = (condBundle.entry ?? [])
-      .map((e) => e.resource)
-      .filter((r): r is Condition => r?.resourceType === "Condition");
-
-    const obsBundle = await client.search(
-      "Observation",
-      { patient: id, _sort: "-date", _count: "50" },
-      BundleSchema
+    conditions = bundleResources(
+      await client.search({ resourceType: "Condition", searchParams: { patient: id } }),
+      "Condition",
+      (r) => ConditionSchema.parse(r)
     );
-    observations = (obsBundle.entry ?? [])
-      .map((e) => e.resource)
-      .filter((r): r is Observation => r?.resourceType === "Observation");
+
+    observations = bundleResources(
+      await client.search({
+        resourceType: "Observation",
+        searchParams: { patient: id, _sort: "-date", _count: "50" },
+      }),
+      "Observation",
+      (r) => ObservationSchema.parse(r)
+    );
   } catch (e) {
     error = e instanceof Error ? e.message : "Failed to load patient data";
   }
@@ -137,8 +153,8 @@ export default async function PatientChartPage({ params }: PageProps) {
                 </tr>
               </thead>
               <tbody>
-                {conditions.map((cond, i) => (
-                  <tr key={cond.id ?? i} className="border-t border-gray-200 hover:bg-gray-50">
+                {conditions.map((cond) => (
+                  <tr key={cond.id} className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="px-3 py-2">{formatCode(cond)}</td>
                     <td className="px-3 py-2 font-mono text-xs text-gray-500">
                       {cond.code?.coding?.[0]?.code ?? "—"}
@@ -170,8 +186,8 @@ export default async function PatientChartPage({ params }: PageProps) {
                 </tr>
               </thead>
               <tbody>
-                {observations.map((obs, i) => (
-                  <tr key={obs.id ?? i} className="border-t border-gray-200 hover:bg-gray-50">
+                {observations.map((obs) => (
+                  <tr key={obs.id} className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="px-3 py-2">{formatCode(obs)}</td>
                     <td className="px-3 py-2">{formatObsValue(obs)}</td>
                     <td className="px-3 py-2">{obs.effectiveDateTime?.slice(0, 10) ?? "—"}</td>
