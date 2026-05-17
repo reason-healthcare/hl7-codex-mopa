@@ -1,0 +1,13 @@
+node_modules
+.next
+dist
+.turbo
+*.log
+.env.local
+.env*.local
+# Per-app lockfiles — the monorepo root pnpm-lock.yaml is canonical
+apps/*/pnpm-lock.yaml
+apps/*/pnpm-workspace.yaml
+# Create-next-app boilerplate
+apps/*/AGENTS.md
+apps/*/CLAUDE.md
