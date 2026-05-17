@@ -10,8 +10,9 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@reasonhealth/fhir-zod": "^1.0.4",
-    "zod": "^3.23.8"
+    "@reasonhealth/fhir-zod": "^1.0.5",
+    "zod": "^3.23.8",
+    "fhir-kit-client": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
