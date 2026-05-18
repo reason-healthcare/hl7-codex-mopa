@@ -36,7 +36,8 @@ export interface CdsDiscoveryResponse {
 // Hook contexts
 // ---------------------------------------------------------------------------
 
-export interface OrderSelectContext {
+/** Fields shared by all order-hook contexts. */
+export interface BaseOrderContext {
   userId: string;
   patientId: string;
   encounterId?: string;
@@ -46,19 +47,13 @@ export interface OrderSelectContext {
     type: string;
     entry?: Array<{ resource: unknown }>;
   };
+}
+
+export interface OrderSelectContext extends BaseOrderContext {
   selections: string[];
 }
 
-export interface OrderSignContext {
-  userId: string;
-  patientId: string;
-  encounterId?: string;
-  draftOrders: {
-    resourceType: "Bundle";
-    type: string;
-    entry?: Array<{ resource: unknown }>;
-  };
-}
+export interface OrderSignContext extends BaseOrderContext {}
 
 // ---------------------------------------------------------------------------
 // CDS Hooks request
