@@ -6,12 +6,15 @@
     "dev": "next dev --port 4002",
     "build": "next build",
     "start": "next start --port 4002",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "@ogca/cds-hooks": "workspace:*",
+    "@ogca/fhir-client": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
