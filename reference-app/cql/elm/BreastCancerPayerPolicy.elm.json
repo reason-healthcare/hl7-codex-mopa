@@ -1,0 +1,274 @@
+{
+  "library": {
+    "identifier": {
+      "id": "BreastCancerPayerPolicy",
+      "version": "0.1.0"
+    },
+    "schemaIdentifier": {
+      "id": "urn:hl7-org:elm",
+      "version": "r1"
+    },
+    "usings": {
+      "def": [
+        {
+          "localIdentifier": "FHIR",
+          "version": "4.0.1"
+        }
+      ]
+    },
+    "includes": {
+      "def": [
+        {
+          "localIdentifier": "FHIRHelpers",
+          "path": "FHIRHelpers",
+          "version": "4.0.1"
+        }
+      ]
+    },
+    "codeSystems": {
+      "def": [
+        {
+          "name": "LOINC",
+          "id": "http://loinc.org",
+          "accessLevel": "Public"
+        },
+        {
+          "name": "SNOMED-CT",
+          "id": "http://snomed.info/sct",
+          "accessLevel": "Public"
+        }
+      ]
+    },
+    "codes": {
+      "def": [
+        {
+          "name": "HER2 by IHC",
+          "id": "85319-2",
+          "display": "HER2 [Presence] in Breast cancer specimen by Immune stain",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        },
+        {
+          "name": "HER2 Gene Amplification",
+          "id": "431396003",
+          "display": "Human epidermal growth factor 2 gene amplification detected",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "SNOMED-CT"
+          }
+        },
+        {
+          "name": "Clinical Stage Group",
+          "id": "21908-9",
+          "display": "Stage group.clinical Cancer",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        },
+        {
+          "name": "ECOG Performance Status",
+          "id": "89247-1",
+          "display": "ECOG Performance Status score",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        }
+      ]
+    },
+    "contexts": {
+      "def": [
+        {
+          "name": "Patient"
+        }
+      ]
+    },
+    "statements": {
+      "def": [
+        {
+          "name": "HER2 Status Present",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Or",
+            "localId": "1",
+            "locator": "0-0:0-0",
+            "operand": [
+              {
+                "type": "Exists",
+                "localId": "2",
+                "locator": "0-0:0-0",
+                "operand": {
+                  "type": "Retrieve",
+                  "localId": "3",
+                  "locator": "0-0:0-0",
+                  "dataType": "{http://hl7.org/fhir}Observation",
+                  "codes": {
+                    "type": "ExpressionRef",
+                    "localId": "4",
+                    "locator": "0-0:0-0",
+                    "name": "HER2 by IHC"
+                  },
+                  "include": [],
+                  "codeFilter": [],
+                  "dateFilter": [],
+                  "otherFilter": []
+                }
+              },
+              {
+                "type": "Exists",
+                "localId": "5",
+                "locator": "0-0:0-0",
+                "operand": {
+                  "type": "Retrieve",
+                  "localId": "6",
+                  "locator": "0-0:0-0",
+                  "dataType": "{http://hl7.org/fhir}Observation",
+                  "codes": {
+                    "type": "ExpressionRef",
+                    "localId": "7",
+                    "locator": "0-0:0-0",
+                    "name": "HER2 Gene Amplification"
+                  },
+                  "include": [],
+                  "codeFilter": [],
+                  "dateFilter": [],
+                  "otherFilter": []
+                }
+              }
+            ]
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "Cancer Stage Present",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Exists",
+            "localId": "8",
+            "locator": "0-0:0-0",
+            "operand": {
+              "type": "Retrieve",
+              "localId": "9",
+              "locator": "0-0:0-0",
+              "dataType": "{http://hl7.org/fhir}Observation",
+              "codes": {
+                "type": "ExpressionRef",
+                "localId": "10",
+                "locator": "0-0:0-0",
+                "name": "Clinical Stage Group"
+              },
+              "include": [],
+              "codeFilter": [],
+              "dateFilter": [],
+              "otherFilter": []
+            }
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "ECOG PS Present",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Exists",
+            "localId": "11",
+            "locator": "0-0:0-0",
+            "operand": {
+              "type": "Retrieve",
+              "localId": "12",
+              "locator": "0-0:0-0",
+              "dataType": "{http://hl7.org/fhir}Observation",
+              "codes": {
+                "type": "ExpressionRef",
+                "localId": "13",
+                "locator": "0-0:0-0",
+                "name": "ECOG Performance Status"
+              },
+              "include": [],
+              "codeFilter": [],
+              "dateFilter": [],
+              "otherFilter": []
+            }
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "All Data Present",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "And",
+            "localId": "14",
+            "locator": "0-0:0-0",
+            "operand": [
+              {
+                "type": "And",
+                "localId": "15",
+                "locator": "0-0:0-0",
+                "operand": [
+                  {
+                    "type": "ExpressionRef",
+                    "localId": "16",
+                    "locator": "0-0:0-0",
+                    "name": "HER2 Status Present"
+                  },
+                  {
+                    "type": "ExpressionRef",
+                    "localId": "17",
+                    "locator": "0-0:0-0",
+                    "name": "Cancer Stage Present"
+                  }
+                ]
+              },
+              {
+                "type": "ExpressionRef",
+                "localId": "18",
+                "locator": "0-0:0-0",
+                "name": "ECOG PS Present"
+              }
+            ]
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "PA Result",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "If",
+            "localId": "19",
+            "locator": "0-0:0-0",
+            "condition": {
+              "type": "ExpressionRef",
+              "localId": "20",
+              "locator": "0-0:0-0",
+              "name": "All Data Present"
+            },
+            "then": {
+              "type": "Literal",
+              "localId": "21",
+              "locator": "0-0:0-0",
+              "valueType": "{urn:hl7-org:elm-types:r1}String",
+              "value": "approved"
+            },
+            "else": {
+              "type": "Literal",
+              "localId": "22",
+              "locator": "0-0:0-0",
+              "valueType": "{urn:hl7-org:elm-types:r1}String",
+              "value": "dtr-required"
+            }
+          },
+          "context": "Patient"
+        }
+      ]
+    },
+    "annotation": [
+      {
+        "type": "CqlToElmInfo",
+        "translatorVersion": "0.1.0-beta.1",
+        "translatorOptions": "DisableListDemotion,DisableListPromotion,EnableAnnotations,EnableLocators"
+      }
+    ]
+  }
+}

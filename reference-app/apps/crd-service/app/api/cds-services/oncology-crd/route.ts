@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     cdsRequest.prefetch ?? {}
   );
 
-  const response = handleOncologyCrd({ ...cdsRequest, prefetch });
+  const response = await handleOncologyCrd({ ...cdsRequest, prefetch });
 
   const patientId = cdsRequest.context.patientId;
   console.log(

@@ -149,3 +149,42 @@ for format rules and commit discipline.
   inference warning.
 - Done-when verified: HAPI running → fixtures loaded → EHR dev server at :4000 → Jane
   Smith chart renders Demographics, Problem List, Observations from HAPI via proxy.
+
+---
+
+## Phase 3 — CQL Guideline + Payer Policy
+
+### CQL authoring
+- [x] Create `cql/` directory at monorepo root
+- [x] Author `cql/BreastCancerPayerPolicy.cql` — inputs: HER2 Observations, CancerStage Observations, EcogPS Observations retrieved from FHIR; outputs: `AllDataPresent` (Boolean), `MissingElements` (List<String>), `PAResult` ('approved'|'dtr-required')
+- [x] Author `cql/BreastCancerGuideline.cql` — inputs: same clinical context; outputs: `TH_Eligible`, `PHD_Eligible`, `ddACT_Eligible` (Boolean), `ApprovableRegimens` (List<String>)
+- [x] Compile `BreastCancerPayerPolicy.cql` → `cql/elm/BreastCancerPayerPolicy.elm.json` via `rh cql compile`
+- [x] Compile `BreastCancerGuideline.cql` → `cql/elm/BreastCancerGuideline.elm.json` via `rh cql compile`
+- [x] Commit both ELM JSON files
+
+### packages/cql-engine
+- [x] Add `cql-execution` and `cql-fhir-data-provider` npm dependencies
+- [x] Implement `CqlExecutionEngine` class satisfying `CqlEngine` interface
+- [x] `buildPatientSource(patientId, resources)` helper — assembles FHIR Bundle from prefetch resources for the PatientSource
+- [x] Export `CqlExecutionEngine` and `buildPatientSource` from barrel
+- [x] Add `vitest.config.ts` and `test` script
+- [x] Unit tests: evaluate `BreastCancerPayerPolicy` ELM with mock prefetch data
+  - [ ] All data present → `AllDataPresent = true`, `PAResult = 'approved'`
+  - [ ] HER2 absent → `AllDataPresent = false`, `MissingElements` contains 'her2'
+  - [ ] Stage absent → `AllDataPresent = false`, `MissingElements` contains 'cancerStage'
+  - [ ] Nothing present → all three missing
+
+### apps/crd-service
+- [x] Add `@ogca/cql-engine` workspace dependency
+- [x] Load `BreastCancerPayerPolicy.elm.json` at module init
+- [x] Replace `checkCompleteness(prefetch)` with `evaluatePayerPolicy(prefetch)` backed by `CqlExecutionEngine`
+- [x] `buildPatientSource` maps prefetch bundles (her2, cancerStage, ecogPs, patient) to FHIR resources for cql-execution
+- [x] Update `Library/BreastCancerPADataRequirements` route to embed ELM JSON content in `content[0].data` (base64)
+- [x] Update crd-logic tests to cover CQL-driven path
+
+**Status: Complete**
+
+### Notes
+- `rh cql compile` available at v0.1.0-beta.1 — no Java required
+- FHIR model info is bundled in `rh`; no `--model` flag needed
+- `cql-execution` is Stage 1 evaluator; Stage 2 (`rh-cql` WASM) is a future swap behind the same `CqlEngine` interface with no application-level changes

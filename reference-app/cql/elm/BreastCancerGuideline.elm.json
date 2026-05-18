@@ -1,0 +1,175 @@
+{
+  "library": {
+    "identifier": {
+      "id": "BreastCancerGuideline",
+      "version": "0.1.0"
+    },
+    "schemaIdentifier": {
+      "id": "urn:hl7-org:elm",
+      "version": "r1"
+    },
+    "usings": {
+      "def": [
+        {
+          "localIdentifier": "FHIR",
+          "version": "4.0.1"
+        }
+      ]
+    },
+    "includes": {
+      "def": [
+        {
+          "localIdentifier": "FHIRHelpers",
+          "path": "FHIRHelpers",
+          "version": "4.0.1"
+        }
+      ]
+    },
+    "codeSystems": {
+      "def": [
+        {
+          "name": "LOINC",
+          "id": "http://loinc.org",
+          "accessLevel": "Public"
+        },
+        {
+          "name": "SNOMED-CT",
+          "id": "http://snomed.info/sct",
+          "accessLevel": "Public"
+        }
+      ]
+    },
+    "codes": {
+      "def": [
+        {
+          "name": "HER2 by IHC",
+          "id": "85319-2",
+          "display": "HER2 [Presence] in Breast cancer specimen by Immune stain",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        },
+        {
+          "name": "HER2 Gene Amplification",
+          "id": "431396003",
+          "display": "Human epidermal growth factor 2 gene amplification detected",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "SNOMED-CT"
+          }
+        }
+      ]
+    },
+    "contexts": {
+      "def": [
+        {
+          "name": "Patient"
+        }
+      ]
+    },
+    "statements": {
+      "def": [
+        {
+          "name": "Is HER2 Positive",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Or",
+            "localId": "1",
+            "locator": "0-0:0-0",
+            "operand": [
+              {
+                "type": "Exists",
+                "localId": "2",
+                "locator": "0-0:0-0",
+                "operand": {
+                  "type": "Retrieve",
+                  "localId": "3",
+                  "locator": "0-0:0-0",
+                  "dataType": "{http://hl7.org/fhir}Observation",
+                  "codes": {
+                    "type": "ExpressionRef",
+                    "localId": "4",
+                    "locator": "0-0:0-0",
+                    "name": "HER2 by IHC"
+                  },
+                  "include": [],
+                  "codeFilter": [],
+                  "dateFilter": [],
+                  "otherFilter": []
+                }
+              },
+              {
+                "type": "Exists",
+                "localId": "5",
+                "locator": "0-0:0-0",
+                "operand": {
+                  "type": "Retrieve",
+                  "localId": "6",
+                  "locator": "0-0:0-0",
+                  "dataType": "{http://hl7.org/fhir}Observation",
+                  "codes": {
+                    "type": "ExpressionRef",
+                    "localId": "7",
+                    "locator": "0-0:0-0",
+                    "name": "HER2 Gene Amplification"
+                  },
+                  "include": [],
+                  "codeFilter": [],
+                  "dateFilter": [],
+                  "otherFilter": []
+                }
+              }
+            ]
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "TH Eligible",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "ExpressionRef",
+            "localId": "8",
+            "locator": "0-0:0-0",
+            "name": "Is HER2 Positive"
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "PHD Eligible",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "ExpressionRef",
+            "localId": "9",
+            "locator": "0-0:0-0",
+            "name": "Is HER2 Positive"
+          },
+          "context": "Patient"
+        },
+        {
+          "name": "ddACT Eligible",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Not",
+            "localId": "10",
+            "locator": "0-0:0-0",
+            "operand": {
+              "type": "ExpressionRef",
+              "localId": "11",
+              "locator": "0-0:0-0",
+              "name": "Is HER2 Positive"
+            }
+          },
+          "context": "Patient"
+        }
+      ]
+    },
+    "annotation": [
+      {
+        "type": "CqlToElmInfo",
+        "translatorVersion": "0.1.0-beta.1",
+        "translatorOptions": "DisableListDemotion,DisableListPromotion,EnableAnnotations,EnableLocators"
+      }
+    ]
+  }
+}

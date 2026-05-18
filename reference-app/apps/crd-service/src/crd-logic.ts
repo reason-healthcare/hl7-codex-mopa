@@ -6,7 +6,10 @@
  */
 
 import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@ogca/cds-hooks";
-import { prefetchEntryCount } from "@ogca/cds-hooks";
+import { CqlExecutionEngine, extractBundleResources } from "@ogca/cql-engine";
+import type { ElmJson } from "@ogca/cql-engine";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const payerPolicyElm = require("../../../cql/elm/BreastCancerPayerPolicy.elm.json") as ElmJson;
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -17,11 +20,6 @@ export const CRD_SERVICE_TITLE = "OGCA Oncology CRD";
 export const LIBRARY_CANONICAL =
   "http://hl7.org/fhir/us/codex-ocpa/Library/BreastCancerPADataRequirements";
 
-/**
- * Prefetch templates advertised in the CDS service discovery response.
- * The EHR should resolve these and include them in every hook request;
- * the service will fetch any missing keys itself.
- */
 export const PREFETCH_TEMPLATES: Record<string, string> = {
   patient: "Patient/{{context.patientId}}",
   conditions: "Condition?patient={{context.patientId}}&category=problem-list-item&_count=50",
@@ -30,11 +28,24 @@ export const PREFETCH_TEMPLATES: Record<string, string> = {
   ecogPs: "Observation?patient={{context.patientId}}&code=http://loinc.org|89247-1&_count=1",
 };
 
+export const MISSING_KEY_LABELS: Record<string, string> = {
+  her2: "HER2 status",
+  cancerStage: "Cancer stage",
+  ecogPs: "ECOG Performance Status",
+};
+
+// ---------------------------------------------------------------------------
+// ELM loading
+// ---------------------------------------------------------------------------
+
+// ELM loaded above via require() — no runtime FS access needed
+
+const cqlEngine = new CqlExecutionEngine();
+
 // ---------------------------------------------------------------------------
 // Discovery
 // ---------------------------------------------------------------------------
 
-/** Build the CDS discovery response for this service. */
 export function buildDiscoveryResponse(): { services: CdsService[] } {
   const service: CdsService = {
     id: CRD_SERVICE_ID,
@@ -55,7 +66,7 @@ export function buildDiscoveryResponse(): { services: CdsService[] } {
 }
 
 // ---------------------------------------------------------------------------
-// Completeness check (Phase 2 — hardcoded, no CQL)
+// CQL-driven completeness check (Phase 3)
 // ---------------------------------------------------------------------------
 
 export type CheckResult =
@@ -63,22 +74,40 @@ export type CheckResult =
   | { status: "dtr-required"; missingKeys: string[] };
 
 /**
- * Determine whether all required clinical context is present.
+ * Evaluate BreastCancerPayerPolicy CQL against the resolved prefetch.
  *
- * Phase 2 hardcodes the check: HER2 status must be present.
- * Phase 3 replaces this with CQL evaluation.
+ * Extracts FHIR resources from each prefetch bundle, runs the CQL library,
+ * and maps the expression results to a CheckResult.
  */
-export function checkCompleteness(prefetch: Record<string, unknown>): CheckResult {
-  const missingKeys: string[] = [];
+export async function evaluatePayerPolicy(
+  patientId: string,
+  prefetch: Record<string, unknown>
+): Promise<CheckResult> {
+  const resources: unknown[] = [
+    // Patient resource (single object from the patient prefetch key)
+    ...(prefetch.patient ? [prefetch.patient] : []),
+    // Bundle entries for each observation prefetch key
+    ...extractBundleResources(prefetch.her2),
+    ...extractBundleResources(prefetch.cancerStage),
+    ...extractBundleResources(prefetch.ecogPs),
+    ...extractBundleResources(prefetch.conditions),
+  ];
 
-  if (prefetchEntryCount(prefetch.her2) === 0) missingKeys.push("her2");
-  if (prefetchEntryCount(prefetch.cancerStage) === 0) missingKeys.push("cancerStage");
-  if (prefetchEntryCount(prefetch.ecogPs) === 0) missingKeys.push("ecogPs");
+  const results = await cqlEngine.evaluate(payerPolicyElm, patientId, resources);
+
+  const her2Present = results["HER2 Status Present"] as boolean;
+  const stagePresent = results["Cancer Stage Present"] as boolean;
+  const ecogPresent = results["ECOG PS Present"] as boolean;
+
+  const missingKeys: string[] = [];
+  if (!her2Present) missingKeys.push("her2");
+  if (!stagePresent) missingKeys.push("cancerStage");
+  if (!ecogPresent) missingKeys.push("ecogPs");
 
   if (missingKeys.length > 0) {
     return { status: "dtr-required", missingKeys };
   }
-  return { status: "approved", reason: "All required clinical context present." };
+  return { status: "approved", reason: "All required clinical context present per CQL policy." };
 }
 
 // ---------------------------------------------------------------------------
@@ -87,14 +116,6 @@ export function checkCompleteness(prefetch: Record<string, unknown>): CheckResul
 
 const DTR_CLIENT_URL = process.env.DTR_CLIENT_URL ?? "http://localhost:4003";
 
-/** Human-readable labels for each required clinical data element key. */
-export const MISSING_KEY_LABELS: Record<string, string> = {
-  her2: "HER2 status",
-  cancerStage: "Cancer stage",
-  ecogPs: "ECOG Performance Status",
-};
-
-/** Build the shared `source` object used in all CRD cards. */
 function buildCardSource() {
   return {
     label: CRD_SERVICE_TITLE,
@@ -150,15 +171,13 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
 // Main hook handler
 // ---------------------------------------------------------------------------
 
-/**
- * Process a CDS Hooks request and return the appropriate card(s).
- *
- * Accepts both `order-select` and `order-sign` hook names.
- * The `prefetch` map must already be resolved before calling this function.
- */
-export function handleOncologyCrd(request: CdsRequest<Record<string, unknown>>): CdsResponse {
+export async function handleOncologyCrd(
+  request: CdsRequest<Record<string, unknown>>
+): Promise<CdsResponse> {
+  const patientId = (request.context.patientId as string) ?? "unknown";
   const prefetch = (request.prefetch ?? {}) as Record<string, unknown>;
-  const result = checkCompleteness(prefetch);
+
+  const result = await evaluatePayerPolicy(patientId, prefetch);
 
   if (result.status === "approved") {
     return { cards: [buildPreApprovedCard()] };
