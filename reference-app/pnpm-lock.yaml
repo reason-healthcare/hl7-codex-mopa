@@ -263,8 +263,8 @@ importers:
   packages/fhir-client:
     dependencies:
       '@reasonhealth/fhir-zod':
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^1.0.6
+        version: 1.0.6
       fhir-kit-client:
         specifier: ^2.0.1
         version: 2.0.1
@@ -606,8 +606,8 @@ packages:
   '@oxc-project/types@0.130.0':
     resolution: {integrity: sha512-ibD2usx9JRu7f5pu2tMKMI4cpA4NgXJQoYRP4pQ7Pxmn1l6k/53qWtQWZayhYy3X4QZkt90Ot+mJEaeXouio6Q==}
 
-  '@reasonhealth/fhir-zod@1.0.5':
-    resolution: {integrity: sha512-gQXrD9psGVJBxGP2O9YHu3KoIzoUrP4gRTzxy9ZGDwm7SXDHgzdpqraFIYgH4s1sB56qTTrlpgrGILcZ0NeEBg==}
+  '@reasonhealth/fhir-zod@1.0.6':
+    resolution: {integrity: sha512-xO+Tp6kxLpEgvcLzj8wAuY0s6LJburpoEGIXvAJyMZAX6qD8G2xNN5/QREn9Dl3na9E1Gn9EypsgtKAywi/Qwg==}
 
   '@rolldown/binding-android-arm64@1.0.1':
     resolution: {integrity: sha512-fJI3I0r3C3Oj/zdBCpaCmBRZYf07xpaq4yCfDDoSFm+beWNzbIl26puW8RraUdugoJw/95zerNOn6jasAhzSmg==}
@@ -1548,7 +1548,7 @@ snapshots:
 
   '@oxc-project/types@0.130.0': {}
 
-  '@reasonhealth/fhir-zod@1.0.5':
+  '@reasonhealth/fhir-zod@1.0.6':
     dependencies:
       zod: 3.25.76
 
