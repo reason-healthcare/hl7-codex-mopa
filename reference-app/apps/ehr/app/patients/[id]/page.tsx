@@ -103,6 +103,12 @@ export default async function PatientChartPage({ params }: PageProps) {
         {patient.birthDate && <span>DOB: {patient.birthDate}</span>}
         {patient.gender && <span className="capitalize">Sex: {patient.gender}</span>}
         <span className="text-blue-300">FHIR ID: {patient.id}</span>
+        <Link
+          href={`/patients/${patient.id}/orders`}
+          className="ml-auto text-xs bg-blue-700 hover:bg-blue-600 px-3 py-1.5 rounded font-medium transition-colors"
+        >
+          Order Entry →
+        </Link>
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
