@@ -5,13 +5,7 @@
  * instantiating the Next.js request/response layer.
  */
 
-import type {
-  CdsCard,
-  CdsResponse,
-  CdsRequest,
-  CdsService,
-  OrderSelectContext,
-} from "@ogca/cds-hooks";
+import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@ogca/cds-hooks";
 import { prefetchEntryCount } from "@ogca/cds-hooks";
 
 // ---------------------------------------------------------------------------
@@ -93,6 +87,21 @@ export function checkCompleteness(prefetch: Record<string, unknown>): CheckResul
 
 const DTR_CLIENT_URL = process.env.DTR_CLIENT_URL ?? "http://localhost:4003";
 
+/** Human-readable labels for each required clinical data element key. */
+export const MISSING_KEY_LABELS: Record<string, string> = {
+  her2: "HER2 status",
+  cancerStage: "Cancer stage",
+  ecogPs: "ECOG Performance Status",
+};
+
+/** Build the shared `source` object used in all CRD cards. */
+function buildCardSource() {
+  return {
+    label: CRD_SERVICE_TITLE,
+    url: `http://localhost:${process.env.PORT ?? 4002}/api/cds-services`,
+  };
+}
+
 export function buildPreApprovedCard(): CdsCard {
   return {
     summary: "Regimen pre-approved",
@@ -101,8 +110,7 @@ export function buildPreApprovedCard(): CdsCard {
       "No prior authorization is needed at this time.",
     indicator: "info",
     source: {
-      label: CRD_SERVICE_TITLE,
-      url: `http://localhost:${process.env.PORT ?? 4002}/api/cds-services`,
+      ...buildCardSource(),
       topic: {
         system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
         code: "coverage-information",
@@ -113,12 +121,7 @@ export function buildPreApprovedCard(): CdsCard {
 }
 
 export function buildDtrCard(missingKeys: string[]): CdsCard {
-  const missingLabels: Record<string, string> = {
-    her2: "HER2 status",
-    cancerStage: "Cancer stage",
-    ecogPs: "ECOG Performance Status",
-  };
-  const missingDisplay = missingKeys.map((k) => missingLabels[k] ?? k).join(", ");
+  const missingDisplay = missingKeys.map((k) => MISSING_KEY_LABELS[k] ?? k).join(", ");
 
   const appContext = JSON.stringify({
     libraryUrl: LIBRARY_CANONICAL,
@@ -131,10 +134,7 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
       `The following clinical data is needed to evaluate this order: **${missingDisplay}**. ` +
       "Launch the documentation app to provide the missing information.",
     indicator: "warning",
-    source: {
-      label: CRD_SERVICE_TITLE,
-      url: `http://localhost:${process.env.PORT ?? 4002}/api/cds-services`,
-    },
+    source: buildCardSource(),
     links: [
       {
         label: "Launch Documentation Requirements Tool",
@@ -156,7 +156,7 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
  * Accepts both `order-select` and `order-sign` hook names.
  * The `prefetch` map must already be resolved before calling this function.
  */
-export function handleOncologyCrd(request: CdsRequest<OrderSelectContext>): CdsResponse {
+export function handleOncologyCrd(request: CdsRequest<Record<string, unknown>>): CdsResponse {
   const prefetch = (request.prefetch ?? {}) as Record<string, unknown>;
   const result = checkCompleteness(prefetch);
 

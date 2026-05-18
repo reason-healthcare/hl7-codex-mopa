@@ -151,26 +151,30 @@ async function fireCdsHook(
 // Card display
 // ---------------------------------------------------------------------------
 
-const INDICATOR_STYLES: Record<string, string> = {
-  info: "bg-green-50 border-green-300 text-green-900",
-  warning: "bg-yellow-50 border-yellow-300 text-yellow-900",
-  critical: "bg-red-50 border-red-300 text-red-900",
-};
-
-const INDICATOR_BADGE: Record<string, string> = {
-  info: "bg-green-100 text-green-800",
-  warning: "bg-yellow-100 text-yellow-800",
-  critical: "bg-red-100 text-red-800",
+const INDICATOR_CONFIG: Record<string, { container: string; badge: string }> = {
+  info: {
+    container: "bg-green-50 border-green-300 text-green-900",
+    badge: "bg-green-100 text-green-800",
+  },
+  warning: {
+    container: "bg-yellow-50 border-yellow-300 text-yellow-900",
+    badge: "bg-yellow-100 text-yellow-800",
+  },
+  critical: {
+    container: "bg-red-50 border-red-300 text-red-900",
+    badge: "bg-red-100 text-red-800",
+  },
 };
 
 function CardDisplay({ card }: { card: CdsCard }) {
+  const config = INDICATOR_CONFIG[card.indicator];
   return (
-    <div
-      className={`border rounded-lg p-4 ${INDICATOR_STYLES[card.indicator] ?? "bg-gray-50 border-gray-300"}`}
-    >
+    <div className={`border rounded-lg p-4 ${config?.container ?? "bg-gray-50 border-gray-300"}`}>
       <div className="flex items-start gap-3">
         <span
-          className={`text-xs font-semibold uppercase px-2 py-0.5 rounded-full flex-shrink-0 ${INDICATOR_BADGE[card.indicator] ?? ""}`}
+          className={`text-xs font-semibold uppercase px-2 py-0.5 rounded-full flex-shrink-0 ${
+            config?.badge ?? ""
+          }`}
         >
           {card.indicator}
         </span>
@@ -213,35 +217,35 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [signed, setSigned] = useState(false);
 
-  async function onSelectRegimen(regimen: Regimen) {
-    setSelected(regimen);
-    setSigned(false);
-    setError(null);
+  async function callCrdHook(
+    hook: "order-select" | "order-sign",
+    regimen: Regimen,
+    onSuccess: (cards: CdsCard[]) => void
+  ) {
     setLoading(true);
+    setError(null);
     try {
-      const response = await fireCdsHook("order-select", patientId, regimen);
-      setCards(response.cards);
+      const response = await fireCdsHook(hook, patientId, regimen);
+      onSuccess(response.cards);
     } catch (e) {
       setError(e instanceof Error ? e.message : "CRD service unavailable");
-      setCards([]);
     } finally {
       setLoading(false);
     }
   }
 
-  async function onSignOrder() {
+  function onSelectRegimen(regimen: Regimen) {
+    setSelected(regimen);
+    setSigned(false);
+    callCrdHook("order-select", regimen, setCards);
+  }
+
+  function onSignOrder() {
     if (!selected) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fireCdsHook("order-sign", patientId, selected);
-      setCards(response.cards);
+    callCrdHook("order-sign", selected, (cards) => {
+      setCards(cards);
       setSigned(true);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "CRD service unavailable");
-    } finally {
-      setLoading(false);
-    }
+    });
   }
 
   return (

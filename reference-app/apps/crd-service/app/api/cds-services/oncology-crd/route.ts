@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { CdsRequestSchema, resolvePrefetch } from "@ogca/cds-hooks";
 import { handleOncologyCrd, PREFETCH_TEMPLATES, CRD_SERVICE_ID } from "../../../../src/crd-logic";
-import type { OrderSelectContext } from "@ogca/cds-hooks";
 
 const CORS = { "Access-Control-Allow-Origin": "*" };
 
@@ -41,26 +40,21 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Resolve any prefetch keys the EHR did not populate
   const fhirBase =
     cdsRequest.fhirServer ?? process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
 
   const prefetch = await resolvePrefetch(
     PREFETCH_TEMPLATES,
     fhirBase,
-    cdsRequest.context as Record<string, unknown>,
-    (cdsRequest.prefetch ?? {}) as Record<string, unknown>
+    cdsRequest.context,
+    cdsRequest.prefetch ?? {}
   );
 
-  const response = handleOncologyCrd({
-    ...cdsRequest,
-    prefetch,
-  } as unknown as Parameters<typeof handleOncologyCrd>[0]);
+  const response = handleOncologyCrd({ ...cdsRequest, prefetch });
 
+  const patientId = cdsRequest.context.patientId;
   console.log(
-    `[${CRD_SERVICE_ID}] hook=${cdsRequest.hook} patient=${
-      (cdsRequest.context as unknown as OrderSelectContext).patientId
-    } → ${response.cards[0]?.indicator} "${response.cards[0]?.summary}"`
+    `[${CRD_SERVICE_ID}] hook=${cdsRequest.hook} patient=${patientId} → ${response.cards[0]?.indicator} "${response.cards[0]?.summary}"`
   );
 
   return NextResponse.json(response, { headers: CORS });
