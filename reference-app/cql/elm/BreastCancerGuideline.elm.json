@@ -72,6 +72,7 @@
       "def": [
         {
           "name": "Is HER2 Positive",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "Or",
@@ -87,11 +88,17 @@
                   "localId": "3",
                   "locator": "0-0:0-0",
                   "dataType": "{http://hl7.org/fhir}Observation",
+                  "codeProperty": "code",
                   "codes": {
-                    "type": "ExpressionRef",
-                    "localId": "4",
-                    "locator": "0-0:0-0",
-                    "name": "HER2 by IHC"
+                    "type": "List",
+                    "element": [
+                      {
+                        "type": "CodeRef",
+                        "localId": "4",
+                        "locator": "0-0:0-0",
+                        "name": "HER2 by IHC"
+                      }
+                    ]
                   },
                   "include": [],
                   "codeFilter": [],
@@ -108,11 +115,17 @@
                   "localId": "6",
                   "locator": "0-0:0-0",
                   "dataType": "{http://hl7.org/fhir}Observation",
+                  "codeProperty": "code",
                   "codes": {
-                    "type": "ExpressionRef",
-                    "localId": "7",
-                    "locator": "0-0:0-0",
-                    "name": "HER2 Gene Amplification"
+                    "type": "List",
+                    "element": [
+                      {
+                        "type": "CodeRef",
+                        "localId": "7",
+                        "locator": "0-0:0-0",
+                        "name": "HER2 Gene Amplification"
+                      }
+                    ]
                   },
                   "include": [],
                   "codeFilter": [],
@@ -121,33 +134,33 @@
                 }
               }
             ]
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "TH Eligible",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "ExpressionRef",
             "localId": "8",
             "locator": "0-0:0-0",
             "name": "Is HER2 Positive"
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "PHD Eligible",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "ExpressionRef",
             "localId": "9",
             "locator": "0-0:0-0",
             "name": "Is HER2 Positive"
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "ddACT Eligible",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "Not",
@@ -159,15 +172,14 @@
               "locator": "0-0:0-0",
               "name": "Is HER2 Positive"
             }
-          },
-          "context": "Patient"
+          }
         }
       ]
     },
     "annotation": [
       {
         "type": "CqlToElmInfo",
-        "translatorVersion": "0.1.0-beta.1",
+        "translatorVersion": "0.2.0-beta.2",
         "translatorOptions": "DisableListDemotion,DisableListPromotion,EnableAnnotations,EnableLocators"
       }
     ]
