@@ -90,6 +90,7 @@
       "def": [
         {
           "name": "HER2 Status Present",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "Or",
@@ -105,11 +106,17 @@
                   "localId": "3",
                   "locator": "0-0:0-0",
                   "dataType": "{http://hl7.org/fhir}Observation",
+                  "codeProperty": "code",
                   "codes": {
-                    "type": "ExpressionRef",
-                    "localId": "4",
-                    "locator": "0-0:0-0",
-                    "name": "HER2 by IHC"
+                    "type": "List",
+                    "element": [
+                      {
+                        "type": "CodeRef",
+                        "localId": "4",
+                        "locator": "0-0:0-0",
+                        "name": "HER2 by IHC"
+                      }
+                    ]
                   },
                   "include": [],
                   "codeFilter": [],
@@ -126,11 +133,17 @@
                   "localId": "6",
                   "locator": "0-0:0-0",
                   "dataType": "{http://hl7.org/fhir}Observation",
+                  "codeProperty": "code",
                   "codes": {
-                    "type": "ExpressionRef",
-                    "localId": "7",
-                    "locator": "0-0:0-0",
-                    "name": "HER2 Gene Amplification"
+                    "type": "List",
+                    "element": [
+                      {
+                        "type": "CodeRef",
+                        "localId": "7",
+                        "locator": "0-0:0-0",
+                        "name": "HER2 Gene Amplification"
+                      }
+                    ]
                   },
                   "include": [],
                   "codeFilter": [],
@@ -139,11 +152,11 @@
                 }
               }
             ]
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "Cancer Stage Present",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "Exists",
@@ -154,22 +167,28 @@
               "localId": "9",
               "locator": "0-0:0-0",
               "dataType": "{http://hl7.org/fhir}Observation",
+              "codeProperty": "code",
               "codes": {
-                "type": "ExpressionRef",
-                "localId": "10",
-                "locator": "0-0:0-0",
-                "name": "Clinical Stage Group"
+                "type": "List",
+                "element": [
+                  {
+                    "type": "CodeRef",
+                    "localId": "10",
+                    "locator": "0-0:0-0",
+                    "name": "Clinical Stage Group"
+                  }
+                ]
               },
               "include": [],
               "codeFilter": [],
               "dateFilter": [],
               "otherFilter": []
             }
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "ECOG PS Present",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "Exists",
@@ -180,22 +199,28 @@
               "localId": "12",
               "locator": "0-0:0-0",
               "dataType": "{http://hl7.org/fhir}Observation",
+              "codeProperty": "code",
               "codes": {
-                "type": "ExpressionRef",
-                "localId": "13",
-                "locator": "0-0:0-0",
-                "name": "ECOG Performance Status"
+                "type": "List",
+                "element": [
+                  {
+                    "type": "CodeRef",
+                    "localId": "13",
+                    "locator": "0-0:0-0",
+                    "name": "ECOG Performance Status"
+                  }
+                ]
               },
               "include": [],
               "codeFilter": [],
               "dateFilter": [],
               "otherFilter": []
             }
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "All Data Present",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "And",
@@ -228,11 +253,11 @@
                 "name": "ECOG PS Present"
               }
             ]
-          },
-          "context": "Patient"
+          }
         },
         {
           "name": "PA Result",
+          "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "If",
@@ -258,15 +283,14 @@
               "valueType": "{urn:hl7-org:elm-types:r1}String",
               "value": "dtr-required"
             }
-          },
-          "context": "Patient"
+          }
         }
       ]
     },
     "annotation": [
       {
         "type": "CqlToElmInfo",
-        "translatorVersion": "0.1.0-beta.1",
+        "translatorVersion": "0.2.0-beta.2",
         "translatorOptions": "DisableListDemotion,DisableListPromotion,EnableAnnotations,EnableLocators"
       }
     ]
