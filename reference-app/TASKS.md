@@ -169,10 +169,10 @@ for format rules and commit discipline.
 - [x] Export `CqlExecutionEngine` and `buildPatientSource` from barrel
 - [x] Add `vitest.config.ts` and `test` script
 - [x] Unit tests: evaluate `BreastCancerPayerPolicy` ELM with mock prefetch data
-  - [ ] All data present → `AllDataPresent = true`, `PAResult = 'approved'`
-  - [ ] HER2 absent → `AllDataPresent = false`, `MissingElements` contains 'her2'
-  - [ ] Stage absent → `AllDataPresent = false`, `MissingElements` contains 'cancerStage'
-  - [ ] Nothing present → all three missing
+  - [x] All data present → `AllDataPresent = true`, `PAResult = 'approved'`
+  - [x] HER2 absent → `AllDataPresent = false`, `MissingElements` contains 'her2'
+  - [x] Stage absent → `AllDataPresent = false`, `MissingElements` contains 'cancerStage'
+  - [x] Nothing present → all three missing
 
 ### apps/crd-service
 - [x] Add `@ogca/cql-engine` workspace dependency
