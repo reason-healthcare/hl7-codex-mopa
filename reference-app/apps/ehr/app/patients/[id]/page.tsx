@@ -109,6 +109,14 @@ export default async function PatientChartPage({ params }: PageProps) {
         >
           Order Entry →
         </Link>
+        <a
+          href={`http://localhost:4001/launch?iss=${encodeURIComponent(
+            `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"}`
+          )}&launch=${encodeURIComponent(`patient/${patient.id}`)}`}
+          className="text-xs bg-green-700 hover:bg-green-600 px-3 py-1.5 rounded font-medium transition-colors"
+        >
+          Launch CDS App ↗
+        </a>
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
