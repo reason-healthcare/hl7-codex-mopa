@@ -48,20 +48,20 @@ const PATIENT = { resourceType: "Patient", id: PATIENT_ID };
 // ---------------------------------------------------------------------------
 
 describe("buildPatientBundle", () => {
-  it("wraps resources in a collection Bundle", async () => {
+  it("wraps resources in a collection Bundle", () => {
     const bundle = buildPatientBundle(PATIENT_ID, [PATIENT, HER2_OBS]);
     expect(bundle.resourceType).toBe("Bundle");
     expect(bundle.type).toBe("collection");
     expect(bundle.entry).toHaveLength(2);
   });
 
-  it("injects a stub Patient when none is provided", async () => {
+  it("injects a stub Patient when none is provided", () => {
     const bundle = buildPatientBundle(PATIENT_ID, [HER2_OBS]);
     const types = bundle.entry.map((e) => (e.resource as { resourceType: string }).resourceType);
     expect(types).toContain("Patient");
   });
 
-  it("does not duplicate Patient when one is already in resources", async () => {
+  it("does not duplicate Patient when one is already in resources", () => {
     const bundle = buildPatientBundle(PATIENT_ID, [PATIENT, ECOG_OBS]);
     const patients = bundle.entry.filter(
       (e) => (e.resource as { resourceType: string }).resourceType === "Patient"
@@ -71,7 +71,7 @@ describe("buildPatientBundle", () => {
 });
 
 describe("extractBundleResources", () => {
-  it("extracts resources from a searchset Bundle", async () => {
+  it("extracts resources from a searchset Bundle", () => {
     const bundle = {
       resourceType: "Bundle",
       type: "searchset",
@@ -80,7 +80,7 @@ describe("extractBundleResources", () => {
     expect(extractBundleResources(bundle)).toHaveLength(2);
   });
 
-  it("returns empty array for non-bundle input", async () => {
+  it("returns empty array for non-bundle input", () => {
     expect(extractBundleResources(undefined)).toEqual([]);
     expect(extractBundleResources(null)).toEqual([]);
     expect(extractBundleResources({ resourceType: "Patient" })).toEqual([]);
@@ -91,9 +91,11 @@ describe("extractBundleResources", () => {
 // BreastCancerPayerPolicy CQL evaluation
 // ---------------------------------------------------------------------------
 
-describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
-  const engine = new CqlExecutionEngine();
+// Shared across both CQL evaluation describe blocks — CqlExecutionEngine is
+// stateless so a single instance is safe for all tests.
+const engine = new CqlExecutionEngine();
 
+describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
   it("all data present → AllDataPresent=true, PAResult=approved", async () => {
     const results = await engine.evaluate(policyElm, PATIENT_ID, [
       PATIENT,
@@ -139,8 +141,6 @@ describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
 // ---------------------------------------------------------------------------
 
 describe("BreastCancerGuideline — CqlExecutionEngine", () => {
-  const engine = new CqlExecutionEngine();
-
   it("HER2 present → IsHER2Positive=true, TH/PHD eligible, ddACT not eligible", async () => {
     const results = await engine.evaluate(guidelineElm, PATIENT_ID, [PATIENT, HER2_OBS]);
     expect(results["Is HER2 Positive"]).toBe(true);

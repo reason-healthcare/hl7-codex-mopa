@@ -17,6 +17,7 @@ const payerPolicyElm = require("../../../cql/elm/BreastCancerPayerPolicy.elm.jso
 
 export const CRD_SERVICE_ID = "oncology-crd";
 export const CRD_SERVICE_TITLE = "OGCA Oncology CRD";
+export const CRD_DEFAULT_PORT = 4002;
 export const LIBRARY_CANONICAL =
   "http://hl7.org/fhir/us/codex-ocpa/Library/BreastCancerPADataRequirements";
 
@@ -38,9 +39,13 @@ export const MISSING_KEY_LABELS: Record<string, string> = {
 // ELM loading
 // ---------------------------------------------------------------------------
 
-// ELM loaded above via require() — no runtime FS access needed
-
 const cqlEngine = new CqlExecutionEngine();
+
+// CQL expression names from BreastCancerPayerPolicy.cql.
+// Defined as constants so a rename in CQL is caught at a single call-site.
+const CQL_HER2_PRESENT = "HER2 Status Present";
+const CQL_STAGE_PRESENT = "Cancer Stage Present";
+const CQL_ECOG_PRESENT = "ECOG PS Present";
 
 // ---------------------------------------------------------------------------
 // Discovery
@@ -95,9 +100,9 @@ export async function evaluatePayerPolicy(
 
   const results = await cqlEngine.evaluate(payerPolicyElm, patientId, resources);
 
-  const her2Present = results["HER2 Status Present"] as boolean;
-  const stagePresent = results["Cancer Stage Present"] as boolean;
-  const ecogPresent = results["ECOG PS Present"] as boolean;
+  const her2Present = results[CQL_HER2_PRESENT] as boolean;
+  const stagePresent = results[CQL_STAGE_PRESENT] as boolean;
+  const ecogPresent = results[CQL_ECOG_PRESENT] as boolean;
 
   const missingKeys: string[] = [];
   if (!her2Present) missingKeys.push("her2");
@@ -119,7 +124,7 @@ const DTR_CLIENT_URL = process.env.DTR_CLIENT_URL ?? "http://localhost:4003";
 function buildCardSource() {
   return {
     label: CRD_SERVICE_TITLE,
-    url: `http://localhost:${process.env.PORT ?? 4002}/api/cds-services`,
+    url: `http://localhost:${process.env.PORT ?? CRD_DEFAULT_PORT}/api/cds-services`,
   };
 }
 
