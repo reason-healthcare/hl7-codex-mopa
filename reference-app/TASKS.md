@@ -188,3 +188,52 @@ for format rules and commit discipline.
 - `rh cql compile` available at v0.1.0-beta.1 — no Java required
 - FHIR model info is bundled in `rh`; no `--model` flag needed
 - `cql-execution` is Stage 1 evaluator; Stage 2 (`rh-cql` WASM) is a future swap behind the same `CqlEngine` interface with no application-level changes
+
+---
+
+## Phase 4 — SMART OAuth
+
+### packages/smart-auth
+- [ ] Implement SMART on FHIR authorization code flow (RFC 6749 + PKCE)
+- [ ] `SmartConfig` interface: `issuer`, `authorizationEndpoint`, `tokenEndpoint`, `scopes`
+- [ ] `buildAuthorizationUrl(config, params)` — constructs the `/authorize` redirect URL with PKCE challenge
+- [ ] `exchangeCode(config, code, verifier)` — POSTs to `/token`, returns `SmartTokenResponse`
+- [ ] `buildSmartConfiguration(issuer)` — returns the `.well-known/smart-configuration` JSON object
+- [ ] Token storage helpers: `storeToken`, `loadToken`, `clearToken` (cookie/header based, SSR-safe)
+- [ ] `SMART_AUTH_BYPASS` guard: when env flag is true all auth functions no-op and return fixture tokens
+- [ ] Export all types and functions from barrel `src/index.ts`
+- [ ] Add `vitest.config.ts` and `test` script
+- [ ] Unit tests: `buildAuthorizationUrl` parameter encoding; `buildSmartConfiguration` shape; bypass mode
+
+### apps/ehr — SMART authorization server
+- [ ] `GET /.well-known/smart-configuration` — advertise authorization and token endpoints
+- [ ] `GET /authorize` — validate `client_id`, `redirect_uri`, `scope`, `state`; render launch consent page
+- [ ] `POST /token` — validate authorization code + PKCE verifier; issue access token (JWT signed with HS256)
+- [ ] Token includes `patient`, `intent`, `scope` claims
+- [ ] Launch context page: minimal HTML confirm page (pre-approved for demo — no real user login)
+- [ ] "Launch CDS App" button on EHR patient chart linking to `/authorize?...` with correct launch params
+
+### apps/ehr — FHIR proxy bearer validation
+- [ ] Middleware: extract `Authorization: Bearer <token>` on all `/api/fhir/[...path]` requests
+- [ ] Verify token signature and expiry (symmetric HS256)
+- [ ] If `SMART_AUTH_BYPASS=true` skip verification and pass through
+- [ ] Return `401 Unauthorized` with `WWW-Authenticate: Bearer` on invalid/missing token
+
+### apps/smart-app — EHR launch
+- [ ] Add `@ogca/smart-auth` workspace dependency
+- [ ] SMART EHR launch: read `launch` and `iss` query params, redirect to EHR `/authorize`
+- [ ] On callback: exchange code for token, store in cookie
+- [ ] Replace stub landing page with authenticated "CDS App launched" confirmation showing patient context
+- [ ] If `SMART_AUTH_BYPASS=true` skip OAuth and use fixture token
+
+### apps/dtr-client — EHR launch with appContext
+- [ ] Add `@ogca/smart-auth` workspace dependency
+- [ ] SMART EHR launch: same pattern as smart-app; additionally parse `appContext` from launch params
+- [ ] Display received `appContext` (libraryUrl + missingDataElements) on landing page
+- [ ] If `SMART_AUTH_BYPASS=true` skip OAuth
+
+### Notes
+- `SMART_AUTH_BYPASS=true` is already set in all `.env.local` files from Phase 1; bypass mode must remain functional so Phases 1–3 continue to work
+- HS256 signing key stored in `SMART_JWT_SECRET` env var (auto-generated if absent in dev)
+- Scopes to support: `launch`, `launch/patient`, `patient/*.read`, `openid`, `fhirUser`
+- Done when: "Launch CDS App" in EHR → real OAuth redirect → token issued → smart-app queries `/api/fhir/Patient/jane-smith` with bearer token → EHR proxy validates → 200 OK
