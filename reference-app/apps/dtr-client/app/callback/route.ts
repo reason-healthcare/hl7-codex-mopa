@@ -29,12 +29,21 @@ export async function GET(request: NextRequest) {
   const cookies = parseCookies(request.headers.get("cookie"));
   const savedStateRaw = cookies[STATE_COOKIE];
 
-  // Decode state payload (includes appContext carried through the OAuth round-trip)
+  // Decode state payload (includes appContext + returnRegimen carried through the OAuth round-trip)
   let appContext: string | undefined;
   let returnRegimen: string | undefined;
+
+  interface StatePayload {
+    state: string;
+    appContext?: string;
+    returnRegimen?: string;
+  }
+
   if (savedStateRaw) {
     try {
-      const payload = JSON.parse(Buffer.from(savedStateRaw, "base64url").toString("utf-8"));
+      const payload = JSON.parse(
+        Buffer.from(savedStateRaw, "base64url").toString("utf-8")
+      ) as StatePayload;
       if (payload.state !== state) {
         return NextResponse.json({ error: "State mismatch" }, { status: 400 });
       }

@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { parseCookies, isAuthBypassed, TOKEN_COOKIE } from "@ogca/smart-auth";
 import { ITEM_DEFINITIONS } from "../../../lib/questionnaire-gen";
-import type { AnswerCoding } from "../../../lib/questionnaire-gen";
+import type { AnswerCoding, QItem } from "../../../lib/questionnaire-gen";
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
 
@@ -9,6 +9,47 @@ const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/ap
 interface SubmitRequest {
   patientId: string;
   answers: Record<string, AnswerCoding>;
+}
+
+const LAB_CATEGORY = {
+  system: "http://terminology.hl7.org/CodeSystem/observation-category",
+  code: "laboratory",
+  display: "Laboratory",
+} as const;
+
+function buildObservation(
+  patientId: string,
+  itemDef: QItem,
+  answerCoding: AnswerCoding,
+  date: string
+) {
+  return {
+    resourceType: "Observation",
+    status: "final",
+    category: [{ coding: [LAB_CATEGORY] }],
+    code: { coding: [itemDef.observationCode], text: itemDef.text },
+    subject: { reference: `Patient/${patientId}` },
+    effectiveDateTime: date,
+    valueCodeableConcept: { coding: [answerCoding], text: answerCoding.display },
+  };
+}
+
+function buildQuestionnaireResponse(
+  patientId: string,
+  answers: Record<string, AnswerCoding>,
+  date: string
+) {
+  return {
+    resourceType: "QuestionnaireResponse",
+    status: "completed",
+    subject: { reference: `Patient/${patientId}` },
+    authored: date,
+    item: Object.entries(answers).map(([linkId, coding]) => ({
+      linkId,
+      text: ITEM_DEFINITIONS[linkId]?.text ?? linkId,
+      answer: [{ valueCoding: coding }],
+    })),
+  };
 }
 
 /**
@@ -45,38 +86,11 @@ export async function POST(request: NextRequest) {
   for (const [linkId, answerCoding] of Object.entries(body.answers)) {
     const itemDef = ITEM_DEFINITIONS[linkId];
     if (!itemDef) continue;
-
-    const observation = {
-      resourceType: "Observation",
-      status: "final",
-      category: [
-        {
-          coding: [
-            {
-              system: "http://terminology.hl7.org/CodeSystem/observation-category",
-              code: "laboratory",
-              display: "Laboratory",
-            },
-          ],
-        },
-      ],
-      code: {
-        coding: [itemDef.observationCode],
-        text: itemDef.text,
-      },
-      subject: { reference: `Patient/${body.patientId}` },
-      effectiveDateTime: today,
-      valueCodeableConcept: {
-        coding: [answerCoding],
-        text: answerCoding.display,
-      },
-    };
-
     try {
       const res = await fetch(`${EHR_FHIR_BASE}/Observation`, {
         method: "POST",
         headers: fhirHeaders,
-        body: JSON.stringify(observation),
+        body: JSON.stringify(buildObservation(body.patientId, itemDef, answerCoding, today)),
       });
       if (res.ok) {
         const saved = (await res.json()) as { id?: string };
@@ -90,25 +104,11 @@ export async function POST(request: NextRequest) {
   // ------------------------------------------------------------------
   // 2. POST a QuestionnaireResponse aggregating all answers
   // ------------------------------------------------------------------
-  const qrItems = Object.entries(body.answers).map(([linkId, coding]) => ({
-    linkId,
-    text: ITEM_DEFINITIONS[linkId]?.text ?? linkId,
-    answer: [{ valueCoding: coding }],
-  }));
-
-  const qr = {
-    resourceType: "QuestionnaireResponse",
-    status: "completed",
-    subject: { reference: `Patient/${body.patientId}` },
-    authored: today,
-    item: qrItems,
-  };
-
   try {
     const res = await fetch(`${EHR_FHIR_BASE}/QuestionnaireResponse`, {
       method: "POST",
       headers: fhirHeaders,
-      body: JSON.stringify(qr),
+      body: JSON.stringify(buildQuestionnaireResponse(body.patientId, body.answers, today)),
     });
     if (!res.ok) {
       const text = await res.text();

@@ -21,7 +21,8 @@ export default function QuestionnaireForm({
   const [answers, setAnswers] = useState<Answers>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [qrId, setQrId] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [qrId, setQrId] = useState<string | undefined>(undefined);
 
   const allAnswered = questionnaire.items.every((item) => answers[item.linkId] !== undefined);
 
@@ -40,7 +41,8 @@ export default function QuestionnaireForm({
         throw new Error((body as { error?: string }).error ?? `HTTP ${res.status}`);
       }
       const result = (await res.json()) as { qrId?: string };
-      setQrId(result.qrId ?? "saved");
+      setQrId(result.qrId);
+      setSubmitted(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Submit failed");
     } finally {
@@ -48,7 +50,7 @@ export default function QuestionnaireForm({
     }
   }
 
-  if (qrId !== null) {
+  if (submitted) {
     const returnUrl = new URL(`/patients/${patientId}/orders`, ehrBaseUrl);
     returnUrl.searchParams.set("dtr-complete", "true");
     if (returnRegimen) returnUrl.searchParams.set("regimen", returnRegimen);
@@ -59,7 +61,11 @@ export default function QuestionnaireForm({
           <span className="font-medium">Documentation saved</span>
         </div>
         <p className="text-sm text-green-700">
-          QuestionnaireResponse saved (id: <code className="font-mono text-xs">{qrId}</code>).
+          {qrId && (
+            <>
+              QuestionnaireResponse saved (id: <code className="font-mono text-xs">{qrId}</code>).{" "}
+            </>
+          )}
           Observations written to EHR FHIR server. Return to the EHR to re-evaluate the order.
         </p>
         <a
