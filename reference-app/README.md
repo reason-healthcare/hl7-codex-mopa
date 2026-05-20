@@ -46,7 +46,7 @@ docker compose up   # all six apps + HAPI, production builds
 
 1. `bash fixtures/add-her2.sh`
 2. EHR → Jane Smith → **Order Entry** → select **TH**
-3. CRD returns **Regimen pre-approved** card
+3. CRD returns **Coverage criteria met** card — sign the order to submit PA
 4. **Sign Order** → CRD returns **Prior authorization required** card
 5. **Submit Prior Authorization** → Payer Backend runs CQL → **ClaimResponse: Approved**
 
@@ -57,7 +57,7 @@ docker compose up   # all six apps + HAPI, production builds
 3. CRD returns **Additional information required** card with DTR link
 4. **Launch Documentation Requirements Tool** → HER2 question renders
 5. Select **IHC 3+ (Positive)** → **Submit Documentation** → Observation written to HAPI
-6. DTR redirects back to EHR → `order-select` auto-fires → **Pre-approved** card
+6. DTR redirects back to EHR → `order-select` auto-fires → **Coverage criteria met** card
 7. Sign Order → PA submission → approved
 
 ### Path 3 — CDS SMART App gap analysis

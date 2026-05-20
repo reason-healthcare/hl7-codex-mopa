@@ -146,12 +146,13 @@ export function buildPaRequiredCard(): CdsCard {
   };
 }
 
-export function buildPreApprovedCard(): CdsCard {
+export function buildCoverageMetCard(): CdsCard {
   return {
-    summary: "Regimen pre-approved",
+    summary: "Coverage criteria met",
     detail:
       "All required clinical data is present and the regimen meets guideline criteria. " +
-      "No prior authorization is needed at this time.",
+      "Prior authorization will be required before this order can be fulfilled — " +
+      "sign the order to submit.",
     indicator: "info",
     source: {
       ...buildCardSource(),
@@ -207,7 +208,7 @@ export async function handleOncologyCrd(
     if (request.hook === "order-sign") {
       return { cards: [buildPaRequiredCard()] };
     }
-    return { cards: [buildPreApprovedCard()] };
+    return { cards: [buildCoverageMetCard()] };
   }
   return { cards: [buildDtrCard(result.missingKeys)] };
 }

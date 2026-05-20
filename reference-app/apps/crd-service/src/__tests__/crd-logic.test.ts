@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   buildDiscoveryResponse,
   evaluatePayerPolicy,
-  buildPreApprovedCard,
+  buildCoverageMetCard,
   buildPaRequiredCard,
   buildDtrCard,
   handleOncologyCrd,
@@ -148,10 +148,18 @@ describe("buildPaRequiredCard", () => {
   });
 });
 
-describe("buildPreApprovedCard", () => {
+describe("buildCoverageMetCard", () => {
   it("returns an info card", () => {
-    expect(buildPreApprovedCard().indicator).toBe("info");
-    expect(buildPreApprovedCard().summary).toMatch(/pre-approved/i);
+    expect(buildCoverageMetCard().indicator).toBe("info");
+    expect(buildCoverageMetCard().source.topic?.code).toBe("coverage-information");
+  });
+
+  it("summary mentions coverage criteria, not pre-approval", () => {
+    expect(buildCoverageMetCard().summary.toLowerCase()).toContain("coverage criteria");
+  });
+
+  it("detail explains PA is still required at signing", () => {
+    expect(buildCoverageMetCard().detail).toMatch(/prior authorization will be required/i);
   });
 });
 
@@ -191,10 +199,10 @@ describe("handleOncologyCrd", () => {
     },
   };
 
-  it("order-select + all data present → pre-approved card", async () => {
+  it("order-select + all data present → coverage-criteria-met card", async () => {
     const response = await handleOncologyCrd({ ...base, prefetch: FULL_PREFETCH });
     expect(response.cards[0]?.indicator).toBe("info");
-    expect(response.cards[0]?.summary).toMatch(/pre-approved/i);
+    expect(response.cards[0]?.summary).toMatch(/coverage criteria/i);
   });
 
   it("order-sign + all data present → PA-required card", async () => {
@@ -216,7 +224,7 @@ describe("handleOncologyCrd", () => {
     expect(response.cards[0]?.links?.[0]?.type).toBe("smart");
   });
 
-  it("pre-approved when all data present", async () => {
+  it("coverage-criteria-met card when all data present", async () => {
     const response = await handleOncologyCrd({ ...base, prefetch: FULL_PREFETCH });
     expect(response.cards[0]?.indicator).toBe("info");
   });
