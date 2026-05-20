@@ -218,16 +218,16 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
 
 function CoverageInfoCard({ card }: { card: CdsCard }) {
   return (
-    <div className="border border-green-300 bg-green-50 rounded-lg px-4 py-3 space-y-2">
-      <div className="flex items-center gap-2 text-sm text-green-800">
-        <span className="text-base leading-none">✓</span>
-        <span className="font-semibold">{card.summary}</span>
+    <div className="border border-gray-200 bg-white rounded-lg px-4 py-3 space-y-1.5">
+      <div className="flex items-center gap-2 text-sm text-gray-800">
+        <span className="text-green-600 leading-none">✓</span>
+        <span>{card.summary}</span>
       </div>
-      <div className="flex items-center gap-2 text-sm text-blue-800">
-        <span className="text-base leading-none">ⓘ</span>
+      <div className="flex items-center gap-2 text-sm text-gray-800">
+        <span className="text-blue-500 leading-none">ⓘ</span>
         <span>Prior authorization is required to finalize this order</span>
       </div>
-      <p className="text-xs text-gray-500 pt-0.5">
+      <p className="text-xs text-gray-400 pl-5">
         Sign the order below to submit the prior authorization request.
       </p>
     </div>
