@@ -271,3 +271,28 @@ for format rules and commit discipline.
 - Done when: launch CDS App from Jane Smith chart → gap shows HER2 missing → enter IHC 3+ → write-back → page reloads → regimen options appear → select TH → lands on EHR order entry
 - Write-back: bearer token extracted from `smart_token` cookie and forwarded on the FHIR POST; if SMART_AUTH_BYPASS=true use bypass token header
 - HAPI indexing delay (~5-10s after write-back) means a manual page refresh may be needed in the demo — noted in the UI
+
+## Phase 6 — DTR Client
+
+### `apps/dtr-client` — Questionnaire generation
+- [ ] `lib/questionnaire-gen.ts` — `buildQuestionnaire(missingKeys)` → `{ items: QItem[] }`, `ITEM_DEFINITIONS` export with HER2/Stage/ECOG items
+- [ ] `app/QuestionnaireForm.tsx` — client component: radio-per-item, POSTs to `/api/submit`, success redirect to EHR
+- [ ] `app/api/submit/route.ts` — POST Observations + QuestionnaireResponse to EHR FHIR; return `{ qrId, observationIds }`
+
+### `apps/dtr-client` — Page + config
+- [ ] `app/page.tsx` — rewrite: fetch Library, build questionnaire, render form; handle authError, no-context, and all-present cases
+- [ ] `lib/smart-config.ts` — add `EHR_FHIR_BASE_URL`, `EHR_BASE_URL`
+- [ ] `.env.local` — add `EHR_FHIR_BASE_URL`, `EHR_BASE_URL`, `DTR_CLIENT_URL`
+
+### `apps/dtr-client` — `returnRegimen` threading
+- [ ] `app/launch/route.ts` — extract `returnRegimen` from URL; include in state payload cookie; pass through bypass redirect
+- [ ] `app/callback/route.ts` — extract `returnRegimen` from state; append to home redirect URL
+
+### `apps/ehr` — DTR return + auto-fire
+- [ ] `app/patients/[id]/orders/OrderEntryClient.tsx` — `CardDisplay` appends `&returnRegimen=${selectedRegimenId}` to smart links; `OrderEntryPage` uses `useEffect`/`window.location.search` to auto-select regimen and fire CRD on `?dtr-complete=true`
+
+### Notes
+- Bypass mode: `SMART_AUTH_BYPASS=true` — launch route sets cookie directly, threads `returnRegimen` via redirect URL params
+- OAuth mode: `returnRegimen` survives the round-trip via base64url-encoded state cookie payload
+- Submit route uses native fetch (not fhir-kit-client) — avoids agentkeepalive conflicts in Next.js API routes
+- Done when: CRD returns DTR card → launch DTR → HER2 question → submit → QR saved → return to EHR → auto-fires order-select → pre-approved card
