@@ -3,6 +3,7 @@ import {
   buildDiscoveryResponse,
   evaluatePayerPolicy,
   buildPreApprovedCard,
+  buildPaRequiredCard,
   buildDtrCard,
   handleOncologyCrd,
   CRD_SERVICE_ID,
@@ -133,6 +134,20 @@ describe("evaluatePayerPolicy — CQL evaluation", () => {
 // Card builders
 // ---------------------------------------------------------------------------
 
+describe("buildPaRequiredCard", () => {
+  it("returns a warning card", () => {
+    expect(buildPaRequiredCard().indicator).toBe("warning");
+  });
+
+  it("summary mentions prior authorization", () => {
+    expect(buildPaRequiredCard().summary.toLowerCase()).toContain("prior authorization");
+  });
+
+  it("topic code is prior-auth-required", () => {
+    expect(buildPaRequiredCard().source.topic?.code).toBe("prior-auth-required");
+  });
+});
+
 describe("buildPreApprovedCard", () => {
   it("returns an info card", () => {
     expect(buildPreApprovedCard().indicator).toBe("info");
@@ -175,6 +190,31 @@ describe("handleOncologyCrd", () => {
       selections: [],
     },
   };
+
+  it("order-select + all data present → pre-approved card", async () => {
+    const response = await handleOncologyCrd({ ...base, prefetch: FULL_PREFETCH });
+    expect(response.cards[0]?.indicator).toBe("info");
+    expect(response.cards[0]?.summary).toMatch(/pre-approved/i);
+  });
+
+  it("order-sign + all data present → PA-required card", async () => {
+    const response = await handleOncologyCrd({
+      ...base,
+      hook: "order-sign",
+      prefetch: FULL_PREFETCH,
+    });
+    expect(response.cards[0]?.indicator).toBe("warning");
+    expect(response.cards[0]?.source.topic?.code).toBe("prior-auth-required");
+  });
+
+  it("order-sign + data missing → DTR card (not PA-required)", async () => {
+    const response = await handleOncologyCrd({
+      ...base,
+      hook: "order-sign",
+      prefetch: { ...FULL_PREFETCH, her2: makeBundle() },
+    });
+    expect(response.cards[0]?.links?.[0]?.type).toBe("smart");
+  });
 
   it("pre-approved when all data present", async () => {
     const response = await handleOncologyCrd({ ...base, prefetch: FULL_PREFETCH });
