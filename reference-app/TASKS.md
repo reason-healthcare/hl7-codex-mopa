@@ -274,22 +274,24 @@ for format rules and commit discipline.
 
 ## Phase 6 — DTR Client
 
+**Status: Complete**
+
 ### `apps/dtr-client` — Questionnaire generation
-- [ ] `lib/questionnaire-gen.ts` — `buildQuestionnaire(missingKeys)` → `{ items: QItem[] }`, `ITEM_DEFINITIONS` export with HER2/Stage/ECOG items
-- [ ] `app/QuestionnaireForm.tsx` — client component: radio-per-item, POSTs to `/api/submit`, success redirect to EHR
-- [ ] `app/api/submit/route.ts` — POST Observations + QuestionnaireResponse to EHR FHIR; return `{ qrId, observationIds }`
+- [x] `lib/questionnaire-gen.ts` — `buildQuestionnaire(missingKeys)` → `{ items: QItem[] }`, `ITEM_DEFINITIONS` export with HER2/Stage/ECOG items
+- [x] `app/QuestionnaireForm.tsx` — client component: radio-per-item, POSTs to `/api/submit`, success redirect to EHR
+- [x] `app/api/submit/route.ts` — POST Observations + QuestionnaireResponse to EHR FHIR; return `{ qrId, observationIds }`
 
 ### `apps/dtr-client` — Page + config
-- [ ] `app/page.tsx` — rewrite: fetch Library, build questionnaire, render form; handle authError, no-context, and all-present cases
-- [ ] `lib/smart-config.ts` — add `EHR_FHIR_BASE_URL`, `EHR_BASE_URL`
-- [ ] `.env.local` — add `EHR_FHIR_BASE_URL`, `EHR_BASE_URL`, `DTR_CLIENT_URL`
+- [x] `app/page.tsx` — rewrite: fetch Library, build questionnaire, render form; handle authError, no-context, and all-present cases
+- [x] `lib/smart-config.ts` — add `EHR_FHIR_BASE_URL`, `EHR_BASE_URL`
+- [x] `.env.local` — add `EHR_FHIR_BASE_URL`, `EHR_BASE_URL`, `DTR_CLIENT_URL`
 
 ### `apps/dtr-client` — `returnRegimen` threading
-- [ ] `app/launch/route.ts` — extract `returnRegimen` from URL; include in state payload cookie; pass through bypass redirect
-- [ ] `app/callback/route.ts` — extract `returnRegimen` from state; append to home redirect URL
+- [x] `app/launch/route.ts` — extract `returnRegimen` from URL; include in state payload cookie; pass through bypass redirect
+- [x] `app/callback/route.ts` — extract `returnRegimen` from state; append to home redirect URL
 
 ### `apps/ehr` — DTR return + auto-fire
-- [ ] `app/patients/[id]/orders/OrderEntryClient.tsx` — `CardDisplay` appends `&returnRegimen=${selectedRegimenId}` to smart links; `OrderEntryPage` uses `useEffect`/`window.location.search` to auto-select regimen and fire CRD on `?dtr-complete=true`
+- [x] `app/patients/[id]/orders/OrderEntryClient.tsx` — `CardDisplay` appends `&returnRegimen=${selectedRegimenId}` to smart links; `OrderEntryPage` uses `useEffect`/`window.location.search` to auto-select regimen and fire CRD on `?dtr-complete=true`
 
 ### Notes
 - Bypass mode: `SMART_AUTH_BYPASS=true` — launch route sets cookie directly, threads `returnRegimen` via redirect URL params

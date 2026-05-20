@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
 
   // Decode state payload (includes appContext carried through the OAuth round-trip)
   let appContext: string | undefined;
+  let returnRegimen: string | undefined;
   if (savedStateRaw) {
     try {
       const payload = JSON.parse(Buffer.from(savedStateRaw, "base64url").toString("utf-8"));
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: "State mismatch" }, { status: 400 });
       }
       appContext = payload.appContext;
+      returnRegimen = payload.returnRegimen;
     } catch {
       // Non-fatal — state was not base64 encoded (e.g. plain string in bypass)
     }
@@ -52,6 +54,7 @@ export async function GET(request: NextRequest) {
 
   const homeUrl = new URL("/", request.url);
   if (appContext) homeUrl.searchParams.set("appContext", appContext);
+  if (returnRegimen) homeUrl.searchParams.set("returnRegimen", returnRegimen);
 
   const response = NextResponse.redirect(homeUrl);
   response.headers.append(

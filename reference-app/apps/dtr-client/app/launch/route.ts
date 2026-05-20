@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
   const launch = searchParams.get("launch") ?? undefined;
   // appContext is passed through as a launch param by the CRD DTR card
   const appContext = searchParams.get("appContext") ?? undefined;
+  // returnRegimen carries the selected regimen ID back from the EHR
+  const returnRegimen = searchParams.get("returnRegimen") ?? undefined;
 
   if (!iss) {
     return NextResponse.json({ error: "Missing iss parameter" }, { status: 400 });
@@ -27,6 +29,7 @@ export async function GET(request: NextRequest) {
     const token = bypassToken();
     const url = new URL("/", request.url);
     if (appContext) url.searchParams.set("appContext", appContext);
+    if (returnRegimen) url.searchParams.set("returnRegimen", returnRegimen);
     const response = NextResponse.redirect(url);
     response.headers.append(
       "Set-Cookie",
@@ -36,7 +39,7 @@ export async function GET(request: NextRequest) {
   }
 
   const state = crypto.randomBytes(8).toString("hex");
-  const statePayload = JSON.stringify({ state, appContext });
+  const statePayload = JSON.stringify({ state, appContext, returnRegimen });
   const { url, verifier } = await buildAuthorizationUrl(
     {
       iss,
