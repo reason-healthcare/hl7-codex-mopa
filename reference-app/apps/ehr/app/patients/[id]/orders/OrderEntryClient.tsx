@@ -167,6 +167,10 @@ const INDICATOR_CONFIG: Record<string, { container: string; badge: string }> = {
 };
 
 function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegimenId?: string }) {
+  if (card.source.topic?.code === "coverage-information") {
+    return <CoverageInfoCard card={card} />;
+  }
+
   const config = INDICATOR_CONFIG[card.indicator];
   return (
     <div className={`border rounded-lg p-4 ${config?.container ?? "bg-gray-50 border-gray-300"}`}>
@@ -187,7 +191,6 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
           {card.links && card.links.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
               {card.links.map((link) => {
-                // Append returnRegimen so DTR can redirect back to the correct order
                 const href =
                   link.type === "smart" && selectedRegimenId
                     ? `${link.url}&returnRegimen=${selectedRegimenId}`
@@ -209,6 +212,24 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function CoverageInfoCard({ card }: { card: CdsCard }) {
+  return (
+    <div className="border border-green-300 bg-green-50 rounded-lg px-4 py-3 space-y-2">
+      <div className="flex items-center gap-2 text-sm text-green-800">
+        <span className="text-base leading-none">✓</span>
+        <span className="font-semibold">{card.summary}</span>
+      </div>
+      <div className="flex items-center gap-2 text-sm text-blue-800">
+        <span className="text-base leading-none">ⓘ</span>
+        <span>Prior authorization is required to finalize this order</span>
+      </div>
+      <p className="text-xs text-gray-500 pt-0.5">
+        Sign the order below to submit the prior authorization request.
+      </p>
     </div>
   );
 }
