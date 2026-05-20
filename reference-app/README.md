@@ -72,7 +72,6 @@ GET /api/fhir/Patient/jane-smith  →  GET http://localhost:8080/fhir/Patient/ja
 | Node.js | ≥ 20 | |
 | pnpm | ≥ 10 | `npm install -g pnpm` |
 | Docker | any recent | HAPI FHIR only |
-| pm2 | ≥ 5 | optional — `npm install -g pm2` |
 
 ---
 
@@ -114,26 +113,16 @@ Loads Jane Smith's chart as a FHIR transaction bundle:
 > path (Phases 5–6). Use `bash fixtures/add-her2.sh` to add it and exercise
 > the pre-approved / PA-required paths, or submit it via the CDS SMART App UI.
 
-### 4. Start the apps
-
-**Option A — pm2 (recommended for local dev):**
-
-```bash
-pm2 start ecosystem.config.cjs
-```
-
-All six apps start in hot-reload mode. See [pm2 commands](#pm2-commands) below.
-
-**Option B — single app:**
-
-```bash
-pnpm --filter @ogca/ehr dev          # → http://localhost:4000
-```
-
-**Option C — Turborepo (all apps, one terminal):**
+### 4. Start all apps
 
 ```bash
 pnpm dev
+```
+
+Turborepo starts all six apps in parallel with hot-reload. To run a single app:
+
+```bash
+pnpm --filter @ogca/ehr dev
 ```
 
 ### 5. Open the EHR
@@ -143,30 +132,15 @@ Jane Smith's chart pulls live from HAPI.
 
 ---
 
-## pm2 commands
-
-All commands run from `reference-app/`.
-
-```bash
-pm2 start ecosystem.config.cjs   # start all six apps
-pm2 list                          # status table
-pm2 logs                          # tail all app logs
-pm2 logs ehr                      # tail one app
-pm2 restart ehr                   # restart one app (picks up .env.local changes)
-pm2 stop all                      # stop without removing
-pm2 delete all                    # stop and remove all processes
-```
-
----
-
 ## Docker Compose
+
+For demos or CI where a single command should bring up everything including HAPI:
 
 ```bash
 docker compose up
 ```
 
-Starts all six apps and HAPI together. Apps run as production Next.js builds inside
-their Docker images — use this for demos or CI, not for active development.
+Apps run as production Next.js builds inside their Docker images.
 
 ```
 http://localhost:4000  EHR
@@ -219,8 +193,6 @@ The key variables shared across apps:
 ---
 
 ## Demo scenario — Jane Smith, TH regimen
-
-The full workflow from chart to prior-authorization:
 
 ### Path 1 — pre-approved (all data present)
 
@@ -277,9 +249,8 @@ bash fixtures/load-fixtures.sh https://my-server.example.com/fhir
 | CQL runtime | `cql-execution` + `cql-fhir-data-provider` |
 | Lint + format | [Biome](https://biomejs.dev) |
 | Tests | [Vitest](https://vitest.dev) |
-| Process manager | [pm2](https://pm2.keymetrics.io) (local dev) |
 | FHIR server | [HAPI FHIR](https://hapifhir.io) (Docker) |
-| Orchestration | Docker Compose (demo / CI) |
+| Orchestration | Docker Compose |
 
 ---
 
