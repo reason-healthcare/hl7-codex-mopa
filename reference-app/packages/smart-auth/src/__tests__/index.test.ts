@@ -10,6 +10,7 @@ import {
   isAuthBypassed,
   issueToken,
   verifyToken,
+  resetSigningKey,
 } from "../index";
 
 // ---------------------------------------------------------------------------
@@ -203,6 +204,7 @@ describe("isAuthBypassed", () => {
 describe("issueToken / verifyToken", () => {
   beforeEach(() => {
     process.env.SMART_JWT_SECRET = "test-secret-32-chars-exactly!!!";
+    resetSigningKey(); // clear cache so each test gets the correct key
   });
 
   it("issues a verifiable JWT with correct claims", async () => {
