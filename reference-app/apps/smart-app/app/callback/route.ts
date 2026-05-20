@@ -8,10 +8,7 @@ import {
   STATE_COOKIE,
 } from "@ogca/smart-auth";
 
-const CLIENT_ID = "ogca-smart-app";
-const REDIRECT_URI = process.env.NEXT_PUBLIC_SMART_APP_URL
-  ? `${process.env.NEXT_PUBLIC_SMART_APP_URL}/callback`
-  : "http://localhost:4001/callback";
+import { SMART_CLIENT_ID, SMART_REDIRECT_URI, SMART_SCOPE } from "../../lib/smart-config";
 
 /**
  * OAuth callback — exchanges the authorization code for a token and stores
@@ -45,8 +42,8 @@ export async function GET(request: NextRequest) {
   const tokenEndpoint = `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"}/token`;
 
   const tokenResponse = await exchangeCode(tokenEndpoint, code, verifier, {
-    clientId: CLIENT_ID,
-    redirectUri: REDIRECT_URI,
+    clientId: SMART_CLIENT_ID,
+    redirectUri: SMART_REDIRECT_URI,
   });
 
   const response = NextResponse.redirect(new URL("/", request.url));

@@ -10,10 +10,7 @@ import {
 } from "@ogca/smart-auth";
 import crypto from "node:crypto";
 
-const CLIENT_ID = "ogca-dtr-client";
-const REDIRECT_URI = process.env.NEXT_PUBLIC_DTR_CLIENT_URL
-  ? `${process.env.NEXT_PUBLIC_DTR_CLIENT_URL}/callback`
-  : "http://localhost:4003/callback";
+import { SMART_CLIENT_ID, SMART_REDIRECT_URI, SMART_SCOPE } from "../../lib/smart-config";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -43,9 +40,9 @@ export async function GET(request: NextRequest) {
   const { url, verifier } = await buildAuthorizationUrl(
     {
       iss,
-      redirectUri: REDIRECT_URI,
-      clientId: CLIENT_ID,
-      scope: "launch launch/patient patient/*.read openid fhirUser",
+      redirectUri: SMART_REDIRECT_URI,
+      clientId: SMART_CLIENT_ID,
+      scope: SMART_SCOPE,
       launch,
     },
     state
