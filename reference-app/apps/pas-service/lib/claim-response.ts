@@ -10,6 +10,19 @@ export interface PaDecision {
   reason: string;
 }
 
+/** Minimal typed shape for the ClaimResponse we build (Phase 7 stub). */
+export interface FhirClaimResponse {
+  resourceType: "ClaimResponse";
+  id: string;
+  status: string;
+  type: { coding: Array<{ system: string; code: string; display: string }> };
+  use: string;
+  created: string;
+  outcome: string;
+  disposition: string;
+  error?: Array<{ code: { coding: Array<{ system: string; code: string; display: string }> } }>;
+}
+
 const OUTCOME_MAP: Record<PaDecision["status"], string> = {
   approved: "complete",
   pended: "queued",
@@ -22,7 +35,7 @@ const DISPOSITION_LABEL: Record<PaDecision["status"], string> = {
   denied: "Denied",
 };
 
-export function buildClaimResponse(id: string, decision: PaDecision): object {
+export function buildClaimResponse(id: string, decision: PaDecision): FhirClaimResponse {
   return {
     resourceType: "ClaimResponse",
     id,

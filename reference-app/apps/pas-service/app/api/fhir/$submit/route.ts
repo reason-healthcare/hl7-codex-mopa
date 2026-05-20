@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { buildClaimResponse } from "../../../../lib/claim-response";
-import type { PaDecision } from "../../../../lib/claim-response";
+import type { PaDecision, FhirClaimResponse } from "../../../../lib/claim-response";
 
 const PAYER_BACKEND_URL = process.env.PAYER_BACKEND_URL ?? "http://localhost:4005";
 
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
   }
 
   const id = `cr-${Date.now()}`;
-  const claimResponse = buildClaimResponse(id, decision);
+  const claimResponse: FhirClaimResponse = buildClaimResponse(id, decision);
   return NextResponse.json(claimResponse, {
     status: 201,
     headers: { "Content-Type": "application/fhir+json" },
