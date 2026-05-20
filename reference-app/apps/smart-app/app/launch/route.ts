@@ -10,10 +10,7 @@ import {
 } from "@ogca/smart-auth";
 import crypto from "node:crypto";
 
-const CLIENT_ID = "ogca-smart-app";
-const REDIRECT_URI = process.env.NEXT_PUBLIC_SMART_APP_URL
-  ? `${process.env.NEXT_PUBLIC_SMART_APP_URL}/callback`
-  : "http://localhost:4001/callback";
+import { SMART_CLIENT_ID, SMART_REDIRECT_URI, SMART_SCOPE } from "../../lib/smart-config";
 
 /**
  * EHR launch entry-point.
@@ -44,9 +41,9 @@ export async function GET(request: NextRequest) {
   const { url, verifier } = await buildAuthorizationUrl(
     {
       iss,
-      redirectUri: REDIRECT_URI,
-      clientId: CLIENT_ID,
-      scope: "launch launch/patient patient/*.read openid fhirUser",
+      redirectUri: SMART_REDIRECT_URI,
+      clientId: SMART_CLIENT_ID,
+      scope: SMART_SCOPE,
       launch,
     },
     state

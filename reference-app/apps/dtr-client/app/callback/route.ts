@@ -8,10 +8,7 @@ import {
   STATE_COOKIE,
 } from "@ogca/smart-auth";
 
-const CLIENT_ID = "ogca-dtr-client";
-const REDIRECT_URI = process.env.NEXT_PUBLIC_DTR_CLIENT_URL
-  ? `${process.env.NEXT_PUBLIC_DTR_CLIENT_URL}/callback`
-  : "http://localhost:4003/callback";
+import { SMART_CLIENT_ID, SMART_REDIRECT_URI } from "../../lib/smart-config";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -50,8 +47,8 @@ export async function GET(request: NextRequest) {
   const tokenEndpoint = `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"}/token`;
 
   const tokenResponse = await exchangeCode(tokenEndpoint, code, verifier, {
-    clientId: CLIENT_ID,
-    redirectUri: REDIRECT_URI,
+    clientId: SMART_CLIENT_ID,
+    redirectUri: SMART_REDIRECT_URI,
   });
 
   const homeUrl = new URL("/", request.url);

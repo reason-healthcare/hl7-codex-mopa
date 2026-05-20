@@ -3,6 +3,19 @@ import { issueToken, generateCodeChallenge } from "@ogca/smart-auth";
 
 const CORS = { "Access-Control-Allow-Origin": "*" };
 
+const TOKEN_EXPIRES_IN = 3600;
+
+/** Grant payload encoded into the opaque authorization code. */
+interface AuthGrant {
+  code: string;
+  clientId: string;
+  redirectUri: string;
+  patientId: string;
+  scope: string;
+  launch?: string;
+  codeChallenge?: string;
+}
+
 export function OPTIONS() {
   return new NextResponse(null, {
     status: 204,
@@ -46,14 +59,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Decode grant payload embedded in the opaque code
-  let grant: {
-    code: string;
-    clientId: string;
-    redirectUri: string;
-    patientId: string;
-    scope: string;
-    codeChallenge?: string;
-  };
+  let grant: AuthGrant;
   try {
     grant = JSON.parse(Buffer.from(code, "base64url").toString("utf-8"));
   } catch {
@@ -86,14 +92,14 @@ export async function POST(request: NextRequest) {
     sub: clientId,
     patient: grant.patientId,
     scope: grant.scope,
-    expiresInSeconds: 3600,
+    expiresInSeconds: TOKEN_EXPIRES_IN,
   });
 
   return NextResponse.json(
     {
       access_token,
       token_type: "Bearer",
-      expires_in: 3600,
+      expires_in: TOKEN_EXPIRES_IN,
       scope: grant.scope,
       patient: grant.patientId,
     },
