@@ -20,10 +20,11 @@ export default function RegimenOptions({ regimens, patientId, ehrBaseUrl }: Regi
     );
   }
 
+  const ordersUrl = `${ehrBaseUrl}/patients/${patientId}/orders`;
+
   return (
     <div className="space-y-2">
       {[...eligible, ...ineligible].map((regimen) => {
-        const ordersUrl = `${ehrBaseUrl}/patients/${patientId}/orders`;
         return (
           <div
             key={regimen.id}

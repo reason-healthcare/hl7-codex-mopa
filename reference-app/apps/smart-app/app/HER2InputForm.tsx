@@ -23,20 +23,12 @@ const HER2_OPTIONS = [
     description: "Moderate complete membrane staining, ISH amplified",
   },
   {
-    value: "431396003",
+    value: "260385009",
     system: "http://snomed.info/sct",
     label: "IHC 0 / IHC 1+ (Negative)",
     description: "No or faint incomplete membrane staining",
   },
-];
-
-// Override the third option code for negative
-HER2_OPTIONS[2] = {
-  value: "260385009",
-  system: "http://snomed.info/sct",
-  label: "IHC 0 / IHC 1+ (Negative)",
-  description: "No or faint incomplete membrane staining",
-};
+] as const;
 
 export default function HER2InputForm({ patientId, gap }: HER2InputFormProps) {
   const [selected, setSelected] = useState<string | null>(null);
@@ -96,15 +88,12 @@ export default function HER2InputForm({ patientId, gap }: HER2InputFormProps) {
       <p className="text-sm font-medium text-amber-900">Enter HER2 result:</p>
       <div className="space-y-2">
         {HER2_OPTIONS.map((opt) => (
-          <label key={opt.value + opt.label} className="flex items-start gap-2 cursor-pointer">
+          <label key={opt.value} className="flex items-start gap-2 cursor-pointer">
             <input
               type="radio"
               name="her2"
               value={opt.value}
-              checked={
-                selected === opt.value &&
-                opt.label === HER2_OPTIONS.find((o) => o.value === selected)?.label
-              }
+              checked={selected === opt.value}
               onChange={() => setSelected(opt.value)}
               className="mt-0.5"
             />

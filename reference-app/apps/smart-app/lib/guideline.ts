@@ -61,15 +61,16 @@ export async function evaluateGuideline(
     ddactEligible: (results["ddACT Eligible"] as boolean) ?? false,
   };
 
-  const ELIGIBILITY_MAP: Record<string, boolean> = {
-    TH: eligibility.thEligible,
-    PHD: eligibility.phdEligible,
-    ddACT: eligibility.ddactEligible,
-  };
-
   const regimens: Regimen[] = REGIMENS.map((r) => ({
     ...r,
-    eligible: ELIGIBILITY_MAP[r.id] ?? false,
+    eligible:
+      (
+        {
+          TH: eligibility.thEligible,
+          PHD: eligibility.phdEligible,
+          ddACT: eligibility.ddactEligible,
+        } as Record<string, boolean>
+      )[r.id] ?? false,
   }));
 
   return { eligibility, regimens };
