@@ -128,6 +128,24 @@ function buildCardSource() {
   };
 }
 
+export function buildPaRequiredCard(): CdsCard {
+  return {
+    summary: "Prior authorization required",
+    detail:
+      "All required clinical data is present. A formal prior authorization request must be " +
+      "submitted before this order can be fulfilled. Use the Submit PA button to proceed.",
+    indicator: "warning",
+    source: {
+      ...buildCardSource(),
+      topic: {
+        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
+        code: "prior-auth-required",
+        display: "Prior Authorization Required",
+      },
+    },
+  };
+}
+
 export function buildPreApprovedCard(): CdsCard {
   return {
     summary: "Regimen pre-approved",
@@ -185,6 +203,10 @@ export async function handleOncologyCrd(
   const result = await evaluatePayerPolicy(patientId, prefetch);
 
   if (result.status === "approved") {
+    // order-sign requires formal PA; order-select is a quick pre-screen
+    if (request.hook === "order-sign") {
+      return { cards: [buildPaRequiredCard()] };
+    }
     return { cards: [buildPreApprovedCard()] };
   }
   return { cards: [buildDtrCard(result.missingKeys)] };

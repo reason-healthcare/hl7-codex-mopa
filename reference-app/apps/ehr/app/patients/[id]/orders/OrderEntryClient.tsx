@@ -213,6 +213,42 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
   );
 }
 
+function ClaimResponseDisplay({ outcome, disposition }: { outcome: string; disposition?: string }) {
+  const isApproved = outcome === "complete";
+  const isPended = outcome === "queued";
+  return (
+    <div
+      className={`rounded-lg border p-4 space-y-1 ${
+        isApproved
+          ? "bg-green-50 border-green-300"
+          : isPended
+            ? "bg-yellow-50 border-yellow-300"
+            : "bg-red-50 border-red-300"
+      }`}
+    >
+      <div className="flex items-center gap-2">
+        <span className="text-base">{isApproved ? "✓" : isPended ? "⏳" : "✗"}</span>
+        <span
+          className={`text-sm font-semibold ${
+            isApproved ? "text-green-800" : isPended ? "text-yellow-800" : "text-red-800"
+          }`}
+        >
+          PA {isApproved ? "Approved" : isPended ? "Pending Review" : "Denied"}
+        </span>
+      </div>
+      {disposition && (
+        <p
+          className={`text-xs ${
+            isApproved ? "text-green-700" : isPended ? "text-yellow-700" : "text-red-700"
+          }`}
+        >
+          {disposition}
+        </p>
+      )}
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
@@ -223,6 +259,12 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [signed, setSigned] = useState(false);
+  const [paSubmitting, setPaSubmitting] = useState(false);
+  const [paError, setPaError] = useState<string | null>(null);
+  const [claimResponse, setClaimResponse] = useState<{
+    outcome: string;
+    disposition?: string;
+  } | null>(null);
 
   // Auto-fire order-select when returning from DTR (?dtr-complete=true&regimen=TH)
   // Uses window.location directly (mount-only) to avoid useSearchParams + Suspense.
@@ -273,10 +315,42 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
   function onSignOrder() {
     if (!selected) return;
-    callCrdHook("order-sign", selected, (cards) => {
-      setCards(cards);
+    setClaimResponse(null);
+    setPaError(null);
+    callCrdHook("order-sign", selected, (newCards) => {
+      setCards(newCards);
       setSigned(true);
     });
+  }
+
+  const hasPaCard = cards.some((c) => c.source.topic?.code === "prior-auth-required");
+
+  async function submitPa() {
+    if (!selected) return;
+    setPaSubmitting(true);
+    setPaError(null);
+    setClaimResponse(null);
+    try {
+      const res = await fetch("/api/pa-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId,
+          regimenId: selected.id,
+          regimenLabel: selected.label,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error((body as { error?: string }).error ?? `HTTP ${res.status}`);
+      }
+      const cr = (await res.json()) as { outcome?: string; disposition?: string };
+      setClaimResponse({ outcome: cr.outcome ?? "unknown", disposition: cr.disposition });
+    } catch (e) {
+      setPaError(e instanceof Error ? e.message : "PA submission failed");
+    } finally {
+      setPaSubmitting(false);
+    }
   }
 
   return (
@@ -338,6 +412,39 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
               <CardDisplay key={card.uuid ?? i} card={card} selectedRegimenId={selected?.id} />
             ))}
           </div>
+        </section>
+      )}
+
+      {/* PA submission — shown when CRD returns a PA-required card */}
+      {hasPaCard && (
+        <section className="bg-amber-50 border border-amber-200 rounded-lg p-5 space-y-3">
+          <h2 className="text-sm font-semibold text-amber-900 uppercase tracking-wide">
+            Prior Authorization Required
+          </h2>
+          <p className="text-sm text-amber-800">
+            Submit a prior-authorization request. The payer will evaluate the clinical context and
+            return a determination.
+          </p>
+          {paError && (
+            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
+              {paError}
+            </p>
+          )}
+          {claimResponse ? (
+            <ClaimResponseDisplay
+              outcome={claimResponse.outcome}
+              disposition={claimResponse.disposition}
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={submitPa}
+              disabled={paSubmitting}
+              className="px-4 py-2 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 disabled:opacity-50 transition-colors"
+            >
+              {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
+            </button>
+          )}
         </section>
       )}
 
