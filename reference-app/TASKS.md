@@ -239,3 +239,35 @@ for format rules and commit discipline.
 **Status: Complete**
 
 - Done when: "Launch CDS App" in EHR → real OAuth redirect → token issued → smart-app queries `/api/fhir/Patient/jane-smith` with bearer token → EHR proxy validates → 200 OK
+
+---
+
+## Phase 5 — CDS SMART App (Layer 1)
+
+### apps/smart-app — data fetching
+- [x] Add `@ogca/cql-engine` dependency for guideline evaluation
+- [x] Add `@ogca/cds-hooks` dependency for CRD service URL constants
+- [x] `lib/data-fetching.ts` — fetch Library resource from CRD; parallel DataRequirement FHIR queries (Patient, Conditions, HER2, CancerStage, ECOG PS, LineOfTherapy)
+- [x] `lib/guideline.ts` — run `BreastCancerGuideline.elm.json` via `CqlExecutionEngine`; return `{ thEligible, phdEligible, ddactEligible }` and eligible regimen list
+
+### apps/smart-app — gap analysis UI
+- [x] Update `app/page.tsx` (server component): fetch Library → run DataRequirement queries → run CQL guideline → pass results to client components
+- [x] `app/GapAnalysisTable.tsx` (server component): render present/missing table per DataRequirement label; highlight missing items in amber
+- [x] `app/HER2InputForm.tsx` (client component): IHC score selector (IHC 3+, IHC 2+/ISH+, IHC 0/1); POST to write-back API; reload on success
+
+### apps/smart-app — write-back
+- [x] `app/api/write-back/route.ts` — POST endpoint; constructs FHIR Observation from submitted HER2 value; writes to EHR FHIR server via fhir-kit-client with bearer token from cookie; returns created resource or error
+
+### apps/smart-app — regimen options
+- [x] `app/RegimenOptions.tsx` (client component): render approvable regimen table from CQL results; each row has a deep-link `href` to `{EHR_BASE_URL}/patients/{patientId}/orders`; highlight TH when HER2-positive
+
+### apps/smart-app — env / config
+- [x] Add `NEXT_PUBLIC_CRD_SERVICE_URL` to `.env.local`
+- [x] Update `lib/smart-config.ts` with `CRD_LIBRARY_URL` and `EHR_ORDERS_URL` helpers
+
+**Status: Complete**
+
+### Notes
+- Done when: launch CDS App from Jane Smith chart → gap shows HER2 missing → enter IHC 3+ → write-back → page reloads → regimen options appear → select TH → lands on EHR order entry
+- Write-back: bearer token extracted from `smart_token` cookie and forwarded on the FHIR POST; if SMART_AUTH_BYPASS=true use bypass token header
+- HAPI indexing delay (~5-10s after write-back) means a manual page refresh may be needed in the demo — noted in the UI

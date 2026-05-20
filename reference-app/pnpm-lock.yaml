@@ -215,6 +215,12 @@ importers:
 
   apps/smart-app:
     dependencies:
+      '@ogca/cds-hooks':
+        specifier: workspace:*
+        version: link:../../packages/cds-hooks
+      '@ogca/cql-engine':
+        specifier: workspace:*
+        version: link:../../packages/cql-engine
       '@ogca/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
