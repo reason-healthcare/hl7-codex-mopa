@@ -196,10 +196,24 @@ export interface SmartTokenClaims extends JWTPayload {
   intent?: string;
 }
 
-/** Derive a 256-bit key from the JWT secret env var. */
+/** Cached 256-bit signing key derived from SMART_JWT_SECRET. */
+let _signingKey: Uint8Array | undefined;
+
+/** Derive a 256-bit key from the JWT secret env var. Memoized per process. */
 function getSigningKey(): Uint8Array {
-  const secret = process.env.SMART_JWT_SECRET ?? "ogca-dev-secret-change-in-production";
-  return new TextEncoder().encode(secret.padEnd(32, "!").slice(0, 32));
+  if (!_signingKey) {
+    const secret = process.env.SMART_JWT_SECRET ?? "ogca-dev-secret-change-in-production";
+    _signingKey = new TextEncoder().encode(secret.padEnd(32, "!").slice(0, 32));
+  }
+  return _signingKey;
+}
+
+/**
+ * Reset the memoized signing key.
+ * Call this in tests that change SMART_JWT_SECRET between cases.
+ */
+export function resetSigningKey(): void {
+  _signingKey = undefined;
 }
 
 /**

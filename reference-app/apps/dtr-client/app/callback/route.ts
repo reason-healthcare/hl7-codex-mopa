@@ -8,7 +8,7 @@ import {
   STATE_COOKIE,
 } from "@ogca/smart-auth";
 
-import { SMART_CLIENT_ID, SMART_REDIRECT_URI } from "../../lib/smart-config";
+import { SMART_CLIENT_ID, SMART_REDIRECT_URI, TOKEN_ENDPOINT } from "../../lib/smart-config";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -44,9 +44,8 @@ export async function GET(request: NextRequest) {
   }
 
   const verifier = cookies[VERIFIER_COOKIE] ?? "";
-  const tokenEndpoint = `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"}/token`;
 
-  const tokenResponse = await exchangeCode(tokenEndpoint, code, verifier, {
+  const tokenResponse = await exchangeCode(TOKEN_ENDPOINT, code, verifier, {
     clientId: SMART_CLIENT_ID,
     redirectUri: SMART_REDIRECT_URI,
   });
