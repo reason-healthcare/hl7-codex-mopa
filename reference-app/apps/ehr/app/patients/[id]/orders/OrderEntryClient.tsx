@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { CdsCard, CdsResponse } from "@ogca/cds-hooks";
 import Link from "next/link";
 
@@ -166,7 +166,7 @@ const INDICATOR_CONFIG: Record<string, { container: string; badge: string }> = {
   },
 };
 
-function CardDisplay({ card }: { card: CdsCard }) {
+function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegimenId?: string }) {
   const config = INDICATOR_CONFIG[card.indicator];
   return (
     <div className={`border rounded-lg p-4 ${config?.container ?? "bg-gray-50 border-gray-300"}`}>
@@ -186,18 +186,25 @@ function CardDisplay({ card }: { card: CdsCard }) {
           )}
           {card.links && card.links.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
-              {card.links.map((link) => (
-                <a
-                  key={link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 bg-white border border-current rounded hover:opacity-80 transition-opacity"
-                >
-                  {link.label}
-                  <span aria-hidden>↗</span>
-                </a>
-              ))}
+              {card.links.map((link) => {
+                // Append returnRegimen so DTR can redirect back to the correct order
+                const href =
+                  link.type === "smart" && selectedRegimenId
+                    ? `${link.url}&returnRegimen=${selectedRegimenId}`
+                    : link.url;
+                return (
+                  <a
+                    key={link.url}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 bg-white border border-current rounded hover:opacity-80 transition-opacity"
+                  >
+                    {link.label}
+                    <span aria-hidden>↗</span>
+                  </a>
+                );
+              })}
             </div>
           )}
         </div>
@@ -216,6 +223,30 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [signed, setSigned] = useState(false);
+
+  // Auto-fire order-select when returning from DTR (?dtr-complete=true&regimen=TH)
+  // Uses window.location directly (mount-only) to avoid useSearchParams + Suspense.
+  // State setters from useState are stable — safe to omit from deps.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("dtr-complete") !== "true") return;
+    const regimenId = params.get("regimen");
+    const regimen = REGIMENS.find((r) => r.id === regimenId);
+    // Clean the URL before firing so a refresh doesn't re-trigger
+    const clean = new URL(window.location.href);
+    clean.searchParams.delete("dtr-complete");
+    clean.searchParams.delete("regimen");
+    window.history.replaceState({}, "", clean.toString());
+    if (!regimen) return;
+    setSelected(regimen);
+    setSigned(false);
+    setLoading(true);
+    setError(null);
+    fireCdsHook("order-select", patientId, regimen)
+      .then((r) => setCards(r.cards))
+      .catch((e: unknown) => setError(e instanceof Error ? e.message : "CRD service unavailable"))
+      .finally(() => setLoading(false));
+  }, [patientId]); // patientId is the only external variable used
 
   async function callCrdHook(
     hook: "order-select" | "order-sign",
@@ -304,7 +335,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           </h2>
           <div className="space-y-3">
             {cards.map((card, i) => (
-              <CardDisplay key={card.uuid ?? i} card={card} />
+              <CardDisplay key={card.uuid ?? i} card={card} selectedRegimenId={selected?.id} />
             ))}
           </div>
         </section>
