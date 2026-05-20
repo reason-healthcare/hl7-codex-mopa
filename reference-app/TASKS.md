@@ -298,3 +298,30 @@ for format rules and commit discipline.
 - OAuth mode: `returnRegimen` survives the round-trip via base64url-encoded state cookie payload
 - Submit route uses native fetch (not fhir-kit-client) — avoids agentkeepalive conflicts in Next.js API routes
 - Done when: CRD returns DTR card → launch DTR → HER2 question → submit → QR saved → return to EHR → auto-fires order-select → pre-approved card
+
+## Phase 7 — PAS Service + Payer Backend
+
+### `apps/crd-service` — PA-required card
+- [ ] `src/crd-logic.ts` — add `buildPaRequiredCard()` with `source.topic.code = "prior-auth-required"`; return PA-required card for `order-sign` when data is present
+- [ ] `src/__tests__/crd-logic.test.ts` — add `buildPaRequiredCard` tests; add `handleOncologyCrd` order-sign scenarios
+
+### `apps/payer-backend` — CQL policy evaluation
+- [ ] `package.json` — add `@ogca/cql-engine` dependency
+- [ ] `lib/policy.ts` — `evaluatePolicy(patientId)`: fetch patient resources from EHR FHIR proxy, run `BreastCancerPayerPolicy.elm.json` via CQL engine, return `PaDecision`
+- [ ] `app/api/evaluate/route.ts` — `POST /api/evaluate { patientId }` → `evaluatePolicy` → JSON response
+- [ ] `.env.local` — `EHR_FHIR_BASE_URL`
+
+### `apps/pas-service` — $submit + ClaimResponse
+- [ ] `lib/claim-response.ts` — `buildClaimResponse(id, status, reason)` returns FHIR ClaimResponse
+- [ ] `app/api/fhir/$submit/route.ts` — `POST /api/fhir/$submit { patientId, regimenId }` → call Payer Backend → build ClaimResponse
+- [ ] `.env.local` — `PAYER_BACKEND_URL`
+
+### `apps/ehr` — PA submission UI
+- [ ] `.env.local` — add `PAS_SERVICE_URL`
+- [ ] `app/api/pa-submit/route.ts` — server-side proxy → PAS Service, return ClaimResponse
+- [ ] `app/patients/[id]/orders/OrderEntryClient.tsx` — detect PA-required card (`source.topic.code`); show Submit PA button; POST to `/api/pa-submit`; render ClaimResponse disposition
+
+### Notes
+- PA-required only returned on `order-sign` (data present); `order-select` still returns pre-approved — Phase 6 done-when remains valid
+- Payer Backend fetches FHIR directly from EHR proxy (bypass mode — no auth required)
+- Done when: select TH → order-sign → PA-required card → Submit PA → Payer Backend CQL → ClaimResponse "Approved"
