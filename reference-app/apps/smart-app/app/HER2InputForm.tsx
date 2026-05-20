@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import type { GapResult } from "../lib/data-fetching";
-import { REQUIRED_KEYS } from "../lib/data-fetching";
+import {
+  REQUIRED_KEYS,
+  HER2_LOINC_CODE,
+  HER2_LOINC_SYSTEM,
+  HER2_LOINC_DISPLAY,
+} from "../lib/data-fetching";
 
 interface HER2InputFormProps {
   patientId: string;
@@ -50,9 +55,9 @@ export default function HER2InputForm({ patientId, gap }: HER2InputFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           patientId,
-          code: "85319-2",
-          system: "http://loinc.org",
-          display: "HER2 [Presence] in Breast cancer specimen by Immune stain",
+          code: HER2_LOINC_CODE,
+          system: HER2_LOINC_SYSTEM,
+          display: HER2_LOINC_DISPLAY,
           value: option.value,
           valueDisplay: option.label,
           valueSystem: option.system,

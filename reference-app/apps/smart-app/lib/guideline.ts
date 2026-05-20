@@ -12,7 +12,7 @@ const guidelineElm = require("../../../cql/elm/BreastCancerGuideline.elm.json") 
 
 const engine = new CqlExecutionEngine();
 
-export interface RegimenEligibility {
+interface RegimenEligibility {
   thEligible: boolean;
   phdEligible: boolean;
   ddactEligible: boolean;
@@ -52,7 +52,7 @@ export const REGIMENS: Omit<Regimen, "eligible">[] = [
 export async function evaluateGuideline(
   patientId: string,
   resources: unknown[]
-): Promise<{ eligibility: RegimenEligibility; regimens: Regimen[] }> {
+): Promise<Regimen[]> {
   const results = await engine.evaluate(guidelineElm, patientId, resources);
 
   const eligibility: RegimenEligibility = {
@@ -61,7 +61,7 @@ export async function evaluateGuideline(
     ddactEligible: (results["ddACT Eligible"] as boolean) ?? false,
   };
 
-  const regimens: Regimen[] = REGIMENS.map((r) => ({
+  return REGIMENS.map((r) => ({
     ...r,
     eligible:
       (
@@ -72,6 +72,4 @@ export async function evaluateGuideline(
         } as Record<string, boolean>
       )[r.id] ?? false,
   }));
-
-  return { eligibility, regimens };
 }

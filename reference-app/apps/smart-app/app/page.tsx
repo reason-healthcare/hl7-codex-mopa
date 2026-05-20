@@ -9,6 +9,7 @@ import {
 } from "../lib/data-fetching";
 import type { GapResult } from "../lib/data-fetching";
 import { evaluateGuideline } from "../lib/guideline";
+import type { Regimen } from "../lib/guideline";
 import { EHR_BASE_URL } from "../lib/smart-config";
 import HER2InputForm from "./HER2InputForm";
 import RegimenOptions from "./RegimenOptions";
@@ -82,7 +83,7 @@ export default async function SmartAppHome() {
   // Fetch Library + run gap analysis + evaluate guideline
   let gaps: GapResult[] = [];
   let allRequiredPresent = false;
-  let guideline: Awaited<ReturnType<typeof evaluateGuideline>> | null = null;
+  let guideline: Regimen[] | null = null;
   let libraryTitle = "Breast Cancer PA Data Requirements";
 
   if (patientId && bearerToken) {
@@ -180,7 +181,7 @@ export default async function SmartAppHome() {
                   Based on BreastCancerGuideline CQL evaluation
                 </p>
                 <RegimenOptions
-                  regimens={guideline.regimens}
+                  regimens={guideline}
                   patientId={patientId ?? ""}
                   ehrBaseUrl={EHR_BASE_URL}
                 />

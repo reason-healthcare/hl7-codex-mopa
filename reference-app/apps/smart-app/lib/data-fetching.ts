@@ -75,6 +75,11 @@ const KEY_LABELS: Record<DataKey, string> = {
 // DataRequirements that affect PA approval
 export const REQUIRED_KEYS: DataKey[] = ["her2", "cancerStage", "ecogPs"];
 
+/** FHIR coding for the HER2 observation — shared with the write-back form. */
+export const HER2_LOINC_CODE = "85319-2";
+export const HER2_LOINC_SYSTEM = "http://loinc.org";
+export const HER2_LOINC_DISPLAY = "HER2 [Presence] in Breast cancer specimen by Immune stain";
+
 // ---------------------------------------------------------------------------
 // Library fetch
 // ---------------------------------------------------------------------------
