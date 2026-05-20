@@ -15,38 +15,39 @@ const engine = new CqlExecutionEngine();
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
 
+/** CQL expression name for the aggregated PA determination. */
+const CQL_PA_RESULT = "PA Result";
+
 export interface PaDecision {
   status: "approved" | "pended" | "denied";
   reason: string;
 }
 
+async function getBundle(url: string): Promise<unknown[]> {
+  try {
+    const res = await fetch(`${EHR_FHIR_BASE}/${url}`);
+    if (!res.ok) return [];
+    const bundle = (await res.json()) as {
+      entry?: Array<{ resource?: unknown }>;
+    };
+    return (bundle.entry ?? []).map((e) => e.resource).filter(Boolean) as unknown[];
+  } catch {
+    return [];
+  }
+}
+
+async function getResource(url: string): Promise<unknown | null> {
+  try {
+    const res = await fetch(`${EHR_FHIR_BASE}/${url}`);
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
 /** Fetch all FHIR resources relevant to the PA policy for a given patient. */
 async function fetchPaResources(patientId: string): Promise<unknown[]> {
-  const base = EHR_FHIR_BASE;
-
-  async function getBundle(url: string): Promise<unknown[]> {
-    try {
-      const res = await fetch(`${base}/${url}`);
-      if (!res.ok) return [];
-      const bundle = (await res.json()) as {
-        entry?: Array<{ resource?: unknown }>;
-      };
-      return (bundle.entry ?? []).map((e) => e.resource).filter(Boolean) as unknown[];
-    } catch {
-      return [];
-    }
-  }
-
-  async function getResource(url: string): Promise<unknown | null> {
-    try {
-      const res = await fetch(`${base}/${url}`);
-      if (!res.ok) return null;
-      return res.json();
-    } catch {
-      return null;
-    }
-  }
-
   const [patient, her2, stage, ecog, conditions] = await Promise.all([
     getResource(`Patient/${patientId}`),
     getBundle(
@@ -71,13 +72,8 @@ export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
   const resources = await fetchPaResources(patientId);
   const results = await engine.evaluate(policyElm, patientId, resources);
 
-  const paResult = results["PA Result"] as string | undefined;
-
-  if (paResult === "approved") {
-    return {
-      status: "approved",
-      reason: "All clinical criteria met per payer policy.",
-    };
+  if ((results[CQL_PA_RESULT] as string | undefined) === "approved") {
+    return { status: "approved", reason: "All clinical criteria met per payer policy." };
   }
 
   // dtr-required means missing data reached the payer — pend for manual review

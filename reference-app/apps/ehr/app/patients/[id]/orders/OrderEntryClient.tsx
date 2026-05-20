@@ -213,38 +213,52 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
   );
 }
 
-function ClaimResponseDisplay({ outcome, disposition }: { outcome: string; disposition?: string }) {
-  const isApproved = outcome === "complete";
-  const isPended = outcome === "queued";
+// ---------------------------------------------------------------------------
+// PA submission
+// ---------------------------------------------------------------------------
+
+interface ClaimResponseSummary {
+  outcome: string;
+  disposition?: string;
+}
+
+const OUTCOME_CONFIG: Record<
+  string,
+  { container: string; textColor: string; subColor: string; icon: string; label: string }
+> = {
+  complete: {
+    container: "bg-green-50 border-green-300",
+    textColor: "text-green-800",
+    subColor: "text-green-700",
+    icon: "✓",
+    label: "Approved",
+  },
+  queued: {
+    container: "bg-yellow-50 border-yellow-300",
+    textColor: "text-yellow-800",
+    subColor: "text-yellow-700",
+    icon: "⏳",
+    label: "Pending Review",
+  },
+};
+
+const DENIED_OUTCOME_CONFIG = {
+  container: "bg-red-50 border-red-300",
+  textColor: "text-red-800",
+  subColor: "text-red-700",
+  icon: "✗",
+  label: "Denied",
+};
+
+function ClaimResponseDisplay({ outcome, disposition }: ClaimResponseSummary) {
+  const config = OUTCOME_CONFIG[outcome] ?? DENIED_OUTCOME_CONFIG;
   return (
-    <div
-      className={`rounded-lg border p-4 space-y-1 ${
-        isApproved
-          ? "bg-green-50 border-green-300"
-          : isPended
-            ? "bg-yellow-50 border-yellow-300"
-            : "bg-red-50 border-red-300"
-      }`}
-    >
+    <div className={`rounded-lg border p-4 space-y-1 ${config.container}`}>
       <div className="flex items-center gap-2">
-        <span className="text-base">{isApproved ? "✓" : isPended ? "⏳" : "✗"}</span>
-        <span
-          className={`text-sm font-semibold ${
-            isApproved ? "text-green-800" : isPended ? "text-yellow-800" : "text-red-800"
-          }`}
-        >
-          PA {isApproved ? "Approved" : isPended ? "Pending Review" : "Denied"}
-        </span>
+        <span className="text-base">{config.icon}</span>
+        <span className={`text-sm font-semibold ${config.textColor}`}>PA {config.label}</span>
       </div>
-      {disposition && (
-        <p
-          className={`text-xs ${
-            isApproved ? "text-green-700" : isPended ? "text-yellow-700" : "text-red-700"
-          }`}
-        >
-          {disposition}
-        </p>
-      )}
+      {disposition && <p className={`text-xs ${config.subColor}`}>{disposition}</p>}
     </div>
   );
 }
@@ -261,10 +275,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [signed, setSigned] = useState(false);
   const [paSubmitting, setPaSubmitting] = useState(false);
   const [paError, setPaError] = useState<string | null>(null);
-  const [claimResponse, setClaimResponse] = useState<{
-    outcome: string;
-    disposition?: string;
-  } | null>(null);
+  const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
 
   // Auto-fire order-select when returning from DTR (?dtr-complete=true&regimen=TH)
   // Uses window.location directly (mount-only) to avoid useSearchParams + Suspense.
