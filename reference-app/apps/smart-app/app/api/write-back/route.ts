@@ -5,6 +5,17 @@ const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/ap
 
 const CORS = { "Access-Control-Allow-Origin": "*" };
 
+/** Request body for the write-back endpoint. */
+interface WriteBackRequest {
+  patientId: string;
+  code: string;
+  system: string;
+  display: string;
+  value: string;
+  valueDisplay: string;
+  valueSystem?: string;
+}
+
 export function OPTIONS() {
   return new NextResponse(null, {
     status: 204,
@@ -23,15 +34,7 @@ export function OPTIONS() {
  * Uses native fetch (not fhir-kit-client) to avoid agentkeepalive conflicts in Next.js.
  */
 export async function POST(request: NextRequest) {
-  let body: {
-    patientId: string;
-    code: string;
-    system: string;
-    display: string;
-    value: string;
-    valueDisplay: string;
-    valueSystem?: string;
-  };
+  let body: WriteBackRequest;
   try {
     body = await request.json();
   } catch {
