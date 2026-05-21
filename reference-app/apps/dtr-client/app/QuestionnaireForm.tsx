@@ -115,8 +115,8 @@ function QuestionItem({
   onSelect: (coding: AnswerCoding) => void;
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-2">
-      <p className="text-sm font-medium text-gray-800">{item.text}</p>
+    <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-2">
+      <p className="text-sm font-medium text-slate-800">{item.text}</p>
       <div className="space-y-1.5">
         {item.answerOption.map((opt) => (
           <label key={opt.valueCoding.code} className="flex items-center gap-2 cursor-pointer">
@@ -127,7 +127,7 @@ function QuestionItem({
               onChange={() => onSelect(opt.valueCoding)}
               className="accent-purple-700"
             />
-            <span className="text-sm text-gray-700">{opt.valueCoding.display}</span>
+            <span className="text-sm text-slate-700">{opt.valueCoding.display}</span>
           </label>
         ))}
       </div>
