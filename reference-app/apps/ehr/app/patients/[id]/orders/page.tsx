@@ -25,7 +25,6 @@ export default async function OrderEntryPage({ params }: PageProps) {
     /* non-fatal */
   }
 
-  // Fetch primary condition to pass conditionCode for OGCA-aware prefetch
   try {
     const { BundleSchema, ConditionSchema } = await import("@ogca/fhir-client");
     const raw = await client.search({
@@ -33,38 +32,53 @@ export default async function OrderEntryPage({ params }: PageProps) {
       searchParams: { patient: id, category: "problem-list-item", _count: "5" },
     });
     const bundle = BundleSchema.parse(raw);
-    const first = (bundle.entry ?? [])
-      .map((e) => e.resource)
-      .find((r) => r?.resourceType === "Condition");
-    if (first) {
-      const cond = ConditionSchema.parse(first);
-      conditionCode = cond.code?.coding?.find((c) => c.system === "http://snomed.info/sct")?.code;
+    const conditions = (bundle.entry ?? [])
+      .map((e) => {
+        try {
+          return ConditionSchema.parse(e.resource);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+    if (conditions[0]?.code?.coding?.[0]?.code) {
+      conditionCode = conditions[0].code.coding[0].code;
     }
   } catch {
     /* non-fatal */
   }
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      {/* Patient banner — consistent with chart page */}
-      <div className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center gap-6 text-sm">
-        <span className="font-semibold">{displayName}</span>
-        {patient?.birthDate && <span className="text-slate-300">DOB: {patient.birthDate}</span>}
-        {patient?.gender && (
-          <span className="text-slate-300 capitalize">Sex: {patient.gender}</span>
-        )}
-        <span className="font-mono text-xs text-slate-400">FHIR ID: {id}</span>
-        <div className="ml-auto">
-          <Link
-            href={`/patients/${id}`}
-            className="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded transition-colors text-slate-200"
-          >
-            ← Chart
-          </Link>
+    <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+      {/* Patient banner */}
+      <div className="bg-white border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <Link href="/" className="hover:text-slate-700 transition-colors">
+              ← Patient List
+            </Link>
+            <span>/</span>
+            <Link href={`/patients/${id}`} className="hover:text-slate-700 transition-colors">
+              {displayName}
+            </Link>
+            <span>/</span>
+            <span className="font-medium text-slate-700">Order Entry</span>
+          </div>
+          <div className="flex items-center gap-4 text-xs text-slate-400 mt-1">
+            {patient?.birthDate && <span>DOB: {patient.birthDate}</span>}
+            {patient?.gender && <span className="capitalize">Sex: {patient.gender}</span>}
+            <span className="font-mono">ID: {id}</span>
+          </div>
         </div>
+        <Link
+          href={`/patients/${id}`}
+          className="text-xs text-slate-500 hover:text-slate-700 flex-shrink-0 transition-colors"
+        >
+          ← Chart
+        </Link>
       </div>
 
       <OrderEntryClient patientId={id} conditionCode={conditionCode} />
-    </div>
+    </main>
   );
 }

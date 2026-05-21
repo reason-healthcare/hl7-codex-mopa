@@ -306,7 +306,9 @@ async function fetchBundle(url: string): Promise<FhirResource[]> {
 
 function obsValue(obs: FhirResource): string {
   if (obs.valueInteger !== undefined) return String(obs.valueInteger);
-  const cc = obs.valueCodeableConcept as { text?: string; coding?: Array<{ display?: string }> } | undefined;
+  const cc = obs.valueCodeableConcept as
+    | { text?: string; coding?: Array<{ display?: string }> }
+    | undefined;
   return cc?.text ?? cc?.coding?.[0]?.display ?? "—";
 }
 
@@ -331,7 +333,7 @@ function condStatus(cond: FhirResource): string {
 
 async function DemoFixturesTab() {
   const fhirBase = process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
-  const ehrBase  = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
+  const ehrBase = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
 
   // Fetch patient + clinical data for all three cases in parallel
   const caseData = await Promise.all(
@@ -349,7 +351,6 @@ async function DemoFixturesTab() {
 
   return (
     <div className="space-y-5 max-w-3xl">
-
       {/* Instruction bar */}
       <div className="bg-white border border-slate-200 rounded px-4 py-3 flex items-start justify-between gap-6">
         <p className="text-sm text-slate-600">
@@ -369,21 +370,29 @@ async function DemoFixturesTab() {
       {/* Patient case cards */}
       <div className="space-y-4">
         {caseData.map((c) => {
-          const rawDiv = (c.patient?.text as Record<string, unknown> | undefined)?.div as string | undefined;
+          const rawDiv = (c.patient?.text as Record<string, unknown> | undefined)?.div as
+            | string
+            | undefined;
           const narrative = rawDiv ? stripXhtml(rawDiv) : null;
-          const nameArr   = c.patient?.name as Array<{ family?: string; given?: string[] }> | undefined;
-          const fullName  = nameArr?.[0]
+          const nameArr = c.patient?.name as
+            | Array<{ family?: string; given?: string[] }>
+            | undefined;
+          const fullName = nameArr?.[0]
             ? `${(nameArr[0].given ?? []).join(" ")} ${nameArr[0].family ?? ""}`.trim()
             : c.patientId;
 
           return (
-            <div key={c.patientId} className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-
+            <div
+              key={c.patientId}
+              className="bg-white border border-slate-200 rounded-lg overflow-hidden"
+            >
               {/* Card header */}
               <div className="px-4 py-3 border-b border-slate-100 flex items-start justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded border ${OUTCOME_STYLE[c.outcome]}`}>
+                    <span
+                      className={`text-xs font-semibold px-2 py-0.5 rounded border ${OUTCOME_STYLE[c.outcome]}`}
+                    >
                       {c.outcome}
                     </span>
                     <span className="text-base font-semibold text-slate-900">{fullName}</span>
@@ -418,11 +427,12 @@ async function DemoFixturesTab() {
                     <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                       Clinical Data
                     </span>
-                    <span className="text-slate-400 text-sm group-open:rotate-180 transition-transform">&#9662;</span>
+                    <span className="text-slate-400 text-sm group-open:rotate-180 transition-transform">
+                      &#9662;
+                    </span>
                   </summary>
 
                   <div className="px-4 py-3 space-y-3 border-t border-slate-100">
-
                     {/* Conditions */}
                     {c.conditions.length > 0 && (
                       <div>
@@ -433,7 +443,9 @@ async function DemoFixturesTab() {
                           {c.conditions.map((cond, i) => (
                             // biome-ignore lint/suspicious/noArrayIndexKey: conditions have no stable id here
                             <div key={i} className="flex items-center gap-2 text-xs">
-                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${condStatus(cond) === "active" ? "bg-green-500" : "bg-slate-300"}`} />
+                              <span
+                                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${condStatus(cond) === "active" ? "bg-green-500" : "bg-slate-300"}`}
+                              />
                               <span className="text-slate-700">{condName(cond)}</span>
                               <span className="text-slate-400 capitalize">{condStatus(cond)}</span>
                             </div>
@@ -463,7 +475,8 @@ async function DemoFixturesTab() {
                                 <td className="py-1 text-slate-600">{obsName(obs)}</td>
                                 <td className="py-1 font-medium text-slate-800">{obsValue(obs)}</td>
                                 <td className="py-1 text-slate-400 text-right">
-                                  {(obs.effectiveDateTime as string | undefined)?.slice(0, 10) ?? "—"}
+                                  {(obs.effectiveDateTime as string | undefined)?.slice(0, 10) ??
+                                    "—"}
                                 </td>
                               </tr>
                             ))}
@@ -471,30 +484,26 @@ async function DemoFixturesTab() {
                         </table>
                       </div>
                     )}
-
                   </div>
                 </details>
               )}
-
             </div>
           );
         })}
       </div>
-
     </div>
   );
 }
-
 
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
 const TABS = [
-  { id: "services",  label: "Services" },
-  { id: "activity",  label: "Activity" },
-  { id: "paths",    label: "Demo Patient Cases" },
-  { id: "content",  label: "Knowledge Artifacts" },
+  { id: "services", label: "Services" },
+  { id: "activity", label: "Activity" },
+  { id: "paths", label: "Demo Patient Cases" },
+  { id: "content", label: "Knowledge Artifacts" },
 ] as const;
 
 export default async function HubPage({
@@ -505,21 +514,8 @@ export default async function HubPage({
   const { tab = "services", pd } = await searchParams;
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      {/* Nav */}
-      <nav className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center justify-between text-sm">
-        <div className="font-semibold">OGCA Reference Implementation</div>
-        <a
-          href="http://localhost:4001"
-          target="_blank"
-          rel="noreferrer"
-          className="text-xs text-blue-400 hover:text-blue-300 font-medium"
-        >
-          Open EHR →
-        </a>
-      </nav>
-
-      {/* Header + tabs */}
+    <>
+      {/* Header + tabs — shell provides nav and footer */}
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-6 pt-5 pb-0">
           <h1 className="text-lg font-semibold text-slate-900">
@@ -564,6 +560,6 @@ export default async function HubPage({
         {tab === "activity" && <ActivityFeed />}
         {tab === "content" && <ContentPage embedded pd={pd} />}
       </main>
-    </div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { ServiceIntro } from "@ogca/ui";
 import {
   verifyToken,
   isAuthBypassed,
@@ -24,16 +25,12 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
   // No launch context: show service landing instead of an auth error
   if (!rawToken) {
     return (
-      <div className="min-h-screen bg-slate-100">
-        <nav className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center justify-between text-sm">
-          <div className="font-semibold">DTR Client</div>
-          <div className="flex items-center gap-4 text-xs text-slate-400">
-            <a href="http://localhost:4000" className="hover:text-slate-200 transition-colors">
-              ← Hub
-            </a>
-          </div>
-        </nav>
-        <main className="max-w-2xl mx-auto px-6 py-10">
+      <>
+        <ServiceIntro
+          title="DTR Client"
+          description="Documentation Requirements Tool. Collects missing clinical data elements required for prior authorization via a generated FHIR Questionnaire. Requires a SMART EHR launch triggered by a DTR guidance card from the CRD Service."
+        />
+        <main className="max-w-2xl mx-auto px-6 py-8">
           <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
             <div className="px-5 pt-5 pb-4 border-b border-slate-100">
               <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
@@ -80,7 +77,7 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
             </div>
           </div>
         </main>
-      </div>
+      </>
     );
   }
 
@@ -122,84 +119,75 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
   // Render
   // ------------------------------------------------------------------
   return (
-    <div className="min-h-screen bg-slate-100">
-      <nav className="bg-slate-800 text-slate-100 px-6 py-4 flex items-center justify-between">
-        <div className="font-bold text-lg tracking-tight">OGCA DTR Client</div>
-        <a href="/docs" className="text-slate-400 text-xs hover:text-white">
-          API docs
-        </a>
-      </nav>
-
-      <main className="max-w-2xl mx-auto px-6 py-10 space-y-6">
-        {authError ? (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
-            {authError}
-          </div>
-        ) : (
-          <>
-            {/* Launch context summary */}
-            <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
-              <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
-                Launch Context
-              </h2>
-              <dl className="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <dt className="text-gray-500">Patient ID</dt>
-                  <dd className="font-mono text-xs text-gray-700">{patientId ?? "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-gray-500">Auth Mode</dt>
-                  <dd className="font-medium">
-                    {isAuthBypassed() ? (
-                      <span className="text-yellow-700">Bypass (dev)</span>
-                    ) : (
-                      <span className="text-green-700">SMART OAuth ✓</span>
-                    )}
+    <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
+      {authError ? (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
+          {authError}
+        </div>
+      ) : (
+        <>
+          {/* Launch context summary */}
+          <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+            <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
+              Launch Context
+            </h2>
+            <dl className="grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt className="text-gray-500">Patient ID</dt>
+                <dd className="font-mono text-xs text-gray-700">{patientId ?? "—"}</dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Auth Mode</dt>
+                <dd className="font-medium">
+                  {isAuthBypassed() ? (
+                    <span className="text-yellow-700">Bypass (dev)</span>
+                  ) : (
+                    <span className="text-green-700">SMART OAuth ✓</span>
+                  )}
+                </dd>
+              </div>
+              {parsedContext?.libraryUrl && (
+                <div className="col-span-2">
+                  <dt className="text-gray-500">Library</dt>
+                  <dd className="font-mono text-xs text-gray-600 break-all">
+                    {parsedContext.libraryUrl}
                   </dd>
                 </div>
-                {parsedContext?.libraryUrl && (
-                  <div className="col-span-2">
-                    <dt className="text-gray-500">Library</dt>
-                    <dd className="font-mono text-xs text-gray-600 break-all">
-                      {parsedContext.libraryUrl}
-                    </dd>
-                  </div>
-                )}
-              </dl>
-            </div>
+              )}
+            </dl>
+          </div>
 
-            {/* Questionnaire */}
-            {questionnaire.items.length === 0 ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-800">
-                <strong>All required data is present.</strong> No additional documentation needed.
-                Return to the EHR to proceed with the order.
+          {/* Questionnaire */}
+          {questionnaire.items.length === 0 ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-800">
+              <strong>All required data is present.</strong> No additional documentation needed.
+              Return to the EHR to proceed with the order.
+            </div>
+          ) : (
+            <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm space-y-4">
+              <div>
+                <h2 className="text-sm font-medium text-gray-800">
+                  Missing Documentation Required
+                </h2>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  Please provide the following clinical information to complete prior authorization
+                  evaluation.
+                </p>
               </div>
-            ) : (
-              <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm space-y-4">
-                <div>
-                  <h2 className="text-sm font-medium text-gray-800">
-                    Missing Documentation Required
-                  </h2>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    Please provide the following clinical information to complete prior
-                    authorization evaluation.
-                  </p>
-                </div>
-                {patientId ? (
-                  <QuestionnaireForm
-                    questionnaire={questionnaire}
-                    patientId={patientId}
-                    ehrBaseUrl={EHR_BASE_URL}
-                    returnRegimen={returnRegimen ?? null}
-                  />
-                ) : (
-                  <p className="text-sm text-gray-500 italic">Patient context unavailable.</p>
-                )}
-              </div>
-            )}
-          </>
-        )}
-      </main>
-    </div>
+              {patientId ? (
+                <QuestionnaireForm
+                  questionnaire={questionnaire}
+                  patientId={patientId}
+                  ehrBaseUrl={EHR_BASE_URL}
+                  returnRegimen={returnRegimen ?? null}
+                />
+              ) : (
+                <p className="text-sm text-gray-500 italic">Patient context unavailable.</p>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </main>
   );
 }

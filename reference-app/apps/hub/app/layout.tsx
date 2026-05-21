@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { OgcaShell } from "@ogca/ui";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OGCA Reference Implementation",
-  description: "Oncology Guideline-Compliant Authorization — Reference Implementation Hub",
+  title: "OGCA: Hub",
+  description: "Oncology Guideline-Compliant Authorization \u2014 Hub",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <OgcaShell service="Hub">{children}</OgcaShell>
+      </body>
     </html>
   );
 }

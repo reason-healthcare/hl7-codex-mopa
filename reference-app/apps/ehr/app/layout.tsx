@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { OgcaShell } from "@ogca/ui";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OGCA Reference EHR",
-  description: "Oncology Guideline-Compliant Authorization — Reference EHR",
+  title: "OGCA: EHR",
+  description: "Oncology Guideline-Compliant Authorization \u2014 EHR",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <OgcaShell service="EHR">{children}</OgcaShell>
+      </body>
     </html>
   );
 }

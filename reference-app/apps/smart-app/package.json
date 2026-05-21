@@ -16,7 +16,8 @@
     "@ogca/fhir-client": "workspace:*",
     "@ogca/cql-engine": "workspace:*",
     "@ogca/cds-hooks": "workspace:*",
-    "@ogca/logger": "workspace:*"
+    "@ogca/logger": "workspace:*",
+    "@ogca/ui": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

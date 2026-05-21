@@ -116,7 +116,7 @@ export default async function PatientChartPage({ params }: PageProps) {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+      <div className="flex items-center justify-center py-20">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-xl">
           <h2 className="text-red-700 font-semibold text-lg mb-2">Error loading patient</h2>
           <p className="text-red-600 text-sm font-mono">{error}</p>
@@ -133,17 +133,30 @@ export default async function PatientChartPage({ params }: PageProps) {
   const displayName = getPatientDisplayName(patient);
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      {/* Patient banner */}
-      <div className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center gap-6 text-sm">
-        <span className="font-semibold">{displayName}</span>
-        {patient.birthDate && <span className="text-slate-300">DOB: {patient.birthDate}</span>}
-        {patient.gender && <span className="text-slate-300 capitalize">Sex: {patient.gender}</span>}
-        <span className="font-mono text-xs text-slate-400">FHIR ID: {patient.id}</span>
-        <div className="ml-auto flex items-center gap-2">
+    <main className="max-w-5xl mx-auto px-6 py-8 space-y-8">
+      {/* Patient banner in content area */}
+      <div className="bg-white border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              ← Patient List
+            </Link>
+            <span className="text-slate-200">/</span>
+            <h1 className="text-base font-semibold text-slate-900">{displayName}</h1>
+          </div>
+          <div className="flex items-center gap-4 text-xs text-slate-500 mt-1">
+            {patient.birthDate && <span>DOB: {patient.birthDate}</span>}
+            {patient.gender && <span className="capitalize">Sex: {patient.gender}</span>}
+            <span className="font-mono text-slate-400">ID: {patient.id}</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
           <Link
             href={`/patients/${patient.id}/orders`}
-            className="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded font-medium transition-colors text-slate-200"
+            className="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded font-medium transition-colors text-white"
           >
             Order Entry →
           </Link>
@@ -157,7 +170,7 @@ export default async function PatientChartPage({ params }: PageProps) {
               u.searchParams.set("launch", `patient/${patient.id}`);
               return u.toString();
             })()}
-            className="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded font-medium transition-colors text-slate-200"
+            className="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded font-medium transition-colors text-white"
             target="_blank"
             rel="noreferrer"
           >
@@ -165,151 +178,148 @@ export default async function PatientChartPage({ params }: PageProps) {
           </a>
         </div>
       </div>
+      {/* Demographics */}
+      <section>
+        <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
+          Demographics
+        </h2>
+        <dl className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <dt className="text-slate-500">Full Name</dt>
+            <dd className="font-medium">{displayName}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Date of Birth</dt>
+            <dd className="font-medium">{patient.birthDate ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Gender</dt>
+            <dd className="font-medium capitalize">{patient.gender ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">FHIR ID</dt>
+            <dd className="font-mono text-xs text-slate-500">{patient.id}</dd>
+          </div>
+          {patient.identifier?.map((ident) => (
+            <div key={ident.value ?? ident.system ?? ident.use ?? "id"}>
+              <dt className="text-slate-500">
+                {ident.type?.coding?.[0]?.code ?? ident.system ?? "Identifier"}
+              </dt>
+              <dd className="font-medium">{ident.value ?? "—"}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
-      <div className="max-w-5xl mx-auto px-6 py-8 space-y-8 min-h-screen">
-        {/* Demographics */}
-        <section>
-          <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
-            Demographics
-          </h2>
-          <dl className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <dt className="text-slate-500">Full Name</dt>
-              <dd className="font-medium">{displayName}</dd>
-            </div>
-            <div>
-              <dt className="text-slate-500">Date of Birth</dt>
-              <dd className="font-medium">{patient.birthDate ?? "—"}</dd>
-            </div>
-            <div>
-              <dt className="text-slate-500">Gender</dt>
-              <dd className="font-medium capitalize">{patient.gender ?? "—"}</dd>
-            </div>
-            <div>
-              <dt className="text-slate-500">FHIR ID</dt>
-              <dd className="font-mono text-xs text-slate-500">{patient.id}</dd>
-            </div>
-            {patient.identifier?.map((ident) => (
-              <div key={ident.value ?? ident.system ?? ident.use ?? "id"}>
-                <dt className="text-slate-500">
-                  {ident.type?.coding?.[0]?.code ?? ident.system ?? "Identifier"}
-                </dt>
-                <dd className="font-medium">{ident.value ?? "—"}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+      {/* Problem List */}
+      <section>
+        <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
+          Problem List
+        </h2>
+        {conditions.length === 0 ? (
+          <p className="text-slate-400 text-sm italic">No conditions recorded.</p>
+        ) : (
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200 text-left">
+                <th className="px-3 py-2 font-medium text-slate-600">Condition</th>
+                <th className="px-3 py-2 font-medium text-slate-600">Status</th>
+                <th className="px-3 py-2 font-medium text-slate-600">Onset</th>
+              </tr>
+            </thead>
+            <tbody>
+              {conditions.map((cond) => {
+                const codeCoding = pickCoding(cond.code?.coding, SYS_ICD10, SYS_SNOMED);
+                return (
+                  <tr key={cond.id} className="border-t border-slate-200 hover:bg-slate-50">
+                    <td className="px-3 py-2">
+                      {conditionDisplay(cond)}
+                      {codeCoding?.code && (
+                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
+                          {codeCoding.code}
+                          {codeCoding.system && (
+                            <span className="font-sans"> · {shortSystem(codeCoding.system)}</span>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-3 py-2 capitalize">
+                      {cond.clinicalStatus?.coding?.[0]?.code ?? "—"}
+                    </td>
+                    <td className="px-3 py-2">{cond.onsetDateTime?.slice(0, 10) ?? "—"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </section>
 
-        {/* Problem List */}
-        <section>
-          <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
-            Problem List
-          </h2>
-          {conditions.length === 0 ? (
-            <p className="text-slate-400 text-sm italic">No conditions recorded.</p>
-          ) : (
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-left">
-                  <th className="px-3 py-2 font-medium text-slate-600">Condition</th>
-                  <th className="px-3 py-2 font-medium text-slate-600">Status</th>
-                  <th className="px-3 py-2 font-medium text-slate-600">Onset</th>
-                </tr>
-              </thead>
-              <tbody>
-                {conditions.map((cond) => {
-                  const codeCoding = pickCoding(cond.code?.coding, SYS_ICD10, SYS_SNOMED);
-                  return (
-                    <tr key={cond.id} className="border-t border-slate-200 hover:bg-slate-50">
-                      <td className="px-3 py-2">
-                        {conditionDisplay(cond)}
-                        {codeCoding?.code && (
-                          <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                            {codeCoding.code}
-                            {codeCoding.system && (
-                              <span className="font-sans"> · {shortSystem(codeCoding.system)}</span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-3 py-2 capitalize">
-                        {cond.clinicalStatus?.coding?.[0]?.code ?? "—"}
-                      </td>
-                      <td className="px-3 py-2">{cond.onsetDateTime?.slice(0, 10) ?? "—"}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-        </section>
-
-        {/* Observations */}
-        <section>
-          <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
-            Observations
-          </h2>
-          {observations.length === 0 ? (
-            <p className="text-slate-400 text-sm italic">No observations recorded.</p>
-          ) : (
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-left">
-                  <th className="px-3 py-2 font-medium text-slate-600">Observation</th>
-                  <th className="px-3 py-2 font-medium text-slate-600">Value</th>
-                  <th className="px-3 py-2 font-medium text-slate-600">Status</th>
-                  <th className="px-3 py-2 font-medium text-slate-600">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {observations.map((obs) => {
-                  const obsCoding = pickCoding(obs.code?.coding, SYS_LOINC, SYS_SNOMED);
-                  const valCoding = obs.valueCodeableConcept?.coding?.[0];
-                  const valQty = obs.valueQuantity;
-                  return (
-                    <tr key={obs.id} className="border-t border-slate-200 hover:bg-slate-50">
-                      <td className="px-3 py-2">
-                        {obsDisplay(obs)}
-                        {obsCoding?.code && (
-                          <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                            {obsCoding.code}
-                            {obsCoding.system && (
-                              <span className="font-sans"> · {shortSystem(obsCoding.system)}</span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-3 py-2">
-                        {formatObsValue(obs)}
-                        {valCoding?.code && (
-                          <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                            {valCoding.code}
-                            {valCoding.system && (
-                              <span className="font-sans"> · {shortSystem(valCoding.system)}</span>
-                            )}
-                          </div>
-                        )}
-                        {!valCoding && valQty?.code && (
-                          <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                            {valQty.code}
-                            {valQty.system && (
-                              <span className="font-sans"> · {shortSystem(valQty.system)}</span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-3 py-2 capitalize">{obs.status ?? "—"}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">
-                        {obs.effectiveDateTime?.slice(0, 10) ?? "—"}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-        </section>
-      </div>
-    </div>
+      {/* Observations */}
+      <section>
+        <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
+          Observations
+        </h2>
+        {observations.length === 0 ? (
+          <p className="text-slate-400 text-sm italic">No observations recorded.</p>
+        ) : (
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200 text-left">
+                <th className="px-3 py-2 font-medium text-slate-600">Observation</th>
+                <th className="px-3 py-2 font-medium text-slate-600">Value</th>
+                <th className="px-3 py-2 font-medium text-slate-600">Status</th>
+                <th className="px-3 py-2 font-medium text-slate-600">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {observations.map((obs) => {
+                const obsCoding = pickCoding(obs.code?.coding, SYS_LOINC, SYS_SNOMED);
+                const valCoding = obs.valueCodeableConcept?.coding?.[0];
+                const valQty = obs.valueQuantity;
+                return (
+                  <tr key={obs.id} className="border-t border-slate-200 hover:bg-slate-50">
+                    <td className="px-3 py-2">
+                      {obsDisplay(obs)}
+                      {obsCoding?.code && (
+                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
+                          {obsCoding.code}
+                          {obsCoding.system && (
+                            <span className="font-sans"> · {shortSystem(obsCoding.system)}</span>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-3 py-2">
+                      {formatObsValue(obs)}
+                      {valCoding?.code && (
+                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
+                          {valCoding.code}
+                          {valCoding.system && (
+                            <span className="font-sans"> · {shortSystem(valCoding.system)}</span>
+                          )}
+                        </div>
+                      )}
+                      {!valCoding && valQty?.code && (
+                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
+                          {valQty.code}
+                          {valQty.system && (
+                            <span className="font-sans"> · {shortSystem(valQty.system)}</span>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-3 py-2 capitalize">{obs.status ?? "—"}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {obs.effectiveDateTime?.slice(0, 10) ?? "—"}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </section>
+    </main>
   );
 }

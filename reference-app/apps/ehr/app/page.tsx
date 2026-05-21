@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import Link from "next/link";
+import { ServiceIntro } from "@ogca/ui";
 
 const PATIENTS = [
   {
@@ -39,21 +40,16 @@ export default async function Home() {
   const narratives = await Promise.all(PATIENTS.map((p) => fetchNarrative(fhirBase, p.id)));
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <nav className="bg-slate-800 text-slate-100 px-6 py-4 flex items-center justify-between">
-        <div className="font-semibold text-sm tracking-tight">OGCA Reference EHR</div>
-        <a
-          href="http://localhost:4000"
-          className="text-xs text-slate-400 hover:text-slate-200 transition-colors"
-        >
-          ← Hub
-        </a>
-      </nav>
+    <>
+      <ServiceIntro
+        title="OGCA Reference EHR"
+        description="Simulates a clinical order-entry system for oncology. Integrates CDS Hooks guidance (order-select/sign via the CRD Service), SMART on FHIR app launch, and prior authorization submission via the PAS Service."
+      />
 
-      <main className="max-w-3xl mx-auto px-6 py-12">
-        <h1 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+      <main className="max-w-5xl mx-auto px-6 py-8">
+        <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
           Patient List
-        </h1>
+        </h2>
 
         <div className="bg-white rounded border border-slate-200 overflow-hidden">
           <table className="w-full text-sm">
@@ -68,7 +64,7 @@ export default async function Home() {
             <tbody>
               {PATIENTS.map((p, i) => (
                 <Fragment key={p.id}>
-                  <tr key={p.id} className="border-t border-slate-200 hover:bg-slate-50">
+                  <tr className="border-t border-slate-200 hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
                     <td className="px-4 py-3 text-slate-600">{p.dob}</td>
                     <td className="px-4 py-3 font-mono text-xs text-slate-400">{p.mrn}</td>
@@ -82,10 +78,7 @@ export default async function Home() {
                     </td>
                   </tr>
                   {narratives[i] && (
-                    <tr
-                      key={`${p.id}-narrative`}
-                      className="border-t border-slate-100 bg-slate-50/60"
-                    >
+                    <tr className="border-t border-slate-100 bg-slate-50/60">
                       <td
                         colSpan={4}
                         className="px-4 pb-3 pt-1 text-xs text-slate-500 leading-relaxed"
@@ -100,6 +93,6 @@ export default async function Home() {
           </table>
         </div>
       </main>
-    </div>
+    </>
   );
 }
