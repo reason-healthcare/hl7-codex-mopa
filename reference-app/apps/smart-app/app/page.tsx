@@ -1,6 +1,11 @@
 import { cookies } from "next/headers";
 import { Client, PatientSchema } from "@ogca/fhir-client";
-import { verifyToken, isAuthBypassed, patientFromBypassToken, TOKEN_COOKIE } from "@ogca/smart-auth";
+import {
+  verifyToken,
+  isAuthBypassed,
+  patientFromBypassToken,
+  TOKEN_COOKIE,
+} from "@ogca/smart-auth";
 import {
   fetchLibrary,
   runGapAnalysis,

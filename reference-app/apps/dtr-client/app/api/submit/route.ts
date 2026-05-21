@@ -2,8 +2,10 @@ import { type NextRequest, NextResponse } from "next/server";
 import { parseCookies, isAuthBypassed, TOKEN_COOKIE } from "@ogca/smart-auth";
 import { ITEM_DEFINITIONS } from "../../../lib/questionnaire-gen";
 import type { AnswerCoding, QItem } from "../../../lib/questionnaire-gen";
+import { createLogger } from "@ogca/logger";
 
-const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
+const logger = createLogger("dtr");
+const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";
 
 /** Request body: one answer per questionnaire item. */
 interface SubmitRequest {
@@ -70,13 +72,25 @@ export async function POST(request: NextRequest) {
   }
 
   const cookies = parseCookies(request.headers.get("cookie"));
-  const bearerToken = isAuthBypassed() ? "bypass-token" : (cookies[TOKEN_COOKIE] ?? "");
+  const rawToken = cookies[TOKEN_COOKIE] ?? "";
+  const bearerToken = isAuthBypassed() ? rawToken : rawToken;
+  const patientId = body.patientId;
+
+  logger.info("dtr.submit", {
+    patientId,
+    path: "/api/submit",
+    method: "POST",
+    missingElements: Object.keys(body.answers),
+    request: body,
+    summary: `DTR submit — ${Object.keys(body.answers).join(", ")} for patient ${patientId}`,
+  });
   const fhirHeaders = {
     "Content-Type": "application/fhir+json",
     Accept: "application/fhir+json",
     Authorization: `Bearer ${bearerToken}`,
   };
 
+  const t0 = Date.now();
   const today = new Date().toISOString().slice(0, 10);
 
   // ------------------------------------------------------------------
@@ -115,6 +129,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `FHIR QR save failed: ${text}` }, { status: 502 });
     }
     const saved = (await res.json()) as { id?: string };
+    logger.info("fhir.write", {
+      patientId,
+      path: "/QuestionnaireResponse",
+      method: "POST",
+      status: 201,
+      durationMs: Date.now() - t0,
+      summary: `DTR write-back complete — QR ${saved.id ?? "unknown"}, ${observationIds.length} observations`,
+    });
     return NextResponse.json({ qrId: saved.id, observationIds });
   } catch (e) {
     return NextResponse.json(

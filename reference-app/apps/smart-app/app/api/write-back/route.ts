@@ -43,7 +43,9 @@ export async function POST(request: NextRequest) {
 
   // Bearer token: read from cookie (bypass mode forwards a fixture value)
   const cookies = parseCookies(request.headers.get("cookie"));
-  const bearerToken = isAuthBypassed() ? (cookies[TOKEN_COOKIE] ?? "bypass-token:jane-smith") : (cookies[TOKEN_COOKIE] ?? "");
+  const bearerToken = isAuthBypassed()
+    ? (cookies[TOKEN_COOKIE] ?? "bypass-token:jane-smith")
+    : (cookies[TOKEN_COOKIE] ?? "");
 
   const observation = {
     resourceType: "Observation",

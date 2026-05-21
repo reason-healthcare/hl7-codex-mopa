@@ -1,5 +1,10 @@
 import { cookies } from "next/headers";
-import { verifyToken, isAuthBypassed, patientFromBypassToken, TOKEN_COOKIE } from "@ogca/smart-auth";
+import {
+  verifyToken,
+  isAuthBypassed,
+  patientFromBypassToken,
+  TOKEN_COOKIE,
+} from "@ogca/smart-auth";
 import { buildQuestionnaire } from "../lib/questionnaire-gen";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { EHR_BASE_URL } from "../lib/smart-config";

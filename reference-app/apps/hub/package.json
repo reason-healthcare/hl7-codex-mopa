@@ -12,7 +12,8 @@
     "@ogca/knowledge-artifacts": "workspace:*",
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "@ogca/logger": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

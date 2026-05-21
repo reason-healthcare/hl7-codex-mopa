@@ -1,8 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { buildClaimResponse } from "../../../../lib/claim-response";
 import type { PaDecision, FhirClaimResponse } from "../../../../lib/claim-response";
+import { createLogger } from "@ogca/logger";
 
-const PAYER_BACKEND_URL = process.env.PAYER_BACKEND_URL ?? "http://localhost:4005";
+const logger = createLogger("pas");
+const PAYER_BACKEND_URL = process.env.PAYER_BACKEND_URL ?? "http://localhost:4006";
 
 /** Simplified PA submission request body. */
 interface PaSubmitRequest {
@@ -30,12 +32,27 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "patientId is required" }, { status: 400 });
   }
 
+  const correlationId = request.headers.get("x-correlation-id") ?? undefined;
+  const t0 = Date.now();
+
+  logger.info("pa.submit", {
+    correlationId,
+    patientId: body.patientId,
+    path: "/api/fhir/$submit",
+    method: "POST",
+    request: body,
+    summary: `PA submission for patient ${body.patientId}${body.regimenId ? ` (${body.regimenId})` : ""}`,
+  });
+
   // Delegate to Payer Backend for CQL evaluation
   let decision: PaDecision;
   try {
     const res = await fetch(`${PAYER_BACKEND_URL}/api/evaluate`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(correlationId ? { "X-Correlation-ID": correlationId } : {}),
+      },
       body: JSON.stringify({ patientId: body.patientId, regimenId: body.regimenId }),
     });
     if (!res.ok) {
@@ -55,6 +72,17 @@ export async function POST(request: NextRequest) {
 
   const id = `cr-${Date.now()}`;
   const claimResponse: FhirClaimResponse = buildClaimResponse(id, decision);
+
+  logger.info("pa.result", {
+    correlationId,
+    patientId: body.patientId,
+    paResult: decision.status,
+    durationMs: Date.now() - t0,
+    status: 200,
+    response: claimResponse,
+    summary: `PA result: ${decision.status} (${Date.now() - t0}ms)`,
+  });
+
   return NextResponse.json(claimResponse, {
     status: 201,
     headers: { "Content-Type": "application/fhir+json" },
