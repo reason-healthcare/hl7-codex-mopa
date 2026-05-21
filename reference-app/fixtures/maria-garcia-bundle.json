@@ -1,16 +1,16 @@
 {
   "resourceType": "Bundle",
-  "id": "jane-smith-fixtures",
+  "id": "maria-garcia-fixtures",
   "type": "transaction",
   "entry": [
     {
-      "fullUrl": "urn:uuid:jane-smith",
+      "fullUrl": "urn:uuid:maria-garcia",
       "resource": {
         "resourceType": "Patient",
-        "id": "jane-smith",
+        "id": "maria-garcia",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Jane Smith</b>, 52-year-old female (DOB 1972-04-15). Stage IIIA primary malignant neoplasm of the left breast, diagnosed January 2024. HER2-positive by IHC (3+). ECOG Performance Status 0 \u2014 fully active, no restrictions on activity.</p><p><b>Expected CDS outcome:</b> All required data elements present; ECOG 0 meets pre-authorization criteria. CRD returns pre-authorization \u2014 no prior authorization submission required.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Maria Garcia</b>, 47-year-old female (DOB 1975-08-22). Stage IIIA primary malignant neoplasm of the left breast, diagnosed February 2024. HER2-positive by IHC (3+). ECOG Performance Status 1 \u2014 ambulatory, restricted in strenuous activity.</p><p><b>Expected CDS outcome:</b> All required data elements present; ECOG 1 does not meet pre-authorization threshold. CRD returns PA required \u2014 submit prior authorization request to the payer via PAS Service.</p></div>"
         },
         "identifier": [
           {
@@ -24,29 +24,29 @@
               ]
             },
             "system": "http://ogca-reference.example.org/mrn",
-            "value": "MRN-001"
+            "value": "MRN-002"
           }
         ],
         "name": [
           {
             "use": "official",
-            "family": "Smith",
-            "given": ["Jane", "Marie"]
+            "family": "Garcia",
+            "given": ["Maria", "Elena"]
           }
         ],
         "gender": "female",
-        "birthDate": "1972-04-15"
+        "birthDate": "1975-08-22"
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/jane-smith"
+        "url": "Patient/maria-garcia"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-breast-cancer",
+      "fullUrl": "urn:uuid:maria-garcia-breast-cancer",
       "resource": {
         "resourceType": "Condition",
-        "id": "jane-smith-breast-cancer",
+        "id": "maria-garcia-breast-cancer",
         "clinicalStatus": {
           "coding": [
             {
@@ -89,21 +89,21 @@
           "text": "Breast Cancer (left)"
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/maria-garcia"
         },
-        "onsetDateTime": "2024-01-10",
-        "recordedDate": "2024-01-15"
+        "onsetDateTime": "2024-02-05",
+        "recordedDate": "2024-02-10"
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/jane-smith-breast-cancer"
+        "url": "Condition/maria-garcia-breast-cancer"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-her2",
+      "fullUrl": "urn:uuid:maria-garcia-her2",
       "resource": {
         "resourceType": "Observation",
-        "id": "jane-smith-her2",
+        "id": "maria-garcia-her2",
         "status": "final",
         "category": [
           {
@@ -126,9 +126,9 @@
           "text": "HER2 Status (IHC)"
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/maria-garcia"
         },
-        "effectiveDateTime": "2024-01-20",
+        "effectiveDateTime": "2024-02-12",
         "valueCodeableConcept": {
           "coding": [
             {
@@ -142,14 +142,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/jane-smith-her2"
+        "url": "Observation/maria-garcia-her2"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-cancer-stage",
+      "fullUrl": "urn:uuid:maria-garcia-cancer-stage",
       "resource": {
         "resourceType": "Observation",
-        "id": "jane-smith-cancer-stage",
+        "id": "maria-garcia-cancer-stage",
         "status": "final",
         "category": [
           {
@@ -171,9 +171,9 @@
           ]
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/maria-garcia"
         },
-        "effectiveDateTime": "2024-01-20",
+        "effectiveDateTime": "2024-02-12",
         "valueCodeableConcept": {
           "coding": [
             {
@@ -187,14 +187,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/jane-smith-cancer-stage"
+        "url": "Observation/maria-garcia-cancer-stage"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-ecog-ps",
+      "fullUrl": "urn:uuid:maria-garcia-ecog-ps",
       "resource": {
         "resourceType": "Observation",
-        "id": "jane-smith-ecog-ps",
+        "id": "maria-garcia-ecog-ps",
         "status": "final",
         "category": [
           {
@@ -216,14 +216,14 @@
           ]
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/maria-garcia"
         },
         "effectiveDateTime": "2024-01-20",
-        "valueInteger": 0
+        "valueInteger": 1
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/jane-smith-ecog-ps"
+        "url": "Observation/maria-garcia-ecog-ps"
       }
     }
   ]

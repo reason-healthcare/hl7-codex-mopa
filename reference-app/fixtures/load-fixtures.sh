@@ -1,108 +1,111 @@
 #!/usr/bin/env bash
-# Load Jane Smith fixture bundle into HAPI FHIR.
-# Purges all existing Jane Smith data first so re-runs are idempotent.
+# Load all OGCA demo patient fixtures into HAPI FHIR.
+# Three patient cases — each demonstrating a different CDS outcome:
 #
-# Usage: ./load-fixtures.sh [FHIR_BASE_URL]
+#   jane-smith    ECOG 0, HER2+   → Pre-authorized (no PA required)
+#   maria-garcia  ECOG 1, HER2+   → PA required
+#   sandra-chen   ECOG 1, HER2 ✗  → DTR required (collect HER2 first)
 #
-# The HER2 Observation is intentionally absent from the base fixtures
-# to exercise the DTR / gap-analysis flow.
+# Re-running is idempotent — existing data is purged before each load.
+# Usage: bash fixtures/load-fixtures.sh [FHIR_BASE_URL]
 
 set -euo pipefail
 
 FHIR_BASE="${1:-${FHIR_BASE_URL:-http://localhost:8080/fhir}}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BUNDLE="$SCRIPT_DIR/jane-smith-bundle.json"
 
-echo "Loading Jane Smith fixtures into: $FHIR_BASE"
+echo "Loading OGCA demo fixtures into: $FHIR_BASE"
 echo ""
 
 # ---------------------------------------------------------------------------
-# Wait for HAPI to be ready
+# Wait for HAPI
 # ---------------------------------------------------------------------------
-MAX_WAIT=60
-WAITED=0
+MAX_WAIT=60; WAITED=0
 echo -n "Waiting for HAPI FHIR..."
 until curl -sf "$FHIR_BASE/metadata" > /dev/null 2>&1; do
-  if [ "$WAITED" -ge "$MAX_WAIT" ]; then
-    echo ""
-    echo "ERROR: HAPI FHIR did not become ready within ${MAX_WAIT}s at $FHIR_BASE"
-    echo "Make sure Docker Compose is running: docker compose up -d hapi"
-    exit 1
-  fi
-  echo -n "."
-  sleep 2
-  WAITED=$((WAITED + 2))
+  [ "$WAITED" -ge "$MAX_WAIT" ] && echo "" && echo "ERROR: HAPI not ready after ${MAX_WAIT}s" && exit 1
+  echo -n "."; sleep 2; WAITED=$((WAITED + 2))
 done
 echo " ready!"
 echo ""
 
 # ---------------------------------------------------------------------------
-# Purge existing data
-# Conditional deletes by patient catch both the fixed-ID fixtures and any
-# server-ID resources written by the DTR (observations, questionnaire
-# responses). Delete referencing resources before the patient.
+# Purge helper
 # ---------------------------------------------------------------------------
-echo "Purging existing data..."
-
 cond_delete() {
   local path="$1"
   local status
   status=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
-    -H "Accept: application/fhir+json" \
-    "$FHIR_BASE/$path")
+    -H "Accept: application/fhir+json" "$FHIR_BASE/$path")
   case "$status" in
     200|204) echo "  deleted  $path" ;;
     404)     echo "  absent   $path" ;;
-    *)       echo "  WARNING  $path returned HTTP $status" ;;
+    *)       echo "  WARNING  $path → HTTP $status" ;;
   esac
 }
 
-# All observations and conditions referencing this patient
-cond_delete "Observation?patient=jane-smith"
-cond_delete "Condition?patient=jane-smith"
-cond_delete "QuestionnaireResponse?patient=jane-smith"
-
-# Patient last
-cond_delete "Patient/jane-smith"
-
-echo ""
-
 # ---------------------------------------------------------------------------
-# Load bundle
+# Load helper
 # ---------------------------------------------------------------------------
-echo "Loading bundle: $BUNDLE"
-RESPONSE=$(curl -sf \
-  -X POST \
-  -H "Content-Type: application/fhir+json" \
-  -H "Accept: application/fhir+json" \
-  -d @"$BUNDLE" \
-  "$FHIR_BASE")
+load_bundle() {
+  local label="$1"
+  local bundle="$2"
+  local patient_id="$3"
 
-echo "$RESPONSE" | python3 -c "
+  echo "── $label ($patient_id) ────────────────────"
+  echo "Purging existing data..."
+  cond_delete "Observation?patient=${patient_id}"
+  cond_delete "Condition?patient=${patient_id}"
+  cond_delete "QuestionnaireResponse?patient=${patient_id}"
+  cond_delete "Patient/${patient_id}"
+  echo ""
+
+  echo "Loading bundle: $(basename "$bundle")"
+  RESPONSE=$(curl -sf \
+    -X POST \
+    -H "Content-Type: application/fhir+json" \
+    -H "Accept: application/fhir+json" \
+    -d @"$bundle" \
+    "$FHIR_BASE")
+
+  echo "$RESPONSE" | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
 if data.get('resourceType') == 'Bundle':
     entries = data.get('entry', [])
-    print(f'Transaction successful — {len(entries)} resources loaded:')
-    for entry in entries:
-        resp = entry.get('response', {})
-        print(f'  {resp.get(\"status\", \"?\")}  {resp.get(\"location\", \"unknown\")}')
+    print(f'  OK — {len(entries)} resources loaded')
+    for e in entries:
+        r = e.get('response', {})
+        print(f'    {r.get(\"status\", \"?\")}  {r.get(\"location\", \"unknown\")}')
 elif data.get('resourceType') == 'OperationOutcome':
-    print('ERROR: OperationOutcome returned:')
     for issue in data.get('issue', []):
-        print(f'  [{issue.get(\"severity\")}] {issue.get(\"diagnostics\", issue.get(\"details\", {}).get(\"text\", \"?\"))}')
+        print(f'  ERROR [{issue.get(\"severity\")}] {issue.get(\"diagnostics\", \"?\")}')
     sys.exit(1)
 else:
     print(json.dumps(data, indent=2))
 " 2>/dev/null || echo "$RESPONSE"
+  echo ""
+}
 
+# ---------------------------------------------------------------------------
+# Load all three cases
+# ---------------------------------------------------------------------------
+load_bundle "Case 1 — Pre-authorized"  "$SCRIPT_DIR/jane-smith-bundle.json"    "jane-smith"
+load_bundle "Case 2 — PA Required"     "$SCRIPT_DIR/maria-garcia-bundle.json"  "maria-garcia"
+load_bundle "Case 3 — DTR Required"    "$SCRIPT_DIR/sandra-chen-bundle.json"   "sandra-chen"
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+EHR_BASE="${EHR_BASE_URL:-http://localhost:4001}"
+echo "═══════════════════════════════════════════════"
+echo "All fixtures loaded."
 echo ""
-echo "Jane Smith fixtures loaded."
+printf "  %-14s  %-8s  %s\n" "Patient ID" "ECOG" "Expected CDS outcome"
+printf "  %-14s  %-8s  %s\n" "──────────" "────" "────────────────────"
+printf "  %-14s  %-8s  %s\n" "jane-smith"    "0"  "Pre-authorized"
+printf "  %-14s  %-8s  %s\n" "maria-garcia"  "1"  "PA required"
+printf "  %-14s  %-8s  %s\n" "sandra-chen"   "1"  "DTR required (HER2 absent)"
 echo ""
-echo "  Patient ID : jane-smith"
-echo "  Chart URL  : http://localhost:4000/patients/jane-smith"
+echo "  EHR patient list: ${EHR_BASE}"
 echo ""
-echo "NOTE: HER2 Observation is absent — this triggers the DTR gap-analysis path."
-echo ""
-echo "  bash fixtures/add-her2.sh     # add IHC 3+ → pre-approved path"
-echo "  bash fixtures/remove-her2.sh  # remove it  → back to gap state"

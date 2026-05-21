@@ -1,6 +1,15 @@
 import Link from "next/link";
 
-const JANE_SMITH_ID = process.env.JANE_SMITH_PATIENT_ID ?? "jane-smith";
+const PATIENTS = [
+  {
+    id: process.env.JANE_SMITH_PATIENT_ID ?? "jane-smith",
+    name: "Jane Smith",
+    dob: "1972-04-15",
+    mrn: "MRN-001",
+  },
+  { id: "maria-garcia", name: "Maria Garcia", dob: "1975-08-22", mrn: "MRN-002" },
+  { id: "sandra-chen", name: "Sandra Chen", dob: "1963-11-05", mrn: "MRN-003" },
+];
 
 export default function Home() {
   return (
@@ -31,19 +40,21 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-t border-slate-200 hover:bg-slate-50">
-                <td className="px-4 py-3 font-medium text-slate-900">Jane Smith</td>
-                <td className="px-4 py-3 text-slate-600">1972-04-15</td>
-                <td className="px-4 py-3 font-mono text-xs text-slate-400">MRN-001</td>
-                <td className="px-4 py-3">
-                  <Link
-                    href={`/patients/${JANE_SMITH_ID}`}
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
-                    Open Chart →
-                  </Link>
-                </td>
-              </tr>
+              {PATIENTS.map((p) => (
+                <tr key={p.id} className="border-t border-slate-200 hover:bg-slate-50">
+                  <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
+                  <td className="px-4 py-3 text-slate-600">{p.dob}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-400">{p.mrn}</td>
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/patients/${p.id}`}
+                      className="text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Open Chart →
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
