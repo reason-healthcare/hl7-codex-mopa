@@ -76,7 +76,7 @@ function groupEntries(entries: LogEntry[]): Group[] {
     if (e.outcome) g.outcome = e.outcome;
   }
   // Return newest group first
-  return [...map.values()].reverse();
+  return [...map.values()];
 }
 
 function relativeTime(ts: string): string {
@@ -249,6 +249,7 @@ export default function ActivityFeed() {
   const [connected, setConnected] = useState(false);
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const es = new EventSource("/api/log/stream");
@@ -268,6 +269,13 @@ export default function ActivityFeed() {
 
     return () => es.close();
   }, []);
+
+  // Scroll to bottom whenever new entries arrive and the feed is not paused
+  useEffect(() => {
+    if (!paused) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [entries, paused]);
 
   const filtered = filter === "all" ? entries : entries.filter((e) => e.service === filter);
 
@@ -313,7 +321,10 @@ export default function ActivityFeed() {
           </button>
           <button
             type="button"
-            onClick={() => setEntries([])}
+            onClick={async () => {
+              await fetch("/api/log", { method: "DELETE" });
+              setEntries([]);
+            }}
             className="text-xs px-3 py-1 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
           >
             Clear
@@ -333,8 +344,9 @@ export default function ActivityFeed() {
         <div className="space-y-2">
           {groups.map((g, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: groups keyed by correlationId but may collide for ungrouped
-            <GroupRow key={`${g.correlationId}-${i}`} group={g} defaultOpen={i === 0} />
+            <GroupRow key={`${g.correlationId}-${i}`} group={g} defaultOpen={i === groups.length - 1} />
           ))}
+          <div ref={bottomRef} />
         </div>
       )}
     </div>

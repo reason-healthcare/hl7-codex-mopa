@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 
 const PATIENTS = [
@@ -66,7 +67,7 @@ export default async function Home() {
             </thead>
             <tbody>
               {PATIENTS.map((p, i) => (
-                <>
+                <Fragment key={p.id}>
                   <tr key={p.id} className="border-t border-slate-200 hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
                     <td className="px-4 py-3 text-slate-600">{p.dob}</td>
@@ -93,7 +94,7 @@ export default async function Home() {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               ))}
             </tbody>
           </table>

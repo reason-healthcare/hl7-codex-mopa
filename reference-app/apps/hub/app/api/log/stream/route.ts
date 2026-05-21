@@ -1,5 +1,8 @@
 import { subscribe, recent } from "../store";
 
+// Prevent Next.js from caching this route and force it to stay open
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/log/stream — Server-Sent Events stream of log entries.
  *
@@ -9,6 +12,10 @@ import { subscribe, recent } from "../store";
  */
 export async function GET() {
   const encoder = new TextEncoder();
+
+  // Shared cleanup — must be accessible from both start() and cancel()
+  // because ReadableStream ignores start()'s return value.
+  let cleanup: (() => void) | undefined;
 
   const stream = new ReadableStream({
     start(controller) {
@@ -22,7 +29,7 @@ export async function GET() {
         try {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(entry)}\n\n`));
         } catch {
-          unsub();
+          cleanup?.();
         }
       });
 
@@ -31,25 +38,29 @@ export async function GET() {
         try {
           controller.enqueue(encoder.encode(`: ping\n\n`));
         } catch {
-          clearInterval(ping);
-          unsub();
+          cleanup?.();
         }
       }, 15_000);
 
-      // Cleanup when the client disconnects (ReadableStream cancel)
-      return () => {
+      cleanup = () => {
         clearInterval(ping);
         unsub();
       };
+    },
+
+    // WHATWG ReadableStream calls cancel() when the reader disconnects.
+    // start()'s return value is intentionally ignored by the spec.
+    cancel() {
+      cleanup?.();
     },
   });
 
   return new Response(stream, {
     headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-      "X-Accel-Buffering": "no", // Disable nginx buffering in Docker
+      "Content-Type":      "text/event-stream",
+      "Cache-Control":     "no-cache, no-transform",
+      "Connection":        "keep-alive",
+      "X-Accel-Buffering": "no",
     },
   });
 }
