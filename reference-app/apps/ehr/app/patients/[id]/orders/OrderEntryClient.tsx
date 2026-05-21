@@ -4,7 +4,30 @@ import { useState, useEffect } from "react";
 import type { CdsCard, CdsResponse } from "@ogca/cds-hooks";
 import Link from "next/link";
 
-const CRD_SERVICE_URL = process.env.NEXT_PUBLIC_CRD_SERVICE_URL ?? "http://localhost:4002";
+const CRD_SERVICE_URL = process.env.NEXT_PUBLIC_CRD_SERVICE_URL ?? "http://localhost:4003";
+const EHR_BASE_URL    = process.env.NEXT_PUBLIC_EHR_BASE_URL    ?? "http://localhost:4001";
+
+/**
+ * Build a SMART EHR launch URL for a CDS Hooks smart link per the CDS Hooks spec:
+ * https://cds-hooks.org/specification/current/#link
+ *
+ * The EHR appends iss (its own FHIR server) and launch (patient context) to the
+ * app's launch endpoint, then includes appContext and any extra params.
+ */
+function buildSmartLaunchUrl(
+  link: { url: string; appContext?: string },
+  patientId: string,
+  extraParams?: Record<string, string>,
+): string {
+  const url = new URL(link.url);
+  url.searchParams.set("iss",    `${EHR_BASE_URL}/api/fhir`);
+  url.searchParams.set("launch", `patient/${patientId}`);
+  if (link.appContext) url.searchParams.set("appContext", link.appContext);
+  if (extraParams) {
+    for (const [k, v] of Object.entries(extraParams)) url.searchParams.set(k, v);
+  }
+  return url.toString();
+}
 
 // ---------------------------------------------------------------------------
 // Regimens
@@ -305,8 +328,14 @@ function CdsCardRow({ card, selectedRegimenId }: { card: CdsCard; selectedRegime
             <div className="mt-3 flex flex-wrap gap-2">
               {card.links.map((link) => {
                 const href =
-                  link.type === "smart" && selectedRegimenId
-                    ? `${link.url}&returnRegimen=${selectedRegimenId}`
+                  link.type === "smart"
+                    ? buildSmartLaunchUrl(
+                        link,
+                        selectedRegimenId
+                          ? selectedRegimenId
+                          : "",
+                        selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined,
+                      )
                     : link.url;
                 return (
                   <a
@@ -368,8 +397,12 @@ function OrderSelectSummary({
                 <div className="mt-2.5 flex flex-wrap gap-2">
                   {dtrCard?.links?.map((link) => {
                     const href =
-                      link.type === "smart" && selectedRegimenId
-                        ? `${link.url}&returnRegimen=${selectedRegimenId}`
+                      link.type === "smart"
+                        ? buildSmartLaunchUrl(
+                            link,
+                            selectedRegimenId ?? "",
+                            selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined,
+                          )
                         : link.url;
                     return (
                       <a

@@ -148,9 +148,12 @@ export default async function PatientChartPage({ params }: PageProps) {
             Order Entry →
           </Link>
           <a
-            href={`http://localhost:4002/launch?iss=${encodeURIComponent(
-              `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"}`
-            )}&launch=${encodeURIComponent(`patient/${patient.id}`)}`}
+            href={(() => {
+              const u = new URL("http://localhost:4002/launch");
+              u.searchParams.set("iss",    `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"}/api/fhir`);
+              u.searchParams.set("launch", `patient/${patient.id}`);
+              return u.toString();
+            })()}
             className="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded font-medium transition-colors text-slate-200"
             target="_blank"
             rel="noreferrer"
