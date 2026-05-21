@@ -715,7 +715,7 @@ export default async function ContentPage({
           <span className="text-slate-200">Clinical Content</span>
         </div>
       </nav>
-      <div className="bg-white border-b border-slate-200 px-6 py-5">
+      <div className="bg-slate-50 border-b border-slate-200 px-6 py-5">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-lg font-semibold text-slate-900">Clinical Content</h1>
           <p className="text-sm text-slate-500 mt-0.5">

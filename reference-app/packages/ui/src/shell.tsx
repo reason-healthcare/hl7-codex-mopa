@@ -13,7 +13,7 @@ export function OgcaNav({ service }: OgcaNavProps) {
   return (
     <nav className="bg-white border-b border-slate-200">
       <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-        <span className="text-sm font-semibold tracking-tight text-slate-800">OGCA: {service}</span>
+        <span className="text-sm font-semibold tracking-tight text-slate-600">OGCA: {service}</span>
         {/* biome-ignore lint/a11y/useImgPresentationRole: decorative brand logo */}
         <img
           src="/codex-logo.png"
@@ -32,28 +32,26 @@ export function OgcaNav({ service }: OgcaNavProps) {
 function VermonsterLogo() {
   return (
     <svg
-      viewBox="0 0 148 22"
-      fill="none"
+      viewBox="0 0 250 35.4"
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Vermonster"
       style={{ height: "18px", width: "auto" }}
+      fill="currentColor"
     >
-      {/* Stylised V mark */}
-      <path
-        d="M2 3 L8.5 17 L15 3"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* Wordmark */}
-      <path
-        d="M22 16 L26.2 6 L28 10.6 L29.8 6 L34 16 M36 16 V6 h5.5 a2.5 2.5 0 0 1 0 5 H36 M41.5 11 L45 16 M48 16 V6 l4 6 4-6 v10 M60 11 a5 5 0 1 1 10 0 a5 5 0 1 1-10 0 M73 16 V6 l7 7 V6 M83 6 h8 M87 6 v10 M94 6 h8 a3 3 0 0 1 0 5 h-8 m8 0 l3.5 5 M108 11 a5 5 0 1 0 9 2 M120 6 h6 a3 3 0 0 1 0 5 h-6 v5 M130 6 h8 v4 h-8 v6 h8"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <polygon points="10,34.7 0,6.6 5.2,6.6 13,28.4 21.3,6.6 25.8,6.6 15.1,34.7" />
+      <path d="M50.4,19.8c0.1-3.7-0.6-6.8-2-9.1c-1.9-3.2-5-4.8-9.5-4.8c-3.9,0-7,1.3-9.3,3.9c-2.3,2.6-3.5,6.1-3.5,10.4c0,4.6,1.3,8.2,3.9,11c2.6,2.7,6.1,4.1,10.5,4.1c2.9,0,6.2-0.5,9.7-1.6v-4c-3.1,1.1-6,1.7-8.6,1.7c-4.6,0-7.6-1.8-9.1-5.3c-0.5-1.1-0.8-2.6-1-4.7h18.9L50.4,19.8z M31.6,17.6c0.3-2.8,1-4.8,2.2-6c1.2-1.2,2.9-1.9,5-1.9c3,0,5,1.3,5.9,4c0.3,0.9,0.5,2.2,0.5,3.9L31.6,17.6L31.6,17.6z" />
+      <path d="M54.8,34.7V6.6h5.1v5.3c0.7-1.8,1.5-3.1,2.4-4C63.5,6.6,65,6,66.7,6c0.3,0,0.8,0,1.5,0.1v4.8c-0.9-0.3-1.6-0.4-2.2-0.4c-1.9,0-3.9,1.9-6.1,5.7v18.5H54.8z" />
+      <path d="M72.6,34.7V6.6h5.1v5.3c1.5-2.2,2.8-3.8,3.7-4.5C82.5,6.4,84,6,85.8,6c2.3,0,4.1,0.7,5.5,2.2c0.8,0.9,1.5,2.1,2.1,3.7c1.5-2.3,2.8-3.8,3.7-4.5c1.1-0.9,2.6-1.3,4.5-1.3c5.1,0,7.6,2.8,7.6,8.3v20.4h-5.1l0-19.6c0-3.2-1.2-4.8-3.8-4.8c-2.2,0-4.5,1.9-6.9,5.6v18.8h-5.1V15c0-3.2-1.3-4.8-3.8-4.8c-2.2,0-4.5,1.9-6.9,5.6v18.8L72.6,34.7L72.6,34.7z" />
+      <path d="M142.7,34.7V6.6h5.1v5.3c1.3-1.7,2.5-3.1,3.7-4c1.8-1.3,3.7-1.9,5.9-1.9c4.8,0,7.2,2.8,7.2,8.5v20.2h-5.2V16.2c0-2.3-0.2-3.8-0.7-4.6c-0.5-0.8-1.4-1.2-2.7-1.2c-2.8,0-5.6,2.1-8.2,6.2v18.2L142.7,34.7L142.7,34.7z" />
+      <path d="M168.9,33.7V29c3.5,1.7,6.6,2.5,9.6,2.5c3.9,0,5.9-1.4,5.9-4.1c0-1.9-1.4-3.3-4.1-4.2l-4.6-1.5c-4.4-1.4-6.6-4.1-6.6-7.9c0-5.2,3.6-7.8,10.8-7.8c2.1,0,4.6,0.3,7.5,0.8v4.3c-2.6-0.9-5.2-1.3-7.9-1.3c-3.6,0-5.4,1.2-5.4,3.5c0,1.7,1.2,2.9,3.7,3.7l4.1,1.3c5.1,1.6,7.6,4.5,7.6,8.5c0,2.6-1,4.7-3,6.2c-2,1.5-4.8,2.3-8.2,2.3C175.5,35.3,172.4,34.8,168.9,33.7L168.9,33.7z" />
+      <path d="M204.5,34.8c-1,0.3-2,0.5-2.9,0.5c-4.6,0-6.9-2.8-6.9-8.4V10.4h-3.2V6.6h3.2V1.5l5.1-0.5v5.6h5.5v3.8h-5.5V26c0,2.2,0.2,3.7,0.6,4.4c0.4,0.7,1.2,1.1,2.4,1.1c0.7,0,1.2-0.1,1.7-0.3L204.5,34.8L204.5,34.8z" />
+      <path d="M235.6,34.7V6.6h5.1v5.3c0.7-1.8,1.5-3.1,2.4-4c1.2-1.3,2.7-1.9,4.4-1.9c0.3,0,0.8,0,1.5,0.1v4.8c-0.9-0.3-1.6-0.4-2.2-0.4c-1.9,0-3.9,1.9-6.1,5.7v18.5H235.6z" />
+      <path d="M231.6,19.8c0-3.7-0.6-6.8-2-9.1c-1.9-3.2-5-4.8-9.5-4.8c-3.9,0-7,1.3-9.3,3.9c-2.3,2.6-3.5,6.1-3.5,10.4c0,4.6,1.3,8.2,3.9,11c2.6,2.7,6.1,4.1,10.5,4.1c2.9,0,6.2-0.5,9.7-1.6v-4c-3.1,1.1-6,1.7-8.6,1.7c-4.6,0-7.6-1.8-9.1-5.3c-0.5-1.1-0.8-2.6-1-4.7h18.9L231.6,19.8z M212.8,17.6c0.3-2.8,1-4.8,2.2-6c1.2-1.2,2.9-1.9,5-1.9c3,0,5,1.3,5.9,4c0.3,0.9,0.5,2.2,0.5,3.9L212.8,17.6L212.8,17.6z" />
+      <path d="M113.5,27v7.7h6.6c-1.4-0.3-2.7-0.9-3.8-1.8C114.8,31.4,113.9,29.5,113.5,27z" />
+      <path d="M127.4,6.6h-13.9v16c0.4-4.1,1.8-7.7,4.3-10.7C120.4,8.7,123.7,6.9,127.4,6.6z" />
+      <path d="M138.6,16.2V6.6h-8.9c2.7,0.2,4.8,1,6.3,2.5C137.7,10.8,138.5,13.1,138.6,16.2z" />
+      <path d="M138.6,17.3c-0.1,4.9-1.6,9.1-4.5,12.5c-2.2,2.6-4.9,4.3-8,4.9h12.5L138.6,17.3L138.6,17.3z" />
+      <path d="M128.2,10.2c-2.7,0-5,1.4-6.8,4.3c-1.8,2.9-2.7,6.4-2.7,10.5c0,2,0.5,3.5,1.4,4.6c0.9,1.1,2.2,1.6,3.7,1.6c2.4,0,4.4-1.1,6.2-3.4c2.2-3,3.3-6.8,3.3-11.4C133.3,12.3,131.6,10.2,128.2,10.2z" />
     </svg>
   );
 }
@@ -65,7 +63,7 @@ function VermonsterLogo() {
 export function OgcaFooter() {
   return (
     <footer className="border-t border-slate-200 bg-white mt-auto">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-center gap-2 text-xs text-slate-400">
+      <div className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-center gap-2 text-xs text-slate-500">
         <span>This reference implementation was built by</span>
         <a
           href="https://vermonster.com"
@@ -91,7 +89,7 @@ interface OgcaShellProps {
 
 export function OgcaShell({ service, children }: OgcaShellProps) {
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <OgcaNav service={service} />
       <div className="flex-1 flex flex-col">{children}</div>
       <OgcaFooter />
