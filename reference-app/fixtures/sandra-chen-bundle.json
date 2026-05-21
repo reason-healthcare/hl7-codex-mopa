@@ -1,16 +1,16 @@
 {
   "resourceType": "Bundle",
-  "id": "jane-smith-fixtures",
+  "id": "sandra-chen-fixtures",
   "type": "transaction",
   "entry": [
     {
-      "fullUrl": "urn:uuid:jane-smith",
+      "fullUrl": "urn:uuid:sandra-chen",
       "resource": {
         "resourceType": "Patient",
-        "id": "jane-smith",
+        "id": "sandra-chen",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Jane Smith</b>, 52-year-old female (DOB 1972-04-15). Stage IIIA primary malignant neoplasm of the left breast, diagnosed January 2024. HER2-positive by IHC (3+). ECOG Performance Status 0 \u2014 fully active, no restrictions on activity.</p><p><b>Expected CDS outcome:</b> All required data elements present; ECOG 0 meets pre-authorization criteria. CRD returns pre-authorization \u2014 no prior authorization submission required.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sandra Chen</b>, 61-year-old female (DOB 1963-11-05). Stage IIIA primary malignant neoplasm of the left breast, diagnosed March 2024. HER2 status not yet documented; biomarker workup pending. ECOG Performance Status 1 \u2014 ambulatory, restricted in strenuous activity.</p><p><b>Expected CDS outcome:</b> HER2 data element absent \u2014 coverage determination cannot be completed. CRD returns DTR required. Launch Documentation Requirements Tool to collect HER2 biomarker result before re-evaluating.</p></div>"
         },
         "identifier": [
           {
@@ -24,29 +24,29 @@
               ]
             },
             "system": "http://ogca-reference.example.org/mrn",
-            "value": "MRN-001"
+            "value": "MRN-003"
           }
         ],
         "name": [
           {
             "use": "official",
-            "family": "Smith",
-            "given": ["Jane", "Marie"]
+            "family": "Chen",
+            "given": ["Sandra", "Wei"]
           }
         ],
         "gender": "female",
-        "birthDate": "1972-04-15"
+        "birthDate": "1963-11-05"
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/jane-smith"
+        "url": "Patient/sandra-chen"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-breast-cancer",
+      "fullUrl": "urn:uuid:sandra-chen-breast-cancer",
       "resource": {
         "resourceType": "Condition",
-        "id": "jane-smith-breast-cancer",
+        "id": "sandra-chen-breast-cancer",
         "clinicalStatus": {
           "coding": [
             {
@@ -89,67 +89,21 @@
           "text": "Breast Cancer (left)"
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/sandra-chen"
         },
-        "onsetDateTime": "2024-01-10",
-        "recordedDate": "2024-01-15"
+        "onsetDateTime": "2024-03-01",
+        "recordedDate": "2024-03-05"
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/jane-smith-breast-cancer"
+        "url": "Condition/sandra-chen-breast-cancer"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-her2",
+      "fullUrl": "urn:uuid:sandra-chen-cancer-stage",
       "resource": {
         "resourceType": "Observation",
-        "id": "jane-smith-her2",
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "laboratory"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "85319-2",
-              "display": "HER2, Breast cancer specimen"
-            }
-          ],
-          "text": "HER2 Status (IHC)"
-        },
-        "subject": {
-          "reference": "Patient/jane-smith"
-        },
-        "effectiveDateTime": "2024-01-20",
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "416940007",
-              "display": "Positive (qualifier value)"
-            }
-          ],
-          "text": "IHC 3+ (Positive)"
-        }
-      },
-      "request": {
-        "method": "PUT",
-        "url": "Observation/jane-smith-her2"
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:jane-smith-cancer-stage",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "jane-smith-cancer-stage",
+        "id": "sandra-chen-cancer-stage",
         "status": "final",
         "category": [
           {
@@ -171,9 +125,9 @@
           ]
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/sandra-chen"
         },
-        "effectiveDateTime": "2024-01-20",
+        "effectiveDateTime": "2024-03-08",
         "valueCodeableConcept": {
           "coding": [
             {
@@ -187,14 +141,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/jane-smith-cancer-stage"
+        "url": "Observation/sandra-chen-cancer-stage"
       }
     },
     {
-      "fullUrl": "urn:uuid:jane-smith-ecog-ps",
+      "fullUrl": "urn:uuid:sandra-chen-ecog-ps",
       "resource": {
         "resourceType": "Observation",
-        "id": "jane-smith-ecog-ps",
+        "id": "sandra-chen-ecog-ps",
         "status": "final",
         "category": [
           {
@@ -216,14 +170,14 @@
           ]
         },
         "subject": {
-          "reference": "Patient/jane-smith"
+          "reference": "Patient/sandra-chen"
         },
         "effectiveDateTime": "2024-01-20",
-        "valueInteger": 0
+        "valueInteger": 1
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/jane-smith-ecog-ps"
+        "url": "Observation/sandra-chen-ecog-ps"
       }
     }
   ]

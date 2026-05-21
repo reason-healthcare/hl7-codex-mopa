@@ -35,6 +35,7 @@ services:
     environment:
       - PORT=4000
       - CRD_SERVICE_URL=http://crd-service:4003
+      - FHIR_BASE_URL=http://hapi:8080/fhir
 
   # ---------------------------------------------------------------------------
   # EHR (port 4001)

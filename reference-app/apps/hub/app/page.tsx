@@ -243,139 +243,144 @@ function ServicesTab() {
 // Tab: Demo paths
 // ---------------------------------------------------------------------------
 
-const PATHS = [
-  {
-    id: "Path 1",
-    label: "Pre-authorized",
-    command: "bash fixtures/path1.sh",
-    pivot: "ECOG = 0, HER2 positive",
-    accent: {
-      section: "border-green-300 bg-green-50",
-      badge: "bg-green-100 text-green-800",
-      step: "bg-green-600",
-    },
-    steps: [
-      { actor: "EHR", action: "Open Order Entry, select TH regimen" },
-      {
-        actor: "EHR -> CRD",
-        action: "Fires order-select with patient + condition in baseline prefetch",
-      },
-      {
-        actor: "CRD",
-        action: "Identifies breast cancer condition, fetches HER2 / Stage / ECOG from EHR",
-      },
-      { actor: "CRD -> EHR", action: "Returns pre-authorized card (ECOG=0) — no PA required" },
-      { actor: "EHR", action: "Shows pre-authorized indicator. Sign Order." },
-      { actor: "EHR -> CRD", action: "Fires order-sign" },
-      { actor: "CRD -> EHR", action: "Confirms pre-authorization" },
-      { actor: "EHR", action: "Order proceeds — no PA submission needed" },
-    ],
-  },
-  {
-    id: "Path 2",
-    label: "PA Required",
-    command: "bash fixtures/path2.sh",
-    pivot: "ECOG = 1, HER2 positive",
-    accent: {
-      section: "border-amber-300 bg-amber-50",
-      badge: "bg-amber-100 text-amber-800",
-      step: "bg-amber-500",
-    },
-    steps: [
-      { actor: "EHR", action: "Open Order Entry, select TH regimen" },
-      { actor: "EHR -> CRD", action: "Fires order-select with baseline prefetch" },
-      {
-        actor: "CRD",
-        action: "Identifies breast cancer, fetches HER2 / Stage / ECOG — all present, ECOG=1",
-      },
-      { actor: "CRD -> EHR", action: "Returns coverage-met card — PA required" },
-      { actor: "EHR", action: "Shows PA Required indicator. Sign Order." },
-      { actor: "EHR -> CRD", action: "Fires order-sign" },
-      { actor: "CRD -> EHR", action: "Returns prior-auth-required card" },
-      { actor: "EHR", action: "Shows Submit PA button" },
-      { actor: "EHR -> PAS", action: "Submits PA request to PAS Service" },
-      { actor: "PAS -> Payer", action: "Evaluates BreastCancerPayerPolicy CQL" },
-      { actor: "Payer -> EHR", action: "ClaimResponse: Approved" },
-    ],
-  },
-  {
-    id: "Path 3",
-    label: "DTR Required",
-    command: "bash fixtures/path3.sh",
-    pivot: "HER2 absent (ECOG = 1 — post-DTR continues as Path 2)",
-    accent: {
-      section: "border-slate-300 bg-slate-50",
-      badge: "bg-slate-100 text-slate-700",
-      step: "bg-slate-500",
-    },
-    steps: [
-      { actor: "EHR", action: "Open Order Entry, select TH regimen" },
-      { actor: "EHR -> CRD", action: "Fires order-select with baseline prefetch" },
-      { actor: "CRD", action: "Identifies breast cancer, fetches data — HER2 absent" },
-      { actor: "CRD -> EHR", action: "Returns additional-info-required card with DTR launch link" },
-      { actor: "EHR", action: "Shows Launch Documentation Requirements Tool button" },
-      {
-        actor: "EHR -> DTR",
-        action: "SMART launch with appContext: libraryUrl + missingDataElements=[her2]",
-      },
-      {
-        actor: "DTR",
-        action: "Fetches Library from Hub /fhir/Library, generates HER2 questionnaire",
-      },
-      { actor: "Clinician", action: "Selects HER2 result (e.g. IHC 3+ Positive)" },
-      { actor: "DTR -> EHR", action: "Writes Observation + QuestionnaireResponse to HAPI" },
-      { actor: "DTR", action: "Redirects to EHR with ?dtr-complete=true" },
-      { actor: "EHR -> CRD", action: "Auto-fires order-select — HER2 now present" },
-      { actor: "CRD -> EHR", action: "Returns coverage-met card (ECOG=1) — continues as Path 2" },
-    ],
-  },
-];
+// ---------------------------------------------------------------------------
+// Tab: Demo Fixtures
+// ---------------------------------------------------------------------------
 
-function PathsTab() {
+const FIXTURE_CASES = [
+  {
+    patientId: "jane-smith",
+    mrn: "MRN-001",
+    dob: "1972-04-15",
+    outcome: "Pre-authorized" as const,
+    outcomeNote: "ECOG 0 — no PA required",
+  },
+  {
+    patientId: "maria-garcia",
+    mrn: "MRN-002",
+    dob: "1975-08-22",
+    outcome: "PA Required" as const,
+    outcomeNote: "ECOG 1 — submit PA to payer",
+  },
+  {
+    patientId: "sandra-chen",
+    mrn: "MRN-003",
+    dob: "1963-11-05",
+    outcome: "DTR Required" as const,
+    outcomeNote: "HER2 absent — collect via DTR",
+  },
+] as const;
+
+type Outcome = (typeof FIXTURE_CASES)[number]["outcome"];
+
+const OUTCOME_STYLE: Record<Outcome, string> = {
+  "Pre-authorized": "bg-green-100 text-green-800 border-green-300",
+  "PA Required": "bg-amber-100 text-amber-800 border-amber-300",
+  "DTR Required": "bg-slate-100 text-slate-700 border-slate-300",
+};
+
+function stripXhtml(div: string): string {
+  return div
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+async function fetchPatient(fhirBase: string, id: string): Promise<Record<string, unknown> | null> {
+  try {
+    const res = await fetch(`${fhirBase}/Patient/${id}`, {
+      headers: { Accept: "application/fhir+json" },
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    return res.json() as Promise<Record<string, unknown>>;
+  } catch {
+    return null;
+  }
+}
+
+async function DemoFixturesTab() {
+  const fhirBase = process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
+  const ehrBase = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
+
+  const patients = await Promise.all(FIXTURE_CASES.map((c) => fetchPatient(fhirBase, c.patientId)));
+
+  const anyLoaded = patients.some(Boolean);
+
   return (
-    <div className="space-y-6">
-      <div className="text-sm text-slate-500 bg-white border border-slate-200 rounded px-4 py-3">
-        <strong className="text-slate-700">Pivot:</strong> ECOG Performance Status at order time
-        determines the authorization outcome when all data is present. ECOG 0 → pre-authorized ·
-        ECOG ≥1 → PA required · Missing data → DTR first.
+    <div className="space-y-5 max-w-3xl">
+      {/* Instruction bar */}
+      <div className="bg-white border border-slate-200 rounded px-4 py-3 flex items-center justify-between gap-6">
+        <p className="text-sm text-slate-600">
+          Three patient cases, each pre-loaded with clinical data that exercises a different CDS
+          outcome. Load all cases with a single command, then open each chart in the EHR.
+        </p>
+        <code className="font-mono text-xs text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded flex-shrink-0 whitespace-nowrap">
+          bash fixtures/load-fixtures.sh
+        </code>
       </div>
 
-      {PATHS.map((path) => (
-        <section key={path.id} className={`border rounded overflow-hidden ${path.accent.section}`}>
-          <div className="px-4 py-3 border-b border-current/20 flex items-start justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className={`text-xs font-bold px-2 py-0.5 rounded ${path.accent.badge}`}>
-                  {path.id}
-                </span>
-                <span className="text-sm font-semibold text-slate-900">{path.label}</span>
+      {!anyLoaded && (
+        <div className="border border-amber-200 bg-amber-50 rounded px-4 py-3 text-sm text-amber-800">
+          Fixtures not loaded. Run <code className="font-mono">bash fixtures/load-fixtures.sh</code>{" "}
+          and ensure HAPI FHIR is running.
+        </div>
+      )}
+
+      {/* Patient case cards */}
+      <div className="space-y-4">
+        {FIXTURE_CASES.map((c, i) => {
+          const pt = patients[i];
+          const rawDiv = (pt?.["text"] as Record<string, unknown> | undefined)?.["div"] as
+            | string
+            | undefined;
+          const narrative = rawDiv ? stripXhtml(rawDiv) : null;
+          const nameArr = pt?.["name"] as Array<{ family?: string; given?: string[] }> | undefined;
+          const fullName = nameArr?.[0]
+            ? `${(nameArr[0].given ?? []).join(" ")} ${nameArr[0].family ?? ""}`.trim()
+            : c.patientId;
+
+          return (
+            <div
+              key={c.patientId}
+              className="bg-white border border-slate-200 rounded-lg overflow-hidden"
+            >
+              <div className="px-4 py-3 border-b border-slate-100 flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                      className={`text-xs font-semibold px-2 py-0.5 rounded border ${OUTCOME_STYLE[c.outcome]}`}
+                    >
+                      {c.outcome}
+                    </span>
+                    <span className="text-base font-semibold text-slate-900">{fullName}</span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    DOB {c.dob} &middot; {c.mrn} &middot; {c.outcomeNote}
+                  </p>
+                </div>
+                <a
+                  href={`${ehrBase}/patients/${c.patientId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-shrink-0 inline-flex items-center gap-1 rounded bg-slate-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-700 transition-colors"
+                >
+                  Open in EHR
+                </a>
               </div>
-              <p className="text-xs text-slate-500">Pivot: {path.pivot}</p>
+              <div className="px-4 py-3">
+                {narrative ? (
+                  <p className="text-sm text-slate-600 leading-relaxed">{narrative}</p>
+                ) : (
+                  <p className="text-sm text-slate-400 italic">
+                    Patient not loaded. Run load-fixtures.sh first.
+                  </p>
+                )}
+              </div>
             </div>
-            <code className="font-mono text-xs text-slate-500 bg-white/70 border border-slate-200 px-2 py-1 rounded flex-shrink-0">
-              {path.command}
-            </code>
-          </div>
-          <div className="px-4 py-3">
-            <ol className="space-y-1.5">
-              {path.steps.map((step, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: ordered steps, index is stable
-                <li key={i} className="flex items-start gap-3 text-xs">
-                  <span
-                    className={`flex-shrink-0 w-5 h-5 rounded-full text-white flex items-center justify-center text-xs font-bold mt-0.5 ${path.accent.step}`}
-                  >
-                    {i + 1}
-                  </span>
-                  <span>
-                    <span className="font-mono text-slate-500 mr-1.5">{step.actor}</span>
-                    <span className="text-slate-700">{step.action}</span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-      ))}
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -453,7 +458,7 @@ export default async function HubPage({
       {/* Tab content */}
       <main className="max-w-5xl mx-auto px-6 py-7">
         {tab === "services" && <ServicesTab />}
-        {tab === "paths" && <PathsTab />}
+        {tab === "paths" && <DemoFixturesTab />}
         {tab === "content" && <ContentPage embedded pd={pd} />}
       </main>
     </div>
