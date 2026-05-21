@@ -38,10 +38,25 @@ function makeObs(code: string, system: string): object {
   };
 }
 
+function makeDiagnosis(snomedCode: string): object {
+  return {
+    resourceType: "Condition",
+    id: `condition-${snomedCode}`,
+    clinicalStatus: {
+      coding: [
+        { system: "http://terminology.hl7.org/CodeSystem/condition-clinical", code: "active" },
+      ],
+    },
+    code: { coding: [{ system: "http://snomed.info/sct", code: snomedCode }] },
+    subject: { reference: `Patient/${PATIENT_ID}` },
+  };
+}
+
 const HER2_OBS = makeObs("85319-2", "http://loinc.org");
 const STAGE_OBS = makeObs("21908-9", "http://loinc.org");
 const ECOG_OBS = makeObs("89247-1", "http://loinc.org");
 const PATIENT = { resourceType: "Patient", id: PATIENT_ID };
+const BREAST_CA_DX = makeDiagnosis("372137005");
 
 // ---------------------------------------------------------------------------
 // buildPatientBundle / extractBundleResources
@@ -99,6 +114,7 @@ describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
   it("all data present → AllDataPresent=true, PAResult=approved", async () => {
     const results = await engine.evaluate(policyElm, PATIENT_ID, [
       PATIENT,
+      BREAST_CA_DX,
       HER2_OBS,
       STAGE_OBS,
       ECOG_OBS,
@@ -108,20 +124,35 @@ describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
   });
 
   it("HER2 absent → HER2StatusPresent=false, AllDataPresent=false, PAResult=dtr-required", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [PATIENT, STAGE_OBS, ECOG_OBS]);
+    const results = await engine.evaluate(policyElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      STAGE_OBS,
+      ECOG_OBS,
+    ]);
     expect(results["HER2 Status Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
     expect(results["PA Result"]).toBe("dtr-required");
   });
 
   it("CancerStage absent → CancerStagePresent=false", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [PATIENT, HER2_OBS, ECOG_OBS]);
+    const results = await engine.evaluate(policyElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      HER2_OBS,
+      ECOG_OBS,
+    ]);
     expect(results["Cancer Stage Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
   });
 
   it("ECOG absent → ECOGPSPresent=false", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [PATIENT, HER2_OBS, STAGE_OBS]);
+    const results = await engine.evaluate(policyElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      HER2_OBS,
+      STAGE_OBS,
+    ]);
     expect(results["ECOG PS Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
   });
@@ -142,7 +173,11 @@ describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
 
 describe("BreastCancerGuideline — CqlExecutionEngine", () => {
   it("HER2 present → IsHER2Positive=true, TH/PHD eligible, ddACT not eligible", async () => {
-    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [PATIENT, HER2_OBS]);
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      HER2_OBS,
+    ]);
     expect(results["Is HER2 Positive"]).toBe(true);
     expect(results["TH Eligible"]).toBe(true);
     expect(results["PHD Eligible"]).toBe(true);
@@ -150,7 +185,7 @@ describe("BreastCancerGuideline — CqlExecutionEngine", () => {
   });
 
   it("HER2 absent → IsHER2Positive=false, ddACT eligible, TH/PHD not eligible", async () => {
-    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [PATIENT]);
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [PATIENT, BREAST_CA_DX]);
     expect(results["Is HER2 Positive"]).toBe(false);
     expect(results["TH Eligible"]).toBe(false);
     expect(results["PHD Eligible"]).toBe(false);

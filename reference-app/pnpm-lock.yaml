@@ -42,6 +42,9 @@ importers:
       '@ogca/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
+      '@ogca/knowledge-artifacts':
+        specifier: workspace:*
+        version: link:../../packages/knowledge-artifacts
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -122,6 +125,40 @@ importers:
       fhir-kit-client:
         specifier: ^2.0.1
         version: 2.0.1
+      next:
+        specifier: 16.2.6
+        version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: 19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: 19.2.4
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4
+        version: 4.3.0
+      '@types/node':
+        specifier: ^20
+        version: 20.19.41
+      '@types/react':
+        specifier: ^19
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.14)
+      tailwindcss:
+        specifier: ^4
+        version: 4.3.0
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  apps/hub:
+    dependencies:
+      '@ogca/knowledge-artifacts':
+        specifier: workspace:*
+        version: link:../../packages/knowledge-artifacts
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -319,6 +356,15 @@ importers:
         specifier: ^4.1.6
         version: 4.1.6(@types/node@22.19.19)(@vitest/coverage-v8@4.1.6)(vite@8.0.13(@types/node@22.19.19)(jiti@2.7.0))
 
+  packages/knowledge-artifacts:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.19.19
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/smart-auth:
     dependencies:
       jose:
@@ -344,6 +390,9 @@ importers:
       '@types/node':
         specifier: ^22.9.0
         version: 22.19.19
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.14
       typescript:
         specifier: ^5.6.3
         version: 5.9.3

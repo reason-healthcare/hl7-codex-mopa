@@ -86,8 +86,8 @@
           "coding": [
             {
               "system": "http://snomed.info/sct",
-              "code": "413448000",
-              "display": "Malignant neoplasm of breast (disorder)"
+              "code": "372137005",
+              "display": "Primary malignant neoplasm of breast"
             },
             {
               "system": "http://hl7.org/fhir/sid/icd-10-cm",
@@ -143,8 +143,8 @@
           "coding": [
             {
               "system": "http://snomed.info/sct",
-              "code": "1222806003",
-              "display": "American Joint Commission on Cancer stage IIIA (qualifier value)"
+              "code": "1222802001",
+              "display": "IIIA (AJCC)"
             }
           ],
           "text": "Stage IIIA"

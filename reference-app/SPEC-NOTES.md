@@ -41,3 +41,116 @@ or equivalent to distinguish pre-screen results from final results, so EHRs can
 render them appropriately without relying on summary string parsing.
 
 ---
+
+---
+
+## SN-002 — Da Vinci CRD discovery has no mechanism for condition-specific data requirements
+
+**Discovered during:** Multi-condition architecture design
+
+**Observed problem:**
+The Da Vinci CRD specification defines a `GET /cds-services` discovery endpoint that
+returns static prefetch templates on the service descriptor. These templates are
+evaluated before the hook fires — the EHR pre-fetches data using them and includes
+the results in the hook request. This works for payer policies that apply uniformly
+to a drug regardless of indication (e.g., "always fetch the formulary status").
+
+It breaks for specialty care — oncology, rheumatology, rare disease — where the
+relevant clinical data depends entirely on the patient's condition:
+
+- Breast cancer: HER2, cancer stage, ECOG performance status
+- Lung cancer: EGFR mutation, ALK fusion, PD-L1 expression
+- Multiple myeloma: FISH cytogenetics, protein electrophoresis, bone marrow biopsy
+
+You cannot enumerate all possible biomarkers in the static discovery prefetch without
+fetching irrelevant data for every patient on every order. The routing of "which data
+to fetch" belongs in the CRD, not the EHR.
+
+**Workaround applied:**
+A two-level prefetch architecture:
+
+1. **Baseline prefetch** (in the standard `prefetch` field): condition-agnostic.
+   Contains only `patient` and `conditions` (problem list) — enough to identify
+   the relevant cancer type without any disease-specific knowledge.
+
+2. **Condition-specific prefetch** (in the OGCA `ogca-service-extension`): a new
+   `conditionDataRequirements` array, one entry per supported condition, each with:
+   - `condition` — FHIR Coding identifying the cancer type
+   - `libraryUrl` — canonical URL of the condition-specific payer policy Library
+   - `prefetchTemplates` — CDS Hooks template strings for this condition
+
+OGCA-aware EHRs read `conditionDataRequirements` at startup and cache a
+condition → templates map. When the patient's condition matches an entry, the EHR
+adds those templates to the hook call. This eliminates a CRD callback round-trip
+for aware EHRs.
+
+For standard (non-OGCA) EHRs, the CRD falls back to fetching condition-specific
+data directly from `request.fhirServer` after identifying the condition from the
+minimal baseline prefetch. Correct behaviour is guaranteed for all EHRs regardless
+of whether they implement the extension.
+
+A condition registry (`condition-registry.ts`) maps condition codes to their
+Library, prefetch templates, and evaluator function. Adding a new cancer type
+requires a single registry entry — the discovery document, hook handler, and
+content viewer all derive from it.
+
+**Proposed specification change:**
+The Da Vinci CRD IG should:
+
+1. Define a `conditionDataRequirements` extension on `CdsService` (or a first-class
+   field) that expresses condition-indexed data requirements alongside the baseline
+   prefetch templates.
+
+2. Define the two-tier EHR behaviour: OGCA-aware EHRs use `conditionDataRequirements`
+   for proactive prefetch; standard EHRs trigger CRD fhirServer fallback. Both must
+   yield identical CRD responses.
+
+3. Clarify that `ogca-service-extension.libraryUrl` on a multi-condition service
+   should reference a **catalog Library** (`OncologyCRDCatalog`) rather than a
+   condition-specific Library, and define the `relatedArtifact` composition pattern
+   for catalog Libraries.
+
+4. Consider whether `conditionDataRequirements` belongs in the CDS Hooks spec itself
+   (as a general pattern applicable beyond oncology) or remains an OGCA-specific
+   extension. The same problem exists in cardiology (HFrEF vs HFpEF data requirements
+   differ), rheumatology, and rare disease.
+
+**Reference implementation:**
+- `apps/crd-service/src/constants.ts` — shared constants (no circular dependency)
+- `apps/crd-service/src/condition-registry.ts` — condition → Library/templates map
+- `apps/crd-service/src/crd-logic.ts` — baseline prefetch, discovery builder, handler
+- `apps/ehr/app/patients/[id]/orders/OrderEntryClient.tsx` — OGCA-aware EHR path
+
+---
+
+## SN-003 — Primary cancer condition is a missing data element in CRD evaluation
+
+**Discovered during:** Multi-condition architecture review
+
+**Observed problem:**
+The initial reference implementation evaluated HER2 status, cancer stage, and ECOG
+performance status for prior authorization — but never verified that the patient had
+an active primary breast cancer diagnosis. The guideline and payer policy CQL
+implicitly assumed a breast cancer context without making it an explicit data
+requirement. A patient with HER2-positive HER carcinoid tumour could theoretically
+receive a PA approval for TH.
+
+**Workaround applied:**
+Added `"Breast Cancer Diagnosis Present"` as an explicit CQL expression and data
+requirement in both `BreastCancerPayerPolicy.cql` and `BreastCancerGuideline.cql`.
+SNOMED 372137005 (Primary malignant neoplasm of breast) is the anchor code.
+The guideline now gates all three regimen definitions on `Has Active Breast Cancer`.
+The payer policy includes `Breast Cancer Diagnosis Present` in `All Data Present`.
+
+The condition is fetched via the `conditions` baseline prefetch key
+(`Condition?patient=...&category=problem-list-item`) which is present in all hook
+calls regardless of EHR type. No new prefetch key is needed.
+
+**Proposed specification change:**
+The OGCA IG should explicitly require that the primary cancer condition be declared
+as the first `dataRequirement` in every condition-specific Library, ordered before
+biomarker observations, to make the diagnostic prerequisite visible to consumers of
+the Library resource. The condition `dataRequirement` entry should carry a
+`data-requirement-label` extension value of the canonical condition name (e.g.,
+"Breast Cancer Diagnosis") for display in tools such as the DTR questionnaire
+generator and the CRD content viewer.

@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Load Jane Smith fixture bundle into HAPI FHIR.
+# Purges all existing Jane Smith data first so re-runs are idempotent.
+#
 # Usage: ./load-fixtures.sh [FHIR_BASE_URL]
 #
-# The HER2 Observation is intentionally absent from the fixtures
-# to exercise the DTR / gap-analysis flow in Phase 5+.
+# The HER2 Observation is intentionally absent from the base fixtures
+# to exercise the DTR / gap-analysis flow.
 
 set -euo pipefail
 
@@ -12,13 +14,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUNDLE="$SCRIPT_DIR/jane-smith-bundle.json"
 
 echo "Loading Jane Smith fixtures into: $FHIR_BASE"
-echo "Bundle: $BUNDLE"
 echo ""
 
+# ---------------------------------------------------------------------------
 # Wait for HAPI to be ready
+# ---------------------------------------------------------------------------
 MAX_WAIT=60
 WAITED=0
-echo -n "Waiting for HAPI FHIR to be ready..."
+echo -n "Waiting for HAPI FHIR..."
 until curl -sf "$FHIR_BASE/metadata" > /dev/null 2>&1; do
   if [ "$WAITED" -ge "$MAX_WAIT" ]; then
     echo ""
@@ -33,7 +36,41 @@ done
 echo " ready!"
 echo ""
 
-# POST the transaction bundle
+# ---------------------------------------------------------------------------
+# Purge existing data
+# Conditional deletes by patient catch both the fixed-ID fixtures and any
+# server-ID resources written by the DTR (observations, questionnaire
+# responses). Delete referencing resources before the patient.
+# ---------------------------------------------------------------------------
+echo "Purging existing data..."
+
+cond_delete() {
+  local path="$1"
+  local status
+  status=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
+    -H "Accept: application/fhir+json" \
+    "$FHIR_BASE/$path")
+  case "$status" in
+    200|204) echo "  deleted  $path" ;;
+    404)     echo "  absent   $path" ;;
+    *)       echo "  WARNING  $path returned HTTP $status" ;;
+  esac
+}
+
+# All observations and conditions referencing this patient
+cond_delete "Observation?patient=jane-smith"
+cond_delete "Condition?patient=jane-smith"
+cond_delete "QuestionnaireResponse?patient=jane-smith"
+
+# Patient last
+cond_delete "Patient/jane-smith"
+
+echo ""
+
+# ---------------------------------------------------------------------------
+# Load bundle
+# ---------------------------------------------------------------------------
+echo "Loading bundle: $BUNDLE"
 RESPONSE=$(curl -sf \
   -X POST \
   -H "Content-Type: application/fhir+json" \
@@ -45,10 +82,11 @@ echo "$RESPONSE" | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
 if data.get('resourceType') == 'Bundle':
-    print(f'Transaction successful — {len(data.get(\"entry\", []))} resources loaded:')
-    for entry in data.get('entry', []):
+    entries = data.get('entry', [])
+    print(f'Transaction successful — {len(entries)} resources loaded:')
+    for entry in entries:
         resp = entry.get('response', {})
-        print(f'  {resp.get(\"location\", \"unknown\")} → {resp.get(\"status\", \"?\")}')
+        print(f'  {resp.get(\"status\", \"?\")}  {resp.get(\"location\", \"unknown\")}')
 elif data.get('resourceType') == 'OperationOutcome':
     print('ERROR: OperationOutcome returned:')
     for issue in data.get('issue', []):
@@ -61,13 +99,10 @@ else:
 echo ""
 echo "Jane Smith fixtures loaded."
 echo ""
-echo "Patient ID: jane-smith"
-echo "  Chart URL: http://localhost:4000/patients/jane-smith"
+echo "  Patient ID : jane-smith"
+echo "  Chart URL  : http://localhost:4000/patients/jane-smith"
 echo ""
-echo "NOTE: HER2 Observation is intentionally absent from the base fixtures."
-echo "      This triggers the DTR gap-analysis path (Phase 5–6)."
+echo "NOTE: HER2 Observation is absent — this triggers the DTR gap-analysis path."
 echo ""
-echo "      To add HER2 and exercise the pre-approved / PA-required paths:"
-echo "        bash fixtures/add-her2.sh       # writes IHC 3+ Observation"
-echo "        bash fixtures/remove-her2.sh    # removes it (resets to gap state)"
-echo "      Or launch the CDS SMART App from the EHR and submit via the inline form."
+echo "  bash fixtures/add-her2.sh     # add IHC 3+ → pre-approved path"
+echo "  bash fixtures/remove-her2.sh  # remove it  → back to gap state"

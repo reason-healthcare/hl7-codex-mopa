@@ -4,7 +4,7 @@ import type { PaDecision, FhirClaimResponse } from "../../../../lib/claim-respon
 
 const PAYER_BACKEND_URL = process.env.PAYER_BACKEND_URL ?? "http://localhost:4005";
 
-/** Simplified PA submission request body (Phase 7 stub — not full Da Vinci PAS Bundle). */
+/** Simplified PA submission request body. */
 interface PaSubmitRequest {
   patientId: string;
   regimenId?: string;

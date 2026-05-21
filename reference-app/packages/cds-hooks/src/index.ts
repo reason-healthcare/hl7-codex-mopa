@@ -8,10 +8,33 @@ import { z } from "zod";
  * OGCA extension on a CDS service descriptor.
  * Carried in the `extension` map of a CdsService.
  */
-export interface OgcaServiceExtension {
-  /** Canonical URL of the FHIR Library that defines the PA data requirements. */
+/**
+ * Per-condition data requirements entry in the OGCA service extension.
+ * Allows OGCA-aware EHRs to add condition-specific prefetch templates to
+ * the hook call without a CRD callback, while standard EHRs fall back to
+ * the CRD's dynamic FHIR fetch.
+ */
+export interface ConditionDataRequirement {
+  /** FHIR Coding identifying the primary cancer condition. */
+  condition: { system: string; code: string; display: string };
+  /** Canonical URL of the condition-specific payer policy Library. */
   libraryUrl: string;
-  /** Whether the service may return suggestions that modify draft orders. */
+  /** CDS Hooks prefetch template strings the EHR should add when this
+   *  condition is present. Keys are free-form; the CRD uses the same
+   *  keys when resolving missing data via fhirServer fallback. */
+  prefetchTemplates: Record<string, string>;
+}
+
+export interface OgcaServiceExtension {
+  /** Canonical URL of the OncologyCRDCatalog Library (full registry). */
+  catalogUrl?: string;
+  /** Canonical URL of the condition-specific payer policy Library.
+   *  Kept for single-condition backward compatibility. */
+  libraryUrl?: string;
+  /** Condition-indexed data requirements for OGCA-aware EHR prefetch.
+   *  One entry per supported condition. EHRs that do not implement this
+   *  extension receive correct behaviour via CRD fhirServer fallback. */
+  conditionDataRequirements?: ConditionDataRequirement[];
   willUpdateOrders?: boolean;
 }
 

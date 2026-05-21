@@ -16,21 +16,21 @@ interface HER2InputFormProps {
 
 const HER2_OPTIONS = [
   {
-    value: "431396003",
+    value: "10828004",
     system: "http://snomed.info/sct",
-    label: "IHC 3+ (Positive)",
+    label: "Positive (IHC 3+)",
     description: "Strong complete membrane staining",
   },
   {
-    value: "431397007",
+    value: "42425007",
     system: "http://snomed.info/sct",
-    label: "IHC 2+ / ISH Amplified",
-    description: "Moderate complete membrane staining, ISH amplified",
+    label: "Equivocal (IHC 2+)",
+    description: "Moderate complete staining, ISH amplification pending",
   },
   {
     value: "260385009",
     system: "http://snomed.info/sct",
-    label: "IHC 0 / IHC 1+ (Negative)",
+    label: "Negative (IHC 0 / 1+)",
     description: "No or faint incomplete membrane staining",
   },
 ] as const;

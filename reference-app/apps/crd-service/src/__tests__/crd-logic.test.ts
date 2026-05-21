@@ -7,11 +7,12 @@ import {
   buildDtrCard,
   handleOncologyCrd,
   CRD_SERVICE_ID,
+  CRD_SERVICE_ID_SIGN,
   LIBRARY_CANONICAL,
   PREFETCH_TEMPLATES,
   MISSING_KEY_LABELS,
 } from "../crd-logic";
-import { LIBRARY_RESOURCE } from "../library-resource";
+import { LIBRARY_RESOURCE } from "@ogca/knowledge-artifacts";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -46,8 +47,28 @@ const ECOG_OBS = {
 };
 const PATIENT = { resourceType: "Patient", id: "jane-smith" };
 
+const BC_CONDITION = {
+  resourceType: "Condition",
+  id: "breast-cancer",
+  clinicalStatus: {
+    coding: [
+      { system: "http://terminology.hl7.org/CodeSystem/condition-clinical", code: "active" },
+    ],
+  },
+  code: {
+    coding: [
+      {
+        system: "http://snomed.info/sct",
+        code: "372137005",
+        display: "Primary malignant neoplasm of breast",
+      },
+    ],
+  },
+};
+
 const FULL_PREFETCH = {
   patient: PATIENT,
+  conditions: makeBundle([BC_CONDITION]),
   her2: makeBundle([HER2_OBS]),
   cancerStage: makeBundle([STAGE_OBS]),
   ecogPs: makeBundle([ECOG_OBS]),
@@ -58,27 +79,35 @@ const FULL_PREFETCH = {
 // ---------------------------------------------------------------------------
 
 describe("buildDiscoveryResponse", () => {
-  it("returns one service with id oncology-crd", () => {
+  it("returns two services: order-select and order-sign", () => {
     const { services } = buildDiscoveryResponse();
-    expect(services).toHaveLength(1);
+    expect(services).toHaveLength(2);
     expect(services[0]?.id).toBe(CRD_SERVICE_ID);
+    expect(services[0]?.hook).toBe("order-select");
+    expect(services[1]?.id).toBe(CRD_SERVICE_ID_SIGN);
+    expect(services[1]?.hook).toBe("order-sign");
   });
 
   it("advertises order-select hook", () => {
     expect(buildDiscoveryResponse().services[0]?.hook).toBe("order-select");
   });
 
-  it("includes all required prefetch keys", () => {
+  it("baseline prefetch contains patient and conditions only", () => {
     const keys = Object.keys(buildDiscoveryResponse().services[0]?.prefetch ?? {});
     expect(keys).toContain("patient");
-    expect(keys).toContain("her2");
-    expect(keys).toContain("cancerStage");
-    expect(keys).toContain("ecogPs");
+    expect(keys).toContain("conditions");
+    // Disease-specific keys are in conditionDataRequirements, not baseline prefetch
+    expect(keys).not.toContain("her2");
   });
 
-  it("includes OGCA extension with libraryUrl", () => {
+  it("includes conditionDataRequirements extension with breast cancer entry", () => {
     const ext = buildDiscoveryResponse().services[0]?.extension?.["ogca-service-extension"];
-    expect(ext?.libraryUrl).toBe(LIBRARY_CANONICAL);
+    const reqs = ext?.conditionDataRequirements ?? [];
+    expect(reqs.length).toBeGreaterThan(0);
+    const bc = reqs.find((r) => r.condition.code === "372137005");
+    expect(bc).toBeDefined();
+    expect(bc?.libraryUrl).toBe(LIBRARY_CANONICAL);
+    expect(bc?.prefetchTemplates).toHaveProperty("her2");
   });
 });
 
@@ -119,10 +148,20 @@ describe("evaluatePayerPolicy — CQL evaluation", () => {
     if (result.status === "dtr-required") expect(result.missingKeys).toContain("ecogPs");
   });
 
-  it("no data → all three missing", async () => {
+  it("breast cancer diagnosis absent → dtr-required, missingKeys contains breastCancer", async () => {
+    const result = await evaluatePayerPolicy("jane-smith", {
+      ...FULL_PREFETCH,
+      conditions: makeBundle(),
+    });
+    expect(result.status).toBe("dtr-required");
+    if (result.status === "dtr-required") expect(result.missingKeys).toContain("breastCancer");
+  });
+
+  it("no data → all four missing", async () => {
     const result = await evaluatePayerPolicy("jane-smith", {});
     expect(result.status).toBe("dtr-required");
     if (result.status === "dtr-required") {
+      expect(result.missingKeys).toContain("breastCancer");
       expect(result.missingKeys).toContain("her2");
       expect(result.missingKeys).toContain("cancerStage");
       expect(result.missingKeys).toContain("ecogPs");
@@ -238,9 +277,10 @@ describe("handleOncologyCrd", () => {
     expect(response.cards[0]?.links?.[0]?.type).toBe("smart");
   });
 
-  it("DTR card when prefetch is empty", async () => {
+  it("no matching condition in prefetch → no-policy info card", async () => {
     const response = await handleOncologyCrd({ ...base });
-    expect(response.cards[0]?.indicator).toBe("warning");
+    expect(response.cards[0]?.indicator).toBe("info");
+    expect(response.cards[0]?.summary).toMatch(/No applicable coverage policy/);
   });
 });
 
@@ -254,17 +294,19 @@ describe("LIBRARY_RESOURCE", () => {
   });
 
   it("includes a HER2 dataRequirement", () => {
-    const her2 = LIBRARY_RESOURCE.dataRequirement.find((dr) => {
-      const cf = dr.codeFilter?.[0] as { code?: Array<{ code: string }> } | undefined;
+    const reqs = LIBRARY_RESOURCE.dataRequirement as unknown as Array<Record<string, unknown>>;
+    const her2 = reqs.find((dr) => {
+      const cf = (dr.codeFilter as Array<{ code?: Array<{ code: string }> }> | undefined)?.[0];
       return cf?.code?.some((c) => c.code === "85319-2");
     });
     expect(her2).toBeDefined();
   });
 
   it("has dataRequirements for all required elements", () => {
-    const labels = LIBRARY_RESOURCE.dataRequirement
-      .flatMap((dr) => dr.extension ?? [])
-      .map((e) => e.valueString);
+    const reqs = LIBRARY_RESOURCE.dataRequirement as unknown as Array<{
+      extension?: Array<{ url: string; valueString?: string }>;
+    }>;
+    const labels = reqs.flatMap((dr) => dr.extension ?? []).map((e) => e.valueString);
     expect(labels).toContain("HER2 Status");
     expect(labels).toContain("Cancer Stage");
     expect(labels).toContain("ECOG Performance Status");

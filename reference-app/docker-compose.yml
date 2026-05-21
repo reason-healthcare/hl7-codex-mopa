@@ -23,7 +23,21 @@ services:
       start_period: 45s
 
   # ---------------------------------------------------------------------------
-  # EHR (port 4000)
+  # Hub — Knowledge Artifact Repository + Reference Implementation Entry Point (port 4000)
+  # ---------------------------------------------------------------------------
+  hub:
+    build:
+      context: .
+      dockerfile: apps/hub/Dockerfile
+    container_name: ogca-hub
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - CRD_SERVICE_URL=http://crd-service:4003
+
+  # ---------------------------------------------------------------------------
+  # EHR (port 4001)
   # ---------------------------------------------------------------------------
   ehr:
     build:
@@ -31,18 +45,21 @@ services:
       dockerfile: apps/ehr/Dockerfile
     container_name: ogca-ehr
     ports:
-      - "4000:4000"
+      - "4001:4001"
     environment:
       - FHIR_BASE_URL=http://hapi:8080/fhir
       - JANE_SMITH_PATIENT_ID=jane-smith
       - SMART_AUTH_BYPASS=true
-      - PORT=4000
+      - PORT=4001
+      - NEXT_PUBLIC_CRD_SERVICE_URL=http://localhost:4003
+      - NEXT_PUBLIC_EHR_BASE_URL=http://localhost:4001
+      - PAS_SERVICE_URL=http://pas-service:4005
     depends_on:
       hapi:
         condition: service_healthy
 
   # ---------------------------------------------------------------------------
-  # CDS SMART App (port 4001) — stub
+  # CDS SMART App (port 4002)
   # ---------------------------------------------------------------------------
   smart-app:
     build:
@@ -50,14 +67,16 @@ services:
       dockerfile: apps/smart-app/Dockerfile
     container_name: ogca-smart-app
     ports:
-      - "4001:4001"
+      - "4002:4002"
     environment:
-      - FHIR_BASE_URL=http://hapi:8080/fhir
       - SMART_AUTH_BYPASS=true
-      - PORT=4001
+      - PORT=4002
+      - NEXT_PUBLIC_EHR_BASE_URL=http://localhost:4001
+      - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
+      - KNOWLEDGE_REPO_URL=http://hub:4000
 
   # ---------------------------------------------------------------------------
-  # CRD Service (port 4002) — stub
+  # CRD Service (port 4003)
   # ---------------------------------------------------------------------------
   crd-service:
     build:
@@ -65,14 +84,16 @@ services:
       dockerfile: apps/crd-service/Dockerfile
     container_name: ogca-crd-service
     ports:
-      - "4002:4002"
+      - "4003:4003"
     environment:
-      - FHIR_BASE_URL=http://hapi:8080/fhir
       - SMART_AUTH_BYPASS=true
-      - PORT=4002
+      - PORT=4003
+      - DTR_CLIENT_URL=http://dtr-client:4004
+      - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
+      - KNOWLEDGE_REPO_URL=http://hub:4000
 
   # ---------------------------------------------------------------------------
-  # DTR Client (port 4003) — stub
+  # DTR Client (port 4004)
   # ---------------------------------------------------------------------------
   dtr-client:
     build:
@@ -80,14 +101,16 @@ services:
       dockerfile: apps/dtr-client/Dockerfile
     container_name: ogca-dtr-client
     ports:
-      - "4003:4003"
+      - "4004:4004"
     environment:
-      - FHIR_BASE_URL=http://hapi:8080/fhir
       - SMART_AUTH_BYPASS=true
-      - PORT=4003
+      - PORT=4004
+      - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
+      - EHR_BASE_URL=http://localhost:4001
+      - KNOWLEDGE_REPO_URL=http://hub:4000
 
   # ---------------------------------------------------------------------------
-  # PAS Service (port 4004) — stub
+  # PAS Service (port 4005)
   # ---------------------------------------------------------------------------
   pas-service:
     build:
@@ -95,14 +118,14 @@ services:
       dockerfile: apps/pas-service/Dockerfile
     container_name: ogca-pas-service
     ports:
-      - "4004:4004"
+      - "4005:4005"
     environment:
-      - FHIR_BASE_URL=http://hapi:8080/fhir
       - SMART_AUTH_BYPASS=true
-      - PORT=4004
+      - PORT=4005
+      - PAYER_BACKEND_URL=http://payer-backend:4006
 
   # ---------------------------------------------------------------------------
-  # Payer Backend (port 4005) — stub
+  # Payer Backend (port 4006)
   # ---------------------------------------------------------------------------
   payer-backend:
     build:
@@ -110,11 +133,11 @@ services:
       dockerfile: apps/payer-backend/Dockerfile
     container_name: ogca-payer-backend
     ports:
-      - "4005:4005"
+      - "4006:4006"
     environment:
-      - FHIR_BASE_URL=http://hapi:8080/fhir
       - SMART_AUTH_BYPASS=true
-      - PORT=4005
+      - PORT=4006
+      - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
 
 volumes:
   hapi-data:

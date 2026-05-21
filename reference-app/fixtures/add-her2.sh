@@ -25,7 +25,7 @@ curl -sf -X PUT "$FHIR_BASE/Observation/jane-smith-her2" \
         {
           "system": "http://loinc.org",
           "code": "85319-2",
-          "display": "HER2 [Presence] in Breast cancer specimen by Immune stain"
+          "display": "HER2, Breast cancer specimen"
         }
       ],
       "text": "HER2 Status"
@@ -35,8 +35,8 @@ curl -sf -X PUT "$FHIR_BASE/Observation/jane-smith-her2" \
     "valueCodeableConcept": {
       "coding": [{
         "system": "http://snomed.info/sct",
-        "code": "431396003",
-        "display": "Human epidermal growth factor 2 gene amplification detected (finding)"
+        "code": "10828004",
+        "display": "Positive"
       }],
       "text": "HER2 positive (IHC 3+)"
     }

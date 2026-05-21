@@ -3,19 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 4002",
+    "dev": "next dev --port 4003",
     "build": "next build",
-    "start": "next start --port 4002",
+    "start": "next start --port 4003",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
+    "@ogca/cds-hooks": "workspace:*",
+    "@ogca/cql-engine": "workspace:*",
+    "@ogca/fhir-client": "workspace:*",
+    "@ogca/knowledge-artifacts": "workspace:*",
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "@ogca/cds-hooks": "workspace:*",
-    "@ogca/fhir-client": "workspace:*",
-    "@ogca/cql-engine": "workspace:*"
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
