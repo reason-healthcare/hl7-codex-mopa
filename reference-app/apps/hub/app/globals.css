@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../packages/**/*.{ts,tsx}";
 
 @theme inline {
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, sans-serif;
