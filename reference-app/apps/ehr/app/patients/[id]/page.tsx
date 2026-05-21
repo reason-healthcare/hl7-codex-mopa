@@ -150,7 +150,10 @@ export default async function PatientChartPage({ params }: PageProps) {
           <a
             href={(() => {
               const u = new URL("http://localhost:4002/launch");
-              u.searchParams.set("iss",    `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"}/api/fhir`);
+              u.searchParams.set(
+                "iss",
+                `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"}/api/fhir`
+              );
               u.searchParams.set("launch", `patient/${patient.id}`);
               return u.toString();
             })()}

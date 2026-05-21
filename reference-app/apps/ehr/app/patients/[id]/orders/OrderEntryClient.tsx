@@ -5,7 +5,7 @@ import type { CdsCard, CdsResponse } from "@ogca/cds-hooks";
 import Link from "next/link";
 
 const CRD_SERVICE_URL = process.env.NEXT_PUBLIC_CRD_SERVICE_URL ?? "http://localhost:4003";
-const EHR_BASE_URL    = process.env.NEXT_PUBLIC_EHR_BASE_URL    ?? "http://localhost:4001";
+const EHR_BASE_URL = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
 
 /**
  * Build a SMART EHR launch URL for a CDS Hooks smart link per the CDS Hooks spec:
@@ -17,10 +17,10 @@ const EHR_BASE_URL    = process.env.NEXT_PUBLIC_EHR_BASE_URL    ?? "http://local
 function buildSmartLaunchUrl(
   link: { url: string; appContext?: string },
   patientId: string,
-  extraParams?: Record<string, string>,
+  extraParams?: Record<string, string>
 ): string {
   const url = new URL(link.url);
-  url.searchParams.set("iss",    `${EHR_BASE_URL}/api/fhir`);
+  url.searchParams.set("iss", `${EHR_BASE_URL}/api/fhir`);
   url.searchParams.set("launch", `patient/${patientId}`);
   if (link.appContext) url.searchParams.set("appContext", link.appContext);
   if (extraParams) {
@@ -307,7 +307,15 @@ function StatusBadge({ indicator, label }: { indicator: string; label: string })
  * component so the EHR presents a consistent vocabulary for remote guidance.
  * No background color: status is conveyed by badge alone.
  */
-function CdsCardRow({ card, patientId, selectedRegimenId }: { card: CdsCard; patientId: string; selectedRegimenId?: string }) {
+function CdsCardRow({
+  card,
+  patientId,
+  selectedRegimenId,
+}: {
+  card: CdsCard;
+  patientId: string;
+  selectedRegimenId?: string;
+}) {
   const cfg = INDICATOR_CONFIG[card.indicator] ?? INDICATOR_FALLBACK;
 
   return (
@@ -332,7 +340,7 @@ function CdsCardRow({ card, patientId, selectedRegimenId }: { card: CdsCard; pat
                     ? buildSmartLaunchUrl(
                         link,
                         patientId,
-                        selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined,
+                        selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined
                       )
                     : link.url;
                 return (
@@ -401,7 +409,7 @@ function OrderSelectSummary({
                         ? buildSmartLaunchUrl(
                             link,
                             patientId,
-                            selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined,
+                            selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined
                           )
                         : link.url;
                     return (
@@ -473,11 +481,20 @@ function CrdResponsePanel({
       </div>
 
       {hook === "order-select" ? (
-        <OrderSelectSummary cards={cards} patientId={patientId} selectedRegimenId={selectedRegimenId} />
+        <OrderSelectSummary
+          cards={cards}
+          patientId={patientId}
+          selectedRegimenId={selectedRegimenId}
+        />
       ) : (
         <div className="divide-y divide-slate-100">
           {cards.map((card, i) => (
-            <CdsCardRow key={card.uuid ?? i} card={card} patientId={patientId} selectedRegimenId={selectedRegimenId} />
+            <CdsCardRow
+              key={card.uuid ?? i}
+              card={card}
+              patientId={patientId}
+              selectedRegimenId={selectedRegimenId}
+            />
           ))}
         </div>
       )}
@@ -721,7 +738,12 @@ export default function OrderEntryPage({
       {/* CDS Guidance panel — consistent provenance wrapper for all hook responses */}
       {cards.length > 0 && activeHook && (
         <section>
-          <CrdResponsePanel cards={cards} hook={activeHook} patientId={patientId} selectedRegimenId={selected?.id} />
+          <CrdResponsePanel
+            cards={cards}
+            hook={activeHook}
+            patientId={patientId}
+            selectedRegimenId={selected?.id}
+          />
         </section>
       )}
 

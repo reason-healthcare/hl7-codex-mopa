@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ContentPage from "./content/page";
+import ActivityFeed from "./activity/ActivityFeed";
 
 // ---------------------------------------------------------------------------
 // Diagram primitives
@@ -135,21 +136,9 @@ function ServicesTab() {
         </p>
         <div className="flex gap-3 items-stretch">
           <div className="flex-1">
-            <SvcBox
-              name="EHR"
-              port={4001}
-              role="Patient chart · Order entry · SMART host · PA submission"
-              accent="dark"
-              className="h-full"
-            />
+            <SvcBox name="EHR" port={4001} role="Patient chart · Order entry · SMART host · PA submission" accent="dark" className="h-full" />
           </div>
-          <SvcBox
-            name="HAPI FHIR"
-            port={8080}
-            role="FHIR R4 patient data store"
-            sub="Shared data layer"
-            accent="dark"
-          />
+          <SvcBox name="HAPI FHIR" port={8080} role="FHIR R4 patient data store" sub="Shared data layer" accent="dark" />
         </div>
       </div>
 
@@ -163,13 +152,7 @@ function ServicesTab() {
           <p className="text-[10px] font-semibold text-blue-500 uppercase tracking-wider mb-2">
             Layer 1 &mdash; Guideline Authority
           </p>
-          <SvcBox
-            name="CDS SMART App"
-            port={4002}
-            role="Gap analysis · regimen recommendations"
-            accent="blue"
-            className="flex-1"
-          />
+          <SvcBox name="CDS SMART App" port={4002} role="Gap analysis · regimen recommendations" accent="blue" className="flex-1" />
         </div>
 
         {/* Right: CRD group — all amber */}
@@ -331,11 +314,11 @@ async function DemoFixturesTab() {
       <div className="space-y-4">
         {FIXTURE_CASES.map((c, i) => {
           const pt = patients[i];
-          const rawDiv = (pt?.["text"] as Record<string, unknown> | undefined)?.["div"] as
+          const rawDiv = (pt?.text as Record<string, unknown> | undefined)?.div as
             | string
             | undefined;
           const narrative = rawDiv ? stripXhtml(rawDiv) : null;
-          const nameArr = pt?.["name"] as Array<{ family?: string; given?: string[] }> | undefined;
+          const nameArr = pt?.name as Array<{ family?: string; given?: string[] }> | undefined;
           const fullName = nameArr?.[0]
             ? `${(nameArr[0].given ?? []).join(" ")} ${nameArr[0].family ?? ""}`.trim()
             : c.patientId;
@@ -392,6 +375,7 @@ async function DemoFixturesTab() {
 const TABS = [
   { id: "services", label: "Services" },
   { id: "paths", label: "Demo Patient Cases" },
+  { id: "activity", label: "Activity" },
   { id: "content", label: "Knowledge Artifacts" },
 ] as const;
 
@@ -459,6 +443,7 @@ export default async function HubPage({
       <main className="max-w-5xl mx-auto px-6 py-7">
         {tab === "services" && <ServicesTab />}
         {tab === "paths" && <DemoFixturesTab />}
+        {tab === "activity" && <ActivityFeed />}
         {tab === "content" && <ContentPage embedded pd={pd} />}
       </main>
     </div>

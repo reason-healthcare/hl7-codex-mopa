@@ -1,5 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { evaluatePolicy } from "../../../lib/policy";
+import { createLogger } from "@ogca/logger";
+
+const logger = createLogger("payer");
 
 /** Request body for prior-authorization evaluation. */
 interface EvaluateRequest {
@@ -26,7 +29,30 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const correlationId = request.headers.get("x-correlation-id") ?? undefined;
+    const t0 = Date.now();
+
+    logger.info("pa.evaluate", {
+      correlationId,
+      patientId: body.patientId,
+      path: "/api/evaluate",
+      method: "POST",
+      request: body,
+      summary: `Payer policy evaluation for patient ${body.patientId}`,
+    });
+
     const decision = await evaluatePolicy(body.patientId);
+
+    logger.info("pa.result", {
+      correlationId,
+      patientId: body.patientId,
+      paResult: decision.status,
+      durationMs: Date.now() - t0,
+      status: 200,
+      response: decision,
+      summary: `Payer evaluation: ${decision.status} (${Date.now() - t0}ms)`,
+    });
+
     return NextResponse.json(decision);
   } catch (e) {
     return NextResponse.json(
