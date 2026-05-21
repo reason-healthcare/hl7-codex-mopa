@@ -327,3 +327,130 @@ for format rules and commit discipline.
 - PA-required only returned on `order-sign` (data present); `order-select` still returns pre-approved — Phase 6 done-when remains valid
 - Payer Backend fetches FHIR directly from EHR proxy (bypass mode — no auth required)
 - Done when: select TH → order-sign → PA-required card → Submit PA → Payer Backend CQL → ClaimResponse "Approved"
+
+---
+
+## Phase 8 — Integration, Polish, Docs
+
+### Demo paths
+- [x] `fixtures/path1.sh` — ECOG=0, HER2+ → CRD pre-authorizes (no PA)
+- [x] `fixtures/path2.sh` — ECOG=1, HER2+ → CRD returns coverage met, PA required
+- [x] `fixtures/path3.sh` — HER2 absent → DTR required; post-DTR outcome depends on ECOG
+- [x] Document pivot (ECOG value) in README
+
+### EHR UI polish
+- [x] Unified slate-800 nav/banner across all pages
+- [x] Patient banner on order entry page (DOB, sex, FHIR ID)
+- [x] CDS card consistency — unified `CdsCardRow` component, no special-casing by topic
+- [x] CRD provenance panel (`CrdResponsePanel`) with hook label
+- [x] `OrderSelectSummary` — two-row structured display (Coverage Criteria / PA Requirement)
+- [x] `ClaimResponseDisplay` uses same indicator vocabulary as CDS cards
+- [x] Regimen selector shows individual drug pills
+- [x] Observation table: code/system sub-labels, ICD-10-CM preferred for conditions, LOINC for labs
+- [x] SMART app Launch CDS App opens in new tab
+- [x] Bypass badge removed from SMART app
+- [x] SMART app without launch context shows auth error (not patient data)
+- [x] DTR without launch context shows auth error
+
+### Terminology corrections
+- [x] Condition SNOMED code corrected (413448000 → 372137005)
+- [x] Cancer stage SNOMED code corrected (1222806003 IIIC → 1222802001 IIIA)
+- [x] HER2 value codes corrected across fixture, add-her2.sh, questionnaire-gen.ts, DTR
+- [x] ECOG DTR codes corrected (invalid LA codes → SNOMED grade codes)
+- [x] Cancer stage DTR codes corrected (wrong TNM codes → Clinical stage I-IV SNOMED)
+- [x] LOINC 85319-2 display corrected to official "HER2, Breast cancer specimen"
+- [x] PlanDefinition `purpose` field added; guideline language uses evidence-based framing
+
+### CRD pre-authorization path
+- [x] `extractEcogScore` helper reads valueInteger and SNOMED grade codes
+- [x] ECOG 0 → `pre-approved` CheckResult → `buildPreApprovedCard()`
+- [x] `OrderSelectSummary` shows "Not required" badge for pre-approved path
+
+### SMART app modes
+- [x] `?mode=ogca` (default) — chart-back enabled, HER2InputForm writes to FHIR
+- [x] `?mode=readonly` — WhatIfPanel for hypothetical evaluation, no FHIR write
+- [x] `POST /api/evaluate` — evaluates guideline + ECOG pre-approval without FHIR write
+- [x] Mode indicator badge in nav with toggle link
+
+### Clinical Content viewer (CRD Service /content)
+- [x] Two-column layout: Layer 1 (Guideline) vs Layer 2 (Payer Policy)
+- [x] Five expandable rows: Purpose, Decision Summary, Plan Definition, Library, (combined Data Requirements + CQL)
+- [x] `GUIDELINE_PLAN_DEFINITION` and `PLAN_DEFINITION` FHIR resources in `content-resources.ts`
+- [x] `GUIDELINE_LIBRARY` and `PAYER_POLICY_LIBRARY` FHIR Library resources
+- [x] `GET /api/content/resource?id=<key>` — serves any artifact as FHIR JSON
+- [x] `GET /api/content/package?layer=1|2` — streams FHIR npm-style tgz (no extra deps)
+- [x] Layer 1 uses evidence-based clinical language; Layer 2 uses eligibility/administrative language
+
+### OpenAPI / Swagger
+- [x] `GET /openapi.json` — OpenAPI 3.0 spec for each of the 6 services
+- [x] `GET /docs` — Swagger UI (CDN, zero npm dependencies) for each service
+- [x] EHR home service grid links each service to its `/docs`
+- [x] All "Phase N stub" copy removed from UI screens and source comments
+
+### load-fixtures.sh
+- [x] Conditional delete by patient (catches DTR-written observations with server IDs)
+- [x] Purges QuestionnaireResponse resources
+
+### Notes
+- Phase 8 "automated smoke test" and Docker Compose `demo` profile remain outstanding
+
+---
+
+## Multi-condition Architecture (Phase 8 continuation)
+
+### Condition-aware discovery
+- [x] `src/constants.ts` — extracted `CRD_SERVICE_ID`, `CRD_SERVICE_TITLE`, `LIBRARY_CANONICAL` to break circular dependency
+- [x] `src/condition-registry.ts` — `CONDITION_REGISTRY` maps condition codes to Library, prefetch templates; `findConditionEntry()` matcher; `CATALOG_URL`
+- [x] `BASELINE_PREFETCH_TEMPLATES` — patient + conditions only (lowest-common denominator)
+- [x] `buildDiscoveryResponse()` — uses baseline prefetch; builds `conditionDataRequirements` extension from registry
+- [x] `handleOncologyCrd()` — condition-first routing: identify → check prefetch completeness → fhirServer fallback → evaluate
+- [x] `OgcaServiceExtension` type extended: `catalogUrl`, `conditionDataRequirements`, `ConditionDataRequirement` interface
+- [x] EHR `OrderEntryClient.tsx` — `loadDiscovery()` caches `conditionDataRequirements` on mount; `resolveConditionPrefetch()` adds condition-specific prefetch to hook calls (OGCA-aware EHR path)
+- [x] EHR `orders/page.tsx` — fetches primary condition SNOMED code and passes as `conditionCode` prop
+- [x] Tests updated: discovery now asserts baseline prefetch + conditionDataRequirements extension; empty-prefetch case returns no-policy info card
+- [x] SPEC-NOTES SN-002 — condition-specific discovery gap documented with proposed IG change
+- [x] SPEC-NOTES SN-003 — primary diagnosis as missing data element documented
+
+### Condition check in CQL
+- [x] `BreastCancerGuideline.cql` — `Has Active Breast Cancer` precondition on all regimen definitions
+- [x] `BreastCancerPayerPolicy.cql` — `Breast Cancer Diagnosis Present` added to `All Data Present`
+- [x] Both ELM files recompiled with `rh cql compile`
+- [x] `MISSING_KEY_LABELS` — added `breastCancer`; `CQL_BC_PRESENT` constant
+- [x] `CONDITION_REGISTRY` entry now carries condition-specific prefetch templates (replaces hardcoded PREFETCH_TEMPLATES disease-specific keys)
+
+---
+
+## Hub + Knowledge Artifacts Architecture (Phase 8 continuation)
+
+### @ogca/knowledge-artifacts package
+- [x] `packages/knowledge-artifacts/src/constants.ts` — BASE_URL, LIBRARY_CANONICAL, CATALOG_URL, BASELINE_PREFETCH_TEMPLATES
+- [x] `packages/knowledge-artifacts/src/libraries.ts` — GUIDELINE_LIBRARY, PAYER_POLICY_LIBRARY, LIBRARY_RESOURCE, ONCOLOGY_CRD_CATALOG
+- [x] `packages/knowledge-artifacts/src/plan-definitions.ts` — GUIDELINE_PLAN_DEFINITION, PLAN_DEFINITION
+- [x] `packages/knowledge-artifacts/src/condition-registry.ts` — CONDITION_REGISTRY, findConditionEntry (moved from CRD)
+- [x] `packages/knowledge-artifacts/src/library-content.ts` — withEmbeddedContent (moved from CRD)
+- [x] `packages/knowledge-artifacts/src/index.ts` — barrel export
+
+### apps/hub (port 4000)
+- [x] Scaffold: package.json, next.config.ts, tsconfig.json, postcss, layout, globals, Dockerfile
+- [x] `app/page.tsx` — landing: demo paths, quick start, services overview
+- [x] `app/content/page.tsx` — clinical content viewer (moved from CRD, fetches discovery live)
+- [x] `app/fhir/metadata/route.ts` — CapabilityStatement (Library + PlanDefinition)
+- [x] `app/fhir/Library/route.ts` — search (?url=, ?name=, ?title=)
+- [x] `app/fhir/Library/[id]/route.ts` — read by ID (logic libraries include embedded CQL/ELM)
+- [x] `app/fhir/PlanDefinition/route.ts` — search (?url=, ?name=)
+- [x] `app/fhir/PlanDefinition/[id]/route.ts` — read by ID
+- [x] `app/fhir/registry.ts` — shared resource registry, fhirBundle helper
+
+### Port migration
+- [x] Hub: 4000 (new) · EHR: 4001 · SMART App: 4002 · CRD: 4003 · DTR: 4004 · PAS: 4005 · Payer: 4006
+- [x] All .env.local files updated
+- [x] All hardcoded localhost URLs updated in source
+- [x] docker-compose.yml updated
+- [x] README ports updated
+
+### CRD cleanup
+- [x] Removed: src/content-resources.ts, src/library-resource.ts, src/condition-registry.ts, src/library-content.ts
+- [x] Removed: app/content/ directory (moved to Hub)
+- [x] Updated: app/content-data.ts imports from @ogca/knowledge-artifacts
+- [x] Updated: src/crd-logic.ts imports from @ogca/knowledge-artifacts
+- [x] CRD root page links to Hub's /content (http://localhost:4000/content)

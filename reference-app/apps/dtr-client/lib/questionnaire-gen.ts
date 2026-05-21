@@ -34,28 +34,28 @@ export const ITEM_DEFINITIONS: Record<string, QItem> = {
     observationCode: {
       system: "http://loinc.org",
       code: "85319-2",
-      display: "HER2 [Presence] in Breast cancer specimen by Immune stain",
+      display: "HER2, Breast cancer specimen",
     },
     answerOption: [
       {
         valueCoding: {
           system: "http://snomed.info/sct",
-          code: "431396003",
-          display: "IHC 3+ (Positive)",
+          code: "10828004",
+          display: "Positive (IHC 3+)",
         },
       },
       {
         valueCoding: {
           system: "http://snomed.info/sct",
-          code: "431397007",
-          display: "IHC 2+ / ISH Amplified",
+          code: "42425007",
+          display: "Equivocal (IHC 2+)",
         },
       },
       {
         valueCoding: {
           system: "http://snomed.info/sct",
           code: "260385009",
-          display: "IHC 0 / IHC 1+ (Negative)",
+          display: "Negative (IHC 0 / 1+)",
         },
       },
     ],
@@ -73,28 +73,28 @@ export const ITEM_DEFINITIONS: Record<string, QItem> = {
       {
         valueCoding: {
           system: "http://snomed.info/sct",
-          code: "1228882005",
+          code: "13104003",
           display: "Stage I",
         },
       },
       {
         valueCoding: {
           system: "http://snomed.info/sct",
-          code: "1229947003",
+          code: "60333009",
           display: "Stage II",
         },
       },
       {
         valueCoding: {
           system: "http://snomed.info/sct",
-          code: "1229966003",
+          code: "50283003",
           display: "Stage III",
         },
       },
       {
         valueCoding: {
           system: "http://snomed.info/sct",
-          code: "1229967007",
+          code: "2640006",
           display: "Stage IV",
         },
       },
@@ -112,29 +112,29 @@ export const ITEM_DEFINITIONS: Record<string, QItem> = {
     answerOption: [
       {
         valueCoding: {
-          system: "http://loinc.org",
-          code: "LA9622-7",
+          system: "http://snomed.info/sct",
+          code: "425389002",
           display: "ECOG 0 — Fully active",
         },
       },
       {
         valueCoding: {
-          system: "http://loinc.org",
-          code: "LA9623-5",
+          system: "http://snomed.info/sct",
+          code: "422512005",
           display: "ECOG 1 — Restricted in strenuous activity",
         },
       },
       {
         valueCoding: {
-          system: "http://loinc.org",
-          code: "LA9624-3",
+          system: "http://snomed.info/sct",
+          code: "422894000",
           display: "ECOG 2 — Ambulatory, capable of self-care",
         },
       },
       {
         valueCoding: {
-          system: "http://loinc.org",
-          code: "LA9625-0",
+          system: "http://snomed.info/sct",
+          code: "423053003",
           display: "ECOG 3 — Limited self-care",
         },
       },

@@ -1,7 +1,7 @@
 /**
  * FHIR ClaimResponse builder for prior-authorization determinations.
  *
- * Phase 7 stub — captures the essential FHIR fields without implementing
+ * captures the essential FHIR fields without implementing
  * the full Da Vinci PAS ClaimResponse profile.
  */
 
@@ -10,7 +10,7 @@ export interface PaDecision {
   reason: string;
 }
 
-/** Minimal typed shape for the ClaimResponse we build (Phase 7 stub). */
+/** Minimal typed shape for the ClaimResponse we build. */
 export interface FhirClaimResponse {
   resourceType: "ClaimResponse";
   id: string;

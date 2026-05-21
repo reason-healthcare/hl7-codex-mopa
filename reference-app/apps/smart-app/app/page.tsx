@@ -10,9 +10,10 @@ import {
 import type { GapResult } from "../lib/data-fetching";
 import { evaluateGuideline } from "../lib/guideline";
 import type { Regimen } from "../lib/guideline";
-import { EHR_BASE_URL } from "../lib/smart-config";
 import HER2InputForm from "./HER2InputForm";
 import RegimenOptions from "./RegimenOptions";
+
+import WhatIfPanel from "./WhatIfPanel";
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
 
@@ -37,19 +38,88 @@ function StatusBadge({ present }: { present: boolean }) {
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function SmartAppHome() {
+export default async function SmartAppHome({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string }>;
+}) {
+  const { mode: modeParam } = await searchParams;
+  const mode: "ogca" | "readonly" = modeParam === "readonly" ? "readonly" : "ogca";
   const cookieStore = await cookies();
   const rawToken = cookieStore.get(TOKEN_COOKIE)?.value;
+
+  // No launch context: show service landing instead of an auth error
+  if (!rawToken) {
+    return (
+      <div className="min-h-screen bg-slate-100">
+        <nav className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center justify-between text-sm">
+          <div className="font-semibold">CDS SMART App</div>
+          <div className="flex items-center gap-4 text-xs text-slate-400">
+            <a href="http://localhost:4000" className="hover:text-slate-200 transition-colors">
+              ← Hub
+            </a>
+          </div>
+        </nav>
+        <main className="max-w-2xl mx-auto px-6 py-10">
+          <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+            <div className="px-5 pt-5 pb-4 border-b border-slate-100">
+              <p className="text-xs font-semibold text-blue-500 uppercase tracking-wider mb-1">
+                Layer 1 &mdash; Guideline Authority
+              </p>
+              <div className="flex items-baseline gap-2">
+                <h1 className="text-base font-semibold text-slate-900">CDS SMART App</h1>
+                <span className="font-mono text-xs text-slate-400">:4002</span>
+              </div>
+            </div>
+            <div className="px-5 py-5 space-y-5 text-sm text-slate-600">
+              <p className="leading-relaxed">
+                Guideline-based clinical decision support for oncology order entry. Runs gap
+                analysis against the BreastCancerGuideline CQL library and returns evidence-based
+                chemotherapy regimen recommendations.
+              </p>
+              <div className="grid grid-cols-2 gap-6 pt-1">
+                <div className="space-y-1.5">
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                    Role in workflow
+                  </p>
+                  <p className="leading-relaxed">
+                    Launched via SMART App launch from the EHR patient chart. Receives patient
+                    context and a bearer token, then evaluates clinical data requirements and
+                    returns regimen options when all gaps are met.
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                    How to launch
+                  </p>
+                  <p className="leading-relaxed">
+                    Open a patient chart in the EHR and select &ldquo;Launch CDS App&rdquo; from the
+                    chart actions. The EHR provides patient context automatically.
+                  </p>
+                  <a
+                    href="http://localhost:4001"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors mt-1"
+                  >
+                    Go to EHR →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   let patientId: string | undefined;
   let bearerToken: string;
   let authError: string | null = null;
 
-  if (isAuthBypassed()) {
+  if (isAuthBypassed() && rawToken) {
     const bypass = bypassToken();
     patientId = bypass.patient;
     bearerToken = bypass.access_token;
-  } else if (rawToken) {
+  } else if (!isAuthBypassed() && rawToken) {
     try {
       const claims = await verifyToken(rawToken);
       patientId = claims.patient as string | undefined;
@@ -104,11 +174,25 @@ export default async function SmartAppHome() {
   const her2Gap = gaps.find((g) => g.key === "her2");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-100">
       {/* Nav */}
-      <nav className="bg-green-900 text-white px-6 py-4 flex items-center justify-between">
-        <div className="font-bold text-lg tracking-tight">OGCA CDS SMART App</div>
-        <span className="text-green-300 text-sm">Layer 1 — Gap Analysis & Regimen Options</span>
+      <nav className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center justify-between text-sm">
+        <div className="font-semibold">OGCA CDS SMART App</div>
+        <div className="flex items-center gap-3">
+          <span
+            className={`text-xs px-2 py-0.5 rounded font-medium ${
+              mode === "ogca" ? "bg-green-800 text-green-100" : "bg-slate-600 text-slate-300"
+            }`}
+          >
+            {mode === "ogca" ? "OGCA-aware" : "Read-only"}
+          </span>
+          <a
+            href={mode === "ogca" ? "?mode=readonly" : "?mode=ogca"}
+            className="text-xs text-slate-400 hover:text-slate-200 transition-colors"
+          >
+            Switch to {mode === "ogca" ? "read-only" : "OGCA-aware"}
+          </a>
+        </div>
       </nav>
 
       <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
@@ -119,22 +203,20 @@ export default async function SmartAppHome() {
         ) : (
           <>
             {/* Patient banner */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm flex items-center justify-between">
+            <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center justify-between">
               <div>
                 <p className="font-semibold text-gray-800">{patientName}</p>
                 <p className="text-xs text-gray-500 font-mono">{patientId}</p>
               </div>
-              <span
-                className={`text-xs font-medium px-2 py-1 rounded ${
-                  isAuthBypassed() ? "bg-yellow-100 text-yellow-700" : "bg-green-100 text-green-700"
-                }`}
-              >
-                {isAuthBypassed() ? "Bypass" : "SMART OAuth ✓"}
-              </span>
+              {!isAuthBypassed() && (
+                <span className="text-xs font-medium px-2 py-1 rounded bg-green-100 text-green-700">
+                  SMART OAuth ✓
+                </span>
+              )}
             </div>
 
             {/* Gap Analysis */}
-            <section className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+            <section className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-1">
                 Gap Analysis
               </h2>
@@ -147,7 +229,7 @@ export default async function SmartAppHome() {
               ) : (
                 <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="bg-gray-50 text-left">
+                    <tr className="bg-slate-50 text-left">
                       <th className="px-3 py-2 text-xs font-medium text-gray-500">Data Element</th>
                       <th className="px-3 py-2 text-xs font-medium text-gray-500">Status</th>
                     </tr>
@@ -165,26 +247,24 @@ export default async function SmartAppHome() {
                 </table>
               )}
 
-              {/* HER2 input form — shown when HER2 is missing */}
-              {her2Gap && !her2Gap.present && patientId && (
-                <HER2InputForm patientId={patientId} gap={her2Gap} />
-              )}
+              {/* HER2 input form (OGCA-aware) or what-if panel (read-only) */}
+              {mode === "ogca"
+                ? her2Gap &&
+                  !her2Gap.present &&
+                  patientId && <HER2InputForm patientId={patientId} gap={her2Gap} />
+                : patientId && <WhatIfPanel patientId={patientId} />}
             </section>
 
             {/* Regimen Options — shown when all required data present */}
             {allRequiredPresent && guideline && (
-              <section className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+              <section className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-1">
                   Regimen Options
                 </h2>
                 <p className="text-xs text-gray-500 mb-4">
                   Based on BreastCancerGuideline CQL evaluation
                 </p>
-                <RegimenOptions
-                  regimens={guideline}
-                  patientId={patientId ?? ""}
-                  ehrBaseUrl={EHR_BASE_URL}
-                />
+                <RegimenOptions regimens={guideline} />
               </section>
             )}
 

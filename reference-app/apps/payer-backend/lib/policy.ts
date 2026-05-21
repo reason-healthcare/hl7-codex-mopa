@@ -1,5 +1,5 @@
 /**
- * Payer policy evaluation for Phase 7.
+ * Payer policy CQL evaluation.
  *
  * Fetches the patient's clinical observations from the EHR FHIR proxy and
  * evaluates BreastCancerPayerPolicy.elm.json to produce a prior-authorization

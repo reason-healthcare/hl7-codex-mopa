@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 4001",
+    "dev": "next dev --port 4002",
     "build": "next build",
-    "start": "next start --port 4001",
+    "start": "next start --port 4002",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

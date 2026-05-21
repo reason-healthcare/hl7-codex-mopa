@@ -15,7 +15,6 @@ interface Regimen {
   label: string;
   shortLabel: string;
   description: string;
-  /** SNOMED codes for the component drugs */
   drugs: Array<{ system: string; code: string; display: string }>;
 }
 
@@ -119,12 +118,78 @@ function buildDraftBundle(patientId: string, regimen: Regimen) {
 // CDS Hooks fire
 // ---------------------------------------------------------------------------
 
+/**
+ * Discovery cache — loaded once on component mount.
+ * Holds conditionDataRequirements from the OGCA service extension so we can
+ * add condition-specific prefetch to every hook call (OGCA-aware EHR path).
+ */
+let discoveryCache: Array<{
+  condition: { system: string; code: string };
+  prefetchTemplates: Record<string, string>;
+}> | null = null;
+
+async function loadDiscovery(): Promise<void> {
+  if (discoveryCache !== null) return;
+  try {
+    const res = await fetch(`${CRD_SERVICE_URL}/api/cds-services`);
+    if (!res.ok) {
+      discoveryCache = [];
+      return;
+    }
+    const data = (await res.json()) as {
+      services?: Array<{
+        extension?: {
+          "ogca-service-extension"?: { conditionDataRequirements?: typeof discoveryCache };
+        };
+      }>;
+    };
+    discoveryCache =
+      data.services?.[0]?.extension?.["ogca-service-extension"]?.conditionDataRequirements ?? [];
+  } catch {
+    discoveryCache = [];
+  }
+}
+
+/**
+ * Resolve any condition-specific prefetch templates that match the patient's
+ * condition. Returns the additional prefetch keys to include in the hook body.
+ */
+async function resolveConditionPrefetch(
+  patientId: string,
+  conditionCode: string | undefined
+): Promise<Record<string, unknown>> {
+  if (!conditionCode || !discoveryCache) return {};
+  const entry = discoveryCache.find((e) => e.condition.code === conditionCode);
+  if (!entry) return {};
+
+  const results: Record<string, unknown> = {};
+  await Promise.all(
+    Object.entries(entry.prefetchTemplates).map(async ([key, template]) => {
+      const url = template.replace(/\{\{context\.patientId\}\}/g, patientId);
+      try {
+        const res = await fetch(`${window.location.origin}/api/fhir/${url}`, {
+          headers: { Accept: "application/fhir+json" },
+        });
+        if (res.ok) results[key] = await res.json();
+      } catch {
+        /* non-fatal */
+      }
+    })
+  );
+  return results;
+}
+
 async function fireCdsHook(
   hook: "order-select" | "order-sign",
   patientId: string,
-  regimen: Regimen
+  regimen: Regimen,
+  conditionCode?: string
 ): Promise<CdsResponse> {
   const draftOrders = buildDraftBundle(patientId, regimen);
+
+  // OGCA-aware EHR path: augment with condition-specific prefetch
+  const conditionPrefetch = await resolveConditionPrefetch(patientId, conditionCode);
+
   const body = {
     hookInstance: crypto.randomUUID(),
     hook,
@@ -134,6 +199,7 @@ async function fireCdsHook(
       draftOrders,
       selections: [`MedicationRequest/draft-${regimen.id}`],
     },
+    prefetch: conditionPrefetch,
     fhirServer: `${window.location.origin}/api/fhir`,
   };
 
@@ -148,45 +214,92 @@ async function fireCdsHook(
 }
 
 // ---------------------------------------------------------------------------
-// Card display
+// CDS card rendering
 // ---------------------------------------------------------------------------
 
-const INDICATOR_CONFIG: Record<string, { container: string; badge: string }> = {
+/** Render **bold** markdown spans used in CRD detail strings. */
+function renderDetail(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      // biome-ignore lint/suspicious/noArrayIndexKey: markdown split has no stable key
+      <strong key={i}>{part.slice(2, -2)}</strong>
+    ) : (
+      // biome-ignore lint/suspicious/noArrayIndexKey: markdown split has no stable key
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
+interface IndicatorConfig {
+  icon: string;
+  label: string;
+  badgeBg: string;
+  badgeText: string;
+}
+
+const INDICATOR_CONFIG: Record<string, IndicatorConfig> = {
   info: {
-    container: "bg-green-50 border-green-300 text-green-900",
-    badge: "bg-green-100 text-green-800",
+    icon: "✓",
+    label: "Info",
+    badgeBg: "bg-green-100",
+    badgeText: "text-green-800",
   },
   warning: {
-    container: "bg-yellow-50 border-yellow-300 text-yellow-900",
-    badge: "bg-yellow-100 text-yellow-800",
+    icon: "⚠",
+    label: "Warning",
+    badgeBg: "bg-amber-100",
+    badgeText: "text-amber-800",
   },
   critical: {
-    container: "bg-red-50 border-red-300 text-red-900",
-    badge: "bg-red-100 text-red-800",
+    icon: "✕",
+    label: "Critical",
+    badgeBg: "bg-red-100",
+    badgeText: "text-red-800",
   },
 };
 
-function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegimenId?: string }) {
-  if (card.source.topic?.code === "coverage-information") {
-    return <CoverageInfoCard card={card} />;
-  }
+const INDICATOR_FALLBACK: IndicatorConfig = {
+  icon: "ⓘ",
+  label: "Notice",
+  badgeBg: "bg-slate-100",
+  badgeText: "text-slate-700",
+};
 
-  const config = INDICATOR_CONFIG[card.indicator];
+/** Colored badge: icon + label. Used by both card rows and the structured order-select summary. */
+function StatusBadge({ indicator, label }: { indicator: string; label: string }) {
+  const cfg = INDICATOR_CONFIG[indicator] ?? INDICATOR_FALLBACK;
   return (
-    <div className={`border rounded-lg p-4 ${config?.container ?? "bg-gray-50 border-gray-300"}`}>
+    <span
+      className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded ${cfg.badgeBg} ${cfg.badgeText}`}
+    >
+      <span aria-hidden="true">{cfg.icon}</span>
+      {label}
+    </span>
+  );
+}
+
+/**
+ * A single CDS card row. All cards — regardless of source topic — use this
+ * component so the EHR presents a consistent vocabulary for remote guidance.
+ * No background color: status is conveyed by badge alone.
+ */
+function CdsCardRow({ card, selectedRegimenId }: { card: CdsCard; selectedRegimenId?: string }) {
+  const cfg = INDICATOR_CONFIG[card.indicator] ?? INDICATOR_FALLBACK;
+
+  return (
+    <div className="px-4 py-3 bg-white">
       <div className="flex items-start gap-3">
-        <span
-          className={`text-xs font-semibold uppercase px-2 py-0.5 rounded-full flex-shrink-0 ${
-            config?.badge ?? ""
-          }`}
-        >
-          {card.indicator}
+        <span className="mt-0.5 flex-shrink-0">
+          <StatusBadge indicator={card.indicator} label={cfg.label} />
         </span>
-        <div className="flex-1">
-          <p className="font-semibold text-sm">{card.summary}</p>
-          {card.detail && <p className="mt-1 text-sm opacity-80">{card.detail}</p>}
-          {card.source.label && (
-            <p className="mt-2 text-xs opacity-60">Source: {card.source.label}</p>
+
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold leading-snug text-slate-900">{card.summary}</p>
+          {card.detail && (
+            <p className="mt-1 text-sm text-slate-600 leading-relaxed">
+              {renderDetail(card.detail)}
+            </p>
           )}
           {card.links && card.links.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
@@ -201,10 +314,12 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 bg-white border border-current rounded hover:opacity-80 transition-opacity"
+                    className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 bg-white border border-slate-300 rounded text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-colors"
                   >
                     {link.label}
-                    <span aria-hidden>↗</span>
+                    <span aria-hidden="true" className="text-slate-400">
+                      ↗
+                    </span>
                   </a>
                 );
               })}
@@ -216,26 +331,127 @@ function CardDisplay({ card, selectedRegimenId }: { card: CdsCard; selectedRegim
   );
 }
 
-function CoverageInfoCard({ card }: { card: CdsCard }) {
+/**
+ * Structured two-line summary for order-select responses.
+ * Shows Coverage Criteria status and, when determinable, PA Requirement.
+ */
+function OrderSelectSummary({
+  cards,
+  selectedRegimenId,
+}: {
+  cards: CdsCard[];
+  selectedRegimenId?: string;
+}) {
+  const coverageCard = cards.find((c) => c.source.topic?.code === "coverage-information");
+  const preApproved = cards.some((c) => c.source.topic?.code === "prior-auth-not-required");
+  const dtrCard = cards.find((c) => (c.links?.length ?? 0) > 0);
+  const coverageMet = (!!coverageCard && coverageCard.indicator === "info") || preApproved;
+
   return (
-    <div className="border border-gray-200 bg-white rounded-lg px-4 py-3 space-y-1.5">
-      <div className="flex items-center gap-2 text-sm text-gray-800">
-        <span className="text-green-600 leading-none">✓</span>
-        <span>{card.summary}</span>
+    <div className="divide-y divide-slate-100">
+      {/* Row 1: Coverage Criteria */}
+      <div className="px-4 py-3 flex items-start gap-4 bg-white">
+        <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">Coverage Criteria</span>
+        <div className="flex-1">
+          {coverageMet ? (
+            <StatusBadge indicator="info" label="Met" />
+          ) : (
+            <>
+              <StatusBadge indicator={cards[0]?.indicator ?? "warning"} label="Incomplete" />
+              {(dtrCard ?? cards[0])?.detail && (
+                <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">
+                  {/* biome-ignore lint/style/noNonNullAssertion: guarded by .detail check above */}
+                  {renderDetail((dtrCard ?? cards[0])!.detail!)}
+                </p>
+              )}
+              {(dtrCard?.links ?? []).length > 0 && (
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                  {dtrCard?.links?.map((link) => {
+                    const href =
+                      link.type === "smart" && selectedRegimenId
+                        ? `${link.url}&returnRegimen=${selectedRegimenId}`
+                        : link.url;
+                    return (
+                      <a
+                        key={link.url}
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 bg-white border border-slate-300 rounded text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-colors"
+                      >
+                        {link.label}
+                        <span aria-hidden="true" className="text-slate-400">
+                          ↗
+                        </span>
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
-      <div className="flex items-center gap-2 text-sm text-gray-800">
-        <span className="text-blue-500 leading-none">ⓘ</span>
-        <span>Prior authorization is required to finalize this order</span>
+
+      {/* Row 2: PA Requirement — only when coverage criteria outcome is known */}
+      {coverageMet && (
+        <div className="px-4 py-3 flex items-start gap-4 bg-white">
+          <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">PA Requirement</span>
+          {preApproved ? (
+            <StatusBadge indicator="info" label="Not required" />
+          ) : (
+            <StatusBadge indicator="warning" label="Required" />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Panel wrapping all cards returned by one CDS hook call.
+ * The header makes provenance explicit: which service responded, and to which hook.
+ */
+function CrdResponsePanel({
+  cards,
+  hook,
+  selectedRegimenId,
+}: {
+  cards: CdsCard[];
+  hook: "order-select" | "order-sign";
+  selectedRegimenId?: string;
+}) {
+  const sourceLabel = cards[0]?.source.label ?? "CRD Service";
+
+  return (
+    <div className="border border-slate-200 rounded overflow-hidden">
+      {/* Provenance header */}
+      <div className="bg-slate-100 border-b border-slate-200 px-4 py-2 flex items-center justify-between">
+        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+          CDS Guidance
+        </span>
+        <div className="flex items-center gap-2 text-xs text-slate-400">
+          <span>{sourceLabel}</span>
+          <span aria-hidden="true">·</span>
+          <code className="font-mono">{hook}</code>
+        </div>
       </div>
-      <p className="text-xs text-gray-400 pl-5">
-        Sign the order below to submit the prior authorization request.
-      </p>
+
+      {hook === "order-select" ? (
+        <OrderSelectSummary cards={cards} selectedRegimenId={selectedRegimenId} />
+      ) : (
+        <div className="divide-y divide-slate-100">
+          {cards.map((card, i) => (
+            <CdsCardRow key={card.uuid ?? i} card={card} selectedRegimenId={selectedRegimenId} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// PA submission
+// PA outcome display — uses the same indicator vocabulary as CDS cards
 // ---------------------------------------------------------------------------
 
 interface ClaimResponseSummary {
@@ -243,43 +459,40 @@ interface ClaimResponseSummary {
   disposition?: string;
 }
 
-const OUTCOME_CONFIG: Record<
-  string,
-  { container: string; textColor: string; subColor: string; icon: string; label: string }
-> = {
-  complete: {
-    container: "bg-green-50 border-green-300",
-    textColor: "text-green-800",
-    subColor: "text-green-700",
-    icon: "✓",
-    label: "Approved",
-  },
-  queued: {
-    container: "bg-yellow-50 border-yellow-300",
-    textColor: "text-yellow-800",
-    subColor: "text-yellow-700",
-    icon: "⏳",
-    label: "Pending Review",
-  },
-};
-
-const DENIED_OUTCOME_CONFIG = {
-  container: "bg-red-50 border-red-300",
-  textColor: "text-red-800",
-  subColor: "text-red-700",
-  icon: "✗",
-  label: "Denied",
-};
-
 function ClaimResponseDisplay({ outcome, disposition }: ClaimResponseSummary) {
-  const config = OUTCOME_CONFIG[outcome] ?? DENIED_OUTCOME_CONFIG;
+  const isApproved = outcome === "complete";
+  const isPending = outcome === "queued";
+
+  let cfg: IndicatorConfig;
+  let label: string;
+
+  if (isApproved) {
+    cfg = INDICATOR_CONFIG.info;
+    label = "PA Approved";
+  } else if (isPending) {
+    cfg = INDICATOR_CONFIG.warning;
+    label = "Pending Review";
+  } else {
+    cfg = INDICATOR_CONFIG.critical;
+    label = "PA Denied";
+  }
+
+  const bgClass = isApproved ? "bg-green-50" : isPending ? "bg-amber-50" : "bg-red-50";
+
   return (
-    <div className={`rounded-lg border p-4 space-y-1 ${config.container}`}>
-      <div className="flex items-center gap-2">
-        <span className="text-base">{config.icon}</span>
-        <span className={`text-sm font-semibold ${config.textColor}`}>PA {config.label}</span>
+    <div className={`rounded px-4 py-3 flex items-start gap-3 ${bgClass}`}>
+      <span
+        className={`mt-0.5 flex-shrink-0 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded ${cfg.badgeBg} ${cfg.badgeText}`}
+        role="img"
+        aria-label={cfg.label}
+      >
+        <span aria-hidden="true">{cfg.icon}</span>
+        {cfg.label}
+      </span>
+      <div>
+        <p className="text-sm font-semibold text-slate-900">{label}</p>
+        {disposition && <p className="text-sm text-slate-600 mt-0.5">{disposition}</p>}
       </div>
-      {disposition && <p className={`text-xs ${config.subColor}`}>{disposition}</p>}
     </div>
   );
 }
@@ -288,9 +501,16 @@ function ClaimResponseDisplay({ outcome, disposition }: ClaimResponseSummary) {
 // Page
 // ---------------------------------------------------------------------------
 
-export default function OrderEntryPage({ patientId }: { patientId: string }) {
+export default function OrderEntryPage({
+  patientId,
+  conditionCode,
+}: {
+  patientId: string;
+  conditionCode?: string;
+}) {
   const [selected, setSelected] = useState<Regimen | null>(null);
   const [cards, setCards] = useState<CdsCard[]>([]);
+  const [activeHook, setActiveHook] = useState<"order-select" | "order-sign" | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [signed, setSigned] = useState(false);
@@ -298,15 +518,15 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [paError, setPaError] = useState<string | null>(null);
   const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
 
-  // Auto-fire order-select when returning from DTR (?dtr-complete=true&regimen=TH)
-  // Uses window.location directly (mount-only) to avoid useSearchParams + Suspense.
-  // State setters from useState are stable — safe to omit from deps.
+  // Load CDS discovery once so subsequent hook calls can add condition-specific prefetch
+  useEffect(() => {
+    void loadDiscovery();
+  }, []);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("dtr-complete") !== "true") return;
     const regimenId = params.get("regimen");
     const regimen = REGIMENS.find((r) => r.id === regimenId);
-    // Clean the URL before firing so a refresh doesn't re-trigger
     const clean = new URL(window.location.href);
     clean.searchParams.delete("dtr-complete");
     clean.searchParams.delete("regimen");
@@ -316,11 +536,14 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     setSigned(false);
     setLoading(true);
     setError(null);
-    fireCdsHook("order-select", patientId, regimen)
-      .then((r) => setCards(r.cards))
+    fireCdsHook("order-select", patientId, regimen, conditionCode)
+      .then((r) => {
+        setCards(r.cards);
+        setActiveHook("order-select");
+      })
       .catch((e: unknown) => setError(e instanceof Error ? e.message : "CRD service unavailable"))
       .finally(() => setLoading(false));
-  }, [patientId]); // patientId is the only external variable used
+  }, [patientId, conditionCode]);
 
   async function callCrdHook(
     hook: "order-select" | "order-sign",
@@ -330,8 +553,9 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fireCdsHook(hook, patientId, regimen);
+      const response = await fireCdsHook(hook, patientId, regimen, conditionCode);
       onSuccess(response.cards);
+      setActiveHook(hook);
     } catch (e) {
       setError(e instanceof Error ? e.message : "CRD service unavailable");
     } finally {
@@ -342,6 +566,10 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   function onSelectRegimen(regimen: Regimen) {
     setSelected(regimen);
     setSigned(false);
+    setCards([]);
+    setActiveHook(null);
+    setClaimResponse(null);
+    setPaError(null);
     callCrdHook("order-select", regimen, setCards);
   }
 
@@ -386,115 +614,138 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-8 space-y-8">
+    <div className="max-w-3xl mx-auto px-6 py-8 space-y-7">
+      {/* Page header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-800">Order Entry</h1>
-        <Link href={`/patients/${patientId}`} className="text-sm text-blue-600 hover:underline">
+        <div>
+          <h1 className="text-lg font-semibold text-slate-900">Order Entry</h1>
+          <p className="text-sm text-slate-500 mt-0.5">
+            Select a chemotherapy regimen to evaluate coverage requirements.
+          </p>
+        </div>
+        <Link href={`/patients/${patientId}`} className="text-sm text-blue-600 hover:text-blue-700">
           ← Back to chart
         </Link>
       </div>
 
       {/* Regimen selector */}
       <section>
-        <h2 className="text-sm font-medium text-gray-600 uppercase tracking-wide mb-3">
+        <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
           Select Regimen
         </h2>
         <div className="space-y-2">
-          {REGIMENS.map((regimen) => (
-            <button
-              key={regimen.id}
-              type="button"
-              onClick={() => onSelectRegimen(regimen)}
-              className={`w-full text-left px-4 py-3 rounded-lg border transition-colors ${
-                selected?.id === regimen.id
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 bg-white hover:border-blue-300"
-              }`}
-            >
-              <div className="font-medium text-sm text-gray-800">{regimen.label}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{regimen.description}</div>
-            </button>
-          ))}
+          {REGIMENS.map((regimen) => {
+            const isSelected = selected?.id === regimen.id;
+            return (
+              <button
+                key={regimen.id}
+                type="button"
+                onClick={() => onSelectRegimen(regimen)}
+                className={`w-full text-left px-4 py-3 rounded border transition-colors ${
+                  isSelected
+                    ? "border-blue-500 bg-blue-50"
+                    : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
+                }`}
+              >
+                <span className="font-semibold text-sm text-slate-900">{regimen.label}</span>
+                <p className="text-xs text-slate-500 mt-0.5">{regimen.description}</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {regimen.drugs.map((drug) => (
+                    <span
+                      key={drug.code}
+                      className="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full border border-slate-200"
+                    >
+                      {drug.display}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       {/* Loading */}
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-          Checking with CRD service…
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <span
+            className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin flex-shrink-0"
+            aria-hidden="true"
+          />
+          Consulting CRD service…
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
-          {error}
+        <div className="border border-red-200 bg-red-50 rounded px-4 py-3 text-sm text-red-700">
+          <span className="font-semibold">CRD error:</span> {error}
         </div>
       )}
 
-      {/* CDS Cards */}
-      {cards.length > 0 && (
+      {/* CDS Guidance panel — consistent provenance wrapper for all hook responses */}
+      {cards.length > 0 && activeHook && (
         <section>
-          <h2 className="text-sm font-medium text-gray-600 uppercase tracking-wide mb-3">
-            Coverage Guidance
-          </h2>
-          <div className="space-y-3">
-            {cards.map((card, i) => (
-              <CardDisplay key={card.uuid ?? i} card={card} selectedRegimenId={selected?.id} />
-            ))}
-          </div>
+          <CrdResponsePanel cards={cards} hook={activeHook} selectedRegimenId={selected?.id} />
         </section>
       )}
 
-      {/* PA submission — shown when CRD returns a PA-required card */}
-      {hasPaCard && (
-        <section className="bg-amber-50 border border-amber-200 rounded-lg p-5 space-y-3">
-          <h2 className="text-sm font-semibold text-amber-900 uppercase tracking-wide">
-            Prior Authorization Required
-          </h2>
-          <p className="text-sm text-amber-800">
-            Submit a prior-authorization request. The payer will evaluate the clinical context and
-            return a determination.
-          </p>
-          {paError && (
-            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
-              {paError}
-            </p>
-          )}
-          {claimResponse ? (
-            <ClaimResponseDisplay
-              outcome={claimResponse.outcome}
-              disposition={claimResponse.disposition}
-            />
+      {/* Sign Order */}
+      {selected && !loading && (
+        <section className="flex items-center gap-4 pt-1 border-t border-slate-200">
+          {signed ? (
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700">
+              <span aria-hidden="true">✓</span> Order Signed
+            </span>
           ) : (
             <button
               type="button"
-              onClick={submitPa}
-              disabled={paSubmitting}
-              className="px-4 py-2 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 disabled:opacity-50 transition-colors"
+              onClick={onSignOrder}
+              className="px-5 py-2 bg-blue-700 text-white text-sm font-medium rounded hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 transition-colors"
             >
-              {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
+              Sign Order
             </button>
+          )}
+          {!signed && (
+            <p className="text-xs text-slate-400">
+              Signing fires the order-sign hook and initiates authorization.
+            </p>
           )}
         </section>
       )}
 
-      {/* Sign button */}
-      {selected && !loading && (
-        <div className="flex items-center gap-3 pt-2">
-          <button
-            type="button"
-            onClick={onSignOrder}
-            disabled={signed}
-            className="px-5 py-2 bg-blue-700 text-white text-sm font-medium rounded-lg hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {signed ? "✓ Order Signed" : "Sign Order"}
-          </button>
-          {signed && (
-            <span className="text-sm text-green-700 font-medium">Order signed successfully.</span>
-          )}
-        </div>
+      {/* Prior Authorization — action section, distinct from the CDS card that requests it */}
+      {hasPaCard && (
+        <section className="border border-slate-200 rounded bg-white overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
+            <h2 className="text-sm font-semibold text-slate-800">Prior Authorization</h2>
+            <p className="text-sm text-slate-500 mt-0.5">
+              Submit a prior-authorization request to the payer for a coverage determination.
+            </p>
+          </div>
+          <div className="px-4 py-3 space-y-3">
+            {paError && (
+              <div className="border border-red-200 bg-red-50 rounded px-3 py-2 text-sm text-red-700">
+                {paError}
+              </div>
+            )}
+            {claimResponse ? (
+              <ClaimResponseDisplay
+                outcome={claimResponse.outcome}
+                disposition={claimResponse.disposition}
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={submitPa}
+                disabled={paSubmitting}
+                className="px-4 py-2 bg-blue-700 text-white text-sm font-medium rounded hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 transition-colors"
+              >
+                {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
+              </button>
+            )}
+          </div>
+        </section>
       )}
     </div>
   );
