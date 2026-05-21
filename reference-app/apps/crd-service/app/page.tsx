@@ -1,4 +1,5 @@
 import { BASELINE_PREFETCH_TEMPLATES } from "@ogca/knowledge-artifacts";
+import { ServiceIntro } from "@ogca/ui";
 import { buildDiscoveryResponse } from "../src/crd-logic";
 
 export default function Home() {
@@ -45,20 +46,12 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <nav className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center justify-between text-sm">
-        <div className="font-semibold">CRD Service</div>
-        <div className="flex items-center gap-4 text-xs text-slate-400">
-          <a href="http://localhost:4000" className="hover:text-slate-200 transition-colors">
-            ← Hub
-          </a>
-          <span className="text-slate-600">|</span>
-          <a href="/docs" className="hover:text-slate-200 transition-colors">
-            API docs
-          </a>
-        </div>
-      </nav>
-
+    <>
+      <ServiceIntro
+        title="CRD Service"
+        description="Coverage Requirements Discovery. Evaluates oncology chemotherapy orders against payer policy via CDS Hooks and returns coverage guidance — pre-authorized, PA required, or DTR required."
+        apiDocsHref="/docs"
+      />
       <main className="max-w-5xl mx-auto px-6 py-8 space-y-0">
         <section className="border border-slate-200 rounded overflow-hidden">
           {/* Header */}
@@ -195,6 +188,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }

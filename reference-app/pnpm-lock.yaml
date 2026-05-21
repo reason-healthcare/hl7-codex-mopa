@@ -48,6 +48,9 @@ importers:
       '@ogca/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@ogca/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -85,6 +88,9 @@ importers:
       '@ogca/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
+      '@ogca/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -168,6 +174,9 @@ importers:
       '@ogca/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@ogca/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -202,6 +211,9 @@ importers:
       '@ogca/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@ogca/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -239,6 +251,9 @@ importers:
       '@ogca/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@ogca/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -285,6 +300,9 @@ importers:
       '@ogca/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
+      '@ogca/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)

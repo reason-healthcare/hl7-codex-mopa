@@ -13,12 +13,18 @@ export default function ResetFixturesButton() {
     setDetail("");
     try {
       const res = await fetch("/api/fixtures/reset", { method: "POST" });
-      const data = await res.json() as { ok: boolean; results: Array<{ id: string; ok: boolean }> };
+      const data = (await res.json()) as {
+        ok: boolean;
+        results: Array<{ id: string; ok: boolean }>;
+      };
       if (data.ok) {
         setState("success");
         setTimeout(() => window.location.reload(), 800);
       } else {
-        const failed = data.results.filter(r => !r.ok).map(r => r.id).join(", ");
+        const failed = data.results
+          .filter((r) => !r.ok)
+          .map((r) => r.id)
+          .join(", ");
         setState("error");
         setDetail(`Failed: ${failed}`);
       }
@@ -29,16 +35,16 @@ export default function ResetFixturesButton() {
   }
 
   const label: Record<State, string> = {
-    idle:    "Reset Patient Cases",
+    idle: "Reset Patient Cases",
     loading: "Loading fixtures…",
     success: "Loaded — refreshing…",
-    error:   "Failed — retry",
+    error: "Failed — retry",
   };
   const cls: Record<State, string> = {
-    idle:    "bg-emerald-600 hover:bg-emerald-700 text-white",
+    idle: "bg-emerald-600 hover:bg-emerald-700 text-white",
     loading: "bg-slate-400 text-white cursor-not-allowed",
     success: "bg-green-600 text-white",
-    error:   "bg-red-600 hover:bg-red-700 text-white",
+    error: "bg-red-600 hover:bg-red-700 text-white",
   };
 
   return (

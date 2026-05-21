@@ -275,7 +275,7 @@ export default function ActivityFeed() {
     if (!paused) {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [entries, paused]);
+  }, [paused]);
 
   const filtered = filter === "all" ? entries : entries.filter((e) => e.service === filter);
 
@@ -344,7 +344,11 @@ export default function ActivityFeed() {
         <div className="space-y-2">
           {groups.map((g, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: groups keyed by correlationId but may collide for ungrouped
-            <GroupRow key={`${g.correlationId}-${i}`} group={g} defaultOpen={i === groups.length - 1} />
+            <GroupRow
+              key={`${g.correlationId}-${i}`}
+              group={g}
+              defaultOpen={i === groups.length - 1}
+            />
           ))}
           <div ref={bottomRef} />
         </div>
