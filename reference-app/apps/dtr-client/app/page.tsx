@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { verifyToken, isAuthBypassed, bypassToken, TOKEN_COOKIE } from "@ogca/smart-auth";
+import { verifyToken, isAuthBypassed, patientFromBypassToken, TOKEN_COOKIE } from "@ogca/smart-auth";
 import { buildQuestionnaire } from "../lib/questionnaire-gen";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { EHR_BASE_URL } from "../lib/smart-config";
@@ -86,7 +86,7 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
   let authError: string | null = null;
 
   if (isAuthBypassed() && rawToken) {
-    patientId = bypassToken().patient;
+    patientId = patientFromBypassToken(rawToken);
   } else if (!isAuthBypassed() && rawToken) {
     try {
       const claims = await verifyToken(rawToken);

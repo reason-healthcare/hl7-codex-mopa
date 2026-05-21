@@ -170,7 +170,7 @@ describe("bypassToken", () => {
     const t = bypassToken();
     expect(t.token_type).toBe("Bearer");
     expect(t.patient).toBe("jane-smith");
-    expect(t.access_token).toBe("bypass-token");
+    expect(t.access_token).toBe("bypass-token:jane-smith");
   });
 
   it("accepts a custom patientId", () => {

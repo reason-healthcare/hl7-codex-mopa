@@ -391,7 +391,7 @@ async function DemoFixturesTab() {
 
 const TABS = [
   { id: "services", label: "Services" },
-  { id: "paths", label: "Demo Paths" },
+  { id: "paths", label: "Demo Patient Cases" },
   { id: "content", label: "Knowledge Artifacts" },
 ] as const;
 

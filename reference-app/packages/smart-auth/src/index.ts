@@ -286,15 +286,27 @@ export function parseCookies(cookieHeader: string | null): Record<string, string
 
 export const BYPASS_VERIFIER = "bypass-verifier";
 
-/** Return a dummy token response for bypass mode. */
+/** Return a dummy token response for bypass mode.
+ * The patient ID is encoded into the access_token so it survives
+ * round-tripping through the cookie without a separate lookup.
+ */
 export function bypassToken(patientId = "jane-smith"): SmartTokenResponse {
   return {
-    access_token: "bypass-token",
+    access_token: `bypass-token:${patientId}`,
     token_type: "Bearer",
     expires_in: 3600,
     scope: "launch/patient patient/*.read openid fhirUser",
     patient: patientId,
   };
+}
+
+/**
+ * Parse the patient ID back out of a bypass access_token.
+ * Falls back to "jane-smith" for any unrecognised format.
+ */
+export function patientFromBypassToken(token: string): string {
+  if (token.startsWith("bypass-token:")) return token.slice("bypass-token:".length);
+  return "jane-smith";
 }
 
 /**
