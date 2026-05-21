@@ -119,75 +119,81 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
   // Render
   // ------------------------------------------------------------------
   return (
-    <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
-      {authError ? (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
-          {authError}
-        </div>
-      ) : (
-        <>
-          {/* Launch context summary */}
-          <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
-            <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
-              Launch Context
-            </h2>
-            <dl className="grid grid-cols-2 gap-3 text-sm">
-              <div>
-                <dt className="text-gray-500">Patient ID</dt>
-                <dd className="font-mono text-xs text-gray-700">{patientId ?? "—"}</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Auth Mode</dt>
-                <dd className="font-medium">
-                  {isAuthBypassed() ? (
-                    <span className="text-yellow-700">Bypass (dev)</span>
-                  ) : (
-                    <span className="text-green-700">SMART OAuth ✓</span>
-                  )}
-                </dd>
-              </div>
-              {parsedContext?.libraryUrl && (
-                <div className="col-span-2">
-                  <dt className="text-gray-500">Library</dt>
-                  <dd className="font-mono text-xs text-gray-600 break-all">
-                    {parsedContext.libraryUrl}
+    <>
+      <ServiceIntro
+        title="DTR Client"
+        description="Documentation Requirements Tool. Collects missing clinical data elements required for prior authorization and writes completed Observations back to the EHR."
+      />
+      <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
+        {authError ? (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
+            {authError}
+          </div>
+        ) : (
+          <>
+            {/* Launch context summary */}
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
+              <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+                Launch Context
+              </h2>
+              <dl className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <dt className="text-slate-500">Patient ID</dt>
+                  <dd className="font-mono text-xs text-slate-700">{patientId ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt className="text-slate-500">Auth Mode</dt>
+                  <dd className="font-medium">
+                    {isAuthBypassed() ? (
+                      <span className="text-yellow-700">Bypass (dev)</span>
+                    ) : (
+                      <span className="text-green-700">SMART OAuth ✓</span>
+                    )}
                   </dd>
                 </div>
-              )}
-            </dl>
-          </div>
+                {parsedContext?.libraryUrl && (
+                  <div className="col-span-2">
+                    <dt className="text-slate-500">Library</dt>
+                    <dd className="font-mono text-xs text-slate-600 break-all">
+                      {parsedContext.libraryUrl}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </div>
 
-          {/* Questionnaire */}
-          {questionnaire.items.length === 0 ? (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-800">
-              <strong>All required data is present.</strong> No additional documentation needed.
-              Return to the EHR to proceed with the order.
-            </div>
-          ) : (
-            <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm space-y-4">
-              <div>
-                <h2 className="text-sm font-medium text-gray-800">
-                  Missing Documentation Required
-                </h2>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  Please provide the following clinical information to complete prior authorization
-                  evaluation.
-                </p>
+            {/* Questionnaire */}
+            {questionnaire.items.length === 0 ? (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-800">
+                <strong>All required data is present.</strong> No additional documentation needed.
+                Return to the EHR to proceed with the order.
               </div>
-              {patientId ? (
-                <QuestionnaireForm
-                  questionnaire={questionnaire}
-                  patientId={patientId}
-                  ehrBaseUrl={EHR_BASE_URL}
-                  returnRegimen={returnRegimen ?? null}
-                />
-              ) : (
-                <p className="text-sm text-gray-500 italic">Patient context unavailable.</p>
-              )}
-            </div>
-          )}
-        </>
-      )}
-    </main>
+            ) : (
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-5 space-y-4">
+                <div>
+                  <h2 className="text-sm font-medium text-slate-800">
+                    Missing Documentation Required
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Please provide the following clinical information to complete prior
+                    authorization evaluation.
+                  </p>
+                </div>
+                {patientId ? (
+                  <QuestionnaireForm
+                    questionnaire={questionnaire}
+                    patientId={patientId}
+                    ehrBaseUrl={EHR_BASE_URL}
+                    returnRegimen={returnRegimen ?? null}
+                  />
+                ) : (
+                  <p className="text-sm text-slate-500 italic">Patient context unavailable.</p>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </main>
+    </>
   );
 }
