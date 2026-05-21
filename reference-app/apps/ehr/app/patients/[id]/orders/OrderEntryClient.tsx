@@ -307,7 +307,7 @@ function StatusBadge({ indicator, label }: { indicator: string; label: string })
  * component so the EHR presents a consistent vocabulary for remote guidance.
  * No background color: status is conveyed by badge alone.
  */
-function CdsCardRow({ card, selectedRegimenId }: { card: CdsCard; selectedRegimenId?: string }) {
+function CdsCardRow({ card, patientId, selectedRegimenId }: { card: CdsCard; patientId: string; selectedRegimenId?: string }) {
   const cfg = INDICATOR_CONFIG[card.indicator] ?? INDICATOR_FALLBACK;
 
   return (
@@ -331,9 +331,7 @@ function CdsCardRow({ card, selectedRegimenId }: { card: CdsCard; selectedRegime
                   link.type === "smart"
                     ? buildSmartLaunchUrl(
                         link,
-                        selectedRegimenId
-                          ? selectedRegimenId
-                          : "",
+                        patientId,
                         selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined,
                       )
                     : link.url;
@@ -366,9 +364,11 @@ function CdsCardRow({ card, selectedRegimenId }: { card: CdsCard; selectedRegime
  */
 function OrderSelectSummary({
   cards,
+  patientId,
   selectedRegimenId,
 }: {
   cards: CdsCard[];
+  patientId: string;
   selectedRegimenId?: string;
 }) {
   const coverageCard = cards.find((c) => c.source.topic?.code === "coverage-information");
@@ -400,7 +400,7 @@ function OrderSelectSummary({
                       link.type === "smart"
                         ? buildSmartLaunchUrl(
                             link,
-                            selectedRegimenId ?? "",
+                            patientId,
                             selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined,
                           )
                         : link.url;
@@ -448,10 +448,12 @@ function OrderSelectSummary({
 function CrdResponsePanel({
   cards,
   hook,
+  patientId,
   selectedRegimenId,
 }: {
   cards: CdsCard[];
   hook: "order-select" | "order-sign";
+  patientId: string;
   selectedRegimenId?: string;
 }) {
   const sourceLabel = cards[0]?.source.label ?? "CRD Service";
@@ -471,11 +473,11 @@ function CrdResponsePanel({
       </div>
 
       {hook === "order-select" ? (
-        <OrderSelectSummary cards={cards} selectedRegimenId={selectedRegimenId} />
+        <OrderSelectSummary cards={cards} patientId={patientId} selectedRegimenId={selectedRegimenId} />
       ) : (
         <div className="divide-y divide-slate-100">
           {cards.map((card, i) => (
-            <CdsCardRow key={card.uuid ?? i} card={card} selectedRegimenId={selectedRegimenId} />
+            <CdsCardRow key={card.uuid ?? i} card={card} patientId={patientId} selectedRegimenId={selectedRegimenId} />
           ))}
         </div>
       )}
@@ -719,7 +721,7 @@ export default function OrderEntryPage({
       {/* CDS Guidance panel — consistent provenance wrapper for all hook responses */}
       {cards.length > 0 && activeHook && (
         <section>
-          <CrdResponsePanel cards={cards} hook={activeHook} selectedRegimenId={selected?.id} />
+          <CrdResponsePanel cards={cards} hook={activeHook} patientId={patientId} selectedRegimenId={selected?.id} />
         </section>
       )}
 
