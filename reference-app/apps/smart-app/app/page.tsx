@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { Client, PatientSchema } from "@ogca/fhir-client";
+import { log } from "@ogca/logger";
 import {
   verifyToken,
   isAuthBypassed,
@@ -167,10 +168,27 @@ export default async function SmartAppHome({
     gaps = await runGapAnalysis(patientId, EHR_FHIR_BASE, bearerToken);
     allRequiredPresent = REQUIRED_KEYS.every((k) => gaps.find((g) => g.key === k)?.present);
 
+    const missingKeys = gaps.filter(g => REQUIRED_KEYS.includes(g.key) && !g.present).map(g => g.key);
     if (allRequiredPresent) {
       const resources = flattenResources(gaps);
       guideline = await evaluateGuideline(patientId, resources);
     }
+
+    log({
+      service:  "smart",
+      level:    "info",
+      type:     "cds.response",
+      patientId,
+      missingElements: missingKeys,
+      outcome:  allRequiredPresent ? "all-data-present" : "gaps-found",
+      response: {
+        gaps: gaps.filter(g => REQUIRED_KEYS.includes(g.key)).map(g => ({ key: g.key, present: g.present })),
+        regimens: guideline?.map(r => r.id) ?? [],
+      },
+      summary: allRequiredPresent
+        ? `Gap analysis: all data present — ${guideline?.length ?? 0} regimen(s) indicated`
+        : `Gap analysis: missing ${missingKeys.join(", ")}`,
+    });
   }
 
   // Show only data elements relevant to gap analysis (not patient/conditions)

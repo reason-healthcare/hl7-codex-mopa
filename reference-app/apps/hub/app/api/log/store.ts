@@ -27,6 +27,11 @@ export function push(entry: LogEntry): void {
   }
 }
 
+/** Flush all entries from the ring buffer. */
+export function clear(): void {
+  entries.length = 0;
+}
+
 /** Return a snapshot of recent entries, newest last. */
 export function recent(limit = 200): LogEntry[] {
   return entries.slice(-limit);

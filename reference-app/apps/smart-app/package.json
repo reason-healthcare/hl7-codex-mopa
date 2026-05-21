@@ -15,7 +15,8 @@
     "@ogca/smart-auth": "workspace:*",
     "@ogca/fhir-client": "workspace:*",
     "@ogca/cql-engine": "workspace:*",
-    "@ogca/cds-hooks": "workspace:*"
+    "@ogca/cds-hooks": "workspace:*",
+    "@ogca/logger": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

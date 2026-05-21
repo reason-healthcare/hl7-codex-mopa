@@ -9,7 +9,9 @@ import {
   STATE_COOKIE,
 } from "@ogca/smart-auth";
 import crypto from "node:crypto";
+import { createLogger } from "@ogca/logger";
 
+const logger = createLogger("smart");
 import { SMART_CLIENT_ID, SMART_REDIRECT_URI, SMART_SCOPE } from "../../lib/smart-config";
 
 /**
@@ -31,6 +33,12 @@ export async function GET(request: NextRequest) {
     // The `launch` param encodes the patient context as "patient/<id>"
     const patientId = launch?.startsWith("patient/") ? launch.slice("patient/".length) : undefined;
     const token = bypassToken(patientId);
+    logger.info("smart.launch", {
+      patientId,
+      path:    "/launch",
+      method:  "GET",
+      summary: `CDS SMART App launched for patient ${patientId ?? "unknown"}`,
+    });
     const response = NextResponse.redirect(new URL("/", request.url));
     response.headers.append(
       "Set-Cookie",
