@@ -26,7 +26,10 @@ export async function GET(request: NextRequest) {
   }
 
   if (isAuthBypassed()) {
-    const token = bypassToken();
+    const patientId = launch?.startsWith("patient/")
+      ? launch.slice("patient/".length)
+      : undefined;
+    const token = bypassToken(patientId);
     const url = new URL("/", request.url);
     if (appContext) url.searchParams.set("appContext", appContext);
     if (returnRegimen) url.searchParams.set("returnRegimen", returnRegimen);

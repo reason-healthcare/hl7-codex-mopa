@@ -28,7 +28,11 @@ export async function GET(request: NextRequest) {
 
   // Bypass: skip OAuth, store a fixture token, redirect to home
   if (isAuthBypassed()) {
-    const token = bypassToken();
+    // The `launch` param encodes the patient context as "patient/<id>"
+    const patientId = launch?.startsWith("patient/")
+      ? launch.slice("patient/".length)
+      : undefined;
+    const token = bypassToken(patientId);
     const response = NextResponse.redirect(new URL("/", request.url));
     response.headers.append(
       "Set-Cookie",

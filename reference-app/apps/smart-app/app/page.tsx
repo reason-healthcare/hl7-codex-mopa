@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { Client, PatientSchema } from "@ogca/fhir-client";
-import { verifyToken, isAuthBypassed, bypassToken, TOKEN_COOKIE } from "@ogca/smart-auth";
+import { verifyToken, isAuthBypassed, patientFromBypassToken, TOKEN_COOKIE } from "@ogca/smart-auth";
 import {
   fetchLibrary,
   runGapAnalysis,
@@ -116,9 +116,8 @@ export default async function SmartAppHome({
   let authError: string | null = null;
 
   if (isAuthBypassed() && rawToken) {
-    const bypass = bypassToken();
-    patientId = bypass.patient;
-    bearerToken = bypass.access_token;
+    patientId = patientFromBypassToken(rawToken);
+    bearerToken = rawToken;
   } else if (!isAuthBypassed() && rawToken) {
     try {
       const claims = await verifyToken(rawToken);
