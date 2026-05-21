@@ -136,9 +136,21 @@ function ServicesTab() {
         </p>
         <div className="flex gap-3 items-stretch">
           <div className="flex-1">
-            <SvcBox name="EHR" port={4001} role="Patient chart · Order entry · SMART host · PA submission" accent="dark" className="h-full" />
+            <SvcBox
+              name="EHR"
+              port={4001}
+              role="Patient chart · Order entry · SMART host · PA submission"
+              accent="dark"
+              className="h-full"
+            />
           </div>
-          <SvcBox name="HAPI FHIR" port={8080} role="FHIR R4 patient data store" sub="Shared data layer" accent="dark" />
+          <SvcBox
+            name="HAPI FHIR"
+            port={8080}
+            role="FHIR R4 patient data store"
+            sub="Shared data layer"
+            accent="dark"
+          />
         </div>
       </div>
 
@@ -152,7 +164,13 @@ function ServicesTab() {
           <p className="text-[10px] font-semibold text-blue-500 uppercase tracking-wider mb-2">
             Layer 1 &mdash; Guideline Authority
           </p>
-          <SvcBox name="CDS SMART App" port={4002} role="Gap analysis · regimen recommendations" accent="blue" className="flex-1" />
+          <SvcBox
+            name="CDS SMART App"
+            port={4002}
+            role="Gap analysis · regimen recommendations"
+            accent="blue"
+            className="flex-1"
+          />
         </div>
 
         {/* Right: CRD group — all amber */}
@@ -516,7 +534,7 @@ export default async function HubPage({
   return (
     <>
       {/* Header + tabs — shell provides nav and footer */}
-      <div className="bg-white border-b border-slate-200">
+      <div className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-6 pt-5 pb-0">
           <h1 className="text-lg font-semibold text-slate-900">
             Oncology Guideline-Compliant Authorization

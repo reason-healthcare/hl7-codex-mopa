@@ -51,7 +51,7 @@ export default async function OrderEntryPage({ params }: PageProps) {
   return (
     <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
       {/* Patient banner */}
-      <div className="bg-white border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
+      <div className="bg-slate-50 border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs text-slate-500">
             <Link href="/" className="hover:text-slate-700 transition-colors">

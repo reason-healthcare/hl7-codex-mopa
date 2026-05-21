@@ -52,7 +52,7 @@ export default function Home() {
         description="Coverage Requirements Discovery. Evaluates oncology chemotherapy orders against payer policy via CDS Hooks and returns coverage guidance — pre-authorized, PA required, or DTR required."
         apiDocsHref="/docs"
       />
-      <main className="max-w-5xl mx-auto px-6 py-8 space-y-0">
+      <main className="max-w-5xl mx-auto px-6 py-8">
         <section className="border border-slate-200 rounded overflow-hidden">
           {/* Header */}
           <div className="bg-slate-800 px-5 py-3 flex items-center justify-between">
