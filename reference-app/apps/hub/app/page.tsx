@@ -128,7 +128,7 @@ function _HArrow({ label }: { label: string }) {
 
 function ServicesTab() {
   return (
-    <div className="space-y-0 w-full">
+    <>
       {/* Row 1: EHR region */}
       <div className="border border-slate-300 rounded-md bg-slate-800/5 p-2.5">
         <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
@@ -236,7 +236,7 @@ function ServicesTab() {
           Layer 2 &mdash; Payer Policy
         </span>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -368,7 +368,7 @@ async function DemoFixturesTab() {
   const anyLoaded = caseData.some((d) => d.patient != null);
 
   return (
-    <div className="space-y-5 max-w-3xl">
+    <>
       {/* Instruction bar */}
       <div className="bg-white border border-slate-200 rounded px-4 py-3 flex items-start justify-between gap-6">
         <p className="text-sm text-slate-600">
@@ -509,13 +509,9 @@ async function DemoFixturesTab() {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 
 const TABS = [
   { id: "services", label: "Services" },
@@ -572,7 +568,7 @@ export default async function HubPage({
       </div>
 
       {/* Tab content */}
-      <main className="max-w-5xl mx-auto px-6 py-7">
+      <main className="w-full max-w-5xl mx-auto px-6 py-7">
         {tab === "services" && <ServicesTab />}
         {tab === "paths" && <DemoFixturesTab />}
         {tab === "activity" && <ActivityFeed />}

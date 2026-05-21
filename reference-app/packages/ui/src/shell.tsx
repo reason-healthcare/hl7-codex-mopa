@@ -63,7 +63,10 @@ function VermonsterLogo() {
 export function OgcaFooter() {
   return (
     <footer className="border-t border-slate-200 bg-white mt-auto">
-      <div className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-center gap-2 text-xs text-slate-500">
+      <div
+        className="max-w-5xl mx-auto px-6 flex items-center justify-center gap-2 text-xs text-slate-500"
+        style={{ paddingTop: "3rem", paddingBottom: "3rem" }}
+      >
         <span>This reference implementation was built by</span>
         <a
           href="https://vermonster.com"
@@ -89,9 +92,9 @@ interface OgcaShellProps {
 
 export function OgcaShell({ service, children }: OgcaShellProps) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "white" }}>
       <OgcaNav service={service} />
-      <div className="flex-1 flex flex-col">{children}</div>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>{children}</div>
       <OgcaFooter />
     </div>
   );

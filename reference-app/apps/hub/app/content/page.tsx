@@ -692,13 +692,13 @@ export default async function ContentPage({
   const selectedPd = selectedId ? ALL_PLAN_DEFS.find((p) => p.id === selectedId) : undefined;
 
   const inner = (
-    <main className="max-w-4xl mx-auto px-6 py-7">
+    <div>
       {selectedPd ? (
         <DetailView pd={selectedPd} embedded={embedded} />
       ) : (
         <ListView embedded={embedded} />
       )}
-    </main>
+    </div>
   );
 
   if (embedded) return inner;
@@ -724,7 +724,7 @@ export default async function ContentPage({
           </p>
         </div>
       </div>
-      {inner}
+      <main className="max-w-4xl mx-auto px-6 py-7">{inner}</main>
     </div>
   );
 }

@@ -284,7 +284,7 @@ export default function ActivityFeed() {
   const services: Array<ServiceName | "all"> = ["all", "crd", "dtr", "pas", "payer", "smart"];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       {/* Toolbar */}
       <div className="flex items-center gap-3 flex-wrap">
         {/* Connection status */}
