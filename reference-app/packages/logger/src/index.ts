@@ -21,17 +21,18 @@ export type LogLevel = "info" | "warn" | "error";
 
 /** All possible structured log entry types across OGCA services. */
 export type LogType =
-  | "cds.request" // Incoming CDS Hooks request received
-  | "cds.response" // CDS Hooks response sent
-  | "fhir.read" // Outgoing FHIR GET (prefetch, patient lookup)
-  | "fhir.write" // Outgoing FHIR POST/PUT (write-back)
-  | "dtr.launch" // DTR SMART launch initiated
-  | "dtr.submit" // DTR questionnaire submitted
-  | "pa.submit" // PA $submit received by PAS
-  | "pa.evaluate" // Payer policy evaluation invoked
-  | "pa.result" // PA determination returned
-  | "smart.launch" // SMART App launch initiated
-  | "error"; // Any service-level error
+  | "cds.request"   // Incoming CDS Hooks request received
+  | "cds.response"  // CDS Hooks response sent
+  | "fhir.read"     // Outgoing FHIR GET against clinical patient data
+  | "fhir.write"    // Outgoing FHIR POST/PUT (write-back)
+  | "crmi.read"     // Outgoing read against a knowledge artifact repository (Hub / CRMI)
+  | "dtr.launch"    // DTR SMART launch initiated
+  | "dtr.submit"    // DTR questionnaire submitted
+  | "pa.submit"     // PA $submit received by PAS
+  | "pa.evaluate"   // Payer policy evaluation invoked
+  | "pa.result"     // PA determination returned
+  | "smart.launch"  // SMART App launch initiated
+  | "error";        // Any service-level error
 
 export interface LogEntry {
   /** ISO 8601 timestamp — set automatically by log(). */
