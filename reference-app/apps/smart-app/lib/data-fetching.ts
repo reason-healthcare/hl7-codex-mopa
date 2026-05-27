@@ -88,10 +88,11 @@ export const HER2_LOINC_DISPLAY = "HER2, Breast cancer specimen";
 export async function fetchLibrary(correlationId?: string): Promise<LibraryResource | null> {
   const t0 = Date.now();
   log({
-    service: "smart", level: "info", type: "fhir.read",
+    service: "smart", level: "info", type: "crmi.read",
     correlationId,
     method: "GET", path: CRD_LIBRARY_URL,
-    summary: `Fetching PA data requirements library from Hub`,
+    request: { url: CRD_LIBRARY_URL, headers: { Accept: "application/fhir+json" } },
+    summary: `CRMI GET ${CRD_LIBRARY_URL}`,
   });
   try {
     const res = await fetch(CRD_LIBRARY_URL, {
@@ -100,21 +101,21 @@ export async function fetchLibrary(correlationId?: string): Promise<LibraryResou
     });
     const durationMs = Date.now() - t0;
     if (!res.ok) {
-      log({ service: "smart", level: "warn", type: "fhir.read", correlationId,
+      log({ service: "smart", level: "warn", type: "crmi.read", correlationId,
         method: "GET", path: CRD_LIBRARY_URL, status: res.status, durationMs,
-        summary: `Library fetch failed: HTTP ${res.status}` });
+        summary: `CRMI GET ${CRD_LIBRARY_URL} → ${res.status}` });
       return null;
     }
     const library = await res.json() as LibraryResource;
-    log({ service: "smart", level: "info", type: "fhir.read", correlationId,
+    log({ service: "smart", level: "info", type: "crmi.read", correlationId,
       method: "GET", path: CRD_LIBRARY_URL, status: 200, durationMs,
-      response: { id: library.id, url: library.url, dataRequirements: library.dataRequirement?.length },
-      summary: `Library fetched: ${library.id} (${library.dataRequirement?.length ?? 0} data requirements)` });
+      response: library,
+      summary: `CRMI GET ${CRD_LIBRARY_URL} → 200 (${library.dataRequirement?.length ?? 0} dataRequirements)` });
     return library;
   } catch (e) {
-    log({ service: "smart", level: "error", type: "fhir.read", correlationId,
+    log({ service: "smart", level: "error", type: "crmi.read", correlationId,
       method: "GET", path: CRD_LIBRARY_URL,
-      summary: `Library fetch error: ${e instanceof Error ? e.message : String(e)}` });
+      summary: `CRMI GET ${CRD_LIBRARY_URL} error: ${e instanceof Error ? e.message : String(e)}` });
     return null;
   }
 }
@@ -147,16 +148,19 @@ export async function runGapAnalysis(
 
       try {
         if (key === "patient") {
-          const resource  = await client.read({ resourceType: "Patient", id: patientId });
+          const resource   = await client.read({ resourceType: "Patient", id: patientId });
           const durationMs = Date.now() - t0;
           log({ service: "smart", level: "info", type: "fhir.read", correlationId,
-            patientId, method: "GET", path: `Patient/${patientId}`,
+            patientId, method: "GET",
+            path:     `Patient/${patientId}`,
+            request:  { url: `${fhirBase}/Patient/${patientId}` },
+            response: resource,
             status: 200, durationMs,
-            summary: `FHIR GET Patient/${patientId} — found` });
+            summary: `FHIR GET Patient/${patientId} → 200` });
           return { key, label: KEY_LABELS[key], present: true, resources: [resource] };
         }
 
-        const raw     = await client.search({
+        const raw      = await client.search({
           resourceType: query.split("?")[0] ?? "Observation",
           searchParams: Object.fromEntries(new URLSearchParams(query.split("?")[1] ?? "")),
         });
@@ -167,10 +171,12 @@ export async function runGapAnalysis(
 
         log({ service: "smart", level: "info", type: "fhir.read", correlationId,
           patientId, method: "GET",
-          path:      query.split("?")[0] ?? "",
-          status:    200, durationMs,
-          outcome:   present ? `${resources.length} result(s)` : "absent",
-          summary:   `FHIR ${KEY_LABELS[key]}: ${present ? `${resources.length} result(s)` : "absent"}` });
+          path:     query.split("?")[0] ?? "",
+          request:  { url: `${fhirBase}/${query}` },
+          response: raw,
+          status:   200, durationMs,
+          outcome:  present ? `${resources.length} result(s)` : "absent",
+          summary:  `FHIR GET ${KEY_LABELS[key]}: ${present ? `${resources.length} result(s)` : "absent"} (${durationMs}ms)` });
 
         return { key, label: KEY_LABELS[key], present, resources };
       } catch (e) {
