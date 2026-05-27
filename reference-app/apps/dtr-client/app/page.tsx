@@ -30,7 +30,7 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
           title="DTR Client"
           description="Documentation Requirements Tool. Collects missing clinical data elements required for prior authorization via a generated FHIR Questionnaire. Requires a SMART EHR launch triggered by a DTR guidance card from the CRD Service."
         />
-        <main className="max-w-2xl mx-auto px-6 py-8">
+        <main className="w-full max-w-2xl mx-auto px-6 py-8">
           <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
             <div className="px-5 pt-5 pb-4 border-b border-slate-100">
               <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
@@ -124,7 +124,7 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
         title="DTR Client"
         description="Documentation Requirements Tool. Collects missing clinical data elements required for prior authorization and writes completed Observations back to the EHR."
       />
-      <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
+      <main className="w-full max-w-2xl mx-auto px-6 py-8 space-y-6">
         {authError ? (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
             {authError}

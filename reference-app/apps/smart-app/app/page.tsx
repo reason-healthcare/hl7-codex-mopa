@@ -63,7 +63,7 @@ export default async function SmartAppHome({
           title="CDS SMART App"
           description="Layer 1 guideline-based CDS. Performs gap analysis against the BreastCancerGuideline CQL library and surfaces evidence-based chemotherapy regimen recommendations. Requires a SMART EHR launch from a patient chart."
         />
-        <main className="max-w-2xl mx-auto px-6 py-8">
+        <main className="w-full max-w-2xl mx-auto px-6 py-8">
           <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
             <div className="px-5 pt-5 pb-4 border-b border-slate-100">
               <p className="text-xs font-semibold text-blue-500 uppercase tracking-wider mb-1">
@@ -204,7 +204,7 @@ export default async function SmartAppHome({
         title="CDS SMART App"
         description="Layer 1 guideline-based CDS. Gap analysis against the BreastCancerGuideline CQL library and evidence-based regimen recommendations for the ordering clinician."
       />
-      <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
+      <main className="w-full max-w-2xl mx-auto px-6 py-8 space-y-6">
         {/* Mode badge */}
         <div className="flex items-center justify-end gap-2">
           <span
