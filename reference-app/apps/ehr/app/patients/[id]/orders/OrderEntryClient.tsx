@@ -497,7 +497,7 @@ function CdsCardRow({
   const cfg = INDICATOR_CONFIG[card.indicator] ?? INDICATOR_FALLBACK;
 
   return (
-    <div className="px-4 py-3 bg-white">
+    <div className="px-4 py-3 bg-slate-50">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 flex-shrink-0">
           <StatusBadge indicator={card.indicator} label={cfg.label} />
@@ -565,7 +565,7 @@ function OrderSelectSummary({
   return (
     <div className="divide-y divide-slate-100">
       {/* Row 1: Coverage Criteria */}
-      <div className="px-4 py-3 flex items-start gap-4 bg-white">
+      <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
         <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">Coverage Criteria</span>
         <div className="flex-1">
           {coverageMet ? (
@@ -614,7 +614,7 @@ function OrderSelectSummary({
 
       {/* Row 2: PA Requirement — only when coverage criteria outcome is known */}
       {coverageMet && (
-        <div className="px-4 py-3 flex items-start gap-4 bg-white">
+        <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
           <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">PA Requirement</span>
           {preApproved ? (
             <StatusBadge indicator="info" label="Not required" />
@@ -844,20 +844,7 @@ export default function OrderEntryPage({
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-8 space-y-7">
-      {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-lg font-semibold text-slate-900">Order Entry</h1>
-          <p className="text-sm text-slate-500 mt-0.5">
-            Select a chemotherapy regimen to evaluate coverage requirements.
-          </p>
-        </div>
-        <Link href={`/patients/${patientId}`} className="text-sm text-blue-600 hover:text-blue-700">
-          ← Back to chart
-        </Link>
-      </div>
-
+    <div className="space-y-6">
       {/* Regimen selector */}
       <section>
         <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
@@ -899,7 +886,7 @@ export default function OrderEntryPage({
       {loading && (
         <div className="flex items-center gap-2 text-sm text-slate-500">
           <span
-            className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin flex-shrink-0"
+            className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0"
             aria-hidden="true"
           />
           Consulting CRD service…
@@ -936,7 +923,7 @@ export default function OrderEntryPage({
             <button
               type="button"
               onClick={onSignOrder}
-              className="px-5 py-2 bg-blue-700 text-white text-sm font-medium rounded hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 transition-colors"
+              className="px-5 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700 transition-colors"
             >
               Sign Order
             </button>
@@ -951,7 +938,7 @@ export default function OrderEntryPage({
 
       {/* Prior Authorization — action section, distinct from the CDS card that requests it */}
       {hasPaCard && (
-        <section className="border border-slate-200 rounded bg-white overflow-hidden">
+        <section className="border border-slate-200 rounded overflow-hidden">
           <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
             <h2 className="text-sm font-semibold text-slate-800">Prior Authorization</h2>
             <p className="text-sm text-slate-500 mt-0.5">
@@ -974,7 +961,7 @@ export default function OrderEntryPage({
                 type="button"
                 onClick={submitPa}
                 disabled={paSubmitting}
-                className="px-4 py-2 bg-blue-700 text-white text-sm font-medium rounded hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 transition-colors"
+                className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700 transition-colors"
               >
                 {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
               </button>

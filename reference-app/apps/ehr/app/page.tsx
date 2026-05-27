@@ -46,7 +46,7 @@ export default async function Home() {
         description="Simulates a clinical order-entry system for oncology. Integrates CDS Hooks guidance (order-select/sign via the CRD Service), SMART on FHIR app launch, and prior authorization submission via the PAS Service."
       />
 
-      <main className="max-w-5xl mx-auto px-6 py-8">
+      <main className="w-full max-w-5xl mx-auto px-6 py-8">
         <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
           Patient List
         </h2>

@@ -133,20 +133,16 @@ export default async function PatientChartPage({ params }: PageProps) {
   const displayName = getPatientDisplayName(patient);
 
   return (
-    <main className="max-w-5xl mx-auto px-6 py-8 space-y-8">
-      {/* Patient banner in content area */}
+    <main className="w-full max-w-5xl mx-auto px-6 py-8 space-y-8">
+      {/* Back link */}
+      <Link href="/" className="text-xs text-slate-500 hover:text-slate-700 transition-colors">
+        ← Patient List
+      </Link>
+
+      {/* Patient banner */}
       <div className="bg-slate-50 border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
         <div>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
-            >
-              ← Patient List
-            </Link>
-            <span className="text-slate-200">/</span>
-            <h1 className="text-base font-semibold text-slate-900">{displayName}</h1>
-          </div>
+          <h1 className="text-base font-semibold text-slate-900">{displayName}</h1>
           <div className="flex items-center gap-4 text-xs text-slate-500 mt-1">
             {patient.birthDate && <span>DOB: {patient.birthDate}</span>}
             {patient.gender && <span className="capitalize">Sex: {patient.gender}</span>}

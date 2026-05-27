@@ -49,21 +49,20 @@ export default async function OrderEntryPage({ params }: PageProps) {
   }
 
   return (
-    <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+    <main className="w-full max-w-5xl mx-auto px-6 py-8 space-y-6">
+      {/* Back links */}
+      <div className="flex items-center gap-2 text-xs text-slate-500">
+        <Link href="/" className="hover:text-slate-700 transition-colors">← Patient List</Link>
+        <span>/</span>
+        <Link href={`/patients/${id}`} className="hover:text-slate-700 transition-colors">{displayName}</Link>
+        <span>/</span>
+        <span className="font-medium text-slate-700">Order Entry</span>
+      </div>
+
       {/* Patient banner */}
       <div className="bg-slate-50 border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <Link href="/" className="hover:text-slate-700 transition-colors">
-              ← Patient List
-            </Link>
-            <span>/</span>
-            <Link href={`/patients/${id}`} className="hover:text-slate-700 transition-colors">
-              {displayName}
-            </Link>
-            <span>/</span>
-            <span className="font-medium text-slate-700">Order Entry</span>
-          </div>
+          <h2 className="text-base font-semibold text-slate-900">{displayName}</h2>
           <div className="flex items-center gap-4 text-xs text-slate-400 mt-1">
             {patient?.birthDate && <span>DOB: {patient.birthDate}</span>}
             {patient?.gender && <span className="capitalize">Sex: {patient.gender}</span>}

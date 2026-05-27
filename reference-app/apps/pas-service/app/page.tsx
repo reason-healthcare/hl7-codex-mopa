@@ -14,7 +14,7 @@ export default function Home() {
         apiDocsHref="/docs"
       />
 
-      <main className="max-w-5xl mx-auto px-6 py-8">
+      <main className="w-full max-w-5xl mx-auto px-6 py-8">
         <div className="bg-slate-50 border border-slate-200 rounded-lg overflow-hidden">
           <div className="grid grid-cols-2 divide-x divide-slate-100 text-sm">
             <div className="px-5 py-5 space-y-1.5">

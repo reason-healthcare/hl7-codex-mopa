@@ -152,11 +152,11 @@ export async function runGapAnalysis(
           const durationMs = Date.now() - t0;
           log({ service: "smart", level: "info", type: "fhir.read", correlationId,
             patientId, method: "GET",
-            path:     `Patient/${patientId}`,
+            path:     `${fhirBase}/Patient/${patientId}`,
             request:  { url: `${fhirBase}/Patient/${patientId}` },
             response: resource,
             status: 200, durationMs,
-            summary: `FHIR GET Patient/${patientId} → 200` });
+            summary: `FHIR GET ${fhirBase}/Patient/${patientId} → 200` });
           return { key, label: KEY_LABELS[key], present: true, resources: [resource] };
         }
 
@@ -171,18 +171,18 @@ export async function runGapAnalysis(
 
         log({ service: "smart", level: "info", type: "fhir.read", correlationId,
           patientId, method: "GET",
-          path:     query.split("?")[0] ?? "",
+          path:     `${fhirBase}/${query}`,
           request:  { url: `${fhirBase}/${query}` },
           response: raw,
           status:   200, durationMs,
           outcome:  present ? `${resources.length} result(s)` : "absent",
-          summary:  `FHIR GET ${KEY_LABELS[key]}: ${present ? `${resources.length} result(s)` : "absent"} (${durationMs}ms)` });
+          summary:  `FHIR GET ${fhirBase}/${query} → ${present ? `${resources.length} result(s)` : "absent"} (${durationMs}ms)` });
 
         return { key, label: KEY_LABELS[key], present, resources };
       } catch (e) {
         log({ service: "smart", level: "error", type: "fhir.read", correlationId,
-          patientId, method: "GET", path: query.split("?")[0] ?? "",
-          summary: `FHIR ${KEY_LABELS[key]} error: ${e instanceof Error ? e.message : String(e)}` });
+          patientId, method: "GET", path: `${fhirBase}/${query}`,
+          summary: `FHIR GET ${fhirBase}/${query} error: ${e instanceof Error ? e.message : String(e)}` });
         return { key, label: KEY_LABELS[key], present: false, resources: [] };
       }
     })
