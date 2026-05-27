@@ -35,9 +35,10 @@ export async function GET(request: NextRequest) {
     const token = bypassToken(patientId);
     logger.info("smart.launch", {
       patientId,
-      path: "/launch",
-      method: "GET",
-      summary: `CDS SMART App launched for patient ${patientId ?? "unknown"}`,
+      correlationId: patientId ? `smart-${patientId}` : undefined,
+      path:    "/launch",
+      method:  "GET",
+      summary: `CDS SMART App launched for patient ${patientId ?? "unknown"} — SMART on FHIR bypass`,
     });
     const response = NextResponse.redirect(new URL("/", request.url));
     response.headers.append(

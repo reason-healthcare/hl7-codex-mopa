@@ -159,10 +159,11 @@ export default async function SmartAppHome({
   let libraryTitle = "Breast Cancer PA Data Requirements";
 
   if (patientId && bearerToken) {
-    const [library] = await Promise.all([fetchLibrary()]);
+    const correlationId = `smart-${patientId}`;
+    const [library] = await Promise.all([fetchLibrary(correlationId)]);
     if (library) libraryTitle = library.url.split("/").pop() ?? libraryTitle;
 
-    gaps = await runGapAnalysis(patientId, EHR_FHIR_BASE, bearerToken);
+    gaps = await runGapAnalysis(patientId, EHR_FHIR_BASE, bearerToken, correlationId);
     allRequiredPresent = REQUIRED_KEYS.every((k) => gaps.find((g) => g.key === k)?.present);
 
     const missingKeys = gaps
@@ -177,6 +178,7 @@ export default async function SmartAppHome({
       service: "smart",
       level: "info",
       type: "cds.response",
+      correlationId,
       patientId,
       missingElements: missingKeys,
       outcome: allRequiredPresent ? "all-data-present" : "gaps-found",

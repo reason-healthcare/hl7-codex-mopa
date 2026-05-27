@@ -6,6 +6,7 @@
  */
 import { Client, BundleSchema } from "@ogca/fhir-client";
 import { CRD_LIBRARY_URL } from "./smart-config";
+import { log } from "@ogca/logger";
 
 // ---------------------------------------------------------------------------
 // Library resource types
@@ -84,15 +85,36 @@ export const HER2_LOINC_DISPLAY = "HER2, Breast cancer specimen";
 // Library fetch
 // ---------------------------------------------------------------------------
 
-export async function fetchLibrary(): Promise<LibraryResource | null> {
+export async function fetchLibrary(correlationId?: string): Promise<LibraryResource | null> {
+  const t0 = Date.now();
+  log({
+    service: "smart", level: "info", type: "fhir.read",
+    correlationId,
+    method: "GET", path: CRD_LIBRARY_URL,
+    summary: `Fetching PA data requirements library from Hub`,
+  });
   try {
     const res = await fetch(CRD_LIBRARY_URL, {
       headers: { Accept: "application/fhir+json" },
       cache: "no-store",
     });
-    if (!res.ok) return null;
-    return res.json() as Promise<LibraryResource>;
-  } catch {
+    const durationMs = Date.now() - t0;
+    if (!res.ok) {
+      log({ service: "smart", level: "warn", type: "fhir.read", correlationId,
+        method: "GET", path: CRD_LIBRARY_URL, status: res.status, durationMs,
+        summary: `Library fetch failed: HTTP ${res.status}` });
+      return null;
+    }
+    const library = await res.json() as LibraryResource;
+    log({ service: "smart", level: "info", type: "fhir.read", correlationId,
+      method: "GET", path: CRD_LIBRARY_URL, status: 200, durationMs,
+      response: { id: library.id, url: library.url, dataRequirements: library.dataRequirement?.length },
+      summary: `Library fetched: ${library.id} (${library.dataRequirement?.length ?? 0} data requirements)` });
+    return library;
+  } catch (e) {
+    log({ service: "smart", level: "error", type: "fhir.read", correlationId,
+      method: "GET", path: CRD_LIBRARY_URL,
+      summary: `Library fetch error: ${e instanceof Error ? e.message : String(e)}` });
     return null;
   }
 }
@@ -108,7 +130,8 @@ export async function fetchLibrary(): Promise<LibraryResource | null> {
 export async function runGapAnalysis(
   patientId: string,
   fhirBase: string,
-  bearerToken: string
+  bearerToken: string,
+  correlationId?: string,
 ): Promise<GapResult[]> {
   const client = new Client({ baseUrl: fhirBase, bearerToken });
   const keys = Object.keys(FHIR_QUERIES) as DataKey[];
@@ -116,32 +139,44 @@ export async function runGapAnalysis(
   const results = await Promise.all(
     keys.map(async (key): Promise<GapResult> => {
       const queryFn = FHIR_QUERIES[key];
-      const query = queryFn ? queryFn(patientId) : "";
+      const query   = queryFn ? queryFn(patientId) : "";
       if (!query) return { key, label: KEY_LABELS[key], present: false, resources: [] };
+
+      const path = key === "patient" ? `${fhirBase}/${query}` : `${fhirBase}/${query}`;
+      const t0   = Date.now();
+
       try {
-        // Patient read returns a single resource; everything else is a Bundle
         if (key === "patient") {
-          const resource = await client.read({ resourceType: "Patient", id: patientId });
-          return {
-            key,
-            label: KEY_LABELS[key],
-            present: true,
-            resources: [resource],
-          };
+          const resource  = await client.read({ resourceType: "Patient", id: patientId });
+          const durationMs = Date.now() - t0;
+          log({ service: "smart", level: "info", type: "fhir.read", correlationId,
+            patientId, method: "GET", path: `Patient/${patientId}`,
+            status: 200, durationMs,
+            summary: `FHIR GET Patient/${patientId} — found` });
+          return { key, label: KEY_LABELS[key], present: true, resources: [resource] };
         }
-        const raw = await client.search({
+
+        const raw     = await client.search({
           resourceType: query.split("?")[0] ?? "Observation",
           searchParams: Object.fromEntries(new URLSearchParams(query.split("?")[1] ?? "")),
         });
-        const bundle = BundleSchema.parse(raw);
-        const resources = (bundle.entry ?? []).map((e) => e.resource).filter(Boolean) as unknown[];
-        return {
-          key,
-          label: KEY_LABELS[key],
-          present: resources.length > 0,
-          resources,
-        };
-      } catch {
+        const bundle    = BundleSchema.parse(raw);
+        const resources = (bundle.entry ?? []).map(e => e.resource).filter(Boolean) as unknown[];
+        const durationMs = Date.now() - t0;
+        const present    = resources.length > 0;
+
+        log({ service: "smart", level: "info", type: "fhir.read", correlationId,
+          patientId, method: "GET",
+          path:      query.split("?")[0] ?? "",
+          status:    200, durationMs,
+          outcome:   present ? `${resources.length} result(s)` : "absent",
+          summary:   `FHIR ${KEY_LABELS[key]}: ${present ? `${resources.length} result(s)` : "absent"}` });
+
+        return { key, label: KEY_LABELS[key], present, resources };
+      } catch (e) {
+        log({ service: "smart", level: "error", type: "fhir.read", correlationId,
+          patientId, method: "GET", path: query.split("?")[0] ?? "",
+          summary: `FHIR ${KEY_LABELS[key]} error: ${e instanceof Error ? e.message : String(e)}` });
         return { key, label: KEY_LABELS[key], present: false, resources: [] };
       }
     })
