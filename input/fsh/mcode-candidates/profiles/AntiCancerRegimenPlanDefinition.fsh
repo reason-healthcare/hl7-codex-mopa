@@ -43,11 +43,10 @@ See the mCODE Gap Proposals page in this IG for the full proposal backlog."""
 * title 1..1 MS
 * description MS
 
-// Clinical context extensions
-* extension contains
-    RegimenIntentExtension named regimenIntent 0..1 MS and
-    RegimenTreatmentLineExtension named regimenTreatmentLine 0..1 MS and
-    RegimenDiseaseContextExtension named regimenDiseaseContext 0..1 MS
+// Clinical context extensions — patient-specific ordering context only
+// NOTE: regimenIntent and regimenDiseaseContext belong on the RequestGroup (patient-specific
+// ordered instance), not here. PlanDefinition.subject[x] already declares the target
+// cancer population. Intent and line of therapy are ordering decisions for a specific patient.
 
 // At least one action (drug or phase)
 * action 1..* MS

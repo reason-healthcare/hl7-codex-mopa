@@ -9,7 +9,9 @@ import {
   STATE_COOKIE,
 } from "@ogca/smart-auth";
 import crypto from "node:crypto";
+import { createLogger } from "@ogca/logger";
 
+const logger = createLogger("dtr");
 import { SMART_CLIENT_ID, SMART_REDIRECT_URI, SMART_SCOPE } from "../../lib/smart-config";
 
 export async function GET(request: NextRequest) {
@@ -40,6 +42,17 @@ export async function GET(request: NextRequest) {
   }
 
   const state = crypto.randomBytes(8).toString("hex");
+  const patientId = launch?.startsWith("patient/") ? launch.slice("patient/".length) : undefined;
+
+  logger.info("dtr.launch", {
+    correlationId: state,
+    patientId,
+    path: "/launch",
+    method: "GET",
+    request: { iss, launch, appContext, returnRegimen },
+    summary: `DTR launch initiated for patient ${patientId ?? "unknown"} — redirecting to EHR authorize`,
+  });
+
   const statePayload = JSON.stringify({ state, appContext, returnRegimen });
   const { url, verifier } = await buildAuthorizationUrl(
     {

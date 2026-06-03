@@ -13,6 +13,7 @@ services:
       - hapi.fhir.allow_multiple_delete=true
       - hapi.fhir.cors.allow_credentials=true
       - hapi.fhir.cors.allowed_origin=*
+      - hapi.fhir.reuse_cached_search_results_millis=0
     volumes:
       - hapi-data:/data/hapi
     healthcheck:

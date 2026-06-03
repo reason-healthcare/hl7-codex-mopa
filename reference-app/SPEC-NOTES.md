@@ -10,6 +10,15 @@ workaround applied here, and a proposed change to the specification.
 
 **Discovered during:** Phase 7 (PAS Service integration)
 
+**Status: ✅ Applied to IG — 2026-05-27**
+
+> IG changes applied:
+> - Added **"Hook Lifecycle: `order-select` and `order-sign`"** section to `cds-hooks-extension.md`
+>   defining the communicative intent of each hook, the SHALL-NOT-imply-final-determination rule
+>   for `order-select`, and the `determiningCriteria` extension proposal with `pre-screen` / `final`
+>   values.
+> - Updated the **Discovery conformance requirements** table to reference the hook lifecycle guidance.
+
 **Observed problem:**
 The Da Vinci CRD specification defines both `order-select` and `order-sign` hooks
 but does not clearly distinguish what each hook's response should communicate when
@@ -47,6 +56,19 @@ render them appropriately without relying on summary string parsing.
 ## SN-002 — Da Vinci CRD discovery has no mechanism for condition-specific data requirements
 
 **Discovered during:** Multi-condition architecture design
+
+**Status: ✅ Applied to IG — 2026-05-27**
+
+> IG changes applied:
+> - Replaced the Layer 2 discovery extension shape from `dataRequirementsLibraries[{canonical, cancerType}]`
+>   to `conditionDataRequirements[{condition, libraryUrl, prefetchTemplates}]` in `cds-hooks-extension.md`.
+> - Updated **Layer 1** baseline `prefetch` to publish only `patient` and `conditions` (condition-agnostic);
+>   moved full condition-specific templates to `conditionDataRequirements.prefetchTemplates`.
+> - Added **"Two-Tier EHR Fallback Behavior"** table documenting OGCA-aware vs standard EHR paths.
+> - Added `catalogLibrary` field to the discovery extension, pointing to `OncologyCRDCatalog`
+>   with `relatedArtifact` composition pattern for catalog Libraries.
+> - Updated the **Relationship between discovery layers** diagram to reflect the new structure.
+> - Updated the **Discovery conformance requirements** table.
 
 **Observed problem:**
 The Da Vinci CRD specification defines a `GET /cds-services` discovery endpoint that
@@ -126,6 +148,24 @@ The Da Vinci CRD IG should:
 ## SN-003 — Primary cancer condition is a missing data element in CRD evaluation
 
 **Discovered during:** Multi-condition architecture review
+
+**Status: ✅ Applied to IG — 2026-05-27**
+
+> IG changes applied:
+> - **New FSH extension** `DataRequirementLabel` (`input/fsh/mcode-candidates/extensions/DataRequirementLabel.fsh`):
+>   a `string` extension on `DataRequirement` carrying a human-readable label for the entry.
+> - **Invariant `ocpa-dr-1`** added to `OncologyDataRequirementsLibrary` profile:
+>   `dataRequirement.first().type = 'Condition'` (error severity) enforces the primary cancer
+>   condition as the first entry.
+> - **Extension slice** `DataRequirementLabel named label 0..1 MS` added to
+>   `dataRequirement.extension` in the profile; ordering rule documented in the profile description.
+> - **`BreastCancerPADataRequirements` example** updated: first `dataRequirement` now carries
+>   `data-requirement-label` = `"Breast Cancer Diagnosis"`; all other entries carry descriptive labels.
+> - **`data-requirements.md`** updated with a dedicated **"Ordering Rule: Primary Cancer Condition
+>   First (SN-003)"** section explaining the invariant, the clinical rationale, and the label
+>   convention with a JSON example.
+> - **`breast-cancer-pa.md`** Diagnosis row updated to note the ordering and label requirements.
+> - **`aliases.fsh`** updated with `$DRLabel` alias.
 
 **Observed problem:**
 The initial reference implementation evaluated HER2 status, cancer stage, and ECOG

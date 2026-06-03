@@ -192,24 +192,24 @@ export default function WhatIfPanel({ patientId }: { patientId: string }) {
           {/* Regimens */}
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-              Regimen Eligibility
+              Guideline Indication
             </p>
             <div className="space-y-1.5">
               {result.regimens.map((r) => (
                 <div
                   key={r.id}
                   className={`flex items-center gap-2 px-3 py-2 rounded border text-sm ${
-                    r.eligible
+                    r.onGuideline
                       ? "border-green-200 bg-green-50"
                       : "border-slate-200 bg-slate-50 opacity-60"
                   }`}
                 >
                   <span
                     className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
-                      r.eligible ? "bg-green-100 text-green-800" : "bg-slate-100 text-slate-500"
+                      r.onGuideline ? "bg-green-100 text-green-800" : "bg-slate-100 text-slate-500"
                     }`}
                   >
-                    {r.eligible ? "✓" : "✗"}
+                    {r.onGuideline ? "On guideline" : "Not indicated"}
                   </span>
                   <span className="font-medium text-slate-800">{r.shortLabel}</span>
                   <span className="text-slate-500 text-xs">{r.description}</span>

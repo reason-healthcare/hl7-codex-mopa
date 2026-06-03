@@ -11,16 +11,6 @@ export async function POST(request: NextRequest) {
   const patientId = String(body.context.patientId ?? "");
   const t0 = Date.now();
 
-  logger.info("cds.request", {
-    correlationId,
-    patientId,
-    hook: "order-sign",
-    path: "/api/cds-services/oncology-crd-sign",
-    method: "POST",
-    request: body,
-    summary: `order-sign received for patient ${patientId}`,
-  });
-
   const response = await handleOncologyCrd(body);
   const outcome =
     response.cards[0]?.source.topic?.code ?? response.cards[0]?.indicator ?? "unknown";
@@ -35,6 +25,7 @@ export async function POST(request: NextRequest) {
     status: 200,
     durationMs,
     outcome,
+    request: body,
     response,
     summary: `order-sign → ${outcome} (${durationMs}ms)`,
   });

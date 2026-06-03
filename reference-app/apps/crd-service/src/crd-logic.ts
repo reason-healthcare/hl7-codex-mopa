@@ -305,6 +305,7 @@ export async function handleOncologyCrd(
 ): Promise<CdsResponse> {
   const patientId = (request.context.patientId as string) ?? "unknown";
   const prefetch = (request.prefetch ?? {}) as Record<string, unknown>;
+  const bearerToken = request.fhirAuthorization?.access_token;
 
   // Step 1 — Identify the patient's primary condition from the baseline prefetch.
   const entry = findConditionEntry(prefetch.conditions);
@@ -336,7 +337,7 @@ export async function handleOncologyCrd(
       // biome-ignore lint/style/noNonNullAssertion: keys sourced from Object.keys()
       missingPrefetchKeys.map((k) => [k, entry.prefetchTemplates[k]!])
     );
-    const fetched = await resolvePrefetch(missing, request.fhirServer, { patientId }, prefetch);
+    const fetched = await resolvePrefetch(missing, request.fhirServer, { patientId }, prefetch, bearerToken);
     fullPrefetch = { ...prefetch, ...fetched };
   }
 

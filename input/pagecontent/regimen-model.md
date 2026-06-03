@@ -33,16 +33,23 @@ MedicationRequest  ← component orders (available at order-sign)
 
 The canonical regimen definition carries:
 - `type = order-set` — identifies this as an order set, not a clinical pathway
-- `subject[x]` — the patient population (e.g., breast cancer)
+- `subject[x]` — the target cancer population (e.g., breast cancer); this is the canonical
+  declaration of what cancer type the regimen is designed for
 - `action[+]` — one action per regimen component (drug or phase)
-- Extensions: `regimenIntent` (adjuvant, neoadjuvant, metastatic, etc.),
-  `regimenDiseaseContext`, `regimenTreatmentLine`, `regimenClinicalContextProfile`
 
 ### OncologyAntiCancerRegimenRequestGroup
 
 The patient-specific ordered instance carries:
 - `instantiatesCanonical` (Must Support) — canonical URL of the PlanDefinition being ordered, when a published definition exists; **MAY** be omitted when the regimen originates from a local order-set without a canonical definition
+- `extension[regimenIntent]` (Must Support) — clinical intent of this order for this patient
+  (curative, palliative, adjuvant, neoadjuvant). This is an ordering decision made at the
+  time of prescribing and belongs on the RequestGroup, not the canonical PlanDefinition.
 - `action[+]` — ordered components with cycle-day timing and phase sequencing
+
+**Line of therapy** is documented via [`LineOfTherapyObservation`](StructureDefinition-line-of-therapy-observation.html)
+in the patient record and supplied to the CRD Service via the `lineOfTherapy` prefetch entry.
+It is not carried as an extension on the RequestGroup; the Observation provides the temporal
+context, performer, and condition focus that an order-level extension cannot.
 
 #### Cycle Day Timing
 

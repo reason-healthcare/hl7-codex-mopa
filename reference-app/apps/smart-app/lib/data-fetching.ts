@@ -87,13 +87,6 @@ export const HER2_LOINC_DISPLAY = "HER2, Breast cancer specimen";
 
 export async function fetchLibrary(correlationId?: string): Promise<LibraryResource | null> {
   const t0 = Date.now();
-  log({
-    service: "smart", level: "info", type: "crmi.read",
-    correlationId,
-    method: "GET", path: CRD_LIBRARY_URL,
-    request: { url: CRD_LIBRARY_URL, headers: { Accept: "application/fhir+json" } },
-    summary: `CRMI GET ${CRD_LIBRARY_URL}`,
-  });
   try {
     const res = await fetch(CRD_LIBRARY_URL, {
       headers: { Accept: "application/fhir+json" },

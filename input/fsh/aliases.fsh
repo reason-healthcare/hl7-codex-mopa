@@ -36,3 +36,6 @@ Alias: $mCODEECOG              = http://hl7.org/fhir/us/mcode/StructureDefinitio
 // MOPA local code systems
 Alias: $OcpaCS             = http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes
 Alias: $TreatmentLineCS    = http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs
+
+// MOPA local extensions
+Alias: $DRLabel            = http://hl7.org/fhir/us/codex-mopa/StructureDefinition/data-requirement-label

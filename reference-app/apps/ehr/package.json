@@ -16,7 +16,8 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "@ogca/cds-hooks": "workspace:*",
-    "@ogca/smart-auth": "workspace:*"
+    "@ogca/smart-auth": "workspace:*",
+    "@ogca/logger": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

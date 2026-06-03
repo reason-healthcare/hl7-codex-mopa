@@ -133,7 +133,22 @@ export async function buildAuthorizationUrl(
   const challenge = await generateCodeChallenge(verifier);
 
   const base = params.iss.replace(/\/$/, "");
-  const authEndpoint = `${base}/authorize`;
+
+  // Discover the authorization endpoint from the SMART configuration document.
+  // Falls back to the legacy "{iss}/authorize" convention if discovery fails.
+  let authEndpoint = `${base}/authorize`;
+  try {
+    const configRes = await fetch(`${base}/.well-known/smart-configuration`, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+    if (configRes.ok) {
+      const config = (await configRes.json()) as { authorization_endpoint?: string };
+      if (config.authorization_endpoint) authEndpoint = config.authorization_endpoint;
+    }
+  } catch {
+    // non-fatal — fall back to convention
+  }
 
   const searchParams = new URLSearchParams({
     response_type: "code",

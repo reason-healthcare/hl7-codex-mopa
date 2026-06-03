@@ -159,7 +159,7 @@ export default async function SmartAppHome({
   let libraryTitle = "Breast Cancer PA Data Requirements";
 
   if (patientId && bearerToken) {
-    const correlationId = `smart-${patientId}`;
+    const correlationId = `smart-${crypto.randomUUID().slice(0, 8)}`;
     const [library] = await Promise.all([fetchLibrary(correlationId)]);
     if (library) libraryTitle = library.url.split("/").pop() ?? libraryTitle;
 
@@ -282,11 +282,11 @@ export default async function SmartAppHome({
                 : patientId && <WhatIfPanel patientId={patientId} />}
             </section>
 
-            {/* Regimen Options — shown when all required data present */}
+            {/* Guideline-Indicated Regimens — shown when all required data present */}
             {allRequiredPresent && guideline && (
               <section className="bg-slate-50 border border-slate-200 rounded-lg p-5">
                 <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
-                  Regimen Options
+                  Guideline-Indicated Regimens
                 </h2>
                 <p className="text-xs text-slate-500 mb-4">
                   Based on BreastCancerGuideline CQL evaluation
@@ -295,11 +295,10 @@ export default async function SmartAppHome({
               </section>
             )}
 
-            {/* All data present but no regimens computed yet */}
+            {/* Data gaps prevent guideline evaluation */}
             {!allRequiredPresent && displayedGaps.length > 0 && (
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800">
-                <strong>Action required:</strong> Enter the missing data element(s) above to unlock
-                regimen options.
+                <strong>Missing data:</strong> Complete the data elements above to see which regimens are indicated by the guideline.
               </div>
             )}
           </>

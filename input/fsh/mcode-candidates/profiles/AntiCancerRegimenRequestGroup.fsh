@@ -54,10 +54,11 @@ See the mCODE Gap Proposals page in this IG for the full proposal backlog."""
 AntiCancerRegimenPlanDefinition. The CRD Service SHOULD use this reference to identify
 the regimen and locate the associated data requirements Library."""
 
-// Clinical context extensions (mirrors PlanDefinition)
+// Patient-specific ordering context extensions
+// regimenIntent: why THIS patient is receiving this regimen (ordering decision, not protocol property)
+// regimenDiseaseContext: optional convenience — CDS Service reads cancer type from prefetch.primaryCancer
 * extension contains
-    RegimenIntentExtension named regimenIntent 0..1 MS and
-    RegimenTreatmentLineExtension named regimenTreatmentLine 0..1 MS
+    RegimenIntentExtension named regimenIntent 0..1 MS
 
 // Action constraints
 * action MS

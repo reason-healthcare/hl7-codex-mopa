@@ -537,7 +537,7 @@ export default async function HubPage({
           </h1>
           <p className="text-sm text-slate-500 mt-0.5 mb-4 flex items-center justify-between gap-6">
             <span>
-              Reference implementation across six actors — Hub, EHR, CDS SMART App, CRD Service, DTR
+              Reference implementation across seven actors — Hub, EHR, CDS SMART App, CRD Service, DTR
               Client, PAS Service, Payer Backend.
             </span>
             <a

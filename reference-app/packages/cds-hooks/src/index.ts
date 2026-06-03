@@ -247,7 +247,8 @@ export async function resolvePrefetch(
   templates: Record<string, string>,
   fhirBase: string,
   context: Record<string, unknown>,
-  existing: Record<string, unknown> = {}
+  existing: Record<string, unknown> = {},
+  bearerToken?: string
 ): Promise<Record<string, unknown>> {
   const base = fhirBase.replace(/\/$/, "");
   const result: Record<string, unknown> = { ...existing };
@@ -259,9 +260,15 @@ export async function resolvePrefetch(
       const query = substituteTemplate(template, context);
       if (!query) return;
 
+      const headers: Record<string, string> = { Accept: "application/fhir+json" };
+      if (bearerToken) headers.Authorization = `Bearer ${bearerToken}`;
+
       try {
         const res = await fetch(`${base}/${query}`, {
-          headers: { Accept: "application/fhir+json" },
+          headers,
+          // Opt out of Next.js fetch caching so the CRD always reads the
+          // latest FHIR data (e.g. observations written back by DTR).
+          cache: "no-store",
         });
         if (res.ok) result[key] = await res.json();
       } catch {
