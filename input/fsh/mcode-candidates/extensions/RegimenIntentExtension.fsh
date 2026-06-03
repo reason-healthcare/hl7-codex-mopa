@@ -7,11 +7,13 @@ Extension: RegimenIntentExtension
 Id: ocpa-regimen-intent
 Title: "Regimen Intent"
 Description: """The clinical intent of the anti-cancer regimen (e.g., curative,
-palliative, adjuvant, neoadjuvant, supportive). Applies to both the canonical regimen
-definition (PlanDefinition) and the patient-specific ordered instance (RequestGroup).
+palliative, adjuvant, neoadjuvant, supportive). Applied on the patient-specific
+ordered instance (RequestGroup) only — intent is a clinical decision made at the
+time of ordering for a specific patient and is not a property of the canonical
+protocol definition.
 
 **mCODE Migration Candidate** — Proposed for inclusion in mCODE STU5 as an extension
-on anti-cancer regimen profiles."""
+on the anti-cancer regimen RequestGroup profile."""
 
 * ^status = #draft
 * ^experimental = true
@@ -21,9 +23,7 @@ intended to be a permanent artifact of this IG. Canonical URLs will change at mi
 See the mCODE Gap Proposals page in this IG for the full proposal backlog."""
 
 * ^context[0].type = #element
-* ^context[0].expression = "PlanDefinition"
-* ^context[1].type = #element
-* ^context[1].expression = "RequestGroup"
+* ^context[0].expression = "RequestGroup"
 
 * value[x] only CodeableConcept
 * valueCodeableConcept from RegimenIntentVS (extensible)

@@ -38,16 +38,6 @@ export async function POST(request: NextRequest) {
   const patientId = String(cdsRequest.context.patientId ?? "");
   const t0 = Date.now();
 
-  logger.info("cds.request", {
-    correlationId,
-    patientId,
-    hook: cdsRequest.hook,
-    path: "/api/cds-services/oncology-crd",
-    method: "POST",
-    request: body,
-    summary: `order-select received for patient ${patientId}`,
-  });
-
   if (!["order-select", "order-sign"].includes(cdsRequest.hook))
     return NextResponse.json(
       { error: `Unsupported hook: ${cdsRequest.hook}. Expected order-select or order-sign.` },
@@ -57,11 +47,13 @@ export async function POST(request: NextRequest) {
   const fhirBase =
     cdsRequest.fhirServer ?? process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
 
+  const bearerToken = cdsRequest.fhirAuthorization?.access_token;
   const prefetch = await resolvePrefetch(
     PREFETCH_TEMPLATES,
     fhirBase,
     cdsRequest.context,
-    cdsRequest.prefetch ?? {}
+    cdsRequest.prefetch ?? {},
+    bearerToken
   );
 
   const response = await handleOncologyCrd({ ...cdsRequest, prefetch });
@@ -78,6 +70,7 @@ export async function POST(request: NextRequest) {
     status: 200,
     durationMs,
     outcome,
+    request: body,
     response,
     summary: `order-select → ${outcome} (${durationMs}ms)`,
   });

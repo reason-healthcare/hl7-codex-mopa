@@ -49,6 +49,16 @@ export async function GET(request: NextRequest) {
   }
 
   const state = crypto.randomBytes(8).toString("hex");
+  const patientId = launch?.startsWith("patient/") ? launch.slice("patient/".length) : undefined;
+
+  logger.info("smart.launch", {
+    correlationId: state,
+    patientId,
+    path: "/launch",
+    method: "GET",
+    summary: `CDS SMART App launch initiated for patient ${patientId ?? "unknown"} — redirecting to EHR authorize`,
+  });
+
   const { url, verifier } = await buildAuthorizationUrl(
     {
       iss,

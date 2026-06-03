@@ -128,6 +128,9 @@ importers:
       '@ogca/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
+      '@ogca/logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
       '@ogca/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth

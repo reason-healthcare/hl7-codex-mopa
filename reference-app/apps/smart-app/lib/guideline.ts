@@ -13,9 +13,9 @@ const guidelineElm = require("../../../cql/elm/BreastCancerGuideline.elm.json") 
 const engine = new CqlExecutionEngine();
 
 interface RegimenEligibility {
-  thEligible: boolean;
-  phdEligible: boolean;
-  ddactEligible: boolean;
+  thOnGuideline: boolean;
+  phdOnGuideline: boolean;
+  ddactOnGuideline: boolean;
 }
 
 export interface Regimen {
@@ -23,10 +23,10 @@ export interface Regimen {
   label: string;
   shortLabel: string;
   description: string;
-  eligible: boolean;
+  onGuideline: boolean;
 }
 
-export const REGIMENS: Omit<Regimen, "eligible">[] = [
+export const REGIMENS: Omit<Regimen, "onGuideline">[] = [
   {
     id: "TH",
     shortLabel: "TH",
@@ -56,19 +56,19 @@ export async function evaluateGuideline(
   const results = await engine.evaluate(guidelineElm, patientId, resources);
 
   const eligibility: RegimenEligibility = {
-    thEligible: (results["TH Eligible"] as boolean) ?? false,
-    phdEligible: (results["PHD Eligible"] as boolean) ?? false,
-    ddactEligible: (results["ddACT Eligible"] as boolean) ?? false,
+    thOnGuideline:    (results["TH Eligible"]    as boolean) ?? false,
+    phdOnGuideline:   (results["PHD Eligible"]   as boolean) ?? false,
+    ddactOnGuideline: (results["ddACT Eligible"] as boolean) ?? false,
   };
 
   return REGIMENS.map((r) => ({
     ...r,
-    eligible:
+    onGuideline:
       (
         {
-          TH: eligibility.thEligible,
-          PHD: eligibility.phdEligible,
-          ddACT: eligibility.ddactEligible,
+          TH:    eligibility.thOnGuideline,
+          PHD:   eligibility.phdOnGuideline,
+          ddACT: eligibility.ddactOnGuideline,
         } as Record<string, boolean>
       )[r.id] ?? false,
   }));

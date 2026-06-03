@@ -7,10 +7,10 @@ export const SMART_REDIRECT_URI = process.env.NEXT_PUBLIC_SMART_APP_URL
 
 export const SMART_SCOPE = "launch launch/patient patient/*.read openid fhirUser";
 
-/** EHR token endpoint derived from the EHR base URL. */
+/** EHR token endpoint — matches the dedicated auth route on the EHR. */
 export const TOKEN_ENDPOINT = `${
-  process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"
-}/token`;
+  process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"
+}/api/auth/token`;
 
 /** CRD Service base URL for fetching the Library resource. */
 export const CRD_SERVICE_URL = process.env.NEXT_PUBLIC_CRD_SERVICE_URL ?? "http://localhost:4002";

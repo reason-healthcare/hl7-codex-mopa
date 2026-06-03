@@ -8,10 +8,17 @@ const PATIENTS = [
     name: "Jane Smith",
     dob: "1972-04-15",
     mrn: "MRN-001",
+    outcome: "Pre-authorized" as const,
   },
-  { id: "maria-garcia", name: "Maria Garcia", dob: "1975-08-22", mrn: "MRN-002" },
-  { id: "sandra-chen", name: "Sandra Chen", dob: "1963-11-05", mrn: "MRN-003" },
+  { id: "maria-garcia", name: "Maria Garcia", dob: "1975-08-22", mrn: "MRN-002", outcome: "PA Required"  as const },
+  { id: "sandra-chen",  name: "Sandra Chen",  dob: "1963-11-05", mrn: "MRN-003", outcome: "DTR Required" as const },
 ];
+
+const OUTCOME_BADGE: Record<(typeof PATIENTS)[number]["outcome"], string> = {
+  "Pre-authorized": "bg-green-100 text-green-800 border border-green-200",
+  "PA Required":    "bg-amber-100 text-amber-800 border border-amber-200",
+  "DTR Required":   "bg-slate-100 text-slate-600 border border-slate-200",
+};
 
 function stripXhtml(div: string): string {
   return div
@@ -58,6 +65,7 @@ export default async function Home() {
                 <th className="px-4 py-3 font-medium text-slate-600">Name</th>
                 <th className="px-4 py-3 font-medium text-slate-600">DOB</th>
                 <th className="px-4 py-3 font-medium text-slate-600">MRN</th>
+                <th className="px-4 py-3 font-medium text-slate-600">Expected Outcome</th>
                 <th className="px-4 py-3 font-medium text-slate-600">Action</th>
               </tr>
             </thead>
@@ -68,6 +76,11 @@ export default async function Home() {
                     <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
                     <td className="px-4 py-3 text-slate-600">{p.dob}</td>
                     <td className="px-4 py-3 font-mono text-xs text-slate-400">{p.mrn}</td>
+                    <td className="px-4 py-3">
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded ${OUTCOME_BADGE[p.outcome]}`}>
+                        {p.outcome}
+                      </span>
+                    </td>
                     <td className="px-4 py-3">
                       <Link
                         href={`/patients/${p.id}`}
@@ -80,7 +93,7 @@ export default async function Home() {
                   {narratives[i] && (
                     <tr className="border-t border-slate-100 bg-slate-50/60">
                       <td
-                        colSpan={4}
+                        colSpan={5}
                         className="px-4 pb-3 pt-1 text-xs text-slate-500 leading-relaxed"
                       >
                         {narratives[i]}

@@ -7,7 +7,7 @@ ValueSet: TreatmentLineVS
 Id: treatment-line-vs
 Title: "Treatment Line Value Set"
 Description: """Codes representing the ordinal line of systemic anti-cancer therapy.
-Used in LineOfTherapyObservation.valueCodeableConcept and the RegimenTreatmentLine extension.
+Used in LineOfTherapyObservation.valueCodeableConcept.
 
 **mCODE Migration Candidate** — Proposed for mCODE STU5."""
 

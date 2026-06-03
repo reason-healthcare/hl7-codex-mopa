@@ -7,10 +7,10 @@ export const SMART_REDIRECT_URI = process.env.NEXT_PUBLIC_DTR_CLIENT_URL
 
 export const SMART_SCOPE = "launch launch/patient patient/*.read openid fhirUser";
 
-/** EHR token endpoint derived from the EHR base URL. */
+/** EHR token endpoint — matches the dedicated auth route on the EHR. */
 export const TOKEN_ENDPOINT = `${
-  process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000"
-}/token`;
+  process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"
+}/api/auth/token`;
 
 /** EHR FHIR proxy base URL (server-side, used by API route handlers). */
 export const EHR_FHIR_BASE_URL = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";

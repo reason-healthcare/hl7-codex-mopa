@@ -75,8 +75,12 @@ export async function POST(request: NextRequest) {
   const rawToken = cookies[TOKEN_COOKIE] ?? "";
   const bearerToken = isAuthBypassed() ? rawToken : rawToken;
   const patientId = body.patientId;
+  // Single correlation ID shared across both log entries so the submit
+  // and the FHIR write-back appear in the same Activity group.
+  const correlationId = crypto.randomUUID();
 
   logger.info("dtr.submit", {
+    correlationId,
     patientId,
     path: "/api/submit",
     method: "POST",
@@ -130,11 +134,13 @@ export async function POST(request: NextRequest) {
     }
     const saved = (await res.json()) as { id?: string };
     logger.info("fhir.write", {
+      correlationId,
       patientId,
       path: "/QuestionnaireResponse",
       method: "POST",
       status: 201,
       durationMs: Date.now() - t0,
+      response: { qrId: saved.id, observationIds },
       summary: `DTR write-back complete — QR ${saved.id ?? "unknown"}, ${observationIds.length} observations`,
     });
     return NextResponse.json({ qrId: saved.id, observationIds });

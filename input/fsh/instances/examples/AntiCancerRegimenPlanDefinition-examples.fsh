@@ -5,8 +5,11 @@
 //   B — ddAC→T: dose-dense AC then Paclitaxel (sequential, adjuvant)
 //   C — PHD: Pertuzumab + Trastuzumab + Docetaxel (metastatic HER2+)
 //
-// Demonstrates: RegimenIntentExtension, RegimenTreatmentLineExtension,
-//               RegimenDiseaseContextExtension, sequential phase relatedAction
+// Demonstrates: RegimenIntentExtension,
+//               RegimenDaysOfCycle extension, sequential phase relatedAction
+// NOTE: regimenIntent is carried on RequestGroup only (patient-specific ordering context).
+//       PlanDefinition.subject[x] declares the target cancer population; no clinical context
+//       extensions are placed on the canonical definition.
 // ============================================================
 
 // ─── A: TH — Paclitaxel + Trastuzumab, weekly x12 (typical case) ──────────
@@ -18,8 +21,8 @@ Usage: #example
 Title: "Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)"
 Description: """Canonical definition of weekly Paclitaxel (80 mg/m² IV) plus Trastuzumab
 (4 mg/kg loading, then 2 mg/kg IV) for 12 weeks in adjuvant HER2-positive early breast
-cancer. Demonstrates RegimenIntentExtension (adjuvant), RegimenTreatmentLineExtension
-(first-line), and RegimenDiseaseContextExtension."""
+cancer. The canonical definition carries protocol structure only — treatment intent and
+line of therapy are patient-context and live on the RequestGroup."""
 
 * url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/THRegimenDefinition"
 * version = "1.0.0"
@@ -30,10 +33,6 @@ cancer. Demonstrates RegimenIntentExtension (adjuvant), RegimenTreatmentLineExte
 * type    = $PD-TYPE#order-set "Order Set"
 * subjectCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
 * description = "Weekly Paclitaxel + Trastuzumab for 12 weeks; standard adjuvant regimen for early HER2+ breast cancer."
-
-* extension[regimenIntent].valueCodeableConcept = $SCT#373846009 "Adjuvant - intent"
-* extension[regimenTreatmentLine].valueCodeableConcept = $TreatmentLineCS#1L "First-line"
-* extension[regimenDiseaseContext].valueCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
 
 * action[+].id    = "paclitaxel-th"
 * action[=].title = "Paclitaxel 80 mg/m² IV — Day 1 of each 7-day cycle"
@@ -71,10 +70,6 @@ sequential phase ordering using action.relatedAction with relationship = after-e
 * type    = $PD-TYPE#order-set "Order Set"
 * subjectCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
 * description = "Dose-dense AC x4 cycles (q14d) followed by paclitaxel x4 cycles (q14d). Standard adjuvant regimen."
-
-* extension[regimenIntent].valueCodeableConcept = $SCT#373846009 "Adjuvant - intent"
-* extension[regimenTreatmentLine].valueCodeableConcept = $TreatmentLineCS#1L "First-line"
-* extension[regimenDiseaseContext].valueCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
 
 // Phase 1: ddAC (2 concurrent agents, q14d x4)
 * action[+].id    = "ac-phase"
@@ -128,10 +123,6 @@ for first-line metastatic HER2-positive breast cancer. Demonstrates palliative i
 * type    = $PD-TYPE#order-set "Order Set"
 * subjectCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
 * description = "PHD regimen every 21 days for first-line HER2+ metastatic breast cancer. Standard of care per CLEOPATRA trial."
-
-* extension[regimenIntent].valueCodeableConcept = $SCT#363676003 "Palliative - procedure intent"
-* extension[regimenTreatmentLine].valueCodeableConcept = $TreatmentLineCS#1L "First-line"
-* extension[regimenDiseaseContext].valueCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
 
 * action[+].id    = "pertuzumab-phd"
 * action[=].title = "Pertuzumab 840 mg IV (cycle 1), then 420 mg IV q21d"

@@ -147,7 +147,6 @@ reference example for AntiCancerRegimenRequestGroup."""
 * subject = Reference(MOPAPatientExample)
 * instantiatesCanonical = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/THRegimenDefinition"
 * extension[regimenIntent].valueCodeableConcept = $SCT#373846009 "Adjuvant - intent"
-* extension[regimenTreatmentLine].valueCodeableConcept = $TreatmentLineCS#1L "First-line"
 
 // Paclitaxel — days 1, 8, 15 of a 21-day cycle (weekly x3 per cycle)
 * action[+].id    = "paclitaxel-th-action"
@@ -185,7 +184,6 @@ phase ordering with action.relatedAction relationship = after-end."""
 * subject = Reference(MOPAPatientExample)
 * instantiatesCanonical = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/DDACTRegimenDefinition"
 * extension[regimenIntent].valueCodeableConcept = $SCT#373846009 "Adjuvant - intent"
-* extension[regimenTreatmentLine].valueCodeableConcept = $TreatmentLineCS#1L "First-line"
 
 // AC Phase — doxorubicin and cyclophosphamide both on day 1 of each 14-day cycle
 * action[+].id    = "ac-phase-order"
@@ -240,7 +238,6 @@ Demonstrates palliative intent and first-line metastatic treatment setting."""
 * subject = Reference(MOPAPatientExample)
 * instantiatesCanonical = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/PHDRegimenDefinition"
 * extension[regimenIntent].valueCodeableConcept = $SCT#363676003 "Palliative intent"
-* extension[regimenTreatmentLine].valueCodeableConcept = $TreatmentLineCS#1L "First-line"
 
 // Pertuzumab — day 1 of each 21-day cycle
 * action[+].id    = "pertuzumab-phd-action"

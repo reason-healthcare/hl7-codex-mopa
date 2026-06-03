@@ -5,7 +5,10 @@ import type { CdsCard, CdsResponse } from "@ogca/cds-hooks";
 import Link from "next/link";
 
 const CRD_SERVICE_URL = process.env.NEXT_PUBLIC_CRD_SERVICE_URL ?? "http://localhost:4003";
-const EHR_BASE_URL = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
+const EHR_BASE_URL    = process.env.NEXT_PUBLIC_EHR_BASE_URL    ?? "http://localhost:4001";
+// FHIR reads from the browser go directly to HAPI (CORS: *) to avoid the
+// auth-gated EHR proxy, which is reserved for SMART clients with tokens.
+const FHIR_BASE_URL   = process.env.NEXT_PUBLIC_FHIR_BASE_URL   ?? "http://localhost:8080/fhir";
 
 /**
  * Build a SMART EHR launch URL for a CDS Hooks smart link per the CDS Hooks spec:
@@ -368,7 +371,7 @@ async function resolveConditionPrefetch(
     Object.entries(entry.prefetchTemplates).map(async ([key, template]) => {
       const url = template.replace(/\{\{context\.patientId\}\}/g, patientId);
       try {
-        const res = await fetch(`${window.location.origin}/api/fhir/${url}`, {
+        const res = await fetch(`${FHIR_BASE_URL}/${url}`, {
           headers: { Accept: "application/fhir+json" },
         });
         if (res.ok) results[key] = await res.json();
@@ -401,10 +404,11 @@ async function fireCdsHook(
       selections: [`urn:uuid:rg-${regimen.id}`],
     },
     prefetch: conditionPrefetch,
-    fhirServer: `${window.location.origin}/api/fhir`,
+    // fhirServer and fhirAuthorization are injected server-side by /api/crd-hooks
+    // so the CRD can authenticate against the EHR FHIR proxy.
   };
 
-  const res = await fetch(`${CRD_SERVICE_URL}/api/cds-services/oncology-crd`, {
+  const res = await fetch(`/api/crd-hooks`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

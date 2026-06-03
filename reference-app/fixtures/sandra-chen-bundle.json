@@ -10,7 +10,7 @@
         "id": "sandra-chen",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sandra Chen</b>, 61-year-old female (DOB 1963-11-05). Stage IIIA primary malignant neoplasm of the left breast, diagnosed March 2024. HER2 status not yet documented; biomarker workup pending. ECOG Performance Status 1 \u2014 ambulatory, restricted in strenuous activity.</p><p><b>Expected CDS outcome:</b> HER2 data element absent \u2014 coverage determination cannot be completed. CRD returns DTR required. Launch Documentation Requirements Tool to collect HER2 biomarker result before re-evaluating.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sandra Chen</b>, 62-year-old female (DOB 1963-11-05). Stage IIIA primary malignant neoplasm of the left breast, diagnosed March 2024. HER2 status not yet documented; biomarker workup pending. ECOG Performance Status 1 \u2014 ambulatory, restricted in strenuous activity.</p><p><b>Expected CDS outcome:</b> HER2 data element absent \u2014 coverage determination cannot be completed. CRD returns DTR required. Launch Documentation Requirements Tool to collect HER2 biomarker result before re-evaluating.</p></div>"
         },
         "identifier": [
           {

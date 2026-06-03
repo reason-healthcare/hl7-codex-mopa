@@ -6,13 +6,17 @@
 Extension: RegimenDiseaseContextExtension
 Id: ocpa-regimen-disease-context
 Title: "Regimen Disease Context"
-Description: """Identifies the cancer type or specific cancer condition for which this
-anti-cancer regimen is defined. May be a coded value (e.g., SNOMED CT cancer concept)
-for use on canonical PlanDefinition definitions, or a reference to the patient's primary
-cancer Condition for use on RequestGroup instances.
+Description: """Identifies the cancer type for which this anti-cancer regimen is ordered.
+Carries a coded cancer type value (e.g., SNOMED CT malignant neoplasm concept)
+on the patient-specific RequestGroup instance. This is an optional convenience
+extension — the CDS Service resolves the cancer type from prefetch.primaryCancer
+rather than this extension.
+
+Note: The canonical PlanDefinition already declares its target cancer population
+via PlanDefinition.subject[x]; this extension is not appropriate on PlanDefinition.
 
 **mCODE Migration Candidate** — Proposed for inclusion in mCODE STU5 as an extension
-on anti-cancer regimen profiles."""
+on the anti-cancer regimen RequestGroup profile."""
 
 * ^status = #draft
 * ^experimental = true
@@ -22,8 +26,6 @@ intended to be a permanent artifact of this IG. Canonical URLs will change at mi
 See the mCODE Gap Proposals page in this IG for the full proposal backlog."""
 
 * ^context[0].type = #element
-* ^context[0].expression = "PlanDefinition"
-* ^context[1].type = #element
-* ^context[1].expression = "RequestGroup"
+* ^context[0].expression = "RequestGroup"
 
-* value[x] only CodeableConcept or Reference(Condition)
+* value[x] only CodeableConcept
