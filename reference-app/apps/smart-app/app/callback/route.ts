@@ -6,7 +6,7 @@ import {
   TOKEN_COOKIE,
   VERIFIER_COOKIE,
   STATE_COOKIE,
-} from "@ogca/smart-auth";
+} from "@mopa/smart-auth";
 
 import { SMART_CLIENT_ID, SMART_REDIRECT_URI, TOKEN_ENDPOINT } from "../../lib/smart-config";
 

@@ -23,7 +23,7 @@ async function del(fhirBase: string, path: string) {
 /**
  * POST /api/fixtures/reset
  *
- * Purges all existing OGCA demo patient data from HAPI FHIR and
+ * Purges all existing MOPA demo patient data from HAPI FHIR and
  * reloads all three fixture bundles. Equivalent to running
  * bash fixtures/load-fixtures.sh but callable from the browser.
  */

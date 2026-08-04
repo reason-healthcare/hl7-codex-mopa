@@ -1,5 +1,5 @@
 {
-  "name": "@ogca/ehr",
+  "name": "@mopa/ehr",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,15 +9,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ogca/fhir-client": "workspace:*",
-    "@ogca/ui": "workspace:*",
+    "@mopa/fhir-client": "workspace:*",
+    "@mopa/ui": "workspace:*",
     "fhir-kit-client": "^2.0.1",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@ogca/cds-hooks": "workspace:*",
-    "@ogca/smart-auth": "workspace:*",
-    "@ogca/logger": "workspace:*"
+    "@mopa/cds-hooks": "workspace:*",
+    "@mopa/smart-auth": "workspace:*",
+    "@mopa/logger": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

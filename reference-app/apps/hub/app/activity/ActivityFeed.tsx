@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { LogEntry, ServiceName } from "@ogca/logger";
+import type { LogEntry, ServiceName } from "@mopa/logger";
 
 // ---------------------------------------------------------------------------
 // Service identity tokens

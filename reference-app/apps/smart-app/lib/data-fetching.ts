@@ -4,9 +4,9 @@
  * Fetches the PA data requirements Library from the CRD service and
  * executes parallel FHIR queries for each DataRequirement against the EHR.
  */
-import { Client, BundleSchema } from "@ogca/fhir-client";
+import { Client, BundleSchema } from "@mopa/fhir-client";
 import { CRD_LIBRARY_URL } from "./smart-config";
-import { log } from "@ogca/logger";
+import { log } from "@mopa/logger";
 
 // ---------------------------------------------------------------------------
 // Library resource types

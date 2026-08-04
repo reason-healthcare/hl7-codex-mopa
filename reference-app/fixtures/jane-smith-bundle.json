@@ -23,7 +23,7 @@
                 }
               ]
             },
-            "system": "http://ogca-reference.example.org/mrn",
+            "system": "http://mopa-reference.example.org/mrn",
             "value": "MRN-001"
           }
         ],

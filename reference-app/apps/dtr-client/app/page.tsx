@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
-import { ServiceIntro } from "@ogca/ui";
+import { ServiceIntro } from "@mopa/ui";
 import {
   verifyToken,
   isAuthBypassed,
   patientFromBypassToken,
   TOKEN_COOKIE,
-} from "@ogca/smart-auth";
+} from "@mopa/smart-auth";
 import { buildQuestionnaire } from "../lib/questionnaire-gen";
 import QuestionnaireForm from "./QuestionnaireForm";
 import { EHR_BASE_URL } from "../lib/smart-config";

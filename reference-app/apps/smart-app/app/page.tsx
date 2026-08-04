@@ -1,13 +1,13 @@
 import { cookies } from "next/headers";
-import { Client, PatientSchema } from "@ogca/fhir-client";
-import { log } from "@ogca/logger";
-import { ServiceIntro } from "@ogca/ui";
+import { Client, PatientSchema } from "@mopa/fhir-client";
+import { log } from "@mopa/logger";
+import { ServiceIntro } from "@mopa/ui";
 import {
   verifyToken,
   isAuthBypassed,
   patientFromBypassToken,
   TOKEN_COOKIE,
-} from "@ogca/smart-auth";
+} from "@mopa/smart-auth";
 import {
   fetchLibrary,
   runGapAnalysis,
@@ -51,7 +51,7 @@ export default async function SmartAppHome({
   searchParams: Promise<{ mode?: string }>;
 }) {
   const { mode: modeParam } = await searchParams;
-  const mode: "ogca" | "readonly" = modeParam === "readonly" ? "readonly" : "ogca";
+  const mode: "mopa" | "readonly" = modeParam === "readonly" ? "readonly" : "mopa";
   const cookieStore = await cookies();
   const rawToken = cookieStore.get(TOKEN_COOKIE)?.value;
 
@@ -209,18 +209,18 @@ export default async function SmartAppHome({
         <div className="flex items-center justify-end gap-2">
           <span
             className={`text-xs px-2 py-0.5 rounded font-medium ${
-              mode === "ogca"
+              mode === "mopa"
                 ? "bg-green-100 text-green-800 border border-green-200"
                 : "bg-slate-100 text-slate-600 border border-slate-200"
             }`}
           >
-            {mode === "ogca" ? "OGCA-aware" : "Read-only"}
+            {mode === "mopa" ? "MOPA-aware" : "Read-only"}
           </span>
           <a
-            href={mode === "ogca" ? "?mode=readonly" : "?mode=ogca"}
+            href={mode === "mopa" ? "?mode=readonly" : "?mode=mopa"}
             className="text-xs text-slate-500 hover:text-slate-700 transition-colors"
           >
-            Switch to {mode === "ogca" ? "read-only" : "OGCA-aware"}
+            Switch to {mode === "mopa" ? "read-only" : "MOPA-aware"}
           </a>
         </div>
         {authError ? (
@@ -274,8 +274,8 @@ export default async function SmartAppHome({
                 </table>
               )}
 
-              {/* HER2 input form (OGCA-aware) or what-if panel (read-only) */}
-              {mode === "ogca"
+              {/* HER2 input form (MOPA-aware) or what-if panel (read-only) */}
+              {mode === "mopa"
                 ? her2Gap &&
                   !her2Gap.present &&
                   patientId && <HER2InputForm patientId={patientId} gap={her2Gap} />

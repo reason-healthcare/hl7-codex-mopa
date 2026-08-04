@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildSmartConfiguration } from "@ogca/smart-auth";
+import { buildSmartConfiguration } from "@mopa/smart-auth";
 
 const EHR_ISSUER = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000";
 

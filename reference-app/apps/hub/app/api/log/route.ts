@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import type { LogEntry } from "@ogca/logger";
+import type { LogEntry } from "@mopa/logger";
 import { push, recent, clear } from "./store";
 
 /** POST /api/log — ingest a single log entry from any service. */

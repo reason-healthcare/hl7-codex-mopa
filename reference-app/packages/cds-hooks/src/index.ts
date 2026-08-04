@@ -5,12 +5,12 @@ import { z } from "zod";
 // ---------------------------------------------------------------------------
 
 /**
- * OGCA extension on a CDS service descriptor.
+ * MOPA extension on a CDS service descriptor.
  * Carried in the `extension` map of a CdsService.
  */
 /**
- * Per-condition data requirements entry in the OGCA service extension.
- * Allows OGCA-aware EHRs to add condition-specific prefetch templates to
+ * Per-condition data requirements entry in the MOPA service extension.
+ * Allows MOPA-aware EHRs to add condition-specific prefetch templates to
  * the hook call without a CRD callback, while standard EHRs fall back to
  * the CRD's dynamic FHIR fetch.
  */
@@ -25,13 +25,13 @@ export interface ConditionDataRequirement {
   prefetchTemplates: Record<string, string>;
 }
 
-export interface OgcaServiceExtension {
+export interface MopaServiceExtension {
   /** Canonical URL of the OncologyCRDCatalog Library (full registry). */
   catalogUrl?: string;
   /** Canonical URL of the condition-specific payer policy Library.
    *  Kept for single-condition backward compatibility. */
   libraryUrl?: string;
-  /** Condition-indexed data requirements for OGCA-aware EHR prefetch.
+  /** Condition-indexed data requirements for MOPA-aware EHR prefetch.
    *  One entry per supported condition. EHRs that do not implement this
    *  extension receive correct behaviour via CRD fhirServer fallback. */
   conditionDataRequirements?: ConditionDataRequirement[];
@@ -46,7 +46,7 @@ export interface CdsService {
   /** Prefetch templates: key → FHIR query string with {{context.X}} placeholders. */
   prefetch?: Record<string, string>;
   extension?: {
-    "ogca-service-extension"?: OgcaServiceExtension;
+    "mopa-service-extension"?: MopaServiceExtension;
     [key: string]: unknown;
   };
 }

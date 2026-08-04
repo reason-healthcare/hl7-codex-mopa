@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { OgcaShell } from "@ogca/ui";
+import { MopaShell } from "@mopa/ui";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OGCA: Payer Backend",
+  title: "MOPA: Payer Backend",
   description: "Oncology Guideline-Compliant Authorization \u2014 Payer Backend",
 };
 
@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <OgcaShell service="Payer Backend">{children}</OgcaShell>
+        <MopaShell service="Payer Backend">{children}</MopaShell>
       </body>
     </html>
   );

@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 const SPEC = {
   openapi: "3.0.3",
   info: {
-    title: "OGCA PAS Service",
+    title: "MOPA PAS Service",
     version: "0.1.0",
     description:
       "Prior Authorization Service. Receives simplified PA submission requests from the EHR, " +

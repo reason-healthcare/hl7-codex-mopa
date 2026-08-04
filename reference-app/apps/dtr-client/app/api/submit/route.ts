@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { parseCookies, isAuthBypassed, TOKEN_COOKIE } from "@ogca/smart-auth";
+import { parseCookies, isAuthBypassed, TOKEN_COOKIE } from "@mopa/smart-auth";
 import { ITEM_DEFINITIONS } from "../../../lib/questionnaire-gen";
 import type { AnswerCoding, QItem } from "../../../lib/questionnaire-gen";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("dtr");
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import Link from "next/link";
-import { ServiceIntro } from "@ogca/ui";
+import { ServiceIntro } from "@mopa/ui";
 
 const PATIENTS = [
   {
@@ -49,7 +49,7 @@ export default async function Home() {
   return (
     <>
       <ServiceIntro
-        title="OGCA Reference EHR"
+        title="MOPA Reference EHR"
         description="Simulates a clinical order-entry system for oncology. Integrates CDS Hooks guidance (order-select/sign via the CRD Service), SMART on FHIR app launch, and prior authorization submission via the PAS Service."
       />
 

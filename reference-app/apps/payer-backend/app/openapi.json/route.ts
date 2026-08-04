@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 const SPEC = {
   openapi: "3.0.3",
   info: {
-    title: "OGCA Payer Backend",
+    title: "MOPA Payer Backend",
     version: "0.1.0",
     description:
       "Payer policy evaluation service. Fetches patient clinical data from the EHR FHIR " +

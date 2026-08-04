@@ -7,9 +7,9 @@ import {
   TOKEN_COOKIE,
   VERIFIER_COOKIE,
   STATE_COOKIE,
-} from "@ogca/smart-auth";
+} from "@mopa/smart-auth";
 import crypto from "node:crypto";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("smart");
 import { SMART_CLIENT_ID, SMART_REDIRECT_URI, SMART_SCOPE } from "../../lib/smart-config";

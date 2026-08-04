@@ -79,7 +79,7 @@ function packageJson(name: string, description: string): Buffer {
     name,
     version: "0.1.0",
     description,
-    author: "OGCA Reference Application",
+    author: "MOPA Reference Application",
     fhirVersions: ["4.0.1"],
     dependencies: { "hl7.fhir.r4.core": "4.0.1" },
   });
@@ -87,15 +87,15 @@ function packageJson(name: string, description: string): Buffer {
 
 const LAYERS = {
   "1": {
-    filename: "ogca-layer1-guideline-0.1.0.tgz",
-    pkgName: "@ogca/layer1-guideline",
-    pkgDesc: "OGCA Layer 1 — Breast Cancer Guideline Authority",
+    filename: "mopa-layer1-guideline-0.1.0.tgz",
+    pkgName: "@mopa/layer1-guideline",
+    pkgDesc: "MOPA Layer 1 — Breast Cancer Guideline Authority",
     files: () => [
       {
         name: "package/package.json",
         content: packageJson(
-          "@ogca/layer1-guideline",
-          "OGCA Layer 1 — Breast Cancer Guideline Authority"
+          "@mopa/layer1-guideline",
+          "MOPA Layer 1 — Breast Cancer Guideline Authority"
         ),
       },
       {
@@ -107,15 +107,15 @@ const LAYERS = {
     ],
   },
   "2": {
-    filename: "ogca-layer2-payer-policy-0.1.0.tgz",
-    pkgName: "@ogca/layer2-payer-policy",
-    pkgDesc: "OGCA Layer 2 — Breast Cancer Payer Policy",
+    filename: "mopa-layer2-payer-policy-0.1.0.tgz",
+    pkgName: "@mopa/layer2-payer-policy",
+    pkgDesc: "MOPA Layer 2 — Breast Cancer Payer Policy",
     files: () => [
       {
         name: "package/package.json",
         content: packageJson(
-          "@ogca/layer2-payer-policy",
-          "OGCA Layer 2 — Breast Cancer Payer Policy"
+          "@mopa/layer2-payer-policy",
+          "MOPA Layer 2 — Breast Cancer Payer Policy"
         ),
       },
       {

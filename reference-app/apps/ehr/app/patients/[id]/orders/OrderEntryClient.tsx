@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { CdsCard, CdsResponse } from "@ogca/cds-hooks";
+import type { CdsCard, CdsResponse } from "@mopa/cds-hooks";
 import Link from "next/link";
 
 const CRD_SERVICE_URL = process.env.NEXT_PUBLIC_CRD_SERVICE_URL ?? "http://localhost:4003";
@@ -37,16 +37,16 @@ function buildSmartLaunchUrl(
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// OGCA canonical base + extension URLs
+// MOPA canonical base + extension URLs
 // ---------------------------------------------------------------------------
 
-const OGCA_BASE        = "http://hl7.org/fhir/us/codex-ocpa";
+const MOPA_BASE        = "http://hl7.org/fhir/us/codex-mopa";
 const RXNORM           = "http://www.nlm.nih.gov/research/umls/rxnorm";
 const SNOMED           = "http://snomed.info/sct";
-const TREATMENT_LINE   = `${OGCA_BASE}/CodeSystem/treatment-line-cs`;
-const EXT_INTENT       = `${OGCA_BASE}/StructureDefinition/ocpa-regimen-intent`;
-const EXT_LINE         = `${OGCA_BASE}/StructureDefinition/ocpa-regimen-treatment-line`;
-const EXT_DAYS         = `${OGCA_BASE}/StructureDefinition/regimen-days-of-cycle`;
+const TREATMENT_LINE   = `${MOPA_BASE}/CodeSystem/treatment-line-cs`;
+const EXT_INTENT       = `${MOPA_BASE}/StructureDefinition/ocpa-regimen-intent`;
+const EXT_LINE         = `${MOPA_BASE}/StructureDefinition/ocpa-regimen-treatment-line`;
+const EXT_DAYS         = `${MOPA_BASE}/StructureDefinition/regimen-days-of-cycle`;
 
 // ---------------------------------------------------------------------------
 // Regimen data model
@@ -92,7 +92,7 @@ const REGIMENS: Regimen[] = [
     label: "TH \u2014 Trastuzumab + Paclitaxel",
     shortLabel: "TH",
     description: "Weekly paclitaxel with trastuzumab. First-line adjuvant for HER2+ early breast cancer.",
-    canonicalUrl: `${OGCA_BASE}/PlanDefinition/RegimenTH`,
+    canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenTH`,
     intent:       { code: "373846009", display: "Adjuvant - intent", system: SNOMED },
     treatmentLine: { code: "1L", display: "First-line" },
     phases: [
@@ -123,7 +123,7 @@ const REGIMENS: Regimen[] = [
     label: "ddAC\u2192T \u2014 Dose-dense AC \u2192 Paclitaxel",
     shortLabel: "ddAC\u2192T",
     description: "Dose-dense doxorubicin/cyclophosphamide then paclitaxel. Adjuvant for HER2-negative breast cancer.",
-    canonicalUrl: `${OGCA_BASE}/PlanDefinition/RegimenDdACT`,
+    canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenDdACT`,
     intent:       { code: "373846009", display: "Adjuvant - intent", system: SNOMED },
     treatmentLine: { code: "1L", display: "First-line" },
     phases: [
@@ -168,7 +168,7 @@ const REGIMENS: Regimen[] = [
     label: "PHD \u2014 Pertuzumab + Trastuzumab + Docetaxel",
     shortLabel: "PHD",
     description: "Pertuzumab, trastuzumab, and docetaxel q21d. First-line for HER2+ metastatic breast cancer.",
-    canonicalUrl: `${OGCA_BASE}/PlanDefinition/RegimenPHD`,
+    canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenPHD`,
     intent:       { code: "363676003", display: "Palliative intent", system: SNOMED },
     treatmentLine: { code: "1L", display: "First-line" },
     phases: [
@@ -205,7 +205,7 @@ const REGIMENS: Regimen[] = [
 
 // ---------------------------------------------------------------------------
 // AntiCancerRegimenRequestGroup builder
-// Per OGCA IG: the RequestGroup IS the unit of PA evaluation.
+// Per MOPA IG: the RequestGroup IS the unit of PA evaluation.
 // MedicationRequests are component resources referenced from action.resource.
 // ---------------------------------------------------------------------------
 
@@ -324,8 +324,8 @@ function buildDraftBundle(patientId: string, regimen: Regimen) {
 
 /**
  * Discovery cache — loaded once on component mount.
- * Holds conditionDataRequirements from the OGCA service extension so we can
- * add condition-specific prefetch to every hook call (OGCA-aware EHR path).
+ * Holds conditionDataRequirements from the MOPA service extension so we can
+ * add condition-specific prefetch to every hook call (MOPA-aware EHR path).
  */
 let discoveryCache: Array<{
   condition: { system: string; code: string };
@@ -343,12 +343,12 @@ async function loadDiscovery(): Promise<void> {
     const data = (await res.json()) as {
       services?: Array<{
         extension?: {
-          "ogca-service-extension"?: { conditionDataRequirements?: typeof discoveryCache };
+          "mopa-service-extension"?: { conditionDataRequirements?: typeof discoveryCache };
         };
       }>;
     };
     discoveryCache =
-      data.services?.[0]?.extension?.["ogca-service-extension"]?.conditionDataRequirements ?? [];
+      data.services?.[0]?.extension?.["mopa-service-extension"]?.conditionDataRequirements ?? [];
   } catch {
     discoveryCache = [];
   }
@@ -391,7 +391,7 @@ async function fireCdsHook(
 ): Promise<CdsResponse> {
   const draftOrders = buildDraftBundle(patientId, regimen);
 
-  // OGCA-aware EHR path: augment with condition-specific prefetch
+  // MOPA-aware EHR path: augment with condition-specific prefetch
   const conditionPrefetch = await resolveConditionPrefetch(patientId, conditionCode);
 
   const body = {

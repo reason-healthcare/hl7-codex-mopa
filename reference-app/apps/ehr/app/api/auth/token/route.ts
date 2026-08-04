@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { issueToken, generateCodeChallenge } from "@ogca/smart-auth";
+import { issueToken, generateCodeChallenge } from "@mopa/smart-auth";
 import { consumeCode } from "../../../../lib/auth-code-store";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("ehr");
 const CORS = { "Access-Control-Allow-Origin": "*" };

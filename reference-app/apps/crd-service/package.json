@@ -1,5 +1,5 @@
 {
-  "name": "@ogca/crd-service",
+  "name": "@mopa/crd-service",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,15 +10,15 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@ogca/cds-hooks": "workspace:*",
-    "@ogca/cql-engine": "workspace:*",
-    "@ogca/fhir-client": "workspace:*",
-    "@ogca/knowledge-artifacts": "workspace:*",
+    "@mopa/cds-hooks": "workspace:*",
+    "@mopa/cql-engine": "workspace:*",
+    "@mopa/fhir-client": "workspace:*",
+    "@mopa/knowledge-artifacts": "workspace:*",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@ogca/logger": "workspace:*",
-    "@ogca/ui": "workspace:*"
+    "@mopa/logger": "workspace:*",
+    "@mopa/ui": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

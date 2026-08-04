@@ -6,7 +6,7 @@ import {
   PAYER_POLICY_LIBRARY,
   LIBRARY_RESOURCE,
 } from "../../../content-data";
-import { withEmbeddedContent } from "@ogca/knowledge-artifacts";
+import { withEmbeddedContent } from "@mopa/knowledge-artifacts";
 
 // Logic libraries: CQL source + ELM embedded per Using CQL with FHIR IG
 const LOGIC_LIBRARIES: Record<

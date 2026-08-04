@@ -5,8 +5,8 @@
  * evaluates BreastCancerPayerPolicy.elm.json to produce a prior-authorization
  * determination.
  */
-import { CqlExecutionEngine } from "@ogca/cql-engine";
-import type { ElmJson } from "@ogca/cql-engine";
+import { CqlExecutionEngine } from "@mopa/cql-engine";
+import type { ElmJson } from "@mopa/cql-engine";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const policyElm = require("../../../cql/elm/BreastCancerPayerPolicy.elm.json") as ElmJson;

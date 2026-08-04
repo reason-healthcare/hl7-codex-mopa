@@ -204,7 +204,7 @@ function ServicesTab() {
             <SvcBox
               name="Hub"
               port={4000}
-              role="Knowledge Artifact Repository (not part of OGCA)"
+              role="Knowledge Artifact Repository (not part of MOPA)"
               sub="/fhir/Library · /fhir/PlanDefinition"
               accent="dark"
             />

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { OgcaShell } from "@ogca/ui";
+import { MopaShell } from "@mopa/ui";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OGCA: DTR Client",
+  title: "MOPA: DTR Client",
   description: "Oncology Guideline-Compliant Authorization \u2014 DTR Client",
 };
 
@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <OgcaShell service="DTR Client">{children}</OgcaShell>
+        <MopaShell service="DTR Client">{children}</MopaShell>
       </body>
     </html>
   );

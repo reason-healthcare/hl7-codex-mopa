@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 const SPEC = {
   openapi: "3.0.3",
   info: {
-    title: "OGCA EHR",
+    title: "MOPA EHR",
     version: "0.1.0",
     description:
       "Reference EHR exposing a FHIR R4 proxy, SMART on FHIR authorization endpoints, " +

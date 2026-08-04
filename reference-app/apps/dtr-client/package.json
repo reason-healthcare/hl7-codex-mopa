@@ -1,5 +1,5 @@
 {
-  "name": "@ogca/dtr-client",
+  "name": "@mopa/dtr-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,9 +12,9 @@
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@ogca/smart-auth": "workspace:*",
-    "@ogca/logger": "workspace:*",
-    "@ogca/ui": "workspace:*"
+    "@mopa/smart-auth": "workspace:*",
+    "@mopa/logger": "workspace:*",
+    "@mopa/ui": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

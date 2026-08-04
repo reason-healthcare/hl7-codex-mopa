@@ -1,15 +1,15 @@
 /**
- * OGCA CRD Service — business logic layer.
+ * MOPA CRD Service — business logic layer.
  *
  * This module contains pure functions so they can be tested without
  * instantiating the Next.js request/response layer.
  */
 
-import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@ogca/cds-hooks";
-import { resolvePrefetch } from "@ogca/cds-hooks";
-import { CqlExecutionEngine, extractBundleResources } from "@ogca/cql-engine";
-import type { ElmJson } from "@ogca/cql-engine";
-import { CONDITION_REGISTRY, CATALOG_URL, findConditionEntry } from "@ogca/knowledge-artifacts";
+import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@mopa/cds-hooks";
+import { resolvePrefetch } from "@mopa/cds-hooks";
+import { CqlExecutionEngine, extractBundleResources } from "@mopa/cql-engine";
+import type { ElmJson } from "@mopa/cql-engine";
+import { CONDITION_REGISTRY, CATALOG_URL, findConditionEntry } from "@mopa/knowledge-artifacts";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const payerPolicyElm = require("../../../cql/elm/BreastCancerPayerPolicy.elm.json") as ElmJson;
 
@@ -35,7 +35,7 @@ export {
 // Baseline prefetch — lowest-common denominator, condition-agnostic.
 // Identifies the patient and their primary cancer condition so the CRD
 // can route to the correct condition-specific policy without prior knowledge.
-// OGCA-aware EHRs augment this with condition-specific templates from the
+// MOPA-aware EHRs augment this with condition-specific templates from the
 // conditionDataRequirements extension. Standard EHRs use this alone and the
 // CRD falls back to dynamic fhirServer queries for disease-specific data.
 export const BASELINE_PREFETCH_TEMPLATES: Record<string, string> = {
@@ -80,7 +80,7 @@ const CQL_ECOG_PRESENT = "ECOG PS Present";
 
 export function buildDiscoveryResponse(): { services: CdsService[] } {
   const extension = {
-    "ogca-service-extension": {
+    "mopa-service-extension": {
       catalogUrl: CATALOG_URL,
       conditionDataRequirements: CONDITION_REGISTRY.map((entry) => ({
         condition: {
@@ -101,7 +101,7 @@ export function buildDiscoveryResponse(): { services: CdsService[] } {
       "Evaluates oncology chemotherapy orders against condition-specific guideline " +
       "and payer policy. Baseline prefetch carries patient demographics and primary " +
       "diagnosis; condition-specific data requirements are published in the " +
-      "conditionDataRequirements extension for OGCA-aware EHRs.",
+      "conditionDataRequirements extension for MOPA-aware EHRs.",
     prefetch: BASELINE_PREFETCH_TEMPLATES,
     extension,
   };
@@ -326,7 +326,7 @@ export async function handleOncologyCrd(
   }
 
   // Step 2 — Fetch any condition-specific data the EHR did not provide.
-  // OGCA-aware EHRs send this proactively; standard EHRs trigger this fallback.
+  // MOPA-aware EHRs send this proactively; standard EHRs trigger this fallback.
   const missingPrefetchKeys = Object.keys(entry.prefetchTemplates).filter(
     (k) => prefetch[k] == null
   );

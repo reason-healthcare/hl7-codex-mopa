@@ -23,7 +23,7 @@ import {
   REGIMEN_ALECTINIB,
   REGIMEN_PEMBROLIZUMAB,
   withEmbeddedContent,
-} from "@ogca/knowledge-artifacts";
+} from "@mopa/knowledge-artifacts";
 
 // ---------------------------------------------------------------------------
 // Libraries

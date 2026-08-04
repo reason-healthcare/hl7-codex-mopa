@@ -4,8 +4,8 @@
  * Evaluates BreastCancerGuideline.elm.json against patient resources to
  * determine regimen eligibility.
  */
-import { CqlExecutionEngine } from "@ogca/cql-engine";
-import type { ElmJson } from "@ogca/cql-engine";
+import { CqlExecutionEngine } from "@mopa/cql-engine";
+import type { ElmJson } from "@mopa/cql-engine";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const guidelineElm = require("../../../cql/elm/BreastCancerGuideline.elm.json") as ElmJson;

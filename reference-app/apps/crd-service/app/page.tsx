@@ -1,5 +1,5 @@
-import { BASELINE_PREFETCH_TEMPLATES } from "@ogca/knowledge-artifacts";
-import { ServiceIntro } from "@ogca/ui";
+import { BASELINE_PREFETCH_TEMPLATES } from "@mopa/knowledge-artifacts";
+import { ServiceIntro } from "@mopa/ui";
 import { buildDiscoveryResponse } from "../src/crd-logic";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
 
   type Svc = (typeof services)[number] & {
     extension?: {
-      "ogca-service-extension"?: {
+      "mopa-service-extension"?: {
         catalogUrl?: string;
         conditionDataRequirements?: Array<{
           condition: { code: string; system: string; display: string };
@@ -18,7 +18,7 @@ export default function Home() {
     };
   };
   const typed = services as Svc[];
-  const ext = typed[0]?.extension?.["ogca-service-extension"];
+  const ext = typed[0]?.extension?.["mopa-service-extension"];
 
   const shortSys = (s: string) =>
     s.includes("snomed")
@@ -63,7 +63,7 @@ export default function Home() {
               <p className="text-xs text-slate-400 mt-0.5">
                 <code className="font-mono text-slate-300">GET /api/cds-services</code>
                 {
-                  " — one entry per hook. The OGCA extension publishes condition-specific data requirements "
+                  " — one entry per hook. The MOPA extension publishes condition-specific data requirements "
                 }
                 so aware EHRs can send proactive prefetch; standard EHRs trigger CRD fhirServer
                 fallback.
@@ -115,13 +115,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* OGCA extension */}
+            {/* MOPA extension */}
             <div className="px-5 py-4 space-y-4">
               <div className="flex items-center gap-2">
                 <p className="text-slate-400">Extension</p>
-                <code className="font-mono text-slate-600">ogca-service-extension</code>
+                <code className="font-mono text-slate-600">mopa-service-extension</code>
                 <span className="bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded">
-                  OGCA
+                  MOPA
                 </span>
               </div>
 

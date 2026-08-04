@@ -1,5 +1,5 @@
-import { Client, PatientSchema, getPatientDisplayName } from "@ogca/fhir-client";
-import type { Patient } from "@ogca/fhir-client";
+import { Client, PatientSchema, getPatientDisplayName } from "@mopa/fhir-client";
+import type { Patient } from "@mopa/fhir-client";
 import Link from "next/link";
 import OrderEntryClient from "./OrderEntryClient";
 
@@ -26,7 +26,7 @@ export default async function OrderEntryPage({ params }: PageProps) {
   }
 
   try {
-    const { BundleSchema, ConditionSchema } = await import("@ogca/fhir-client");
+    const { BundleSchema, ConditionSchema } = await import("@mopa/fhir-client");
     const raw = await client.search({
       resourceType: "Condition",
       searchParams: { patient: id, category: "problem-list-item", _count: "5" },

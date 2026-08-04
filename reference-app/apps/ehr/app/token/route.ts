@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { issueToken, generateCodeChallenge } from "@ogca/smart-auth";
+import { issueToken, generateCodeChallenge } from "@mopa/smart-auth";
 
 const CORS = { "Access-Control-Allow-Origin": "*" };
 

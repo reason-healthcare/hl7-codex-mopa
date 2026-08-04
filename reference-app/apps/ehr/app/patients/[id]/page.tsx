@@ -5,8 +5,8 @@ import {
   ConditionSchema,
   ObservationSchema,
   getPatientDisplayName,
-} from "@ogca/fhir-client";
-import type { Condition, Observation, Patient } from "@ogca/fhir-client";
+} from "@mopa/fhir-client";
+import type { Condition, Observation, Patient } from "@mopa/fhir-client";
 import Link from "next/link";
 
 interface PageProps {

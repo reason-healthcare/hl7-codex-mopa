@@ -1,4 +1,4 @@
-import { fhirProxyHandler } from "@ogca/fhir-client";
+import { fhirProxyHandler } from "@mopa/fhir-client";
 import type { NextRequest } from "next/server";
 
 type RouteContext = { params: Promise<{ path: string[] }> };

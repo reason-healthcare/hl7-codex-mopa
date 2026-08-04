@@ -1,5 +1,5 @@
 {
-  "name": "@ogca/knowledge-artifacts",
+  "name": "@mopa/knowledge-artifacts",
   "version": "0.1.0",
   "private": true,
   "main": "./src/index.ts",

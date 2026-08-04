@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildSmartConfiguration } from "@ogca/smart-auth";
+import { buildSmartConfiguration } from "@mopa/smart-auth";
 
 /**
  * SMART on FHIR well-known configuration endpoint.

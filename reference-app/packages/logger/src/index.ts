@@ -1,7 +1,7 @@
 /**
- * @ogca/logger
+ * @mopa/logger
  *
- * Structured NDJSON logger for all OGCA reference services.
+ * Structured NDJSON logger for all MOPA reference services.
  *
  * Each service creates a logger with createLogger("service-name").
  * Every entry is written unbuffered to process.stdout (12-factor).
@@ -19,7 +19,7 @@ export type ServiceName = "crd" | "dtr" | "pas" | "payer" | "hub" | "ehr" | "sma
 
 export type LogLevel = "info" | "warn" | "error";
 
-/** All possible structured log entry types across OGCA services. */
+/** All possible structured log entry types across MOPA services. */
 export type LogType =
   | "cds.request"   // Incoming CDS Hooks request received
   | "cds.response"  // CDS Hooks response sent

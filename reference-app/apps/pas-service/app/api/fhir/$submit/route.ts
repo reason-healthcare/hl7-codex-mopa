@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { buildClaimResponse } from "../../../../lib/claim-response";
 import type { PaDecision, FhirClaimResponse } from "../../../../lib/claim-response";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("pas");
 const PAYER_BACKEND_URL = process.env.PAYER_BACKEND_URL ?? "http://localhost:4006";

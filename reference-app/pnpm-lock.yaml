@@ -33,22 +33,22 @@ importers:
 
   apps/crd-service:
     dependencies:
-      '@ogca/cds-hooks':
+      '@mopa/cds-hooks':
         specifier: workspace:*
         version: link:../../packages/cds-hooks
-      '@ogca/cql-engine':
+      '@mopa/cql-engine':
         specifier: workspace:*
         version: link:../../packages/cql-engine
-      '@ogca/fhir-client':
+      '@mopa/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
-      '@ogca/knowledge-artifacts':
+      '@mopa/knowledge-artifacts':
         specifier: workspace:*
         version: link:../../packages/knowledge-artifacts
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:
@@ -82,13 +82,13 @@ importers:
 
   apps/dtr-client:
     dependencies:
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/smart-auth':
+      '@mopa/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:
@@ -122,19 +122,19 @@ importers:
 
   apps/ehr:
     dependencies:
-      '@ogca/cds-hooks':
+      '@mopa/cds-hooks':
         specifier: workspace:*
         version: link:../../packages/cds-hooks
-      '@ogca/fhir-client':
+      '@mopa/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/smart-auth':
+      '@mopa/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       fhir-kit-client:
@@ -171,13 +171,13 @@ importers:
 
   apps/hub:
     dependencies:
-      '@ogca/knowledge-artifacts':
+      '@mopa/knowledge-artifacts':
         specifier: workspace:*
         version: link:../../packages/knowledge-artifacts
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:
@@ -211,10 +211,10 @@ importers:
 
   apps/pas-service:
     dependencies:
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:
@@ -248,13 +248,13 @@ importers:
 
   apps/payer-backend:
     dependencies:
-      '@ogca/cql-engine':
+      '@mopa/cql-engine':
         specifier: workspace:*
         version: link:../../packages/cql-engine
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:
@@ -288,22 +288,22 @@ importers:
 
   apps/smart-app:
     dependencies:
-      '@ogca/cds-hooks':
+      '@mopa/cds-hooks':
         specifier: workspace:*
         version: link:../../packages/cds-hooks
-      '@ogca/cql-engine':
+      '@mopa/cql-engine':
         specifier: workspace:*
         version: link:../../packages/cql-engine
-      '@ogca/fhir-client':
+      '@mopa/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
-      '@ogca/logger':
+      '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@ogca/smart-auth':
+      '@mopa/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
-      '@ogca/ui':
+      '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:

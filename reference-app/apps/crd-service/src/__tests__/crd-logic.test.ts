@@ -12,7 +12,7 @@ import {
   PREFETCH_TEMPLATES,
   MISSING_KEY_LABELS,
 } from "../crd-logic";
-import { LIBRARY_RESOURCE } from "@ogca/knowledge-artifacts";
+import { LIBRARY_RESOURCE } from "@mopa/knowledge-artifacts";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -101,7 +101,7 @@ describe("buildDiscoveryResponse", () => {
   });
 
   it("includes conditionDataRequirements extension with breast cancer entry", () => {
-    const ext = buildDiscoveryResponse().services[0]?.extension?.["ogca-service-extension"];
+    const ext = buildDiscoveryResponse().services[0]?.extension?.["mopa-service-extension"];
     const reqs = ext?.conditionDataRequirements ?? [];
     expect(reqs.length).toBeGreaterThan(0);
     const bc = reqs.find((r) => r.condition.code === "372137005");

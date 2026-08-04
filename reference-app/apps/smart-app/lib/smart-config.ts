@@ -1,5 +1,5 @@
 /** SMART client configuration for the CDS SMART App. */
-export const SMART_CLIENT_ID = "ogca-smart-app";
+export const SMART_CLIENT_ID = "mopa-smart-app";
 
 export const SMART_REDIRECT_URI = process.env.NEXT_PUBLIC_SMART_APP_URL
   ? `${process.env.NEXT_PUBLIC_SMART_APP_URL}/callback`

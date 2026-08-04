@@ -4,13 +4,13 @@ export function GET() {
     status: "active",
     date: new Date().toISOString().slice(0, 10),
     kind: "instance",
-    software: { name: "OGCA Reference Hub", version: "0.1.0" },
+    software: { name: "MOPA Reference Hub", version: "0.1.0" },
     fhirVersion: "4.0.1",
     format: ["application/fhir+json"],
-    implementationGuide: ["http://hl7.org/fhir/us/codex-ocpa"],
+    implementationGuide: ["http://hl7.org/fhir/us/codex-mopa"],
     description:
       "FHIR Knowledge Artifact Repository. Hosts Library and PlanDefinition " +
-      "resources for the OGCA two-layer CDS architecture.",
+      "resources for the MOPA two-layer CDS architecture.",
     rest: [
       {
         mode: "server",
