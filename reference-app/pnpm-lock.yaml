@@ -36,15 +36,9 @@ importers:
       '@mopa/cds-hooks':
         specifier: workspace:*
         version: link:../../packages/cds-hooks
-      '@mopa/cql-engine':
-        specifier: workspace:*
-        version: link:../../packages/cql-engine
       '@mopa/fhir-client':
         specifier: workspace:*
         version: link:../../packages/fhir-client
-      '@mopa/knowledge-artifacts':
-        specifier: workspace:*
-        version: link:../../packages/knowledge-artifacts
       '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
@@ -248,9 +242,6 @@ importers:
 
   apps/payer-backend:
     dependencies:
-      '@mopa/cql-engine':
-        specifier: workspace:*
-        version: link:../../packages/cql-engine
       '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger

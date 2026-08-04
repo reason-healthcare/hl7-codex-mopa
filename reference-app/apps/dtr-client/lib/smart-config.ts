@@ -13,7 +13,7 @@ export const TOKEN_ENDPOINT = `${
 }/api/auth/token`;
 
 /** EHR FHIR proxy base URL (server-side, used by API route handlers). */
-export const EHR_FHIR_BASE_URL = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
+export const EHR_FHIR_BASE_URL = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";
 
 /** EHR application base URL (used to build return links after submit). */
-export const EHR_BASE_URL = process.env.EHR_BASE_URL ?? "http://localhost:4000";
+export const EHR_BASE_URL = process.env.EHR_BASE_URL ?? "http://localhost:4001";

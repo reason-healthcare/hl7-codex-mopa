@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { parseCookies, isAuthBypassed, TOKEN_COOKIE } from "@mopa/smart-auth";
 
-const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
+const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";
 
 const CORS = { "Access-Control-Allow-Origin": "*" };
 

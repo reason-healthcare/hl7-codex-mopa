@@ -21,7 +21,7 @@ import RegimenOptions from "./RegimenOptions";
 
 import WhatIfPanel from "./WhatIfPanel";
 
-const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
+const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";
 
 // ---------------------------------------------------------------------------
 // Indicator badge colours
