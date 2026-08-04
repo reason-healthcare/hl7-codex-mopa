@@ -8,7 +8,7 @@
 
 const SNOMED = "http://snomed.info/sct";
 const LOINC = "http://loinc.org";
-const BREAST_CANCER_CODE = "254837009";
+const BREAST_CANCER_CODE = "372137005";
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
 

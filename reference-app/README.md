@@ -1,7 +1,7 @@
 # MOPA Reference Application
 
-A runnable, demo-quality reference implementation of the **Oncology Guideline-Compliant
-Authorization (MOPA)** workflow across six actors: Hub, EHR, CDS SMART App, CRD Service,
+A runnable, demo-quality reference implementation of the **Medical Oncology Prior
+Authorization (MOPA)** workflow across seven actors: Hub, EHR, CDS SMART App, CRD Service,
 DTR Client, PAS Service, and Payer Backend.
 
 ---
@@ -46,15 +46,28 @@ bash fixtures/load-fixtures.sh
 
 | Patient | ECOG | HER2 | Expected CDS outcome |
 |---|---|---|---|
-| **Jane Smith** (MRN-001) | 0 | Positive | Pre-authorized — no PA required |
-| **Maria Garcia** (MRN-002) | 1 | Positive | PA required — submit to payer |
-| **Sandra Chen** (MRN-003) | 1 | Absent | DTR required — collect HER2 first |
+| **Jane Smith** (MRN-001) | 0 | Positive | Authorization Satisfied |
+| **Maria Garcia** (MRN-002) | 1 | Positive | Authorization Satisfied |
+| **Sandra Chen** (MRN-003) | 1 | Absent | DTR Required — collect HER2 first |
 
 The load script is idempotent. Re-running it purges existing data for each patient
 before reloading, so you can reset mid-demo without side effects.
 
 Each patient's `Patient.text.div` contains the canonical clinical narrative. The Hub
 reads this live from HAPI and shows it on the **Demo Fixtures** tab.
+
+---
+
+## Demonstration script
+
+An interactive, narrated walkthrough script is available:
+
+```bash
+bash fixtures/demo-walkthrough.sh
+```
+
+This script starts services, loads fixtures, and guides you through each demo path
+with narration and prompts. Use `--quick` to skip setup if services are already running.
 
 ---
 
@@ -68,12 +81,12 @@ reads this live from HAPI and shows it on the **Demo Fixtures** tab.
 
    | Case | What you see |
    |---|---|
-   | Jane Smith | Pre-authorized badge — sign and proceed |
-   | Maria Garcia | PA Required badge — sign, then Submit PA |
+   | Jane Smith | Authorization Satisfied — sign and proceed |
+   | Maria Garcia | Authorization Satisfied — sign and proceed |
    | Sandra Chen | DTR card — launch DTR, enter HER2, return to EHR |
 
 6. After DTR (Sandra Chen): HER2 is now present. The EHR re-fires `order-select` and
-   CRD returns the PA Required outcome (ECOG 1). Proceed as Maria Garcia's case.
+   CRD returns Authorization Satisfied.
 
 ---
 
@@ -81,7 +94,7 @@ reads this live from HAPI and shows it on the **Demo Fixtures** tab.
 
 Launch from the EHR patient chart. Operates in two modes:
 
-**MOPA-aware (default)** — Gap analysis against the BreastCancerGuideline CQL library.
+**Default mode** — Gap analysis against the BreastCancerGuideline CQL library.
 When HER2 is missing an inline form lets the clinician enter the result and writes
 the observation back to HAPI.
 

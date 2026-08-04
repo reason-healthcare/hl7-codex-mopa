@@ -56,7 +56,7 @@ const BC_CONDITION = {
     coding: [
       {
         system: "http://snomed.info/sct",
-        code: "254837009",
+        code: "372137005",
         display: "Malignant neoplasm of breast",
       },
     ],
