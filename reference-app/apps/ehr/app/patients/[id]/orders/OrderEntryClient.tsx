@@ -497,10 +497,9 @@ function OrderSelectSummary({
   patientId: string;
   selectedRegimenId?: string;
 }) {
-  const coverageCard = cards.find((c) => c.source.topic?.code === "coverage-information");
-  const preApproved = cards.some((c) => c.source.topic?.code === "prior-auth-not-required");
+  const authSatisfied = cards.some((c) => c.indicator === "success");
   const dtrCard = cards.find((c) => (c.links?.length ?? 0) > 0);
-  const coverageMet = (!!coverageCard && coverageCard.indicator === "info") || preApproved;
+  const coverageMet = authSatisfied;
 
   return (
     <div className="divide-y divide-slate-100">
@@ -748,6 +747,7 @@ export default function OrderEntryPage({
     });
   }
 
+  // PA submission only applies if a prior-auth-required card is returned
   const hasPaCard = cards.some((c) => c.source.topic?.code === "prior-auth-required");
 
   async function submitPa() {
