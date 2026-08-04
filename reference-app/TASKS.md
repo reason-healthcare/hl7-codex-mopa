@@ -454,3 +454,50 @@ for format rules and commit discipline.
 - [x] Updated: app/content-data.ts imports from @mopa/knowledge-artifacts
 - [x] Updated: src/crd-logic.ts imports from @mopa/knowledge-artifacts
 - [x] CRD root page links to Hub's /content (http://localhost:4000/content)
+
+---
+
+## MOPA Simplification (2026-08-04)
+
+### Global rename: OGCA → MOPA
+- [x] Rename all `@ogca/*` packages to `@mopa/*`
+- [x] Rename all `codex-ocpa` canonical URLs to `codex-mopa`
+- [x] Rename all UI identifiers, env vars, container names, docs
+
+### CRD Service simplification
+- [x] Remove `mopa-service-extension` and `conditionDataRequirements` from discovery
+- [x] Remove baseline/condition-specific prefetch templates
+- [x] Remove condition registry routing and CQL-driven evaluation
+- [x] Replace with direct FHIR queries via `fhirAuthorization`
+- [x] Card outcomes: "Authorization Satisfied" (success) + "DTR Required" (warning)
+- [x] Remove `@mopa/knowledge-artifacts` and `@mopa/cql-engine` dependencies
+- [x] Remove Library API route and content routes
+- [x] Update OpenAPI spec
+
+### Smart App simplification
+- [x] Remove Library fetch from CRD service
+- [x] Query EHR FHIR server directly for oncology data categories
+- [x] Keep CQL for Layer 1 guideline evaluation (regimen eligibility)
+
+### DTR Client simplification
+- [x] Remove `libraryUrl` from appContext parsing and display
+- [x] Use `missingDataElements` list only
+
+### EHR Order Entry simplification
+- [x] Remove MOPA-aware EHR prefetch logic (`loadDiscovery`, `resolveConditionPrefetch`)
+- [x] Remove `conditionCode` prop threading
+- [x] Use standard CDS Hooks requests (CRD queries EHR FHIR server directly)
+- [x] Update card detection for `success` indicator (Authorization Satisfied)
+
+### Payer Backend simplification
+- [x] Replace CQL evaluation with direct FHIR query-back
+- [x] Remove `@mopa/cql-engine` dependency
+
+### Tests
+- [x] Rewrite crd-logic tests for simplified architecture (mocked FHIR fetch)
+- [x] Update cds-hooks tests (remove extension assertions, add success indicator)
+- [x] All 105 tests pass
+
+### Documentation
+- [x] SPEC-NOTES.md — added SN-004 documenting the simplification
+- [x] TASKS.md — this section

@@ -194,3 +194,50 @@ the Library resource. The condition `dataRequirement` entry should carry a
 `data-requirement-label` extension value of the canonical condition name (e.g.,
 "Breast Cancer Diagnosis") for display in tools such as the DTR questionnaire
 generator and the CRD content viewer.
+
+
+---
+
+## SN-004 — Simplified CRD workflow: removed custom extension, Library-based data requirements, and condition registry
+
+**Discovered during:** IG simplification (origin/main rebase)
+
+**Status: ✅ Applied to IG — 2026-08-04**
+
+> IG changes applied:
+> - Removed `OncologyDataRequirementsLibrary` profile and all Library-based data requirements
+> - Removed `cds-hooks-extension.md` page (custom CDS Hooks extension)
+> - Simplified CRD workflow to use standard FHIR query-back via `fhirAuthorization`
+> - Renamed project from OGCA to MOPA (Medical Oncology Prior Authorization)
+
+**Observed problem:**
+The original reference implementation built an elaborate architecture around a
+custom CDS Hooks discovery extension (`ogca-service-extension`), condition-specific
+prefetch templates, a condition registry for routing, and FHIR Library resources
+to drive data requirements. This added significant complexity that was not aligned
+with the simplified IG specification.
+
+**Changes applied to reference implementation:**
+1. **CRD Service** — Removed the custom discovery extension, condition registry,
+   prefetch templates, and CQL-driven evaluation. The CRD now uses standard CDS
+   Hooks with `fhirAuthorization` to query the EHR FHIR server directly (Condition,
+   Observation for HER2/stage/ECOG, MedicationRequest for prior therapy).
+2. **Card outcomes** — Replaced `pre-approved`/`coverage-met`/`PA-required` card
+   patterns with `Authorization Satisfied` (success indicator) and `DTR Required`
+   (warning indicator) matching the spec.
+3. **Smart App** — Removed Library fetch from CRD; queries EHR FHIR server directly.
+4. **DTR Client** — Removed `libraryUrl` from appContext; uses missing data
+   category list only.
+5. **EHR Order Entry** — Removed MOPA-aware prefetch logic; uses standard CDS
+   Hooks requests. The CRD service handles all FHIR queries server-side.
+6. **Payer Backend** — Replaced CQL evaluation with direct FHIR query-back
+   matching the simplified CRD pattern.
+7. **Knowledge Artifacts** — Removed CRD Library API route and content routes.
+   The Hub app retains the content viewer and FHIR artifact API for reference.
+   The Smart App retains CQL for Layer 1 guideline evaluation (regimen eligibility).
+8. **Naming** — Renamed all OGCA→MOPA references (packages, URLs, identifiers,
+   UI labels, documentation).
+
+**Proposed specification change:**
+None — the IG has already been simplified. This note documents the reference
+implementation alignment.
