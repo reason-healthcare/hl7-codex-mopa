@@ -498,8 +498,9 @@ function OrderSelectSummary({
   selectedRegimenId?: string;
 }) {
   const authSatisfied = cards.some((c) => c.indicator === "success");
+  const paRequired = cards.some((c) => c.source.topic?.code === "prior-auth-required");
   const dtrCard = cards.find((c) => (c.links?.length ?? 0) > 0);
-  const coverageMet = authSatisfied;
+  const coverageMet = authSatisfied || paRequired;
 
   return (
     <div className="divide-y divide-slate-100">
@@ -551,14 +552,16 @@ function OrderSelectSummary({
         </div>
       </div>
 
-      {/* Row 2: PA Requirement — only when coverage criteria outcome is known */}
+      {/* Row 2: PA Requirement — shown when coverage criteria are met.
+           authorization-satisfied (ECOG 0) → PA not required.
+           pa-required (ECOG ≥ 1) → PA must be submitted before fulfillment. */}
       {coverageMet && (
         <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
           <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">PA Requirement</span>
-          {preApproved ? (
-            <StatusBadge indicator="info" label="Not required" />
-          ) : (
+          {paRequired ? (
             <StatusBadge indicator="warning" label="Required" />
+          ) : (
+            <StatusBadge indicator="info" label="Not required" />
           )}
         </div>
       )}

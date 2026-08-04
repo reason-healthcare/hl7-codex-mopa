@@ -35,6 +35,7 @@ services:
       - "4000:4000"
     environment:
       - PORT=4000
+      - LOG_HUB_URL=http://localhost:4000/api/log
       - CRD_SERVICE_URL=http://crd-service:4003
       - FHIR_BASE_URL=http://hapi:8080/fhir
 
@@ -53,6 +54,7 @@ services:
       - JANE_SMITH_PATIENT_ID=jane-smith
       - SMART_AUTH_BYPASS=true
       - PORT=4001
+      - LOG_HUB_URL=http://hub:4000/api/log
       - NEXT_PUBLIC_CRD_SERVICE_URL=http://localhost:4003
       - NEXT_PUBLIC_EHR_BASE_URL=http://localhost:4001
       - PAS_SERVICE_URL=http://pas-service:4005
@@ -73,6 +75,7 @@ services:
     environment:
       - SMART_AUTH_BYPASS=true
       - PORT=4002
+      - LOG_HUB_URL=http://hub:4000/api/log
       - NEXT_PUBLIC_EHR_BASE_URL=http://localhost:4001
       - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
       - KNOWLEDGE_REPO_URL=http://hub:4000
@@ -90,6 +93,7 @@ services:
     environment:
       - SMART_AUTH_BYPASS=true
       - PORT=4003
+      - LOG_HUB_URL=http://hub:4000/api/log
       - DTR_CLIENT_URL=http://dtr-client:4004
       - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
       - KNOWLEDGE_REPO_URL=http://hub:4000
@@ -107,6 +111,7 @@ services:
     environment:
       - SMART_AUTH_BYPASS=true
       - PORT=4004
+      - LOG_HUB_URL=http://hub:4000/api/log
       - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
       - EHR_BASE_URL=http://localhost:4001
       - KNOWLEDGE_REPO_URL=http://hub:4000
@@ -124,6 +129,7 @@ services:
     environment:
       - SMART_AUTH_BYPASS=true
       - PORT=4005
+      - LOG_HUB_URL=http://hub:4000/api/log
       - PAYER_BACKEND_URL=http://payer-backend:4006
 
   # ---------------------------------------------------------------------------
@@ -139,6 +145,7 @@ services:
     environment:
       - SMART_AUTH_BYPASS=true
       - PORT=4006
+      - LOG_HUB_URL=http://hub:4000/api/log
       - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
 
 volumes:

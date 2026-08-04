@@ -552,12 +552,10 @@ function DetailView({ pd, embedded }: { pd: AnyPlanDef; embedded: boolean }) {
     pd.subjectCodeableConcept as { coding?: Array<{ display?: string }> } | undefined
   )?.coding?.[0]?.display;
 
-  // Find linked library
+  // Find linked libraries — a PlanDefinition may reference multiple
+  // (e.g. BreastCancerPAWorkflow links both a data-requirements catalog
+  // and an executable payer policy CQL library).
   const libIds = linkedLibraryIds(pd);
-  const primaryLibId = libIds[0];
-  const cqlFiles = primaryLibId ? CQL_FILES[primaryLibId] : undefined;
-  const cqlSource = cqlFiles ? readFile(path.join(CQL_DIR, cqlFiles.cql)) : "";
-  const elmSource = cqlFiles ? readFile(path.join(ELM_DIR, cqlFiles.elm)) : "";
 
   // Find referenced order-sets (for eca-rules)
   const refOrderSetIds = tc === "eca-rule" ? collectDefinitionRefs(actions) : [];
@@ -646,9 +644,23 @@ function DetailView({ pd, embedded }: { pd: AnyPlanDef; embedded: boolean }) {
         </div>
       )}
 
-      {/* Library */}
-      {primaryLibId && (
-        <LibraryPanel libId={primaryLibId} cqlSource={cqlSource} elmSource={elmSource} />
+      {/* Linked Libraries — render all, not just the first */}
+      {libIds.length > 0 && (
+        <div className="space-y-4">
+          {libIds.map((libId) => {
+            const files = CQL_FILES[libId];
+            const cql = files ? readFile(path.join(CQL_DIR, files.cql)) : "";
+            const elm = files ? readFile(path.join(ELM_DIR, files.elm)) : "";
+            return (
+              <LibraryPanel
+                key={libId}
+                libId={libId}
+                cqlSource={cql}
+                elmSource={elm}
+              />
+            );
+          })}
+        </div>
       )}
 
       {/* Referenced order-sets */}
