@@ -10,7 +10,7 @@ Oncology developers and clinical staff running demos of the MOPA workflow. Prima
 
 ## Product Purpose
 
-Reference implementation of the Oncology Guideline-Compliant Authorization (MOPA) workflow across six actors: EHR, CDS SMART App, CRD Service, DTR Client, PAS Service, and Payer Backend. The EHR app specifically simulates a clinical order-entry surface that integrates CDS Hooks guidance and prior-authorization submission. Success means a developer or clinician can demo the full workflow without the UI getting in the way.
+Reference implementation of the Medical Oncology Prior Authorization (MOPA) workflow across seven actors: Hub, EHR, CDS SMART App, CRD Service, DTR Client, PAS Service, and Payer Backend. The CRD service uses standard CDS Hooks with fhirAuthorization to query the EHR FHIR server directly for oncology patient context. Success means a developer or clinician can demo the full workflow without the UI getting in the way.
 
 ## Brand Personality
 
@@ -33,4 +33,4 @@ Institutional, familiar, honest. Three words: clinical, trustworthy, neutral. No
 
 ## Accessibility & Inclusion
 
-WCAG 2.1 AA target. CDS indicator colors (info/warning/critical) must pair color with icon or text label — never color alone. Sufficient contrast on all interactive elements.
+WCAG 2.1 AA target. CDS indicator colors (info/warning/critical/success) must pair color with icon or text label — never color alone. Sufficient contrast on all interactive elements.
