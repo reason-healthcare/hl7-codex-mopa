@@ -7,7 +7,7 @@ const SPEC = {
     version: "0.1.0",
     description:
       "Coverage Requirements Discovery service implementing CDS Hooks for breast cancer " +
-      "chemotherapy prior authorization. Evaluates BreastCancerPayerPolicy CQL to return " +
+      "chemotherapy prior authorization. Evaluates oncology orders by querying the EHR FHIR server via fhirAuthorization to return " +
       "pre-authorization, PA-required, or DTR-required guidance cards.",
   },
   servers: [{ url: "http://localhost:4003", description: "Local dev" }],

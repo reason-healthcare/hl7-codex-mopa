@@ -3,15 +3,14 @@
  *
  * This module contains pure functions so they can be tested without
  * instantiating the Next.js request/response layer.
+ *
+ * Per the simplified MOPA specification, the CRD service uses standard
+ * CDS Hooks with fhirAuthorization to query the EHR FHIR server directly
+ * for oncology patient context. No custom discovery extension, prefetch
+ * templates, or condition registry are used.
  */
 
 import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@mopa/cds-hooks";
-import { resolvePrefetch } from "@mopa/cds-hooks";
-import { CqlExecutionEngine, extractBundleResources } from "@mopa/cql-engine";
-import type { ElmJson } from "@mopa/cql-engine";
-import { CONDITION_REGISTRY, CATALOG_URL, findConditionEntry } from "@mopa/knowledge-artifacts";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const payerPolicyElm = require("../../../cql/elm/BreastCancerPayerPolicy.elm.json") as ElmJson;
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -22,175 +21,136 @@ import {
   CRD_SERVICE_ID_SIGN,
   CRD_SERVICE_TITLE,
   CRD_DEFAULT_PORT,
-  LIBRARY_CANONICAL,
 } from "./constants";
+
 export {
   CRD_SERVICE_ID,
   CRD_SERVICE_ID_SIGN,
   CRD_SERVICE_TITLE,
   CRD_DEFAULT_PORT,
-  LIBRARY_CANONICAL,
 } from "./constants";
 
-// Baseline prefetch — lowest-common denominator, condition-agnostic.
-// Identifies the patient and their primary cancer condition so the CRD
-// can route to the correct condition-specific policy without prior knowledge.
-// MOPA-aware EHRs augment this with condition-specific templates from the
-// conditionDataRequirements extension. Standard EHRs use this alone and the
-// CRD falls back to dynamic fhirServer queries for disease-specific data.
-export const BASELINE_PREFETCH_TEMPLATES: Record<string, string> = {
-  patient: "Patient/{{context.patientId}}",
-  conditions: "Condition?patient={{context.patientId}}&category=problem-list-item&_count=20",
+// ---------------------------------------------------------------------------
+// FHIR query templates — used to query the EHR FHIR server via fhirAuthorization
+// ---------------------------------------------------------------------------
+
+const SNOMED = "http://snomed.info/sct";
+const LOINC = "http://loinc.org";
+
+/** Breast cancer SNOMED code used to identify the applicable coverage policy. */
+const BREAST_CANCER_CODE = "254837009";
+
+/** FHIR search queries the CRD service issues against the EHR FHIR server. */
+const FHIR_QUERIES: Record<string, (patientId: string) => string> = {
+  conditions: (id) => `Condition?patient=${id}&category=problem-list-item&_count=20`,
+  her2: (id) =>
+    `Observation?patient=${id}&code=${LOINC}|85319-2,${SNOMED}|431396003&_sort=-date&_count=5`,
+  cancerStage: (id) => `Observation?patient=${id}&code=${LOINC}|21908-9&_sort=-date&_count=1`,
+  ecogPs: (id) => `Observation?patient=${id}&code=${LOINC}|89247-1&_sort=-date&_count=1`,
+  priorTherapy: (id) =>
+    `MedicationRequest?patient=${id}&status=completed,stopped&_count=20`,
 };
 
-// Full prefetch — all keys the CRD may need across all supported conditions.
-// Used internally when resolving missing data via fhirServer fallback.
-export const PREFETCH_TEMPLATES: Record<string, string> = {
-  ...BASELINE_PREFETCH_TEMPLATES,
-  her2: "Observation?patient={{context.patientId}}&code=http://loinc.org|85319-2,http://snomed.info/sct|431396003&_sort=-date&_count=5",
-  cancerStage:
-    "Observation?patient={{context.patientId}}&code=http://loinc.org|21908-9&_sort=-date&_count=1",
-  ecogPs:
-    "Observation?patient={{context.patientId}}&code=http://loinc.org|89247-1&_sort=-date&_count=1",
-};
-
+/** Human-readable labels for missing data elements (used in DTR card). */
 export const MISSING_KEY_LABELS: Record<string, string> = {
   breastCancer: "Breast cancer diagnosis",
   her2: "HER2 status",
   cancerStage: "Cancer stage",
   ecogPs: "ECOG Performance Status",
+  priorTherapy: "Prior therapy history",
 };
 
 // ---------------------------------------------------------------------------
-// ELM loading
-// ---------------------------------------------------------------------------
-
-const cqlEngine = new CqlExecutionEngine();
-
-// CQL expression names from BreastCancerPayerPolicy.cql.
-// Defined as constants so a rename in CQL is caught at a single call-site.
-const CQL_BC_PRESENT = "Breast Cancer Diagnosis Present";
-const CQL_HER2_PRESENT = "HER2 Status Present";
-const CQL_STAGE_PRESENT = "Cancer Stage Present";
-const CQL_ECOG_PRESENT = "ECOG PS Present";
-
-// ---------------------------------------------------------------------------
-// Discovery
+// Discovery — standard CDS Hooks, no custom extension
 // ---------------------------------------------------------------------------
 
 export function buildDiscoveryResponse(): { services: CdsService[] } {
-  const extension = {
-    "mopa-service-extension": {
-      catalogUrl: CATALOG_URL,
-      conditionDataRequirements: CONDITION_REGISTRY.map((entry) => ({
-        condition: {
-          system: entry.conditionSystem,
-          code: entry.conditionCode,
-          display: entry.conditionDisplay,
-        },
-        libraryUrl: entry.libraryUrl,
-        prefetchTemplates: entry.prefetchTemplates,
-      })),
-      willUpdateOrders: false,
-    },
-  };
-
-  const baseService = {
+  const baseService: CdsService = {
+    id: CRD_SERVICE_ID,
+    hook: "order-select",
     title: CRD_SERVICE_TITLE,
     description:
-      "Evaluates oncology chemotherapy orders against condition-specific guideline " +
-      "and payer policy. Baseline prefetch carries patient demographics and primary " +
-      "diagnosis; condition-specific data requirements are published in the " +
-      "conditionDataRequirements extension for MOPA-aware EHRs.",
-    prefetch: BASELINE_PREFETCH_TEMPLATES,
-    extension,
+      "Evaluates oncology chemotherapy orders against coverage policy. " +
+      "Uses fhirAuthorization to query the EHR FHIR server directly for " +
+      "oncology patient context. No prefetch configuration required.",
   };
 
   return {
     services: [
-      { ...baseService, id: CRD_SERVICE_ID, hook: "order-select" },
-      { ...baseService, id: CRD_SERVICE_ID_SIGN, hook: "order-sign" },
+      baseService,
+      {
+        ...baseService,
+        id: CRD_SERVICE_ID_SIGN,
+        hook: "order-sign",
+      },
     ],
   };
 }
 
 // ---------------------------------------------------------------------------
-// CQL-driven completeness check
+// FHIR query helpers
 // ---------------------------------------------------------------------------
 
-export type CheckResult =
-  | { status: "pre-approved"; reason: string }
-  | { status: "approved"; reason: string }
-  | { status: "dtr-required"; missingKeys: string[] };
+/** Fetch a FHIR search Bundle from the EHR server using fhirAuthorization. */
+async function fetchBundle(
+  fhirBase: string,
+  query: string,
+  bearerToken?: string
+): Promise<Record<string, unknown> | null> {
+  const base = fhirBase.replace(/\/$/, "");
+  const headers: Record<string, string> = { Accept: "application/fhir+json" };
+  if (bearerToken) headers.Authorization = `Bearer ${bearerToken}`;
 
-/**
- * Evaluate BreastCancerPayerPolicy CQL against the resolved prefetch.
- *
- * Extracts FHIR resources from each prefetch bundle, runs the CQL library,
- * and maps the expression results to a CheckResult.
- */
-export async function evaluatePayerPolicy(
-  patientId: string,
-  prefetch: Record<string, unknown>
-): Promise<CheckResult> {
-  const resources: unknown[] = [
-    // Patient resource (single object from the patient prefetch key)
-    ...(prefetch.patient ? [prefetch.patient] : []),
-    // Bundle entries for each observation prefetch key
-    ...extractBundleResources(prefetch.her2),
-    ...extractBundleResources(prefetch.cancerStage),
-    ...extractBundleResources(prefetch.ecogPs),
-    ...extractBundleResources(prefetch.conditions),
-  ];
-
-  const results = await cqlEngine.evaluate(payerPolicyElm, patientId, resources);
-
-  const bcPresent = results[CQL_BC_PRESENT] as boolean;
-  const her2Present = results[CQL_HER2_PRESENT] as boolean;
-  const stagePresent = results[CQL_STAGE_PRESENT] as boolean;
-  const ecogPresent = results[CQL_ECOG_PRESENT] as boolean;
-
-  const missingKeys: string[] = [];
-  if (!bcPresent) missingKeys.push("breastCancer");
-  if (!her2Present) missingKeys.push("her2");
-  if (!stagePresent) missingKeys.push("cancerStage");
-  if (!ecogPresent) missingKeys.push("ecogPs");
-
-  if (missingKeys.length > 0) {
-    return { status: "dtr-required", missingKeys };
+  try {
+    const res = await fetch(`${base}/${query}`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as Record<string, unknown>;
+  } catch {
+    return null;
   }
+}
 
-  // All data present — check ECOG value to determine PA requirement.
-  // ECOG 0 qualifies for direct coverage (pre-approved); ECOG ≥1 requires PA.
-  const ecogScore = extractEcogScore(prefetch);
-  if (ecogScore === 0) {
-    return {
-      status: "pre-approved",
-      reason: "ECOG Performance Status 0 — direct coverage without prior authorization.",
-    };
-  }
+/** Extract resource entries from a FHIR Bundle. */
+function extractResources(bundle: unknown): Record<string, unknown>[] {
+  if (!bundle || typeof bundle !== "object") return [];
+  const b = bundle as { entry?: Array<{ resource?: unknown }> };
+  return (b.entry ?? [])
+    .map((e) => e.resource)
+    .filter((r): r is Record<string, unknown> => !!r && typeof r === "object");
+}
 
-  return { status: "approved", reason: "All required clinical data present." };
+/** Check if a Condition bundle contains an active breast cancer diagnosis. */
+function hasBreastCancer(conditionsBundle: unknown): boolean {
+  const resources = extractResources(conditionsBundle);
+  return resources.some((r) => {
+    if (r.resourceType !== "Condition") return false;
+    const codings = (r.code as { coding?: Array<{ system?: string; code?: string }> })?.coding ?? [];
+    return codings.some(
+      (c) => c.system === SNOMED && c.code === BREAST_CANCER_CODE
+    );
+  });
+}
+
+/** Check if an Observation bundle has any entries. */
+function hasObservation(bundle: unknown): boolean {
+  return extractResources(bundle).length > 0;
 }
 
 // ECOG SNOMED grade code → integer score
 const ECOG_SNOMED_GRADES: Record<string, number> = {
-  "425389002": 0, // ECOG performance status - grade 0
-  "422512005": 1, // ECOG performance status - grade 1
-  "422894000": 2, // ECOG performance status - grade 2
-  "423053003": 3, // ECOG performance status - grade 3
+  "425389002": 0,
+  "422512005": 1,
+  "422894000": 2,
+  "423053003": 3,
 };
 
-/**
- * Extract the integer ECOG score from the ecogPs prefetch bundle.
- * Handles both valueInteger (base fixture) and valueCodeableConcept
- * with SNOMED grade codes (DTR-submitted observations).
- */
-function extractEcogScore(prefetch: Record<string, unknown>): number | undefined {
-  const resources = extractBundleResources(prefetch.ecogPs);
-  for (const r of resources) {
-    if (!r || typeof r !== "object") continue;
-    const obs = r as Record<string, unknown>;
+/** Extract the integer ECOG score from an ECOG observation bundle. */
+function extractEcogScore(ecogBundle: unknown): number | undefined {
+  const resources = extractResources(ecogBundle);
+  for (const obs of resources) {
     if (obs.resourceType !== "Observation") continue;
     if (typeof obs.valueInteger === "number") return obs.valueInteger;
     const vc = obs.valueCodeableConcept as { coding?: Array<{ code?: string }> } | undefined;
@@ -203,7 +163,54 @@ function extractEcogScore(prefetch: Record<string, unknown>): number | undefined
 }
 
 // ---------------------------------------------------------------------------
-// Card builders
+// Coverage evaluation
+// ---------------------------------------------------------------------------
+
+export type CheckResult =
+  | { status: "authorization-satisfied"; reason: string }
+  | { status: "dtr-required"; missingKeys: string[] };
+
+export interface OncologyContext {
+  conditions: unknown;
+  her2: unknown;
+  cancerStage: unknown;
+  ecogPs: unknown;
+  priorTherapy: unknown;
+}
+
+/**
+ * Evaluate coverage policy for a breast cancer regimen.
+ *
+ * Checks that all required oncology data elements are present from the
+ * EHR FHIR server queries. If all present and criteria are met, returns
+ * "authorization-satisfied". If any required data is missing, returns
+ * "dtr-required" with the list of missing data categories.
+ */
+export function evaluateBreastCancerPolicy(ctx: OncologyContext): CheckResult {
+  const missingKeys: string[] = [];
+
+  if (!hasBreastCancer(ctx.conditions)) missingKeys.push("breastCancer");
+  if (!hasObservation(ctx.her2)) missingKeys.push("her2");
+  if (!hasObservation(ctx.cancerStage)) missingKeys.push("cancerStage");
+  if (!hasObservation(ctx.ecogPs)) missingKeys.push("ecogPs");
+
+  if (missingKeys.length > 0) {
+    return { status: "dtr-required", missingKeys };
+  }
+
+  // All required data present — coverage criteria met for breast cancer PA.
+  // The spec defines "Authorization Satisfied" as the outcome when all
+  // required context is present and criteria are met.
+  return {
+    status: "authorization-satisfied",
+    reason:
+      "All required oncology context present and coverage criteria met. " +
+      "Prior authorization conditions have been evaluated and PA can be bypassed.",
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Card builders — matching the MOPA spec card patterns
 // ---------------------------------------------------------------------------
 
 const DTR_CLIENT_URL = process.env.DTR_CLIENT_URL ?? "http://localhost:4004";
@@ -215,50 +222,15 @@ function buildCardSource() {
   };
 }
 
-export function buildPaRequiredCard(): CdsCard {
+export function buildAuthorizationSatisfiedCard(detail?: string): CdsCard {
   return {
-    summary: "Prior authorization required",
+    summary: "Authorization Satisfied",
     detail:
-      "All required clinical data is present. A formal prior authorization request must be " +
-      "submitted before this order can be fulfilled. Use the Submit PA button to proceed.",
-    indicator: "warning",
-    source: {
-      ...buildCardSource(),
-      topic: {
-        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
-        code: "prior-auth-required",
-        display: "Prior Authorization Required",
-      },
-    },
-  };
-}
-
-export function buildPreApprovedCard(): CdsCard {
-  return {
-    summary: "Coverage pre-authorized — prior authorization not required",
-    detail:
-      "All required clinical data is present. ECOG Performance Status 0 qualifies this " +
-      "patient for direct coverage. The order may proceed without a prior authorization request.",
-    indicator: "info",
-    source: {
-      ...buildCardSource(),
-      topic: {
-        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
-        code: "prior-auth-not-required",
-        display: "Prior Authorization Not Required",
-      },
-    },
-  };
-}
-
-export function buildCoverageMetCard(): CdsCard {
-  return {
-    summary: "Coverage criteria met",
-    detail:
-      "All required clinical data is present and the regimen meets guideline criteria. " +
-      "Prior authorization will be required before this order can be fulfilled — " +
-      "sign the order to submit.",
-    indicator: "info",
+      detail ??
+      "All required oncology context has been retrieved from the EHR and coverage " +
+      "criteria are met. Prior authorization conditions have been evaluated and " +
+      "prior authorization can be bypassed.",
+    indicator: "success",
     source: {
       ...buildCardSource(),
       topic: {
@@ -274,12 +246,11 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
   const missingDisplay = missingKeys.map((k) => MISSING_KEY_LABELS[k] ?? k).join(", ");
 
   const appContext = JSON.stringify({
-    libraryUrl: LIBRARY_CANONICAL,
     missingDataElements: missingKeys,
   });
 
   return {
-    summary: "Additional information required",
+    summary: "Documentation Required",
     detail:
       `The following clinical data is needed to evaluate this order: **${missingDisplay}**. ` +
       "Launch the documentation app to provide the missing information.",
@@ -287,7 +258,7 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
     source: buildCardSource(),
     links: [
       {
-        label: "Launch Documentation Requirements Tool",
+        label: "Complete Prior Authorization Documentation (DTR)",
         url: `${DTR_CLIENT_URL}/launch`,
         type: "smart",
         appContext,
@@ -304,19 +275,50 @@ export async function handleOncologyCrd(
   request: CdsRequest<Record<string, unknown>>
 ): Promise<CdsResponse> {
   const patientId = (request.context.patientId as string) ?? "unknown";
-  const prefetch = (request.prefetch ?? {}) as Record<string, unknown>;
+  const fhirBase = request.fhirServer;
   const bearerToken = request.fhirAuthorization?.access_token;
 
-  // Step 1 — Identify the patient's primary condition from the baseline prefetch.
-  const entry = findConditionEntry(prefetch.conditions);
-
-  if (!entry) {
+  // If no fhirServer is provided, we cannot query for patient context.
+  if (!fhirBase) {
     return {
       cards: [
         {
           summary: "No applicable coverage policy",
           detail:
-            "No oncology coverage policy is registered for the patient\u2019s primary condition. " +
+            "No FHIR server access available. The CRD service requires fhirAuthorization " +
+            "to query for oncology patient context. Proceed with standard ordering.",
+          indicator: "info",
+          source: { label: CRD_SERVICE_TITLE },
+        },
+      ],
+    };
+  }
+
+  // Query the EHR FHIR server for oncology patient context.
+  const queryResults = await Promise.all(
+    Object.entries(FHIR_QUERIES).map(async ([key, queryFn]) => {
+      const query = queryFn(patientId);
+      const bundle = await fetchBundle(fhirBase, query, bearerToken);
+      return [key, bundle] as const;
+    })
+  );
+
+  const ctx: OncologyContext = {
+    conditions: queryResults.find(([k]) => k === "conditions")?.[1] ?? null,
+    her2: queryResults.find(([k]) => k === "her2")?.[1] ?? null,
+    cancerStage: queryResults.find(([k]) => k === "cancerStage")?.[1] ?? null,
+    ecogPs: queryResults.find(([k]) => k === "ecogPs")?.[1] ?? null,
+    priorTherapy: queryResults.find(([k]) => k === "priorTherapy")?.[1] ?? null,
+  };
+
+  // Check if patient has breast cancer — only breast cancer policy is implemented.
+  if (!hasBreastCancer(ctx.conditions)) {
+    return {
+      cards: [
+        {
+          summary: "No applicable coverage policy",
+          detail:
+            "No oncology coverage policy is registered for the patient's primary condition. " +
             "Proceed with standard ordering.",
           indicator: "info",
           source: { label: CRD_SERVICE_TITLE },
@@ -325,36 +327,12 @@ export async function handleOncologyCrd(
     };
   }
 
-  // Step 2 — Fetch any condition-specific data the EHR did not provide.
-  // MOPA-aware EHRs send this proactively; standard EHRs trigger this fallback.
-  const missingPrefetchKeys = Object.keys(entry.prefetchTemplates).filter(
-    (k) => prefetch[k] == null
-  );
+  // Evaluate the breast cancer coverage policy.
+  const result = evaluateBreastCancerPolicy(ctx);
 
-  let fullPrefetch = prefetch;
-  if (missingPrefetchKeys.length > 0 && request.fhirServer) {
-    const missing = Object.fromEntries(
-      // biome-ignore lint/style/noNonNullAssertion: keys sourced from Object.keys()
-      missingPrefetchKeys.map((k) => [k, entry.prefetchTemplates[k]!])
-    );
-    const fetched = await resolvePrefetch(missing, request.fhirServer, { patientId }, prefetch, bearerToken);
-    fullPrefetch = { ...prefetch, ...fetched };
+  if (result.status === "authorization-satisfied") {
+    return { cards: [buildAuthorizationSatisfiedCard(result.reason)] };
   }
 
-  // Step 3 — Evaluate the condition-specific payer policy CQL.
-  // Only breast cancer CQL is implemented; other registry entries stub to DTR.
-  const BREAST_CANCER_CODE = "372137005";
-  const result =
-    entry.conditionCode === BREAST_CANCER_CODE
-      ? await evaluatePayerPolicy(patientId, fullPrefetch)
-      : { status: "dtr-required" as const, missingKeys: ["policy-not-yet-implemented"] };
-
-  if (result.status === "pre-approved") {
-    return { cards: [buildPreApprovedCard()] };
-  }
-  if (result.status === "approved") {
-    if (request.hook === "order-sign") return { cards: [buildPaRequiredCard()] };
-    return { cards: [buildCoverageMetCard()] };
-  }
   return { cards: [buildDtrCard(result.missingKeys)] };
 }

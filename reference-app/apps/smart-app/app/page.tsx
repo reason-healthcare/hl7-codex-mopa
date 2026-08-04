@@ -9,7 +9,6 @@ import {
   TOKEN_COOKIE,
 } from "@mopa/smart-auth";
 import {
-  fetchLibrary,
   runGapAnalysis,
   flattenResources,
   REQUIRED_KEYS,
@@ -152,16 +151,13 @@ export default async function SmartAppHome({
     }
   }
 
-  // Fetch Library + run gap analysis + evaluate guideline
+  // Run gap analysis + evaluate guideline (no Library fetch needed)
   let gaps: GapResult[] = [];
   let allRequiredPresent = false;
   let guideline: Regimen[] | null = null;
-  let libraryTitle = "Breast Cancer PA Data Requirements";
 
   if (patientId && bearerToken) {
     const correlationId = `smart-${crypto.randomUUID().slice(0, 8)}`;
-    const [library] = await Promise.all([fetchLibrary(correlationId)]);
-    if (library) libraryTitle = library.url.split("/").pop() ?? libraryTitle;
 
     gaps = await runGapAnalysis(patientId, EHR_FHIR_BASE, bearerToken, correlationId);
     allRequiredPresent = REQUIRED_KEYS.every((k) => gaps.find((g) => g.key === k)?.present);
@@ -247,10 +243,6 @@ export default async function SmartAppHome({
               <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
                 Gap Analysis
               </h2>
-              <p className="text-xs text-slate-500 mb-4">
-                Library: <span className="font-mono">{libraryTitle}</span>
-              </p>
-
               {displayedGaps.length === 0 ? (
                 <p className="text-sm text-slate-500 italic">Loading…</p>
               ) : (

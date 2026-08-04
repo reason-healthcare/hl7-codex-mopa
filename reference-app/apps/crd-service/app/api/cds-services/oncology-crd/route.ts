@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { CdsRequestSchema, resolvePrefetch } from "@mopa/cds-hooks";
-import { handleOncologyCrd, PREFETCH_TEMPLATES, CRD_SERVICE_ID } from "../../../../src/crd-logic";
+import { CdsRequestSchema } from "@mopa/cds-hooks";
+import { handleOncologyCrd, CRD_SERVICE_ID } from "../../../../src/crd-logic";
 import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("crd");
@@ -44,19 +44,7 @@ export async function POST(request: NextRequest) {
       { status: 400, headers: CORS }
     );
 
-  const fhirBase =
-    cdsRequest.fhirServer ?? process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
-
-  const bearerToken = cdsRequest.fhirAuthorization?.access_token;
-  const prefetch = await resolvePrefetch(
-    PREFETCH_TEMPLATES,
-    fhirBase,
-    cdsRequest.context,
-    cdsRequest.prefetch ?? {},
-    bearerToken
-  );
-
-  const response = await handleOncologyCrd({ ...cdsRequest, prefetch });
+  const response = await handleOncologyCrd(cdsRequest);
   const outcome =
     response.cards[0]?.source.topic?.code ?? response.cards[0]?.indicator ?? "unknown";
   const durationMs = Date.now() - t0;
@@ -72,7 +60,7 @@ export async function POST(request: NextRequest) {
     outcome,
     request: body,
     response,
-    summary: `order-select → ${outcome} (${durationMs}ms)`,
+    summary: `${cdsRequest.hook} → ${outcome} (${durationMs}ms)`,
   });
 
   console.log(
