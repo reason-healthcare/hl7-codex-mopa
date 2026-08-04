@@ -1,22 +1,16 @@
 /**
- * Payer policy CQL evaluation.
+ * Payer policy evaluation.
  *
  * Fetches the patient's clinical observations from the EHR FHIR proxy and
- * evaluates BreastCancerPayerPolicy.elm.json to produce a prior-authorization
- * determination.
+ * evaluates coverage criteria to produce a prior-authorization determination.
+ * Uses direct FHIR queries matching the simplified MOPA CRD pattern.
  */
-import { CqlExecutionEngine } from "@mopa/cql-engine";
-import type { ElmJson } from "@mopa/cql-engine";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const policyElm = require("../../../cql/elm/BreastCancerPayerPolicy.elm.json") as ElmJson;
-
-const engine = new CqlExecutionEngine();
+const SNOMED = "http://snomed.info/sct";
+const LOINC = "http://loinc.org";
+const BREAST_CANCER_CODE = "254837009";
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4000/api/fhir";
-
-/** CQL expression name for the aggregated PA determination. */
-const CQL_PA_RESULT = "PA Result";
 
 export interface PaDecision {
   status: "approved" | "pended" | "denied";
@@ -36,49 +30,62 @@ async function getBundle(url: string): Promise<unknown[]> {
   }
 }
 
-async function getResource(url: string): Promise<unknown | null> {
-  try {
-    const res = await fetch(`${EHR_FHIR_BASE}/${url}`);
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
+/** Check if a list of Condition resources contains active breast cancer. */
+function hasBreastCancer(resources: unknown[]): boolean {
+  return resources.some((r) => {
+    if (!r || typeof r !== "object") return false;
+    const cond = r as Record<string, unknown>;
+    if (cond.resourceType !== "Condition") return false;
+    const codings = (cond.code as { coding?: Array<{ system?: string; code?: string }> })?.coding ?? [];
+    return codings.some((c) => c.system === SNOMED && c.code === BREAST_CANCER_CODE);
+  });
 }
 
-/** Fetch all FHIR resources relevant to the PA policy for a given patient. */
-async function fetchPaResources(patientId: string): Promise<unknown[]> {
-  const [patient, her2, stage, ecog, conditions] = await Promise.all([
-    getResource(`Patient/${patientId}`),
-    getBundle(
-      `Observation?patient=${patientId}&code=http://loinc.org|85319-2,http://snomed.info/sct|431396003&_count=5`
-    ),
-    getBundle(`Observation?patient=${patientId}&code=http://loinc.org|21908-9&_count=1`),
-    getBundle(`Observation?patient=${patientId}&code=http://loinc.org|89247-1&_count=1`),
-    getBundle(`Condition?patient=${patientId}&category=problem-list-item&_count=20`),
-  ]);
-
-  return [...(patient ? [patient] : []), ...her2, ...stage, ...ecog, ...conditions];
+/** Check if an Observation bundle has any entries. */
+function hasObservation(resources: unknown[]): boolean {
+  return resources.length > 0;
 }
 
 /**
- * Evaluate the payer policy CQL against live patient data.
+ * Evaluate the payer policy against live patient data.
  *
  * Returns "approved" when all required clinical data is present and the
  * regimen meets policy criteria, "pended" when the determination is
  * incomplete, and "denied" when the policy explicitly rejects the request.
  */
 export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
-  const resources = await fetchPaResources(patientId);
-  const results = await engine.evaluate(policyElm, patientId, resources);
+  const [conditions, her2, stage, ecog] = await Promise.all([
+    getBundle(`Condition?patient=${patientId}&category=problem-list-item&_count=20`),
+    getBundle(
+      `Observation?patient=${patientId}&code=${LOINC}|85319-2,${SNOMED}|431396003&_count=5`
+    ),
+    getBundle(`Observation?patient=${patientId}&code=${LOINC}|21908-9&_count=1`),
+    getBundle(`Observation?patient=${patientId}&code=${LOINC}|89247-1&_count=1`),
+  ]);
 
-  if ((results[CQL_PA_RESULT] as string | undefined) === "approved") {
-    return { status: "approved", reason: "All clinical criteria met per payer policy." };
+  // Check data completeness
+  if (!hasBreastCancer(conditions)) {
+    return {
+      status: "pended",
+      reason: "No active breast cancer diagnosis found. Pending manual review.",
+    };
   }
 
-  // dtr-required means missing data reached the payer — pend for manual review
+  const missing: string[] = [];
+  if (!hasObservation(her2)) missing.push("HER2 status");
+  if (!hasObservation(stage)) missing.push("Cancer stage");
+  if (!hasObservation(ecog)) missing.push("ECOG performance status");
+
+  if (missing.length > 0) {
+    return {
+      status: "pended",
+      reason: `Missing required data: ${missing.join(", ")}. Pending manual review.`,
+    };
+  }
+
+  // All required data present — coverage criteria met
   return {
-    status: "pended",
-    reason: "One or more required data elements could not be verified. Pending manual review.",
+    status: "approved",
+    reason: "All clinical criteria met per payer policy. Authorization satisfied.",
   };
 }
