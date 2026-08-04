@@ -38,7 +38,7 @@ const SNOMED = "http://snomed.info/sct";
 const LOINC = "http://loinc.org";
 
 /** Breast cancer SNOMED code used to identify the applicable coverage policy. */
-const BREAST_CANCER_CODE = "254837009";
+const BREAST_CANCER_CODE = "372137005";
 
 /** FHIR search queries the CRD service issues against the EHR FHIR server. */
 const FHIR_QUERIES: Record<string, (patientId: string) => string> = {
