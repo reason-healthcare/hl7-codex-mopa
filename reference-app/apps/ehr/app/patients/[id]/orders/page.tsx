@@ -16,34 +16,10 @@ export default async function OrderEntryPage({ params }: PageProps) {
 
   let patient: Patient | null = null;
   let displayName = id;
-  let conditionCode: string | undefined;
 
   try {
     patient = PatientSchema.parse(await client.read({ resourceType: "Patient", id }));
     displayName = getPatientDisplayName(patient);
-  } catch {
-    /* non-fatal */
-  }
-
-  try {
-    const { BundleSchema, ConditionSchema } = await import("@mopa/fhir-client");
-    const raw = await client.search({
-      resourceType: "Condition",
-      searchParams: { patient: id, category: "problem-list-item", _count: "5" },
-    });
-    const bundle = BundleSchema.parse(raw);
-    const conditions = (bundle.entry ?? [])
-      .map((e) => {
-        try {
-          return ConditionSchema.parse(e.resource);
-        } catch {
-          return null;
-        }
-      })
-      .filter(Boolean);
-    if (conditions[0]?.code?.coding?.[0]?.code) {
-      conditionCode = conditions[0].code.coding[0].code;
-    }
   } catch {
     /* non-fatal */
   }
@@ -77,7 +53,7 @@ export default async function OrderEntryPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <OrderEntryClient patientId={id} conditionCode={conditionCode} />
+      <OrderEntryClient patientId={id} />
     </main>
   );
 }

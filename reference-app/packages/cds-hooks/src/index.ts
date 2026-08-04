@@ -1,42 +1,8 @@
 import { z } from "zod";
 
 // ---------------------------------------------------------------------------
-// CDS Hooks — Service descriptor
+// CDS Hooks — Service descriptor (standard, no custom extension)
 // ---------------------------------------------------------------------------
-
-/**
- * MOPA extension on a CDS service descriptor.
- * Carried in the `extension` map of a CdsService.
- */
-/**
- * Per-condition data requirements entry in the MOPA service extension.
- * Allows MOPA-aware EHRs to add condition-specific prefetch templates to
- * the hook call without a CRD callback, while standard EHRs fall back to
- * the CRD's dynamic FHIR fetch.
- */
-export interface ConditionDataRequirement {
-  /** FHIR Coding identifying the primary cancer condition. */
-  condition: { system: string; code: string; display: string };
-  /** Canonical URL of the condition-specific payer policy Library. */
-  libraryUrl: string;
-  /** CDS Hooks prefetch template strings the EHR should add when this
-   *  condition is present. Keys are free-form; the CRD uses the same
-   *  keys when resolving missing data via fhirServer fallback. */
-  prefetchTemplates: Record<string, string>;
-}
-
-export interface MopaServiceExtension {
-  /** Canonical URL of the OncologyCRDCatalog Library (full registry). */
-  catalogUrl?: string;
-  /** Canonical URL of the condition-specific payer policy Library.
-   *  Kept for single-condition backward compatibility. */
-  libraryUrl?: string;
-  /** Condition-indexed data requirements for MOPA-aware EHR prefetch.
-   *  One entry per supported condition. EHRs that do not implement this
-   *  extension receive correct behaviour via CRD fhirServer fallback. */
-  conditionDataRequirements?: ConditionDataRequirement[];
-  willUpdateOrders?: boolean;
-}
 
 export interface CdsService {
   id: string;
@@ -45,10 +11,7 @@ export interface CdsService {
   description: string;
   /** Prefetch templates: key → FHIR query string with {{context.X}} placeholders. */
   prefetch?: Record<string, string>;
-  extension?: {
-    "mopa-service-extension"?: MopaServiceExtension;
-    [key: string]: unknown;
-  };
+  extension?: Record<string, unknown>;
 }
 
 export interface CdsDiscoveryResponse {
@@ -105,7 +68,7 @@ export interface CdsRequest<
 // CDS Hooks response — cards
 // ---------------------------------------------------------------------------
 
-export type CardIndicator = "info" | "warning" | "critical";
+export type CardIndicator = "info" | "warning" | "critical" | "success";
 
 export interface CdsAction {
   type: "create" | "update" | "delete";
@@ -177,7 +140,7 @@ export const CdsCardSchema = z.object({
   uuid: z.string().optional(),
   summary: z.string(),
   detail: z.string().optional(),
-  indicator: z.enum(["info", "warning", "critical"]),
+  indicator: z.enum(["info", "warning", "critical", "success"]),
   source: z.object({
     label: z.string(),
     url: z.string().optional(),
@@ -214,15 +177,11 @@ export const CdsRequestSchema = z.object({
 });
 
 // ---------------------------------------------------------------------------
-// Prefetch resolution
+// Prefetch resolution (still useful for apps that use prefetch, but CRD no longer does)
 // ---------------------------------------------------------------------------
 
 /**
  * Substitute `{{context.X}}` placeholders in a prefetch template string.
- *
- * @param template - A FHIR query template such as `"Patient/{{context.patientId}}"`
- * @param context  - The hook context object to read values from.
- * @returns The resolved query string.
  */
 export function substituteTemplate(template: string, context: Record<string, unknown>): string {
   return template.replace(/\{\{context\.([^}]+)\}\}/g, (_match, key: string) => {
@@ -233,15 +192,6 @@ export function substituteTemplate(template: string, context: Record<string, unk
 
 /**
  * Resolve any prefetch templates not already populated by the EHR.
- *
- * Fetches each missing key against `fhirBase` and returns the merged prefetch
- * map. Templates already present in `existing` are kept as-is.
- *
- * @param templates  - The service's declared prefetch template map.
- * @param fhirBase   - FHIR server base URL (no trailing slash).
- * @param context    - The hook's context (provides template variable values).
- * @param existing   - Prefetch already provided by the EHR (may be partial).
- * @returns A prefetch map with all templates resolved.
  */
 export async function resolvePrefetch(
   templates: Record<string, string>,
@@ -255,7 +205,7 @@ export async function resolvePrefetch(
 
   await Promise.all(
     Object.entries(templates).map(async ([key, template]) => {
-      if (result[key] != null) return; // already populated by EHR
+      if (result[key] != null) return;
 
       const query = substituteTemplate(template, context);
       if (!query) return;
@@ -266,13 +216,11 @@ export async function resolvePrefetch(
       try {
         const res = await fetch(`${base}/${query}`, {
           headers,
-          // Opt out of Next.js fetch caching so the CRD always reads the
-          // latest FHIR data (e.g. observations written back by DTR).
           cache: "no-store",
         });
         if (res.ok) result[key] = await res.json();
       } catch {
-        // prefetch failure is non-fatal — handler will treat key as missing
+        // prefetch failure is non-fatal
       }
     })
   );
@@ -282,7 +230,6 @@ export async function resolvePrefetch(
 
 /**
  * Extract the first resource from a prefetch Bundle entry array.
- * Returns `undefined` when the bundle is absent or empty.
  */
 export function firstPrefetchResource(prefetch: unknown): Record<string, unknown> | undefined {
   if (!prefetch || typeof prefetch !== "object") return undefined;

@@ -103,7 +103,7 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
   // ------------------------------------------------------------------
   // App context
   // ------------------------------------------------------------------
-  let parsedContext: { libraryUrl?: string; missingDataElements?: string[] } | null = null;
+  let parsedContext: { missingDataElements?: string[] } | null = null;
   if (rawAppContext) {
     try {
       parsedContext = JSON.parse(decodeURIComponent(rawAppContext));
@@ -151,14 +151,7 @@ export default async function DtrClientHome({ searchParams }: PageProps) {
                     )}
                   </dd>
                 </div>
-                {parsedContext?.libraryUrl && (
-                  <div className="col-span-2">
-                    <dt className="text-slate-500">Library</dt>
-                    <dd className="font-mono text-xs text-slate-600 break-all">
-                      {parsedContext.libraryUrl}
-                    </dd>
-                  </div>
-                )}
+
               </dl>
             </div>
 

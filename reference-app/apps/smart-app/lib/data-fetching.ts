@@ -1,38 +1,11 @@
 /**
  * Data-fetching helpers for the CDS SMART App.
  *
- * Fetches the PA data requirements Library from the CRD service and
- * executes parallel FHIR queries for each DataRequirement against the EHR.
+ * Executes parallel FHIR queries for oncology data categories directly
+ * against the EHR FHIR server — no Library fetch required.
  */
 import { Client, BundleSchema } from "@mopa/fhir-client";
-import { CRD_LIBRARY_URL } from "./smart-config";
 import { log } from "@mopa/logger";
-
-// ---------------------------------------------------------------------------
-// Library resource types
-// ---------------------------------------------------------------------------
-
-export interface DataRequirementLabel {
-  url: string;
-  valueString: string;
-}
-
-export interface DataRequirement {
-  type: string;
-  codeFilter?: Array<{
-    path: string;
-    code?: Array<{ system: string; code: string; display?: string }>;
-    valueSet?: string;
-  }>;
-  extension?: DataRequirementLabel[];
-}
-
-export interface LibraryResource {
-  resourceType: "Library";
-  id: string;
-  url: string;
-  dataRequirement: DataRequirement[];
-}
 
 // ---------------------------------------------------------------------------
 // DataRequirement → FHIR query mapping
@@ -82,39 +55,7 @@ export const HER2_LOINC_SYSTEM = "http://loinc.org";
 export const HER2_LOINC_DISPLAY = "HER2, Breast cancer specimen";
 
 // ---------------------------------------------------------------------------
-// Library fetch
-// ---------------------------------------------------------------------------
-
-export async function fetchLibrary(correlationId?: string): Promise<LibraryResource | null> {
-  const t0 = Date.now();
-  try {
-    const res = await fetch(CRD_LIBRARY_URL, {
-      headers: { Accept: "application/fhir+json" },
-      cache: "no-store",
-    });
-    const durationMs = Date.now() - t0;
-    if (!res.ok) {
-      log({ service: "smart", level: "warn", type: "crmi.read", correlationId,
-        method: "GET", path: CRD_LIBRARY_URL, status: res.status, durationMs,
-        summary: `CRMI GET ${CRD_LIBRARY_URL} → ${res.status}` });
-      return null;
-    }
-    const library = await res.json() as LibraryResource;
-    log({ service: "smart", level: "info", type: "crmi.read", correlationId,
-      method: "GET", path: CRD_LIBRARY_URL, status: 200, durationMs,
-      response: library,
-      summary: `CRMI GET ${CRD_LIBRARY_URL} → 200 (${library.dataRequirement?.length ?? 0} dataRequirements)` });
-    return library;
-  } catch (e) {
-    log({ service: "smart", level: "error", type: "crmi.read", correlationId,
-      method: "GET", path: CRD_LIBRARY_URL,
-      summary: `CRMI GET ${CRD_LIBRARY_URL} error: ${e instanceof Error ? e.message : String(e)}` });
-    return null;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// DataRequirement gap analysis
+// Data gap analysis — direct FHIR queries (no Library fetch)
 // ---------------------------------------------------------------------------
 
 /**

@@ -189,9 +189,22 @@ describe("CdsResponseSchema", () => {
     expect(CdsResponseSchema.safeParse(raw).success).toBe(true);
   });
 
+  it("parses a success indicator card", () => {
+    const raw = {
+      cards: [
+        {
+          summary: "Authorization Satisfied",
+          indicator: "success",
+          source: { label: "MOPA CRD" },
+        },
+      ],
+    };
+    expect(CdsResponseSchema.safeParse(raw).success).toBe(true);
+  });
+
   it("rejects a card with invalid indicator", () => {
     const raw = {
-      cards: [{ summary: "x", indicator: "success", source: { label: "x" } }],
+      cards: [{ summary: "x", indicator: "blue", source: { label: "x" } }],
     };
     expect(CdsResponseSchema.safeParse(raw).success).toBe(false);
   });

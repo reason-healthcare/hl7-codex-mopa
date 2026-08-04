@@ -322,78 +322,17 @@ function buildDraftBundle(patientId: string, regimen: Regimen) {
 // CDS Hooks fire
 // ---------------------------------------------------------------------------
 
-/**
- * Discovery cache — loaded once on component mount.
- * Holds conditionDataRequirements from the MOPA service extension so we can
- * add condition-specific prefetch to every hook call (MOPA-aware EHR path).
- */
-let discoveryCache: Array<{
-  condition: { system: string; code: string };
-  prefetchTemplates: Record<string, string>;
-}> | null = null;
-
-async function loadDiscovery(): Promise<void> {
-  if (discoveryCache !== null) return;
-  try {
-    const res = await fetch(`${CRD_SERVICE_URL}/api/cds-services`);
-    if (!res.ok) {
-      discoveryCache = [];
-      return;
-    }
-    const data = (await res.json()) as {
-      services?: Array<{
-        extension?: {
-          "mopa-service-extension"?: { conditionDataRequirements?: typeof discoveryCache };
-        };
-      }>;
-    };
-    discoveryCache =
-      data.services?.[0]?.extension?.["mopa-service-extension"]?.conditionDataRequirements ?? [];
-  } catch {
-    discoveryCache = [];
-  }
-}
-
-/**
- * Resolve any condition-specific prefetch templates that match the patient's
- * condition. Returns the additional prefetch keys to include in the hook body.
- */
-async function resolveConditionPrefetch(
-  patientId: string,
-  conditionCode: string | undefined
-): Promise<Record<string, unknown>> {
-  if (!conditionCode || !discoveryCache) return {};
-  const entry = discoveryCache.find((e) => e.condition.code === conditionCode);
-  if (!entry) return {};
-
-  const results: Record<string, unknown> = {};
-  await Promise.all(
-    Object.entries(entry.prefetchTemplates).map(async ([key, template]) => {
-      const url = template.replace(/\{\{context\.patientId\}\}/g, patientId);
-      try {
-        const res = await fetch(`${FHIR_BASE_URL}/${url}`, {
-          headers: { Accept: "application/fhir+json" },
-        });
-        if (res.ok) results[key] = await res.json();
-      } catch {
-        /* non-fatal */
-      }
-    })
-  );
-  return results;
-}
-
 async function fireCdsHook(
   hook: "order-select" | "order-sign",
   patientId: string,
   regimen: Regimen,
-  conditionCode?: string
 ): Promise<CdsResponse> {
   const draftOrders = buildDraftBundle(patientId, regimen);
 
-  // MOPA-aware EHR path: augment with condition-specific prefetch
-  const conditionPrefetch = await resolveConditionPrefetch(patientId, conditionCode);
-
+  // Standard CDS Hooks request — no prefetch needed.
+  // The CRD service uses fhirAuthorization to query the EHR FHIR server
+  // directly for oncology patient context. fhirServer and fhirAuthorization
+  // are injected server-side by /api/crd-hooks.
   const body = {
     hookInstance: crypto.randomUUID(),
     hook,
@@ -403,9 +342,6 @@ async function fireCdsHook(
       draftOrders,
       selections: [`urn:uuid:rg-${regimen.id}`],
     },
-    prefetch: conditionPrefetch,
-    // fhirServer and fhirAuthorization are injected server-side by /api/crd-hooks
-    // so the CRD can authenticate against the EHR FHIR proxy.
   };
 
   const res = await fetch(`/api/crd-hooks`, {
@@ -737,10 +673,8 @@ function ClaimResponseDisplay({ outcome, disposition }: ClaimResponseSummary) {
 
 export default function OrderEntryPage({
   patientId,
-  conditionCode,
 }: {
   patientId: string;
-  conditionCode?: string;
 }) {
   const [selected, setSelected] = useState<Regimen | null>(null);
   const [cards, setCards] = useState<CdsCard[]>([]);
@@ -752,10 +686,7 @@ export default function OrderEntryPage({
   const [paError, setPaError] = useState<string | null>(null);
   const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
 
-  // Load CDS discovery once so subsequent hook calls can add condition-specific prefetch
-  useEffect(() => {
-    void loadDiscovery();
-  }, []);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("dtr-complete") !== "true") return;
@@ -770,14 +701,14 @@ export default function OrderEntryPage({
     setSigned(false);
     setLoading(true);
     setError(null);
-    fireCdsHook("order-select", patientId, regimen, conditionCode)
+    fireCdsHook("order-select", patientId, regimen)
       .then((r) => {
         setCards(r.cards);
         setActiveHook("order-select");
       })
       .catch((e: unknown) => setError(e instanceof Error ? e.message : "CRD service unavailable"))
       .finally(() => setLoading(false));
-  }, [patientId, conditionCode]);
+  }, [patientId]);
 
   async function callCrdHook(
     hook: "order-select" | "order-sign",
@@ -787,7 +718,7 @@ export default function OrderEntryPage({
     setLoading(true);
     setError(null);
     try {
-      const response = await fireCdsHook(hook, patientId, regimen, conditionCode);
+      const response = await fireCdsHook(hook, patientId, regimen);
       onSuccess(response.cards);
       setActiveHook(hook);
     } catch (e) {
