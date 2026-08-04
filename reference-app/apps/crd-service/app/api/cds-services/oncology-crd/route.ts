@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { CdsRequestSchema, resolvePrefetch } from "@ogca/cds-hooks";
+import { CdsRequestSchema, resolvePrefetch } from "@mopa/cds-hooks";
 import { handleOncologyCrd, PREFETCH_TEMPLATES, CRD_SERVICE_ID } from "../../../../src/crd-logic";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("crd");
 const CORS = { "Access-Control-Allow-Origin": "*" };

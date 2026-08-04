@@ -4,7 +4,7 @@ services:
   # ---------------------------------------------------------------------------
   hapi:
     image: hapiproject/hapi:latest
-    container_name: ogca-hapi
+    container_name: mopa-hapi
     ports:
       - "8080:8080"
     environment:
@@ -30,7 +30,7 @@ services:
     build:
       context: .
       dockerfile: apps/hub/Dockerfile
-    container_name: ogca-hub
+    container_name: mopa-hub
     ports:
       - "4000:4000"
     environment:
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: apps/ehr/Dockerfile
-    container_name: ogca-ehr
+    container_name: mopa-ehr
     ports:
       - "4001:4001"
     environment:
@@ -67,7 +67,7 @@ services:
     build:
       context: .
       dockerfile: apps/smart-app/Dockerfile
-    container_name: ogca-smart-app
+    container_name: mopa-smart-app
     ports:
       - "4002:4002"
     environment:
@@ -84,7 +84,7 @@ services:
     build:
       context: .
       dockerfile: apps/crd-service/Dockerfile
-    container_name: ogca-crd-service
+    container_name: mopa-crd-service
     ports:
       - "4003:4003"
     environment:
@@ -101,7 +101,7 @@ services:
     build:
       context: .
       dockerfile: apps/dtr-client/Dockerfile
-    container_name: ogca-dtr-client
+    container_name: mopa-dtr-client
     ports:
       - "4004:4004"
     environment:
@@ -118,7 +118,7 @@ services:
     build:
       context: .
       dockerfile: apps/pas-service/Dockerfile
-    container_name: ogca-pas-service
+    container_name: mopa-pas-service
     ports:
       - "4005:4005"
     environment:
@@ -133,7 +133,7 @@ services:
     build:
       context: .
       dockerfile: apps/payer-backend/Dockerfile
-    container_name: ogca-payer-backend
+    container_name: mopa-payer-backend
     ports:
       - "4006:4006"
     environment:

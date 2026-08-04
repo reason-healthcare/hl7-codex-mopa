@@ -7,7 +7,7 @@ In bypass mode the EHR launch endpoint skips OAuth, encodes the patient ID direc
 into a cookie (`bypass-token:{patientId}`), and redirects straight to the app home.
 No token exchange occurs; no authorization server is involved.
 
-The `@ogca/smart-auth` package already contains all the primitives:
+The `@mopa/smart-auth` package already contains all the primitives:
 
 | Symbol | Status | Purpose |
 |---|---|---|
@@ -46,7 +46,7 @@ Response (200 application/json):
 }
 ```
 
-Implementation: call `buildSmartConfiguration(EHR_FHIR_BASE)` from `@ogca/smart-auth`.
+Implementation: call `buildSmartConfiguration(EHR_FHIR_BASE)` from `@mopa/smart-auth`.
 
 ---
 
@@ -101,7 +101,7 @@ code for a bearer token.
 1. Look up `code` in the code store. Return `400 invalid_grant` if absent or expired.
 2. Verify PKCE: `SHA-256(code_verifier)` base64url-encoded must equal stored `code_challenge`.
 3. Delete the code from the store (single-use).
-4. Call `issueToken({ sub: clientId, patient: patientId, scope })` from `@ogca/smart-auth`.
+4. Call `issueToken({ sub: clientId, patient: patientId, scope })` from `@mopa/smart-auth`.
 5. Return:
 
 ```json
@@ -158,7 +158,7 @@ authorize endpoint expects.
 The `exchangeCode` function already exists. The SMART App and DTR launch/callback
 routes use it when `SMART_AUTH_BYPASS=false`. No new primitives needed — just ensure:
 
-- `SMART_JWT_SECRET` env var is set on the EHR (default `ogca-dev-secret-change-in-production`
+- `SMART_JWT_SECRET` env var is set on the EHR (default `mopa-dev-secret-change-in-production`
   is already in the package for dev; set a real secret in production).
 - The same secret is set on SMART App and DTR so `verifyToken` succeeds.
 
@@ -171,15 +171,15 @@ Remove or set to `false` in each app's `.env.local`:
 ```bash
 # apps/ehr/.env.local
 SMART_AUTH_BYPASS=false
-SMART_JWT_SECRET=ogca-dev-secret-change-in-production
+SMART_JWT_SECRET=mopa-dev-secret-change-in-production
 
 # apps/smart-app/.env.local
 SMART_AUTH_BYPASS=false
-SMART_JWT_SECRET=ogca-dev-secret-change-in-production
+SMART_JWT_SECRET=mopa-dev-secret-change-in-production
 
 # apps/dtr-client/.env.local
 SMART_AUTH_BYPASS=false
-SMART_JWT_SECRET=ogca-dev-secret-change-in-production
+SMART_JWT_SECRET=mopa-dev-secret-change-in-production
 ```
 
 All three apps share the same `SMART_JWT_SECRET` so tokens issued by the EHR can be

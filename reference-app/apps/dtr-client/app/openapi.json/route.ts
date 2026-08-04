@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 const SPEC = {
   openapi: "3.0.3",
   info: {
-    title: "OGCA DTR Client",
+    title: "MOPA DTR Client",
     version: "0.1.0",
     description:
       "Documentation Requirements Tool. Launched via SMART EHR context with an appContext " +

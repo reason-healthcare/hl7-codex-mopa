@@ -1,4 +1,4 @@
-# OGCA Reference Application — Task Tracking
+# MOPA Reference Application — Task Tracking
 
 Task list maintained per-phase during implementation. See `PLAN.md` Agent Instructions
 for format rules and commit discipline.
@@ -42,7 +42,7 @@ for format rules and commit discipline.
 ### apps/ehr
 - [x] Scaffold Next.js 14 app at `apps/ehr` (App Router, Tailwind) — Next.js 16 installed
 - [x] Configure `next.config.ts` with port 4000 and `output: standalone`
-- [x] Add `@ogca/fhir-client` workspace dependency
+- [x] Add `@mopa/fhir-client` workspace dependency
 - [x] Implement `/api/fhir/[...path]` proxy route
 - [x] Implement patient chart page (`/patients/[id]`): Demographics, Problem List, Observations
 - [x] Implement home page with link to Jane Smith's chart
@@ -86,7 +86,7 @@ for format rules and commit discipline.
 
 ### packages/cds-hooks
 - [x] Basic type stubs exist from Phase 1
-- [x] Expand `CdsService` with OGCA extension fields (`libraryUrl`, `willUpdateOrders`)
+- [x] Expand `CdsService` with MOPA extension fields (`libraryUrl`, `willUpdateOrders`)
 - [x] Add `CdsContext` typed interfaces: `OrderSelectContext`, `OrderSignContext`
 - [x] Add Zod schemas: `CdsRequestSchema`, `CdsResponseSchema` for runtime validation
 - [x] Add `resolvePrefetch(templates, fhirBase, context)` helper — substitutes `{{context.X}}` placeholders and fetches each template against the FHIR server
@@ -95,14 +95,14 @@ for format rules and commit discipline.
 - [x] Tests: prefetch template substitution (unit), request/response Zod parsing
 
 ### apps/crd-service — dependencies + proxy
-- [x] Add `@ogca/cds-hooks` and `@ogca/fhir-client` to `package.json`
+- [x] Add `@mopa/cds-hooks` and `@mopa/fhir-client` to `package.json`
 - [x] Wire `/api/fhir/[...path]` proxy route (same pattern as EHR)
 - [x] Update landing page to show service status + discovery URL
 
 ### apps/crd-service — GET /api/cds-services
 - [x] Implement discovery route returning one service: `oncology-crd`
 - [x] Service descriptor: hooks `order-select` + `order-sign`, prefetch templates for patient, HER2 Observation, Conditions
-- [x] Include OGCA extension: `libraryUrl` pointing to `BreastCancerPADataRequirements`
+- [x] Include MOPA extension: `libraryUrl` pointing to `BreastCancerPADataRequirements`
 
 ### apps/crd-service — POST /api/cds-services/oncology-crd
 - [x] Parse and validate incoming `CdsRequest` with Zod
@@ -175,7 +175,7 @@ for format rules and commit discipline.
   - [x] Nothing present → all three missing
 
 ### apps/crd-service
-- [x] Add `@ogca/cql-engine` workspace dependency
+- [x] Add `@mopa/cql-engine` workspace dependency
 - [x] Load `BreastCancerPayerPolicy.elm.json` at module init
 - [x] Replace `checkCompleteness(prefetch)` with `evaluatePayerPolicy(prefetch)` backed by `CqlExecutionEngine`
 - [x] `buildPatientSource` maps prefetch bundles (her2, cancerStage, ecogPs, patient) to FHIR resources for cql-execution
@@ -220,14 +220,14 @@ for format rules and commit discipline.
 - [x] Return `401 Unauthorized` with `WWW-Authenticate: Bearer` on invalid/missing token
 
 ### apps/smart-app — EHR launch
-- [x] Add `@ogca/smart-auth` workspace dependency
+- [x] Add `@mopa/smart-auth` workspace dependency
 - [x] SMART EHR launch: read `launch` and `iss` query params, redirect to EHR `/authorize`
 - [x] On callback: exchange code for token, store in cookie
 - [x] Replace stub landing page with authenticated "CDS App launched" confirmation showing patient context
 - [x] If `SMART_AUTH_BYPASS=true` skip OAuth and use fixture token
 
 ### apps/dtr-client — EHR launch with appContext
-- [x] Add `@ogca/smart-auth` workspace dependency
+- [x] Add `@mopa/smart-auth` workspace dependency
 - [x] SMART EHR launch: same pattern as smart-app; additionally parse `appContext` from launch params
 - [x] Display received `appContext` (libraryUrl + missingDataElements) on landing page
 - [x] If `SMART_AUTH_BYPASS=true` skip OAuth
@@ -245,8 +245,8 @@ for format rules and commit discipline.
 ## Phase 5 — CDS SMART App (Layer 1)
 
 ### apps/smart-app — data fetching
-- [x] Add `@ogca/cql-engine` dependency for guideline evaluation
-- [x] Add `@ogca/cds-hooks` dependency for CRD service URL constants
+- [x] Add `@mopa/cql-engine` dependency for guideline evaluation
+- [x] Add `@mopa/cds-hooks` dependency for CRD service URL constants
 - [x] `lib/data-fetching.ts` — fetch Library resource from CRD; parallel DataRequirement FHIR queries (Patient, Conditions, HER2, CancerStage, ECOG PS, LineOfTherapy)
 - [x] `lib/guideline.ts` — run `BreastCancerGuideline.elm.json` via `CqlExecutionEngine`; return `{ thEligible, phdEligible, ddactEligible }` and eligible regimen list
 
@@ -308,7 +308,7 @@ for format rules and commit discipline.
 - [x] `src/__tests__/crd-logic.test.ts` — add `buildPaRequiredCard` tests; add `handleOncologyCrd` order-sign scenarios
 
 ### `apps/payer-backend` — CQL policy evaluation
-- [x] `package.json` — add `@ogca/cql-engine` dependency
+- [x] `package.json` — add `@mopa/cql-engine` dependency
 - [x] `lib/policy.ts` — `evaluatePolicy(patientId)`: fetch patient resources from EHR FHIR proxy, run `BreastCancerPayerPolicy.elm.json` via CQL engine, return `PaDecision`
 - [x] `app/api/evaluate/route.ts` — `POST /api/evaluate { patientId }` → `evaluatePolicy` → JSON response
 - [x] `.env.local` — `EHR_FHIR_BASE_URL`
@@ -367,7 +367,7 @@ for format rules and commit discipline.
 - [x] `OrderSelectSummary` shows "Not required" badge for pre-approved path
 
 ### SMART app modes
-- [x] `?mode=ogca` (default) — chart-back enabled, HER2InputForm writes to FHIR
+- [x] `?mode=mopa` (default) — chart-back enabled, HER2InputForm writes to FHIR
 - [x] `?mode=readonly` — WhatIfPanel for hypothetical evaluation, no FHIR write
 - [x] `POST /api/evaluate` — evaluates guideline + ECOG pre-approval without FHIR write
 - [x] Mode indicator badge in nav with toggle link
@@ -404,8 +404,8 @@ for format rules and commit discipline.
 - [x] `BASELINE_PREFETCH_TEMPLATES` — patient + conditions only (lowest-common denominator)
 - [x] `buildDiscoveryResponse()` — uses baseline prefetch; builds `conditionDataRequirements` extension from registry
 - [x] `handleOncologyCrd()` — condition-first routing: identify → check prefetch completeness → fhirServer fallback → evaluate
-- [x] `OgcaServiceExtension` type extended: `catalogUrl`, `conditionDataRequirements`, `ConditionDataRequirement` interface
-- [x] EHR `OrderEntryClient.tsx` — `loadDiscovery()` caches `conditionDataRequirements` on mount; `resolveConditionPrefetch()` adds condition-specific prefetch to hook calls (OGCA-aware EHR path)
+- [x] `MopaServiceExtension` type extended: `catalogUrl`, `conditionDataRequirements`, `ConditionDataRequirement` interface
+- [x] EHR `OrderEntryClient.tsx` — `loadDiscovery()` caches `conditionDataRequirements` on mount; `resolveConditionPrefetch()` adds condition-specific prefetch to hook calls (MOPA-aware EHR path)
 - [x] EHR `orders/page.tsx` — fetches primary condition SNOMED code and passes as `conditionCode` prop
 - [x] Tests updated: discovery now asserts baseline prefetch + conditionDataRequirements extension; empty-prefetch case returns no-policy info card
 - [x] SPEC-NOTES SN-002 — condition-specific discovery gap documented with proposed IG change
@@ -422,7 +422,7 @@ for format rules and commit discipline.
 
 ## Hub + Knowledge Artifacts Architecture (Phase 8 continuation)
 
-### @ogca/knowledge-artifacts package
+### @mopa/knowledge-artifacts package
 - [x] `packages/knowledge-artifacts/src/constants.ts` — BASE_URL, LIBRARY_CANONICAL, CATALOG_URL, BASELINE_PREFETCH_TEMPLATES
 - [x] `packages/knowledge-artifacts/src/libraries.ts` — GUIDELINE_LIBRARY, PAYER_POLICY_LIBRARY, LIBRARY_RESOURCE, ONCOLOGY_CRD_CATALOG
 - [x] `packages/knowledge-artifacts/src/plan-definitions.ts` — GUIDELINE_PLAN_DEFINITION, PLAN_DEFINITION
@@ -451,6 +451,6 @@ for format rules and commit discipline.
 ### CRD cleanup
 - [x] Removed: src/content-resources.ts, src/library-resource.ts, src/condition-registry.ts, src/library-content.ts
 - [x] Removed: app/content/ directory (moved to Hub)
-- [x] Updated: app/content-data.ts imports from @ogca/knowledge-artifacts
-- [x] Updated: src/crd-logic.ts imports from @ogca/knowledge-artifacts
+- [x] Updated: app/content-data.ts imports from @mopa/knowledge-artifacts
+- [x] Updated: src/crd-logic.ts imports from @mopa/knowledge-artifacts
 - [x] CRD root page links to Hub's /content (http://localhost:4000/content)

@@ -1,4 +1,4 @@
-import { ServiceIntro } from "@ogca/ui";
+import { ServiceIntro } from "@mopa/ui";
 
 const ENDPOINTS = [
   { method: "POST", path: "/api/evaluate", desc: "CQL policy evaluation" },
@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <ServiceIntro
         title="Payer Backend"
-        description="Rules engine for payer policy evaluation. Fetches patient clinical data from the EHR FHIR proxy, evaluates BreastCancerPayerPolicy CQL, and returns a prior authorization determination. Backing service — not part of the OGCA specification."
+        description="Rules engine for payer policy evaluation. Fetches patient clinical data from the EHR FHIR proxy, evaluates BreastCancerPayerPolicy CQL, and returns a prior authorization determination. Backing service — not part of the MOPA specification."
         apiDocsHref="/docs"
       />
 
@@ -23,7 +23,7 @@ export default function Home() {
               </p>
               <p className="text-slate-600 leading-relaxed">
                 Called by the PAS Service. Stands in for a real payer rules engine in this reference
-                implementation. Not an actor defined by the Da Vinci OGCA specification.
+                implementation. Not an actor defined by the Da Vinci MOPA specification.
               </p>
             </div>
             <div className="px-5 py-5 space-y-2">

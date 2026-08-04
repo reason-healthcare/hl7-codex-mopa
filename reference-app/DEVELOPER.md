@@ -28,7 +28,7 @@ Transport and validation are separated using
 [`@reasonhealth/fhir-zod`](https://github.com/reason-healthcare/fhir-types-workspace):
 
 ```ts
-import { Client, PatientSchema, BundleSchema, ConditionSchema } from "@ogca/fhir-client";
+import { Client, PatientSchema, BundleSchema, ConditionSchema } from "@mopa/fhir-client";
 
 const client = new Client({ baseUrl: process.env.FHIR_BASE_URL });
 
@@ -77,9 +77,9 @@ pnpm clean            # remove .next / dist / .turbo artefacts
 To run a single app or package:
 
 ```bash
-pnpm --filter @ogca/ehr dev
-pnpm --filter @ogca/crd-service build
-pnpm --filter @ogca/cql-engine test
+pnpm --filter @mopa/ehr dev
+pnpm --filter @mopa/crd-service build
+pnpm --filter @mopa/cql-engine test
 ```
 
 ---
@@ -91,7 +91,7 @@ Each app has a `.env.local` file. Copy `.env.example` (when present) and adjust.
 | Variable | Default | Used by |
 |---|---|---|
 | `SMART_AUTH_BYPASS` | `true` | all apps — skip SMART OAuth for local dev |
-| `SMART_JWT_SECRET` | `ogca-dev-secret-…` | EHR — HS256 token signing key |
+| `SMART_JWT_SECRET` | `mopa-dev-secret-…` | EHR — HS256 token signing key |
 | `FHIR_BASE_URL` | `http://localhost:8080/fhir` | EHR — upstream HAPI base URL |
 | `NEXT_PUBLIC_CRD_SERVICE_URL` | `http://localhost:4002` | EHR, smart-app |
 | `NEXT_PUBLIC_EHR_BASE_URL` | `http://localhost:4000` | smart-app, dtr-client |
@@ -104,7 +104,7 @@ Each app has a `.env.local` file. Copy `.env.example` (when present) and adjust.
 
 ## Shared packages
 
-### `@ogca/fhir-client`
+### `@mopa/fhir-client`
 
 Re-exports `fhir-kit-client`'s `Client` and `@reasonhealth/fhir-zod/r4` schemas as
 the single FHIR import point across the monorepo. Also exports `fhirProxyHandler` for
@@ -114,25 +114,25 @@ the Next.js catch-all proxy route and patient display helpers.
 > for `entry[].resource` instead of fhir-zod's generated one, which strips
 > `resourceType` via the abstract `Resource` base type.
 
-### `@ogca/cds-hooks`
+### `@mopa/cds-hooks`
 
 CDS Hooks request/response types, discovery helpers, and Zod schemas for runtime
 validation at the CRD Service API boundary.
 
-### `@ogca/cql-engine`
+### `@mopa/cql-engine`
 
 `CqlEngine` interface and `CqlExecutionEngine` adapter backed by `cql-execution`.
 ELM JSON is compiled at author-time using `rh cql compile` and committed to
 `cql/elm/`. Both the CRD Service and Payer Backend load ELM via `require()` so
 Next.js bundles it with no `__dirname` issues.
 
-### `@ogca/smart-auth`
+### `@mopa/smart-auth`
 
 SMART on FHIR authorization code flow with PKCE. The EHR acts as the authorization
 server (issues tokens); apps use `SMART_AUTH_BYPASS=true` in `.env.local` for
 development without real OAuth round-trips.
 
-### `@ogca/ui`
+### `@mopa/ui`
 
 Shared Tailwind components (`PatientBanner`). Extended throughout phases.
 

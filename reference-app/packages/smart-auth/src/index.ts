@@ -217,7 +217,7 @@ let _signingKey: Uint8Array | undefined;
 /** Derive a 256-bit key from the JWT secret env var. Memoized per process. */
 function getSigningKey(): Uint8Array {
   if (!_signingKey) {
-    const secret = process.env.SMART_JWT_SECRET ?? "ogca-dev-secret-change-in-production";
+    const secret = process.env.SMART_JWT_SECRET ?? "mopa-dev-secret-change-in-production";
     _signingKey = new TextEncoder().encode(secret.padEnd(32, "!").slice(0, 32));
   }
   return _signingKey;

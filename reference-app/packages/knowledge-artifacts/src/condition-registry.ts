@@ -23,7 +23,7 @@ export interface ConditionRegistryEntry {
   guidelineUrl: string;
   /**
    * CDS Hooks prefetch template strings for this condition.
-   * Published in the discovery extension so OGCA-aware EHRs can
+   * Published in the discovery extension so MOPA-aware EHRs can
    * proactively prefetch; also used by the CRD fhirServer fallback.
    */
   prefetchTemplates: Record<string, string>;

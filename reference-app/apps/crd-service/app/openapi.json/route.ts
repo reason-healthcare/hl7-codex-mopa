@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 const SPEC = {
   openapi: "3.0.3",
   info: {
-    title: "OGCA CRD Service",
+    title: "MOPA CRD Service",
     version: "0.1.0",
     description:
       "Coverage Requirements Discovery service implementing CDS Hooks for breast cancer " +

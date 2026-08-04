@@ -22,7 +22,7 @@ import {
   REGIMEN_OSIMERTINIB,
   REGIMEN_ALECTINIB,
   REGIMEN_PEMBROLIZUMAB,
-} from "@ogca/knowledge-artifacts";
+} from "@mopa/knowledge-artifacts";
 
 // ---------------------------------------------------------------------------
 // Static registries
@@ -706,7 +706,7 @@ export default async function ContentPage({
   return (
     <div className="min-h-screen bg-slate-100">
       <nav className="bg-slate-800 text-slate-100 px-6 py-3 flex items-center justify-between text-sm">
-        <div className="font-semibold">OGCA Reference Hub</div>
+        <div className="font-semibold">MOPA Reference Hub</div>
         <div className="flex items-center gap-4 text-xs text-slate-400">
           <Link href="/" className="hover:text-slate-200 transition-colors">
             ← Hub
@@ -719,7 +719,7 @@ export default async function ContentPage({
         <div className="max-w-4xl mx-auto">
           <h1 className="text-lg font-semibold text-slate-900">Clinical Content</h1>
           <p className="text-sm text-slate-500 mt-0.5">
-            FHIR knowledge artifacts governing the OGCA two-layer CDS architecture. Browse
+            FHIR knowledge artifacts governing the MOPA two-layer CDS architecture. Browse
             PlanDefinitions by type and layer, then inspect related Libraries and order sets.
           </p>
         </div>

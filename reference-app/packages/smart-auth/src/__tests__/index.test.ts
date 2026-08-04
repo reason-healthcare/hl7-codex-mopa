@@ -88,14 +88,14 @@ describe("buildAuthorizationUrl", () => {
   const params = {
     iss: "http://localhost:4000",
     redirectUri: "http://localhost:4001/callback",
-    clientId: "ogca-smart-app",
+    clientId: "mopa-smart-app",
   };
 
   it("returns a URL with required OAuth parameters", async () => {
     const { url } = await buildAuthorizationUrl(params, "state-xyz");
     const u = new URL(url);
     expect(u.searchParams.get("response_type")).toBe("code");
-    expect(u.searchParams.get("client_id")).toBe("ogca-smart-app");
+    expect(u.searchParams.get("client_id")).toBe("mopa-smart-app");
     expect(u.searchParams.get("redirect_uri")).toBe("http://localhost:4001/callback");
     expect(u.searchParams.get("state")).toBe("state-xyz");
     expect(u.searchParams.get("aud")).toBe("http://localhost:4000");

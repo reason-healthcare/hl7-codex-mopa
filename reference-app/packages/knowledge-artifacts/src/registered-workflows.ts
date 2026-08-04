@@ -1,6 +1,6 @@
 /**
  * REGISTERED_WORKFLOWS — the single source of truth for all condition-specific
- * CDS workflows in the OGCA reference implementation.
+ * CDS workflows in the MOPA reference implementation.
  *
  * Each entry pairs a Layer 1 (guideline authority) and Layer 2 (payer policy)
  * PlanDefinition, the Libraries they depend on, and the CDS Hooks events they

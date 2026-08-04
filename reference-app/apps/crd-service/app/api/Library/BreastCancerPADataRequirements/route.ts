@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { LIBRARY_RESOURCE } from "@ogca/knowledge-artifacts";
+import { LIBRARY_RESOURCE } from "@mopa/knowledge-artifacts";
 
 export function GET() {
   return NextResponse.json(LIBRARY_RESOURCE, {

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { evaluatePolicy } from "../../../lib/policy";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("payer");
 

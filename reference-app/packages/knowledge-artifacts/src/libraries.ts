@@ -1,8 +1,8 @@
 /**
- * FHIR Library resources for OGCA knowledge artifacts.
+ * FHIR Library resources for MOPA knowledge artifacts.
  *
  * Each logic-library carries:
- *   - usageContext  tagging its OGCA layer (guideline-authority | payer-policy)
+ *   - usageContext  tagging its MOPA layer (guideline-authority | payer-policy)
  *   - dataRequirement  the clinical data elements it needs
  *   - content  CQL + ELM URLs (populated by withEmbeddedContent at serve-time)
  *
@@ -14,7 +14,7 @@ import {
   LIBRARY_CANONICAL,
   CATALOG_URL,
   SYSTEM,
-  OGCA_LAYER,
+  MOPA_LAYER,
   layerContext,
 } from "./constants";
 
@@ -34,7 +34,7 @@ export const GUIDELINE_LIBRARY = {
   type: {
     coding: [{ system: SYSTEM.LIBRARY_TYPE, code: "logic-library", display: "Logic Library" }],
   },
-  usageContext: layerContext(OGCA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
+  usageContext: layerContext(MOPA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
   description:
     "CQL library encoding evidence-based clinical criteria for breast cancer " +
     "chemotherapy selection based on HER2 receptor status. Used by the Layer 1 " +
@@ -128,7 +128,7 @@ export const PAYER_POLICY_LIBRARY = {
   type: {
     coding: [{ system: SYSTEM.LIBRARY_TYPE, code: "logic-library", display: "Logic Library" }],
   },
-  usageContext: layerContext(OGCA_LAYER.PAYER_POLICY, "Payer Policy"),
+  usageContext: layerContext(MOPA_LAYER.PAYER_POLICY, "Payer Policy"),
   description:
     "CQL library defining data completeness and authorization level requirements " +
     "for breast cancer chemotherapy PA. Adds staging and performance status requirements " +
@@ -238,7 +238,7 @@ export const LIBRARY_RESOURCE = {
   },
   description:
     "Defines the clinical data elements required to evaluate a breast cancer " +
-    "chemotherapy regimen for prior authorization under the OGCA workflow.",
+    "chemotherapy regimen for prior authorization under the MOPA workflow.",
   dataRequirement: [
     { type: "Patient", mustSupport: ["birthDate", "gender"] },
     {
@@ -355,7 +355,7 @@ export const ONCOLOGY_CRD_CATALOG = {
   url: CATALOG_URL,
   version: "0.1.0",
   name: "OncologyCRDCatalog",
-  title: "OGCA Oncology CRD Catalog",
+  title: "MOPA Oncology CRD Catalog",
   status: "active",
   experimental: true,
   type: {
@@ -365,7 +365,7 @@ export const ONCOLOGY_CRD_CATALOG = {
   },
   description:
     "Catalog of all condition-specific payer policy and guideline Library pairs " +
-    "registered with the OGCA Oncology CRD service. One entry per supported tumor type.",
+    "registered with the MOPA Oncology CRD service. One entry per supported tumor type.",
   relatedArtifact: [
     {
       type: "composed-of",
@@ -406,7 +406,7 @@ export const NSCLC_GUIDELINE_LIBRARY = {
   type: {
     coding: [{ system: SYSTEM.LIBRARY_TYPE, code: "logic-library", display: "Logic Library" }],
   },
-  usageContext: layerContext(OGCA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
+  usageContext: layerContext(MOPA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
   description:
     "CQL library for NSCLC chemotherapy regimen selection based on EGFR mutation, " +
     "ALK rearrangement, and PD-L1 expression. Draft — CQL not yet authored.",
@@ -520,7 +520,7 @@ export const NSCLC_PAYER_POLICY_LIBRARY = {
   type: {
     coding: [{ system: SYSTEM.LIBRARY_TYPE, code: "logic-library", display: "Logic Library" }],
   },
-  usageContext: layerContext(OGCA_LAYER.PAYER_POLICY, "Payer Policy"),
+  usageContext: layerContext(MOPA_LAYER.PAYER_POLICY, "Payer Policy"),
   description:
     "CQL library for NSCLC prior authorization determination. Requires EGFR, ALK, and " +
     "PD-L1 biomarker documentation before coverage evaluation. Draft — CQL not yet authored.",

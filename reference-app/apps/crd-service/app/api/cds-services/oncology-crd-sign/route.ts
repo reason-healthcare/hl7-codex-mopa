@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { handleOncologyCrd } from "../../../../src/crd-logic";
-import type { CdsRequest } from "@ogca/cds-hooks";
-import { createLogger } from "@ogca/logger";
+import type { CdsRequest } from "@mopa/cds-hooks";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("crd");
 

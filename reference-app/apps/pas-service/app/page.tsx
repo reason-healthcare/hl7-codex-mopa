@@ -1,4 +1,4 @@
-import { ServiceIntro } from "@ogca/ui";
+import { ServiceIntro } from "@mopa/ui";
 
 const ENDPOINTS = [
   { method: "POST", path: "/api/fhir/$submit", desc: "PA bundle submission" },

@@ -1,8 +1,8 @@
-# OGCA Reference Application — Phased Implementation Plan
+# MOPA Reference Application — Phased Implementation Plan
 
 ## Overview
 
-A monorepo reference implementation demonstrating the complete OGCA workflow across six
+A monorepo reference implementation demonstrating the complete MOPA workflow across six
 actors. Each actor is a separate Next.js application sharing common packages. The goal is a
 runnable, demo-quality reference that exercises every interface defined in the IG.
 
@@ -220,7 +220,7 @@ These CQL Libraries define the rules evaluated over those elements.
 
 - `cds-hooks` package: discovery types, request/response types, prefetch executor
 - CRD Service:
-  - `GET /cds-services` — discovery with prefetch templates + OGCA extension
+  - `GET /cds-services` — discovery with prefetch templates + MOPA extension
   - `POST /cds-services/oncology-crd` — order-select and order-sign handler
   - `GET /Library/BreastCancerPADataRequirements` — Library resource endpoint
   - Hardcoded completeness check (checks prefetch keys populated, no CQL yet)

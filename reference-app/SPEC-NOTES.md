@@ -64,7 +64,7 @@ render them appropriately without relying on summary string parsing.
 >   to `conditionDataRequirements[{condition, libraryUrl, prefetchTemplates}]` in `cds-hooks-extension.md`.
 > - Updated **Layer 1** baseline `prefetch` to publish only `patient` and `conditions` (condition-agnostic);
 >   moved full condition-specific templates to `conditionDataRequirements.prefetchTemplates`.
-> - Added **"Two-Tier EHR Fallback Behavior"** table documenting OGCA-aware vs standard EHR paths.
+> - Added **"Two-Tier EHR Fallback Behavior"** table documenting MOPA-aware vs standard EHR paths.
 > - Added `catalogLibrary` field to the discovery extension, pointing to `OncologyCRDCatalog`
 >   with `relatedArtifact` composition pattern for catalog Libraries.
 > - Updated the **Relationship between discovery layers** diagram to reflect the new structure.
@@ -95,18 +95,18 @@ A two-level prefetch architecture:
    Contains only `patient` and `conditions` (problem list) — enough to identify
    the relevant cancer type without any disease-specific knowledge.
 
-2. **Condition-specific prefetch** (in the OGCA `ogca-service-extension`): a new
+2. **Condition-specific prefetch** (in the MOPA `mopa-service-extension`): a new
    `conditionDataRequirements` array, one entry per supported condition, each with:
    - `condition` — FHIR Coding identifying the cancer type
    - `libraryUrl` — canonical URL of the condition-specific payer policy Library
    - `prefetchTemplates` — CDS Hooks template strings for this condition
 
-OGCA-aware EHRs read `conditionDataRequirements` at startup and cache a
+MOPA-aware EHRs read `conditionDataRequirements` at startup and cache a
 condition → templates map. When the patient's condition matches an entry, the EHR
 adds those templates to the hook call. This eliminates a CRD callback round-trip
 for aware EHRs.
 
-For standard (non-OGCA) EHRs, the CRD falls back to fetching condition-specific
+For standard (non-MOPA) EHRs, the CRD falls back to fetching condition-specific
 data directly from `request.fhirServer` after identifying the condition from the
 minimal baseline prefetch. Correct behaviour is guaranteed for all EHRs regardless
 of whether they implement the extension.
@@ -123,17 +123,17 @@ The Da Vinci CRD IG should:
    field) that expresses condition-indexed data requirements alongside the baseline
    prefetch templates.
 
-2. Define the two-tier EHR behaviour: OGCA-aware EHRs use `conditionDataRequirements`
+2. Define the two-tier EHR behaviour: MOPA-aware EHRs use `conditionDataRequirements`
    for proactive prefetch; standard EHRs trigger CRD fhirServer fallback. Both must
    yield identical CRD responses.
 
-3. Clarify that `ogca-service-extension.libraryUrl` on a multi-condition service
+3. Clarify that `mopa-service-extension.libraryUrl` on a multi-condition service
    should reference a **catalog Library** (`OncologyCRDCatalog`) rather than a
    condition-specific Library, and define the `relatedArtifact` composition pattern
    for catalog Libraries.
 
 4. Consider whether `conditionDataRequirements` belongs in the CDS Hooks spec itself
-   (as a general pattern applicable beyond oncology) or remains an OGCA-specific
+   (as a general pattern applicable beyond oncology) or remains an MOPA-specific
    extension. The same problem exists in cardiology (HFrEF vs HFpEF data requirements
    differ), rheumatology, and rare disease.
 
@@ -141,7 +141,7 @@ The Da Vinci CRD IG should:
 - `apps/crd-service/src/constants.ts` — shared constants (no circular dependency)
 - `apps/crd-service/src/condition-registry.ts` — condition → Library/templates map
 - `apps/crd-service/src/crd-logic.ts` — baseline prefetch, discovery builder, handler
-- `apps/ehr/app/patients/[id]/orders/OrderEntryClient.tsx` — OGCA-aware EHR path
+- `apps/ehr/app/patients/[id]/orders/OrderEntryClient.tsx` — MOPA-aware EHR path
 
 ---
 
@@ -187,7 +187,7 @@ The condition is fetched via the `conditions` baseline prefetch key
 calls regardless of EHR type. No new prefetch key is needed.
 
 **Proposed specification change:**
-The OGCA IG should explicitly require that the primary cancer condition be declared
+The MOPA IG should explicitly require that the primary cancer condition be declared
 as the first `dataRequirement` in every condition-specific Library, ordered before
 biomarker observations, to make the diagnostic prerequisite visible to consumers of
 the Library resource. The condition `dataRequirement` entry should carry a

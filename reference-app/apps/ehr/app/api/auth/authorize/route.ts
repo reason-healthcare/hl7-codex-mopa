@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import crypto from "node:crypto";
 import { storeCode } from "../../../../lib/auth-code-store";
-import { createLogger } from "@ogca/logger";
+import { createLogger } from "@mopa/logger";
 
 const logger = createLogger("ehr");
 

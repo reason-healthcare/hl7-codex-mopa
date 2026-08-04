@@ -22,7 +22,7 @@ function swaggerHtml(title: string): string {
 }
 
 export function GET() {
-  return new Response(swaggerHtml("OGCA EHR"), {
+  return new Response(swaggerHtml("MOPA EHR"), {
     headers: { "Content-Type": "text/html; charset=utf-8" },
   });
 }

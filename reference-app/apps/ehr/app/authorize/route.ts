@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { serializeCookie, STATE_COOKIE } from "@ogca/smart-auth";
+import { serializeCookie, STATE_COOKIE } from "@mopa/smart-auth";
 import crypto from "node:crypto";
 
 /**

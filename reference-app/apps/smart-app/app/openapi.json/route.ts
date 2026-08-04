@@ -3,11 +3,11 @@ import type { NextRequest } from "next/server";
 const SPEC = {
   openapi: "3.0.3",
   info: {
-    title: "OGCA CDS SMART App",
+    title: "MOPA CDS SMART App",
     version: "0.1.0",
     description:
       "SMART on FHIR app providing guideline-based gap analysis and evidence-based regimen " +
-      "recommendations for breast cancer chemotherapy. Supports OGCA-aware chart-back and read-only what-if modes.",
+      "recommendations for breast cancer chemotherapy. Supports MOPA-aware chart-back and read-only what-if modes.",
   },
   servers: [{ url: "http://localhost:4002", description: "Local dev" }],
   tags: [

@@ -1,19 +1,19 @@
 import type { ReactNode } from "react";
 
 // ---------------------------------------------------------------------------
-// OgcaNav
+// MopaNav
 // ---------------------------------------------------------------------------
 
-interface OgcaNavProps {
+interface MopaNavProps {
   /** e.g. "Hub", "EHR", "CRD Service" */
   service: string;
 }
 
-export function OgcaNav({ service }: OgcaNavProps) {
+export function MopaNav({ service }: MopaNavProps) {
   return (
     <nav className="bg-white border-b border-slate-200">
       <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-        <span className="text-sm font-semibold tracking-tight text-slate-600">OGCA: {service}</span>
+        <span className="text-sm font-semibold tracking-tight text-slate-600">MOPA: {service}</span>
         {/* biome-ignore lint/a11y/useImgPresentationRole: decorative brand logo */}
         <img
           src="/codex-logo.png"
@@ -57,10 +57,10 @@ function VermonsterLogo() {
 }
 
 // ---------------------------------------------------------------------------
-// OgcaFooter
+// MopaFooter
 // ---------------------------------------------------------------------------
 
-export function OgcaFooter() {
+export function MopaFooter() {
   return (
     <footer className="border-t border-slate-200 bg-white mt-auto">
       <div
@@ -82,20 +82,20 @@ export function OgcaFooter() {
 }
 
 // ---------------------------------------------------------------------------
-// OgcaShell — wraps the full page: nav + scrollable body + footer
+// MopaShell — wraps the full page: nav + scrollable body + footer
 // ---------------------------------------------------------------------------
 
-interface OgcaShellProps {
+interface MopaShellProps {
   service: string;
   children: ReactNode;
 }
 
-export function OgcaShell({ service, children }: OgcaShellProps) {
+export function MopaShell({ service, children }: MopaShellProps) {
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "white" }}>
-      <OgcaNav service={service} />
+      <MopaNav service={service} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>{children}</div>
-      <OgcaFooter />
+      <MopaFooter />
     </div>
   );
 }

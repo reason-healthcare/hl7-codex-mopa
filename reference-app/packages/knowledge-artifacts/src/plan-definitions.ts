@@ -1,5 +1,5 @@
 /**
- * FHIR PlanDefinition resources for OGCA knowledge artifacts.
+ * FHIR PlanDefinition resources for MOPA knowledge artifacts.
  *
  * Three PlanDefinition types in use:
  *   eca-rule     — event-condition-action rules (Layer 1 guideline + Layer 2 payer policy)
@@ -10,14 +10,14 @@
  *   action[*].trigger[*].name  = <CDS Hooks event>  (order-select | order-sign)
  * buildDiscoveryResponse() reads these to derive the CDS discovery hook set.
  *
- * usageContext distinguishes the OGCA layer on each resource so the Hub
+ * usageContext distinguishes the MOPA layer on each resource so the Hub
  * FHIR API can filter by context=guideline-authority | payer-policy | regimen-template.
  */
 import {
   BASE_URL,
   LIBRARY_CANONICAL,
   SYSTEM,
-  OGCA_LAYER,
+  MOPA_LAYER,
   layerContext,
   EXT,
   TREATMENT_LINE_CS,
@@ -75,7 +75,7 @@ export const REGIMEN_TH = {
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
-  usageContext: layerContext(OGCA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
+  usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
     "Weekly Paclitaxel + Trastuzumab for 12 weeks; standard adjuvant regimen for early HER2+ breast cancer.",
   subjectCodeableConcept: {
@@ -125,7 +125,7 @@ export const REGIMEN_PHD = {
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
-  usageContext: layerContext(OGCA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
+  usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
     "PHD every 21 days for first-line HER2+ metastatic breast cancer. Standard of care per CLEOPATRA trial.",
   subjectCodeableConcept: {
@@ -173,7 +173,7 @@ export const REGIMEN_PHD = {
 // ---------------------------------------------------------------------------
 // ddAC\u2192T — Dose-dense AC then Paclitaxel (sequential phases, adjuvant)
 // relatedAction.relationship = "after-end" per FHIR R4 Clinical Reasoning
-// and the OGCA AntiCancerRegimenPlanDefinition profile.
+// and the MOPA AntiCancerRegimenPlanDefinition profile.
 // ---------------------------------------------------------------------------
 
 export const REGIMEN_DDACT = {
@@ -186,7 +186,7 @@ export const REGIMEN_DDACT = {
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
-  usageContext: layerContext(OGCA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
+  usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
     "Dose-dense AC x4 cycles (q14d) then paclitaxel x4 cycles (q14d). Standard adjuvant regimen. Requires G-CSF support.",
   subjectCodeableConcept: {
@@ -267,7 +267,7 @@ export const REGIMEN_OSIMERTINIB = {
   status: "draft",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
-  usageContext: layerContext(OGCA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
+  usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
     "NSCLC with EGFR exon 19 deletion or exon 21 L858R mutation. First-line targeted therapy.",
   subjectCodeableConcept: {
@@ -299,7 +299,7 @@ export const REGIMEN_ALECTINIB = {
   status: "draft",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
-  usageContext: layerContext(OGCA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
+  usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description: "NSCLC with ALK rearrangement. First-line targeted therapy.",
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254637007", display: "Non-small cell lung cancer" }],
@@ -331,7 +331,7 @@ export const REGIMEN_PEMBROLIZUMAB = {
   status: "draft",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
-  usageContext: layerContext(OGCA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
+  usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
     "NSCLC with PD-L1 TPS >= 50%, no actionable EGFR/ALK. First-line immunotherapy monotherapy.",
   subjectCodeableConcept: {
@@ -374,7 +374,7 @@ export const GUIDELINE_PLAN_DEFINITION = {
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "eca-rule", display: "ECA Rule" }] },
-  usageContext: layerContext(OGCA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
+  usageContext: layerContext(MOPA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
   description:
     "ECA rule surfacing evidence-based regimen recommendations based on HER2 receptor " +
     "status for breast cancer chemotherapy.",
@@ -472,7 +472,7 @@ export const PLAN_DEFINITION = {
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "eca-rule", display: "ECA Rule" }] },
-  usageContext: layerContext(OGCA_LAYER.PAYER_POLICY, "Payer Policy"),
+  usageContext: layerContext(MOPA_LAYER.PAYER_POLICY, "Payer Policy"),
   description:
     "ECA rule governing coverage determination for breast cancer chemotherapy orders " +
     "via CDS Hooks order-select and order-sign.",
@@ -584,7 +584,7 @@ export const NSCLC_GUIDELINE_PLAN_DEFINITION = {
   status: "draft",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "eca-rule", display: "ECA Rule" }] },
-  usageContext: layerContext(OGCA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
+  usageContext: layerContext(MOPA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
   description:
     "ECA rule for NSCLC regimen selection based on EGFR, ALK, and PD-L1 biomarker status. Draft.",
   purpose:
@@ -645,7 +645,7 @@ export const NSCLC_PLAN_DEFINITION = {
   status: "draft",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "eca-rule", display: "ECA Rule" }] },
-  usageContext: layerContext(OGCA_LAYER.PAYER_POLICY, "Payer Policy"),
+  usageContext: layerContext(MOPA_LAYER.PAYER_POLICY, "Payer Policy"),
   description:
     "ECA rule governing coverage determination for NSCLC systemic therapy orders. Draft.",
   purpose:

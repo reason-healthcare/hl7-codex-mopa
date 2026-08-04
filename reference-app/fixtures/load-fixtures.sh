@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Load all OGCA demo patient fixtures into HAPI FHIR.
+# Load all MOPA demo patient fixtures into HAPI FHIR.
 # Three patient cases — each demonstrating a different CDS outcome:
 #
 #   jane-smith    ECOG 0, HER2+   → Pre-authorized (no PA required)
@@ -14,7 +14,7 @@ set -euo pipefail
 FHIR_BASE="${1:-${FHIR_BASE_URL:-http://localhost:8080/fhir}}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Loading OGCA demo fixtures into: $FHIR_BASE"
+echo "Loading MOPA demo fixtures into: $FHIR_BASE"
 echo ""
 
 # ---------------------------------------------------------------------------

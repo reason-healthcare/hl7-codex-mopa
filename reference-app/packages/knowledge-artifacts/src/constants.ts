@@ -1,5 +1,5 @@
-/** Canonical base URL for all OGCA knowledge artifacts. */
-export const BASE_URL = "http://hl7.org/fhir/us/codex-ocpa";
+/** Canonical base URL for all MOPA knowledge artifacts. */
+export const BASE_URL = "http://hl7.org/fhir/us/codex-mopa";
 
 /** Canonical URL of the PA data requirements Library. */
 export const LIBRARY_CANONICAL = `${BASE_URL}/Library/BreastCancerPADataRequirements`;
@@ -24,11 +24,11 @@ export const SYSTEM = {
   ACTION_TYPE: "http://terminology.hl7.org/CodeSystem/action-type",
   /** FHIR R4 standard usage-context-type codes (focus, workflow, task, …). */
   USAGE_CONTEXT_TYPE: "http://terminology.hl7.org/CodeSystem/usage-context-type",
-  /** OGCA-specific layer classifier for usageContext.valueCodeableConcept. */
-  OGCA_LAYER: "http://hl7.org/fhir/us/codex-ocpa/CodeSystem/ogca-layer",
+  /** MOPA-specific layer classifier for usageContext.valueCodeableConcept. */
+  MOPA_LAYER: "http://hl7.org/fhir/us/codex-mopa/CodeSystem/mopa-layer",
 } as const;
 
-/** Extension canonical URLs for OGCA regimen profiles. */
+/** Extension canonical URLs for MOPA regimen profiles. */
 export const EXT = {
   REGIMEN_INTENT: `${BASE_URL}/StructureDefinition/ocpa-regimen-intent`,
   REGIMEN_TREATMENT_LINE: `${BASE_URL}/StructureDefinition/ocpa-regimen-treatment-line`,
@@ -38,7 +38,7 @@ export const EXT = {
 
 /** Treatment line code system (local, mCODE STU5 migration candidate). */
 export const TREATMENT_LINE_CS = `${BASE_URL}/CodeSystem/treatment-line-cs`;
-export const OGCA_LAYER = {
+export const MOPA_LAYER = {
   GUIDELINE_AUTHORITY: "guideline-authority",
   PAYER_POLICY: "payer-policy",
   REGIMEN_TEMPLATE: "regimen-template",
@@ -46,14 +46,14 @@ export const OGCA_LAYER = {
 
 /**
  * Build a single-element usageContext array that tags a resource with its
- * OGCA workflow layer (guideline-authority | payer-policy | regimen-template).
+ * MOPA workflow layer (guideline-authority | payer-policy | regimen-template).
  */
-export function layerContext(code: (typeof OGCA_LAYER)[keyof typeof OGCA_LAYER], display: string) {
+export function layerContext(code: (typeof MOPA_LAYER)[keyof typeof MOPA_LAYER], display: string) {
   return [
     {
       code: { system: SYSTEM.USAGE_CONTEXT_TYPE, code: "workflow" },
       valueCodeableConcept: {
-        coding: [{ system: SYSTEM.OGCA_LAYER, code, display }],
+        coding: [{ system: SYSTEM.MOPA_LAYER, code, display }],
       },
     },
   ] as const;

@@ -4,8 +4,8 @@
  *
  * @example
  * ```ts
- * import { Client } from '@ogca/fhir-client';
- * import { PatientSchema, BundleSchema, ConditionSchema } from '@ogca/fhir-client';
+ * import { Client } from '@mopa/fhir-client';
+ * import { PatientSchema, BundleSchema, ConditionSchema } from '@mopa/fhir-client';
  *
  * const client = new Client({ baseUrl: process.env.FHIR_BASE_URL });
  *

@@ -1,5 +1,5 @@
 /** SMART client configuration for the DTR Client. */
-export const SMART_CLIENT_ID = "ogca-dtr-client";
+export const SMART_CLIENT_ID = "mopa-dtr-client";
 
 export const SMART_REDIRECT_URI = process.env.NEXT_PUBLIC_DTR_CLIENT_URL
   ? `${process.env.NEXT_PUBLIC_DTR_CLIENT_URL}/callback`

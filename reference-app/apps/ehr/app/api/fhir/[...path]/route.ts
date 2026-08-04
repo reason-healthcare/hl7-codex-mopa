@@ -1,5 +1,5 @@
-import { fhirProxyHandler } from "@ogca/fhir-client";
-import { verifyToken, isAuthBypassed, parseCookies, TOKEN_COOKIE } from "@ogca/smart-auth";
+import { fhirProxyHandler } from "@mopa/fhir-client";
+import { verifyToken, isAuthBypassed, parseCookies, TOKEN_COOKIE } from "@mopa/smart-auth";
 import { type NextRequest, NextResponse } from "next/server";
 
 type RouteContext = { params: Promise<{ path: string[] }> };
@@ -19,7 +19,7 @@ async function handle(request: NextRequest, context: RouteContext) {
     if (!token) {
       return new NextResponse(null, {
         status: 401,
-        headers: { "WWW-Authenticate": 'Bearer realm="OGCA EHR"' },
+        headers: { "WWW-Authenticate": 'Bearer realm="MOPA EHR"' },
       });
     }
     try {

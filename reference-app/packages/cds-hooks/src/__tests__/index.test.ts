@@ -182,7 +182,7 @@ describe("CdsResponseSchema", () => {
         {
           summary: "Pre-approved",
           indicator: "info",
-          source: { label: "OGCA CRD" },
+          source: { label: "MOPA CRD" },
         },
       ],
     };

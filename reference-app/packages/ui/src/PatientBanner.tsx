@@ -1,4 +1,4 @@
-import type { Patient } from "@ogca/fhir-client";
+import type { Patient } from "@mopa/fhir-client";
 
 interface PatientBannerProps {
   patient: Patient;

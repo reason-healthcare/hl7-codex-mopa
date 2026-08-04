@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { OgcaShell } from "@ogca/ui";
+import { MopaShell } from "@mopa/ui";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OGCA: Hub",
+  title: "MOPA: Hub",
   description: "Oncology Guideline-Compliant Authorization \u2014 Hub",
 };
 
@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <OgcaShell service="Hub">{children}</OgcaShell>
+        <MopaShell service="Hub">{children}</MopaShell>
       </body>
     </html>
   );

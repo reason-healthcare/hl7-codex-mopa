@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { parseCookies, TOKEN_COOKIE, isAuthBypassed } from "@ogca/smart-auth";
+import { parseCookies, TOKEN_COOKIE, isAuthBypassed } from "@mopa/smart-auth";
 
 /**
  * Server-side proxy for CDS Hooks requests — POST /api/crd-hooks
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       token_type: "Bearer",
       expires_in: 3600,
       scope: "patient/*.read",
-      subject: "ogca-ehr",
+      subject: "mopa-ehr",
     };
   } else if (isAuthBypassed()) {
     // Bypass mode: EHR proxy accepts unauthenticated requests.

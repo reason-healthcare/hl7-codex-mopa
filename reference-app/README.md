@@ -1,7 +1,7 @@
-# OGCA Reference Application
+# MOPA Reference Application
 
 A runnable, demo-quality reference implementation of the **Oncology Guideline-Compliant
-Authorization (OGCA)** workflow across six actors: Hub, EHR, CDS SMART App, CRD Service,
+Authorization (MOPA)** workflow across six actors: Hub, EHR, CDS SMART App, CRD Service,
 DTR Client, PAS Service, and Payer Backend.
 
 ---
@@ -81,7 +81,7 @@ reads this live from HAPI and shows it on the **Demo Fixtures** tab.
 
 Launch from the EHR patient chart. Operates in two modes:
 
-**OGCA-aware (default)** — Gap analysis against the BreastCancerGuideline CQL library.
+**MOPA-aware (default)** — Gap analysis against the BreastCancerGuideline CQL library.
 When HER2 is missing an inline form lets the clinician enter the result and writes
 the observation back to HAPI.
 
@@ -104,7 +104,7 @@ All FHIR knowledge artifacts are served by the Hub at `/fhir/PlanDefinition` and
   — coverage determination rules used by the CRD Service; carry CDS Hooks
   `action.trigger` so discovery is derived from the registered PlanDefinitions
 - **Order Sets — Regimen Templates** (`RegimenTH`, `RegimenPHD`, `RegimenDdACT`, …)
-  — canonical chemotherapy regimen definitions per the OGCA
+  — canonical chemotherapy regimen definitions per the MOPA
   `AntiCancerRegimenPlanDefinition` profile; include structured timing and
   sequential phase ordering via `relatedAction`
 

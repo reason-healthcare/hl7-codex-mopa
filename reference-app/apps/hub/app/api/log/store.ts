@@ -8,7 +8,7 @@
  * In Next.js, each worker process has its own instance; in dev the
  * single process holds all entries for the session lifetime.
  */
-import type { LogEntry } from "@ogca/logger";
+import type { LogEntry } from "@mopa/logger";
 
 const MAX_ENTRIES = 500;
 
