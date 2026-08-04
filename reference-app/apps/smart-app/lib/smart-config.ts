@@ -13,4 +13,4 @@ export const TOKEN_ENDPOINT = `${
 }/api/auth/token`;
 
 /** EHR base URL used to build deep-links back to order entry. */
-export const EHR_BASE_URL = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4000";
+export const EHR_BASE_URL = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
