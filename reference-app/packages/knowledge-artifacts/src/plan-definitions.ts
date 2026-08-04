@@ -16,6 +16,7 @@
 import {
   BASE_URL,
   LIBRARY_CANONICAL,
+  PAYER_POLICY_CANONICAL,
   SYSTEM,
   MOPA_LAYER,
   layerContext,
@@ -480,7 +481,7 @@ export const PLAN_DEFINITION = {
     "Enables systematic evaluation of prior authorization requirements at the point of " +
     "prescribing. Reduces manual review burden by ensuring data completeness before PA " +
     "submission and pre-authorizing eligible patients (ECOG 0) without a formal PA request.",
-  library: [LIBRARY_CANONICAL],
+  library: [LIBRARY_CANONICAL, PAYER_POLICY_CANONICAL],
   action: [
     {
       id: "on-order-select",

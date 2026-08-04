@@ -3,6 +3,7 @@ import {
   buildDiscoveryResponse,
   evaluateBreastCancerPolicy,
   buildAuthorizationSatisfiedCard,
+  buildPaRequiredCard,
   buildDtrCard,
   handleOncologyCrd,
   CRD_SERVICE_ID,
@@ -41,6 +42,15 @@ const ECOG_OBS = {
   id: "ecog",
   status: "final",
   code: { coding: [{ system: "http://loinc.org", code: "89247-1" }] },
+  valueInteger: 0,
+};
+
+const ECOG_OBS_SCORE_1 = {
+  resourceType: "Observation",
+  id: "ecog-1",
+  status: "final",
+  code: { coding: [{ system: "http://loinc.org", code: "89247-1" }] },
+  valueInteger: 1,
 };
 const PRIOR_THERAPY_BUNDLE = makeBundle([]);
 
@@ -101,9 +111,31 @@ describe("buildDiscoveryResponse", () => {
 // ---------------------------------------------------------------------------
 
 describe("evaluateBreastCancerPolicy", () => {
-  it("all data present → authorization-satisfied", () => {
+  it("all data present, ECOG 0 → authorization-satisfied", () => {
     const result = evaluateBreastCancerPolicy(FULL_CONTEXT);
     expect(result.status).toBe("authorization-satisfied");
+  });
+
+  it("all data present, ECOG 1 → pa-required", () => {
+    const result = evaluateBreastCancerPolicy({
+      ...FULL_CONTEXT,
+      ecogPs: makeBundle([ECOG_OBS_SCORE_1]),
+    });
+    expect(result.status).toBe("pa-required");
+  });
+
+  it("all data present, ECOG absent (no value) → pa-required", () => {
+    const ecogNoValue = {
+      resourceType: "Observation",
+      id: "ecog-no-val",
+      status: "final",
+      code: { coding: [{ system: "http://loinc.org", code: "89247-1" }] },
+    };
+    const result = evaluateBreastCancerPolicy({
+      ...FULL_CONTEXT,
+      ecogPs: makeBundle([ecogNoValue]),
+    });
+    expect(result.status).toBe("pa-required");
   });
 
   it("HER2 absent → dtr-required, missingKeys contains her2", () => {
@@ -174,6 +206,20 @@ describe("buildAuthorizationSatisfiedCard", () => {
   });
 });
 
+describe("buildPaRequiredCard", () => {
+  it("returns a warning card", () => {
+    expect(buildPaRequiredCard().indicator).toBe("warning");
+  });
+
+  it("summary says Prior Authorization Required", () => {
+    expect(buildPaRequiredCard().summary).toBe("Prior Authorization Required");
+  });
+
+  it("has prior-auth-required topic code", () => {
+    expect(buildPaRequiredCard().source.topic?.code).toBe("prior-auth-required");
+  });
+});
+
 describe("buildDtrCard", () => {
   it("returns a warning card with a SMART link", () => {
     const card = buildDtrCard(["her2"]);
@@ -236,7 +282,7 @@ describe("handleOncologyCrd", () => {
         if (url.includes("89247-1")) {
           return Promise.resolve({
             ok: true,
-            json: async () => FULL_CONTEXT.ecogPs,
+            json: async () => makeBundle([ECOG_OBS]),
           });
         }
         if (url.includes("MedicationRequest")) {

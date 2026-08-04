@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-const PAS_SERVICE_URL = process.env.PAS_SERVICE_URL ?? "http://localhost:4004";
+const PAS_SERVICE_URL = process.env.PAS_SERVICE_URL ?? "http://localhost:4005";
 
 /**
  * POST /api/pa-submit

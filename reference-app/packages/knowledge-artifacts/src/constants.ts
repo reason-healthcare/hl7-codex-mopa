@@ -4,6 +4,9 @@ export const BASE_URL = "http://hl7.org/fhir/us/codex-mopa";
 /** Canonical URL of the PA data requirements Library. */
 export const LIBRARY_CANONICAL = `${BASE_URL}/Library/BreastCancerPADataRequirements`;
 
+/** Canonical URL of the breast cancer payer policy Library (executable CQL). */
+export const PAYER_POLICY_CANONICAL = `${BASE_URL}/Library/BreastCancerPayerPolicy`;
+
 /** Canonical URL of the Oncology CRD catalog Library. */
 export const CATALOG_URL = `${BASE_URL}/Library/OncologyCRDCatalog`;
 

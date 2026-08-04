@@ -168,6 +168,7 @@ function extractEcogScore(ecogBundle: unknown): number | undefined {
 
 export type CheckResult =
   | { status: "authorization-satisfied"; reason: string }
+  | { status: "pa-required"; reason: string }
   | { status: "dtr-required"; missingKeys: string[] };
 
 export interface OncologyContext {
@@ -198,14 +199,27 @@ export function evaluateBreastCancerPolicy(ctx: OncologyContext): CheckResult {
     return { status: "dtr-required", missingKeys };
   }
 
-  // All required data present — coverage criteria met for breast cancer PA.
-  // The spec defines "Authorization Satisfied" as the outcome when all
-  // required context is present and criteria are met.
+  // All required data present — evaluate authorization level based on ECOG.
+  // ECOG 0 (fully active) → pre-authorized, PA can be bypassed.
+  // ECOG ≥ 1 → prior authorization is required before fulfillment.
+  const ecogScore = extractEcogScore(ctx.ecogPs);
+
+  if (ecogScore === 0) {
+    return {
+      status: "authorization-satisfied",
+      reason:
+        "All required oncology context present and coverage criteria met. " +
+        "ECOG Performance Status is 0 (fully active). Prior authorization " +
+        "conditions have been evaluated and PA can be bypassed.",
+    };
+  }
+
   return {
-    status: "authorization-satisfied",
+    status: "pa-required",
     reason:
-      "All required oncology context present and coverage criteria met. " +
-      "Prior authorization conditions have been evaluated and PA can be bypassed.",
+      `All required oncology context is present, but ECOG Performance Status ` +
+      `is ${ecogScore ?? "unknown"} (≥ 1). A formal prior authorization ` +
+      `request must be submitted before fulfillment.`,
   };
 }
 
@@ -237,6 +251,26 @@ export function buildAuthorizationSatisfiedCard(detail?: string): CdsCard {
         system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
         code: "coverage-information",
         display: "Coverage Information",
+      },
+    },
+  };
+}
+
+export function buildPaRequiredCard(detail?: string): CdsCard {
+  return {
+    summary: "Prior Authorization Required",
+    detail:
+      detail ??
+      "All required oncology context has been retrieved from the EHR and coverage " +
+      "criteria are met, but prior authorization is required before fulfillment. " +
+      "Submit a PA request to the payer for a coverage determination.",
+    indicator: "warning",
+    source: {
+      ...buildCardSource(),
+      topic: {
+        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
+        code: "prior-auth-required",
+        display: "Prior Authorization Required",
       },
     },
   };
@@ -332,6 +366,10 @@ export async function handleOncologyCrd(
 
   if (result.status === "authorization-satisfied") {
     return { cards: [buildAuthorizationSatisfiedCard(result.reason)] };
+  }
+
+  if (result.status === "pa-required") {
+    return { cards: [buildPaRequiredCard(result.reason)] };
   }
 
   return { cards: [buildDtrCard(result.missingKeys)] };
