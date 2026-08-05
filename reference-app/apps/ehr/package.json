@@ -16,6 +16,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "@mopa/cds-hooks": "workspace:*",
+    "@mopa/oncology-policy": "workspace:*",
     "@mopa/smart-auth": "workspace:*",
     "@mopa/logger": "workspace:*"
   },
