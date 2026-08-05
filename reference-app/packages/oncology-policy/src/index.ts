@@ -57,17 +57,12 @@ export const MISSING_KEY_LABELS: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------------------
-// FHIR Bundle helpers
+// FHIR Bundle helpers — re-exported from @mopa/fhir-client
 // ---------------------------------------------------------------------------
 
-/** Extract resource entries from a FHIR Bundle (or any Bundle-shaped object). */
-export function extractResources(bundle: unknown): Record<string, unknown>[] {
-  if (!bundle || typeof bundle !== "object") return [];
-  const b = bundle as { entry?: Array<{ resource?: unknown }> };
-  return (b.entry ?? [])
-    .map((e) => e.resource)
-    .filter((r): r is Record<string, unknown> => !!r && typeof r === "object");
-}
+import { extractResources, toBundle, fetchBundle } from "@mopa/fhir-client";
+
+export { extractResources, toBundle, fetchBundle };
 
 // ---------------------------------------------------------------------------
 // Policy evaluation primitives

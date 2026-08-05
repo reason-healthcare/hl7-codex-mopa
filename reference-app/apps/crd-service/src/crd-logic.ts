@@ -18,6 +18,7 @@ import {
   MISSING_KEY_LABELS,
   evaluateBreastCancerPolicy,
   hasBreastCancer,
+  fetchBundle,
   type OncologyContext,
 } from "@mopa/oncology-policy";
 
@@ -74,32 +75,6 @@ export function buildDiscoveryResponse(): { services: CdsService[] } {
       },
     ],
   };
-}
-
-// ---------------------------------------------------------------------------
-// FHIR query helpers
-// ---------------------------------------------------------------------------
-
-/** Fetch a FHIR search Bundle from the EHR server using fhirAuthorization. */
-async function fetchBundle(
-  fhirBase: string,
-  query: string,
-  bearerToken?: string
-): Promise<Record<string, unknown> | null> {
-  const base = fhirBase.replace(/\/$/, "");
-  const headers: Record<string, string> = { Accept: "application/fhir+json" };
-  if (bearerToken) headers.Authorization = `Bearer ${bearerToken}`;
-
-  try {
-    const res = await fetch(`${base}/${query}`, {
-      headers,
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
 }
 
 // ---------------------------------------------------------------------------

@@ -6,14 +6,17 @@
  *
  * The shared terminology constants, FHIR query templates, and evaluation
  * helpers live in `@mopa/oncology-policy` so the payer backend and the CRD
- * service reason over identical rules.
+ * service reason over identical rules. Bundle fetching and shaping helpers
+ * come from `@mopa/fhir-client` (re-exported through oncology-policy).
  */
 
 import {
   FHIR_QUERIES,
   evaluateBreastCancerPolicy,
+  extractResources,
   hasBreastCancer,
   hasObservation,
+  toBundle,
   type OncologyContext,
 } from "@mopa/oncology-policy";
 
@@ -25,29 +28,15 @@ export interface PaDecision {
 }
 
 /** Fetch a FHIR search Bundle and return its resource entries. */
-async function getBundle(url: string): Promise<Record<string, unknown>[]> {
+async function getBundleResources(url: string): Promise<Record<string, unknown>[]> {
   try {
     const res = await fetch(`${EHR_FHIR_BASE}/${url}`);
     if (!res.ok) return [];
-    const bundle = (await res.json()) as {
-      entry?: Array<{ resource?: unknown }>;
-    };
-    return (bundle.entry ?? [])
-      .map((e) => e.resource)
-      .filter((r): r is Record<string, unknown> => !!r && typeof r === "object");
+    const bundle = await res.json();
+    return extractResources(bundle);
   } catch {
     return [];
   }
-}
-
-/** Wrap raw resource arrays back into a Bundle-shaped object for the shared helpers. */
-function toBundle(resources: Record<string, unknown>[]) {
-  return {
-    resourceType: "Bundle",
-    type: "searchset",
-    total: resources.length,
-    entry: resources.map((resource) => ({ resource })),
-  };
 }
 
 /**
@@ -59,10 +48,10 @@ function toBundle(resources: Record<string, unknown>[]) {
  */
 export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
   const [conditions, her2, stage, ecog] = await Promise.all([
-    getBundle(FHIR_QUERIES.conditions(patientId)),
-    getBundle(FHIR_QUERIES.her2(patientId)),
-    getBundle(FHIR_QUERIES.cancerStage(patientId)),
-    getBundle(FHIR_QUERIES.ecogPs(patientId)),
+    getBundleResources(FHIR_QUERIES.conditions(patientId)),
+    getBundleResources(FHIR_QUERIES.her2(patientId)),
+    getBundleResources(FHIR_QUERIES.cancerStage(patientId)),
+    getBundleResources(FHIR_QUERIES.ecogPs(patientId)),
   ]);
 
   // Reuse the shared policy primitives. The CRD service feeds FHIR Bundles
