@@ -3,12 +3,15 @@
  *
  * The CqlEngine interface is the stable abstraction. Swapping to the
  * rh-cql WASM evaluator (Stage 2) requires only replacing this file.
+ *
+ * Note: cql-execution and cql-exec-fhir are CommonJS-only packages (no ESM
+ * entry point). We use `import` with `esModuleInterop` which TypeScript
+ * compiles to `require()` calls — this is the standard interop pattern and
+ * avoids lint-disabling `no-require-imports` suppressions.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Library, Executor } = require("cql-execution");
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const cqlFhir = require("cql-exec-fhir");
+import { Library, Executor } from "cql-execution";
+import * as cqlFhir from "cql-exec-fhir";
 
 // ---------------------------------------------------------------------------
 // Public interface

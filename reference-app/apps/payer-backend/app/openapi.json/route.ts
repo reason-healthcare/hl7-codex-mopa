@@ -7,19 +7,21 @@ const SPEC = {
     version: "0.1.0",
     description:
       "Payer policy evaluation service. Fetches patient clinical data from the EHR FHIR " +
-      "proxy, evaluates BreastCancerPayerPolicy CQL via the cql-engine package, and returns " +
-      "a prior authorization determination.",
+      "proxy, evaluates breast cancer coverage policy via the @mopa/oncology-policy shared " +
+      "package, and returns a prior authorization determination.",
   },
   servers: [{ url: "http://localhost:4006", description: "Local dev" }],
-  tags: [{ name: "Policy", description: "CQL policy evaluation" }],
+  tags: [{ name: "Policy", description: "Coverage policy evaluation" }],
   paths: {
     "/api/evaluate": {
       post: {
         tags: ["Policy"],
         summary: "Evaluate payer policy for a patient",
         description:
-          "Fetches HER2, cancer stage, and ECOG observations from the EHR FHIR proxy, " +
-          "runs BreastCancerPayerPolicy CQL, and returns an approval determination.",
+          "Fetches breast cancer condition, HER2, cancer stage, and ECOG observations from " +
+          "the EHR FHIR proxy, evaluates coverage criteria using the shared " +
+          "@mopa/oncology-policy evaluateBreastCancerPolicy function, and returns an " +
+          "approval determination (approved, pended, or denied).",
         requestBody: {
           required: true,
           content: {
@@ -42,16 +44,26 @@ const SPEC = {
               "application/json": {
                 schema: {
                   type: "object",
+                  required: ["status", "reason"],
                   properties: {
-                    outcome: { type: "string", enum: ["complete", "queued", "error"] },
-                    disposition: { type: "string", example: "All required clinical data present." },
+                    status: {
+                      type: "string",
+                      enum: ["approved", "pended", "denied"],
+                      description:
+                        "approved = all criteria met; pended = incomplete data or PA " +
+                        "required; denied = policy rejection.",
+                    },
+                    reason: {
+                      type: "string",
+                      example: "All clinical criteria met per payer policy. Authorization satisfied.",
+                    },
                   },
                 },
               },
             },
           },
-          400: { description: "Missing patientId" },
-          502: { description: "EHR FHIR proxy unreachable" },
+          400: { description: "Missing patientId or invalid JSON body" },
+          500: { description: "Policy evaluation error" },
         },
       },
     },

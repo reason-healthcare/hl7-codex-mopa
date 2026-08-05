@@ -10,15 +10,6 @@ export const PAYER_POLICY_CANONICAL = `${BASE_URL}/Library/BreastCancerPayerPoli
 /** Canonical URL of the Oncology CRD catalog Library. */
 export const CATALOG_URL = `${BASE_URL}/Library/OncologyCRDCatalog`;
 
-/**
- * Baseline CDS Hooks prefetch — condition-agnostic, included in every hook call.
- * Enough to identify the patient's primary cancer condition for routing.
- */
-export const BASELINE_PREFETCH_TEMPLATES: Record<string, string> = {
-  patient: "Patient/{{context.patientId}}",
-  conditions: "Condition?patient={{context.patientId}}&category=problem-list-item&_count=20",
-};
-
 export const SYSTEM = {
   LOINC: "http://loinc.org",
   SNOMED: "http://snomed.info/sct",

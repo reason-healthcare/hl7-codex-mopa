@@ -4,11 +4,17 @@
  * Evaluates BreastCancerGuideline.elm.json against patient resources to
  * determine regimen eligibility.
  */
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { CqlExecutionEngine } from "@mopa/cql-engine";
 import type { ElmJson } from "@mopa/cql-engine";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const guidelineElm = require("../../../cql/elm/BreastCancerGuideline.elm.json") as ElmJson;
+// Load the compiled ELM JSON at module init time. Using readFileSync +
+// JSON.parse avoids `require()` on a JSON file and works in both CJS and
+// ESM module resolution modes.
+const guidelineElm = JSON.parse(
+  readFileSync(resolve(process.cwd(), "cql/elm/BreastCancerGuideline.elm.json"), "utf-8")
+) as ElmJson;
 
 const engine = new CqlExecutionEngine();
 
