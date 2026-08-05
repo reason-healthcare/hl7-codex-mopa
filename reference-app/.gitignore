@@ -11,3 +11,4 @@ apps/*/pnpm-workspace.yaml
 # Create-next-app boilerplate
 apps/*/AGENTS.md
 apps/*/CLAUDE.md
+apps/hub/tsconfig.tsbuildinfo
