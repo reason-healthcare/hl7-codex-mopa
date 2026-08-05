@@ -15,6 +15,7 @@
     "@mopa/smart-auth": "workspace:*",
     "@mopa/fhir-client": "workspace:*",
     "@mopa/cql-engine": "workspace:*",
+    "@mopa/oncology-policy": "workspace:*",
     "@mopa/cds-hooks": "workspace:*",
     "@mopa/logger": "workspace:*",
     "@mopa/ui": "workspace:*"

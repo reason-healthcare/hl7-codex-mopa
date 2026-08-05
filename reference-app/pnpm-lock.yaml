@@ -297,6 +297,9 @@ importers:
       '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@mopa/oncology-policy':
+        specifier: workspace:*
+        version: link:../../packages/oncology-policy
       '@mopa/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
@@ -411,6 +414,10 @@ importers:
         version: 5.9.3
 
   packages/oncology-policy:
+    dependencies:
+      '@mopa/fhir-client':
+        specifier: workspace:*
+        version: link:../fhir-client
     devDependencies:
       '@types/node':
         specifier: ^22.9.0

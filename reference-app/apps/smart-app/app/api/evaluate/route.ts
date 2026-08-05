@@ -1,15 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { evaluateGuideline } from "../../../lib/guideline";
-
-// ---------------------------------------------------------------------------
-// ECOG SNOMED grade codes → integer score (mirrors crd-logic.ts)
-// ---------------------------------------------------------------------------
-const ECOG_SNOMED_GRADES: Record<string, number> = {
-  "425389002": 0,
-  "422512005": 1,
-  "422894000": 2,
-  "423053003": 3,
-};
+import {
+  LOINC,
+  evaluateBreastCancerPolicy,
+  extractEcogScore,
+  toBundle,
+  type OncologyContext,
+} from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
 // Request / response types
@@ -35,7 +32,7 @@ function buildObs(loincCode: string, loincDisplay: string, patientId: string, va
     resourceType: "Observation",
     status: "final",
     code: {
-      coding: [{ system: "http://loinc.org", code: loincCode, display: loincDisplay }],
+      coding: [{ system: LOINC, code: loincCode, display: loincDisplay }],
     },
     subject: { reference: `Patient/${patientId}` },
     valueCodeableConcept: {
@@ -45,25 +42,32 @@ function buildObs(loincCode: string, loincDisplay: string, patientId: string, va
 }
 
 function buildEcogObs(patientId: string, value: AnswerCoding) {
-  const score = ECOG_SNOMED_GRADES[value.code];
+  // Carry the SNOMED grade coding so extractEcogScore can map it to an
+  // integer. The CRD pre-approval logic reads valueInteger when present.
   return {
     resourceType: "Observation",
     status: "final",
     code: {
       coding: [
-        { system: "http://loinc.org", code: "89247-1", display: "ECOG Performance Status score" },
+        { system: LOINC, code: "89247-1", display: "ECOG Performance Status score" },
       ],
     },
     subject: { reference: `Patient/${patientId}` },
-    // Use valueInteger so the CRD pre-approval logic can read it
-    ...(score !== undefined
-      ? { valueInteger: score }
-      : {
-          valueCodeableConcept: {
-            coding: [{ system: value.system, code: value.code, display: value.display }],
-          },
-        }),
+    valueCodeableConcept: {
+      coding: [{ system: value.system, code: value.code, display: value.display }],
+    },
   };
+}
+
+/** Filter resources whose Observation code matches a LOINC code. */
+function obsBundleByLoinc(resources: unknown[], loincCode: string) {
+  return toBundle(
+    resources.filter((r) => {
+      const obs = r as { resourceType?: string; code?: { coding?: Array<{ system?: string; code?: string }> } };
+      if (obs.resourceType !== "Observation") return false;
+      return obs.code?.coding?.some((c) => c.system === LOINC && c.code === loincCode);
+    })
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -98,13 +102,30 @@ export async function POST(request: NextRequest) {
   // Evaluate guideline eligibility
   const regimens = await evaluateGuideline(patientId, resources);
 
-  // Determine PA status from ECOG value
-  const ecogScore = answers.ecogPs
-    ? (ECOG_SNOMED_GRADES[answers.ecogPs.code] ?? undefined)
-    : undefined;
+  // Determine PA status using the shared policy so the SMART app, CRD
+  // service, and payer backend all reason over the same rules. The synthetic
+  // resources are wrapped into Bundle-shaped objects to match the contract
+  // the shared helpers expect.
+  const ctx: OncologyContext = {
+    // The SMART "what-if" panel does not synthesize a Condition; use the
+    // Patient resource as a non-null placeholder so hasBreastCancer returns
+    // false without a missing-data false-positive on conditions.
+    conditions: toBundle(resources.filter((r) => (r as { resourceType?: string }).resourceType === "Patient")),
+    her2: obsBundleByLoinc(resources, "85319-2"),
+    cancerStage: obsBundleByLoinc(resources, "21908-9"),
+    ecogPs: obsBundleByLoinc(resources, "89247-1"),
+    priorTherapy: toBundle([]),
+  };
 
-  const allPresent = !!(answers.her2 && answers.cancerStage && answers.ecogPs);
-  const paStatus = !allPresent ? "dtr-required" : ecogScore === 0 ? "pre-approved" : "pa-required";
+  const policyResult = evaluateBreastCancerPolicy(ctx);
+  const ecogScore = extractEcogScore(ctx.ecogPs);
+
+  const paStatus =
+    policyResult.status === "authorization-satisfied"
+      ? "pre-approved"
+      : policyResult.status === "pa-required"
+        ? "pa-required"
+        : "dtr-required";
 
   return NextResponse.json({ regimens, paStatus, ecogScore });
 }
