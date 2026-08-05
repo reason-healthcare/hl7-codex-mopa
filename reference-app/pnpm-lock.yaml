@@ -42,6 +42,9 @@ importers:
       '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@mopa/oncology-policy':
+        specifier: workspace:*
+        version: link:../../packages/oncology-policy
       '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -245,6 +248,9 @@ importers:
       '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@mopa/oncology-policy':
+        specifier: workspace:*
+        version: link:../../packages/oncology-policy
       '@mopa/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -403,6 +409,18 @@ importers:
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
+
+  packages/oncology-policy:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.19.19
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.6
+        version: 4.1.6(@types/node@22.19.19)(@vitest/coverage-v8@4.1.6)(vite@8.0.13(@types/node@22.19.19)(jiti@2.7.0))
 
   packages/smart-auth:
     dependencies:
