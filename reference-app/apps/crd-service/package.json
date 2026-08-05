@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mopa/cds-hooks": "workspace:*",
+    "@mopa/oncology-policy": "workspace:*",
     "@mopa/fhir-client": "workspace:*",
     "next": "16.2.6",
     "react": "19.2.4",

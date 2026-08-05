@@ -3,12 +3,19 @@
  *
  * Fetches the patient's clinical observations from the EHR FHIR proxy and
  * evaluates coverage criteria to produce a prior-authorization determination.
- * Uses direct FHIR queries matching the simplified MOPA CRD pattern.
+ *
+ * The shared terminology constants, FHIR query templates, and evaluation
+ * helpers live in `@mopa/oncology-policy` so the payer backend and the CRD
+ * service reason over identical rules.
  */
 
-const SNOMED = "http://snomed.info/sct";
-const LOINC = "http://loinc.org";
-const BREAST_CANCER_CODE = "372137005";
+import {
+  FHIR_QUERIES,
+  evaluateBreastCancerPolicy,
+  hasBreastCancer,
+  hasObservation,
+  type OncologyContext,
+} from "@mopa/oncology-policy";
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";
 
@@ -17,33 +24,30 @@ export interface PaDecision {
   reason: string;
 }
 
-async function getBundle(url: string): Promise<unknown[]> {
+/** Fetch a FHIR search Bundle and return its resource entries. */
+async function getBundle(url: string): Promise<Record<string, unknown>[]> {
   try {
     const res = await fetch(`${EHR_FHIR_BASE}/${url}`);
     if (!res.ok) return [];
     const bundle = (await res.json()) as {
       entry?: Array<{ resource?: unknown }>;
     };
-    return (bundle.entry ?? []).map((e) => e.resource).filter(Boolean) as unknown[];
+    return (bundle.entry ?? [])
+      .map((e) => e.resource)
+      .filter((r): r is Record<string, unknown> => !!r && typeof r === "object");
   } catch {
     return [];
   }
 }
 
-/** Check if a list of Condition resources contains active breast cancer. */
-function hasBreastCancer(resources: unknown[]): boolean {
-  return resources.some((r) => {
-    if (!r || typeof r !== "object") return false;
-    const cond = r as Record<string, unknown>;
-    if (cond.resourceType !== "Condition") return false;
-    const codings = (cond.code as { coding?: Array<{ system?: string; code?: string }> })?.coding ?? [];
-    return codings.some((c) => c.system === SNOMED && c.code === BREAST_CANCER_CODE);
-  });
-}
-
-/** Check if an Observation bundle has any entries. */
-function hasObservation(resources: unknown[]): boolean {
-  return resources.length > 0;
+/** Wrap raw resource arrays back into a Bundle-shaped object for the shared helpers. */
+function toBundle(resources: Record<string, unknown>[]) {
+  return {
+    resourceType: "Bundle",
+    type: "searchset",
+    total: resources.length,
+    entry: resources.map((resource) => ({ resource })),
+  };
 }
 
 /**
@@ -55,26 +59,36 @@ function hasObservation(resources: unknown[]): boolean {
  */
 export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
   const [conditions, her2, stage, ecog] = await Promise.all([
-    getBundle(`Condition?patient=${patientId}&category=problem-list-item&_count=20`),
-    getBundle(
-      `Observation?patient=${patientId}&code=${LOINC}|85319-2,${SNOMED}|431396003&_count=5`
-    ),
-    getBundle(`Observation?patient=${patientId}&code=${LOINC}|21908-9&_count=1`),
-    getBundle(`Observation?patient=${patientId}&code=${LOINC}|89247-1&_count=1`),
+    getBundle(FHIR_QUERIES.conditions(patientId)),
+    getBundle(FHIR_QUERIES.her2(patientId)),
+    getBundle(FHIR_QUERIES.cancerStage(patientId)),
+    getBundle(FHIR_QUERIES.ecogPs(patientId)),
   ]);
 
-  // Check data completeness
-  if (!hasBreastCancer(conditions)) {
+  // Reuse the shared policy primitives. The CRD service feeds FHIR Bundles
+  // into these same helpers, so we wrap our resource arrays back into a
+  // Bundle shape to keep the contract identical.
+  const ctx: OncologyContext = {
+    conditions: toBundle(conditions),
+    her2: toBundle(her2),
+    cancerStage: toBundle(stage),
+    ecogPs: toBundle(ecog),
+    priorTherapy: toBundle([]),
+  };
+
+  // No active breast cancer diagnosis → pended for manual review.
+  if (!hasBreastCancer(ctx.conditions)) {
     return {
       status: "pended",
       reason: "No active breast cancer diagnosis found. Pending manual review.",
     };
   }
 
+  // Missing required observation data → pended for manual review.
   const missing: string[] = [];
-  if (!hasObservation(her2)) missing.push("HER2 status");
-  if (!hasObservation(stage)) missing.push("Cancer stage");
-  if (!hasObservation(ecog)) missing.push("ECOG performance status");
+  if (!hasObservation(ctx.her2)) missing.push("HER2 status");
+  if (!hasObservation(ctx.cancerStage)) missing.push("Cancer stage");
+  if (!hasObservation(ctx.ecogPs)) missing.push("ECOG performance status");
 
   if (missing.length > 0) {
     return {
@@ -83,9 +97,30 @@ export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
     };
   }
 
-  // All required data present — coverage criteria met
+  // All required data present — evaluate the shared policy and translate the
+  // CRD-style result into a payer determination.
+  const result = evaluateBreastCancerPolicy(ctx);
+
+  if (result.status === "authorization-satisfied") {
+    return {
+      status: "approved",
+      reason: "All clinical criteria met per payer policy. Authorization satisfied.",
+    };
+  }
+
+  // pa-required → the payer still needs a formal submission; pended mirrors
+  // the prior behavior where the determination is not yet final.
+  if (result.status === "pa-required") {
+    return {
+      status: "pended",
+      reason: result.reason,
+    };
+  }
+
+  // dtr-required should be unreachable here because we already handled missing
+  // data above, but keep a defensive branch for safety.
   return {
-    status: "approved",
-    reason: "All clinical criteria met per payer policy. Authorization satisfied.",
+    status: "pended",
+    reason: "Additional documentation is required before a determination can be made.",
   };
 }
