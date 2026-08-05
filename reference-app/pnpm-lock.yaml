@@ -128,6 +128,9 @@ importers:
       '@mopa/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@mopa/oncology-policy':
+        specifier: workspace:*
+        version: link:../../packages/oncology-policy
       '@mopa/smart-auth':
         specifier: workspace:*
         version: link:../../packages/smart-auth
