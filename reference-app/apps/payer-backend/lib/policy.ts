@@ -12,20 +12,43 @@
 
 import {
   FHIR_QUERIES,
+  REGIMENS,
+  RXNORM,
   evaluateBreastCancerPolicy,
   extractResources,
   hasBreastCancer,
   hasObservation,
   toBundle,
+  type BiosimilarAlternative,
   type OncologyContext,
+  type Regimen,
 } from "@mopa/oncology-policy";
 
 const EHR_FHIR_BASE = process.env.EHR_FHIR_BASE_URL ?? "http://localhost:4001/api/fhir";
 
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+/** A required drug substitution from the payer. */
+export interface DrugSubstitution {
+  originalRxnorm: string;
+  originalDisplay: string;
+  substitutedRxnorm: string;
+  substitutedDisplay: string;
+  rationale: string;
+}
+
 export interface PaDecision {
   status: "approved" | "pended" | "denied";
   reason: string;
+  /** Required substitutions when the payer modifies the ordered regimen. */
+  substitutions?: DrugSubstitution[];
 }
+
+// ---------------------------------------------------------------------------
+// Bundle fetching
+// ---------------------------------------------------------------------------
 
 /** Fetch a FHIR search Bundle and return its resource entries. */
 async function getBundleResources(url: string): Promise<Record<string, unknown>[]> {
@@ -39,14 +62,54 @@ async function getBundleResources(url: string): Promise<Record<string, unknown>[
   }
 }
 
+// ---------------------------------------------------------------------------
+// Biosimilar substitution logic
+// ---------------------------------------------------------------------------
+
+/**
+ * Find all biosimilar substitutions required by the payer for a given regimen.
+ *
+ * Walks the regimen's drugs and collects any that have a `biosimilars` entry.
+ * In the demo, the TH and PHD regimens carry trastuzumab → trastuzumab-dttb.
+ */
+function findBiosimilarSubstitutions(regimen: Regimen): DrugSubstitution[] {
+  const subs: DrugSubstitution[] = [];
+  for (const phase of regimen.phases) {
+    for (const drug of phase.drugs) {
+      if (drug.biosimilars?.length) {
+        // Use the first listed biosimilar as the required substitution
+        const bio: BiosimilarAlternative = drug.biosimilars[0];
+        subs.push({
+          originalRxnorm: drug.rxnorm,
+          originalDisplay: drug.display,
+          substitutedRxnorm: bio.rxnorm,
+          substitutedDisplay: bio.display,
+          rationale: bio.rationale,
+        });
+      }
+    }
+  }
+  return subs;
+}
+
+// ---------------------------------------------------------------------------
+// Policy evaluation
+// ---------------------------------------------------------------------------
+
 /**
  * Evaluate the payer policy against live patient data.
  *
  * Returns "approved" when all required clinical data is present and the
  * regimen meets policy criteria, "pended" when the determination is
  * incomplete, and "denied" when the policy explicitly rejects the request.
+ *
+ * When the payer requires biosimilar substitution, the `substitutions` array
+ * is populated so the caller can surface the modification to the clinician.
  */
-export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
+export async function evaluatePolicy(
+  patientId: string,
+  regimenId?: string,
+): Promise<PaDecision> {
   const [conditions, her2, stage, ecog] = await Promise.all([
     getBundleResources(FHIR_QUERIES.conditions(patientId)),
     getBundleResources(FHIR_QUERIES.her2(patientId)),
@@ -54,9 +117,6 @@ export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
     getBundleResources(FHIR_QUERIES.ecogPs(patientId)),
   ]);
 
-  // Reuse the shared policy primitives. The CRD service feeds FHIR Bundles
-  // into these same helpers, so we wrap our resource arrays back into a
-  // Bundle shape to keep the contract identical.
   const ctx: OncologyContext = {
     conditions: toBundle(conditions),
     her2: toBundle(her2),
@@ -91,6 +151,26 @@ export async function evaluatePolicy(patientId: string): Promise<PaDecision> {
   const result = evaluateBreastCancerPolicy(ctx);
 
   if (result.status === "authorization-satisfied") {
+    // Check for required biosimilar substitutions based on the ordered regimen.
+    const regimen = regimenId
+      ? REGIMENS.find((r) => r.id === regimenId)
+      : undefined;
+
+    const substitutions = regimen ? findBiosimilarSubstitutions(regimen) : [];
+
+    if (substitutions.length > 0) {
+      const subText = substitutions
+        .map((s) => `${s.originalDisplay} → ${s.substitutedDisplay}`)
+        .join("; ");
+      return {
+        status: "approved",
+        reason:
+          `All clinical criteria met per payer policy. Authorization satisfied ` +
+          `with required substitution: ${subText}.`,
+        substitutions,
+      };
+    }
+
     return {
       status: "approved",
       reason: "All clinical criteria met per payer policy. Authorization satisfied.",

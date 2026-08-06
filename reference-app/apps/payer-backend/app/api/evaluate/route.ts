@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       summary: `Payer policy evaluation for patient ${body.patientId}`,
     });
 
-    const decision = await evaluatePolicy(body.patientId);
+    const decision = await evaluatePolicy(body.patientId, body.regimenId);
 
     logger.info("pa.result", {
       correlationId,

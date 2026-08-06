@@ -12,12 +12,14 @@ const PATIENTS = [
   },
   { id: "maria-garcia", name: "Maria Garcia", dob: "1975-08-22", mrn: "MRN-002", outcome: "PA Required"  as const },
   { id: "sandra-chen",  name: "Sandra Chen",  dob: "1963-11-05", mrn: "MRN-003", outcome: "DTR Required" as const },
+  { id: "diane-roe",    name: "Diane Roe",    dob: "1977-06-22", mrn: "MRN-004", outcome: "Biosimilar Sub"  as const },
 ];
 
 const OUTCOME_BADGE: Record<(typeof PATIENTS)[number]["outcome"], string> = {
   "Pre-authorized": "bg-green-100 text-green-800 border border-green-200",
   "PA Required":    "bg-amber-100 text-amber-800 border border-amber-200",
   "DTR Required":   "bg-slate-100 text-slate-600 border border-slate-200",
+  "Biosimilar Sub": "bg-violet-100 text-violet-800 border border-violet-200",
 };
 
 function stripXhtml(div: string): string {

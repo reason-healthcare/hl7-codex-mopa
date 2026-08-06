@@ -41,3 +41,74 @@ describe("buildClaimResponse", () => {
     expect(cr.type.coding[0]?.code).toBe("pharmacy");
   });
 });
+
+// ---------------------------------------------------------------------------
+// Substitution processNote entries
+// ---------------------------------------------------------------------------
+
+describe("buildClaimResponse with substitutions", () => {
+  it("includes processNote entries when substitutions are present", () => {
+    const cr = buildClaimResponse("cr-sub-1", {
+      status: "approved",
+      reason: "All criteria met with substitution.",
+      substitutions: [
+        {
+          originalRxnorm: "224905",
+          originalDisplay: "trastuzumab",
+          substitutedRxnorm: "1992624",
+          substitutedDisplay: "trastuzumab-dttb (Ontrudy)",
+          rationale: "Payer requires biosimilar substitution",
+        },
+      ],
+    });
+    expect(cr.outcome).toBe("complete");
+    expect(cr.processNote).toBeDefined();
+    expect(cr.processNote).toHaveLength(1);
+    expect(cr.processNote?.[0]?.text).toContain("trastuzumab");
+    expect(cr.processNote?.[0]?.text).toContain("trastuzumab-dttb");
+    expect(cr.processNote?.[0]?.text).toContain("224905");
+    expect(cr.processNote?.[0]?.text).toContain("1992624");
+  });
+
+  it("has no processNote when substitutions are absent", () => {
+    const cr = buildClaimResponse("cr-sub-2", {
+      status: "approved",
+      reason: "All criteria met.",
+    });
+    expect(cr.processNote).toBeUndefined();
+  });
+
+  it("has no processNote for pended decisions without substitutions", () => {
+    const cr = buildClaimResponse("cr-sub-3", {
+      status: "pended",
+      reason: "Awaiting review.",
+    });
+    expect(cr.processNote).toBeUndefined();
+  });
+
+  it("handles multiple substitutions", () => {
+    const cr = buildClaimResponse("cr-sub-4", {
+      status: "approved",
+      reason: "Approved with modifications.",
+      substitutions: [
+        {
+          originalRxnorm: "224905",
+          originalDisplay: "trastuzumab",
+          substitutedRxnorm: "1992624",
+          substitutedDisplay: "trastuzumab-dttb",
+          rationale: "Biosimilar required",
+        },
+        {
+          originalRxnorm: "1298944",
+          originalDisplay: "pertuzumab",
+          substitutedRxnorm: "9999999",
+          substitutedDisplay: "pertuzumab-biosimilar",
+          rationale: "Biosimilar required",
+        },
+      ],
+    });
+    expect(cr.processNote).toHaveLength(2);
+    expect(cr.processNote?.[0]?.text).toContain("trastuzumab");
+    expect(cr.processNote?.[1]?.text).toContain("pertuzumab");
+  });
+});

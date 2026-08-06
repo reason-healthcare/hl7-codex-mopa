@@ -5,6 +5,7 @@
 #   jane-smith    ECOG 0, HER2+   → Pre-authorized (no PA required)
 #   maria-garcia  ECOG 1, HER2+   → PA required
 #   sandra-chen   ECOG 1, HER2 ✗  → DTR required (collect HER2 first)
+#   diane-roe     ECOG 0, HER2+   → Pre-authorized + biosimilar substitution required
 #
 # Re-running is idempotent — existing data is purged before each load.
 # Usage: bash fixtures/load-fixtures.sh [FHIR_BASE_URL]
@@ -93,6 +94,7 @@ else:
 load_bundle "Case 1 — Pre-authorized"  "$SCRIPT_DIR/jane-smith-bundle.json"    "jane-smith"
 load_bundle "Case 2 — PA Required"     "$SCRIPT_DIR/maria-garcia-bundle.json"  "maria-garcia"
 load_bundle "Case 3 — DTR Required"    "$SCRIPT_DIR/sandra-chen-bundle.json"   "sandra-chen"
+load_bundle "Case 4 — Biosimilar Substitution" "$SCRIPT_DIR/diane-roe-bundle.json" "diane-roe"
 
 # ---------------------------------------------------------------------------
 # Summary
@@ -106,6 +108,7 @@ printf "  %-14s  %-8s  %s\n" "──────────" "────" "�
 printf "  %-14s  %-8s  %s\n" "jane-smith"    "0"  "Authorization Satisfied (PA not required)"
 printf "  %-14s  %-8s  %s\n" "maria-garcia"  "1"  "PA Required"
 printf "  %-14s  %-8s  %s\n" "sandra-chen"   "1"  "DTR Required (HER2 absent)"
+printf "  %-14s  %-8s  %s\n" "diane-roe"     "0"  "Pre-authorized + biosimilar substitution"
 echo ""
 echo "  EHR patient list: ${EHR_BASE}"
 echo ""

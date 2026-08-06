@@ -140,3 +140,41 @@ describe("buildDraftBundle", () => {
     }
   });
 });
+
+// ---------------------------------------------------------------------------
+// Biosimilar alternatives
+// ---------------------------------------------------------------------------
+
+describe("biosimilar alternatives", () => {
+  it("TH regimen trastuzumab has a biosimilar alternative", () => {
+    const th = REGIMENS.find((r) => r.id === "TH") as Regimen;
+    const trastuzumab = th.phases[0]?.drugs.find((d) => d.actionId === "trastuzumab-th");
+    expect(trastuzumab?.biosimilars).toBeDefined();
+    expect(trastuzumab?.biosimilars).toHaveLength(1);
+    expect(trastuzumab?.biosimilars?.[0]?.display).toContain("trastuzumab-dttb");
+    expect(trastuzumab?.biosimilars?.[0]?.rxnorm).toBe("1992624");
+    expect(trastuzumab?.biosimilars?.[0]?.rationale).toContain("biosimilar");
+  });
+
+  it("PHD regimen trastuzumab has a biosimilar alternative", () => {
+    const phd = REGIMENS.find((r) => r.id === "PHD") as Regimen;
+    const trastuzumab = phd.phases[0]?.drugs.find((d) => d.actionId === "trastuzumab-phd");
+    expect(trastuzumab?.biosimilars).toBeDefined();
+    expect(trastuzumab?.biosimilars?.[0]?.display).toContain("trastuzumab-dttb");
+  });
+
+  it("ddAC-T regimen has no biosimilar alternatives (small molecules)", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T") as Regimen;
+    for (const phase of ddact.phases) {
+      for (const drug of phase.drugs) {
+        expect(drug.biosimilars).toBeUndefined();
+      }
+    }
+  });
+
+  it("paclitaxel in TH has no biosimilars (small molecule, not a biologic)", () => {
+    const th = REGIMENS.find((r) => r.id === "TH") as Regimen;
+    const paclitaxel = th.phases[0]?.drugs.find((d) => d.actionId === "paclitaxel-th");
+    expect(paclitaxel?.biosimilars).toBeUndefined();
+  });
+});

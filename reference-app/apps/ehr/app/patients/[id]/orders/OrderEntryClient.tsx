@@ -106,8 +106,8 @@ export default function OrderEntryPage({
         const body = await res.json().catch(() => ({}));
         throw new Error((body as { error?: string }).error ?? `HTTP ${res.status}`);
       }
-      const cr = (await res.json()) as { outcome?: string; disposition?: string };
-      setClaimResponse({ outcome: cr.outcome ?? "unknown", disposition: cr.disposition });
+      const cr = (await res.json()) as { outcome?: string; disposition?: string; processNote?: Array<{ text: string }> };
+      setClaimResponse({ outcome: cr.outcome ?? "unknown", disposition: cr.disposition, processNote: cr.processNote });
     } catch (e) {
       setPaError(e instanceof Error ? e.message : "PA submission failed");
     } finally {

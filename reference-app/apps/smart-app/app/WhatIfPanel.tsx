@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Regimen } from "../lib/guideline";
+import SubstitutionPanel, { type SubstitutionInfo } from "./SubstitutionPanel";
 
 // ---------------------------------------------------------------------------
 // Answer option definitions (mirrors DTR questionnaire-gen.ts)
@@ -52,6 +53,7 @@ interface Answers {
 interface EvalResult {
   regimens: Regimen[];
   paStatus: "pre-approved" | "pa-required" | "dtr-required";
+  substitutions?: SubstitutionInfo[];
 }
 
 function Select({
@@ -188,6 +190,11 @@ export default function WhatIfPanel({ patientId }: { patientId: string }) {
           >
             {PA_LABEL[result.paStatus].text}
           </div>
+
+          {/* Payer Modification (biosimilar substitution) */}
+          {result.substitutions && result.substitutions.length > 0 && (
+            <SubstitutionPanel substitutions={result.substitutions} />
+          )}
 
           {/* Regimens */}
           <div>

@@ -18,6 +18,8 @@ import { evaluateGuideline } from "../lib/guideline";
 import type { Regimen } from "../lib/guideline";
 import HER2InputForm from "./HER2InputForm";
 import RegimenOptions from "./RegimenOptions";
+import SubstitutionPanel, { type SubstitutionInfo } from "./SubstitutionPanel";
+import { REGIMENS as SHARED_REGIMENS } from "@mopa/oncology-policy";
 
 import WhatIfPanel from "./WhatIfPanel";
 
@@ -155,6 +157,7 @@ export default async function SmartAppHome({
   let gaps: GapResult[] = [];
   let allRequiredPresent = false;
   let guideline: Regimen[] | null = null;
+  let substitutions: SubstitutionInfo[] = [];
 
   if (patientId && bearerToken) {
     const correlationId = `smart-${crypto.randomUUID().slice(0, 8)}`;
@@ -168,6 +171,24 @@ export default async function SmartAppHome({
     if (allRequiredPresent) {
       const resources = flattenResources(gaps);
       guideline = await evaluateGuideline(patientId, resources);
+
+      // Find biosimilar substitutions for indicated regimens
+      const indicatedIds = guideline.filter((r) => r.onGuideline).map((r) => r.id);
+      for (const regimen of SHARED_REGIMENS) {
+        if (!indicatedIds.includes(regimen.id)) continue;
+        for (const phase of regimen.phases) {
+          for (const drug of phase.drugs) {
+            if (drug.biosimilars?.length) {
+              const bio = drug.biosimilars[0];
+              substitutions.push({
+                originalDisplay: drug.display,
+                substitutedDisplay: bio.display,
+                rationale: bio.rationale,
+              });
+            }
+          }
+        }
+      }
     }
 
     log({
@@ -285,6 +306,11 @@ export default async function SmartAppHome({
                 </p>
                 <RegimenOptions regimens={guideline} />
               </section>
+            )}
+
+            {/* Payer Modification — biosimilar substitution */}
+            {allRequiredPresent && substitutions.length > 0 && (
+              <SubstitutionPanel substitutions={substitutions} />
             )}
 
             {/* Data gaps prevent guideline evaluation */}
