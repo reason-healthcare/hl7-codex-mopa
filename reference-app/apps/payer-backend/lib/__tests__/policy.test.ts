@@ -5,38 +5,43 @@ import { evaluatePolicy } from "../policy";
 // translation layer in payer-backend/lib/policy.ts, not the shared logic
 // (which is already tested in @mopa/oncology-policy).
 
-vi.mock("@mopa/oncology-policy", () => ({
-  FHIR_QUERIES: {
-    conditions: (id: string) => `Condition?patient=${id}`,
-    her2: (id: string) => `Observation?patient=${id}&her2`,
-    cancerStage: (id: string) => `Observation?patient=${id}&stage`,
-    ecogPs: (id: string) => `Observation?patient=${id}&ecog`,
-    priorTherapy: (id: string) => `MedicationRequest?patient=${id}`,
-  },
-  evaluateBreastCancerPolicy: vi.fn(),
-  extractResources: (bundle: unknown) => {
-    if (!bundle || typeof bundle !== "object") return [];
-    const b = bundle as { entry?: Array<{ resource?: unknown }> };
-    return (b.entry ?? []).map((e) => e.resource).filter(Boolean) as Record<string, unknown>[];
-  },
-  hasBreastCancer: (bundle: unknown) => {
-    const b = bundle as { entry?: Array<{ resource?: { resourceType?: string; code?: { coding?: Array<{ system?: string; code?: string }> } } }> };
-    return (b.entry ?? []).some((e) => {
-      const r = e.resource;
-      return r?.resourceType === "Condition" && r?.code?.coding?.some((c) => c.code === "372137005");
-    });
-  },
-  hasObservation: (bundle: unknown) => {
-    const b = bundle as { entry?: unknown[] };
-    return (b.entry ?? []).length > 0;
-  },
-  toBundle: (resources: unknown[]) => ({
-    resourceType: "Bundle",
-    type: "searchset",
-    total: resources.length,
-    entry: resources.map((resource) => ({ resource })),
-  }),
-}));
+vi.mock("@mopa/oncology-policy", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@mopa/oncology-policy")>();
+  return {
+    REGIMENS: actual.REGIMENS,
+    RXNORM: actual.RXNORM,
+    FHIR_QUERIES: {
+      conditions: (id: string) => `Condition?patient=${id}`,
+      her2: (id: string) => `Observation?patient=${id}&her2`,
+      cancerStage: (id: string) => `Observation?patient=${id}&stage`,
+      ecogPs: (id: string) => `Observation?patient=${id}&ecog`,
+      priorTherapy: (id: string) => `MedicationRequest?patient=${id}`,
+    },
+    evaluateBreastCancerPolicy: vi.fn(),
+    extractResources: (bundle: unknown) => {
+      if (!bundle || typeof bundle !== "object") return [];
+      const b = bundle as { entry?: Array<{ resource?: unknown }> };
+      return (b.entry ?? []).map((e) => e.resource).filter(Boolean) as Record<string, unknown>[];
+    },
+    hasBreastCancer: (bundle: unknown) => {
+      const b = bundle as { entry?: Array<{ resource?: { resourceType?: string; code?: { coding?: Array<{ system?: string; code?: string }> } } }> };
+      return (b.entry ?? []).some((e) => {
+        const r = e.resource;
+        return r?.resourceType === "Condition" && r?.code?.coding?.some((c) => c.code === "372137005");
+      });
+    },
+    hasObservation: (bundle: unknown) => {
+      const b = bundle as { entry?: unknown[] };
+      return (b.entry ?? []).length > 0;
+    },
+    toBundle: (resources: unknown[]) => ({
+      resourceType: "Bundle",
+      type: "searchset",
+      total: resources.length,
+      entry: resources.map((resource) => ({ resource })),
+    }),
+  };
+});
 
 import { evaluateBreastCancerPolicy } from "@mopa/oncology-policy";
 
@@ -128,5 +133,84 @@ describe("evaluatePolicy", () => {
     const decision = await evaluatePolicy("p1");
     expect(decision.status).toBe("pended");
     expect(decision.reason).toContain("No active breast cancer diagnosis");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Biosimilar substitution tests
+// ---------------------------------------------------------------------------
+
+
+describe("evaluatePolicy with biosimilar substitutions", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns substitutions when TH regimen is ordered and approved", async () => {
+    vi.mocked(evaluateBreastCancerPolicy).mockReturnValue({
+      status: "authorization-satisfied",
+      reason: "ECOG 0",
+    });
+    mockFetch({
+      Condition: BC_CONDITION_BUNDLE,
+      her2: OBS_BUNDLE,
+      stage: OBS_BUNDLE,
+      ecog: OBS_BUNDLE,
+    });
+    const decision = await evaluatePolicy("p1", "TH");
+    expect(decision.status).toBe("approved");
+    expect(decision.substitutions).toBeDefined();
+    expect(decision.substitutions).toHaveLength(1);
+    expect(decision.substitutions?.[0]?.originalDisplay).toBe("trastuzumab");
+    expect(decision.substitutions?.[0]?.substitutedDisplay).toContain("trastuzumab-dttb");
+    expect(decision.reason).toContain("substitution");
+  });
+
+  it("returns no substitutions when ddAC-T regimen is ordered (no biosimilars)", async () => {
+    vi.mocked(evaluateBreastCancerPolicy).mockReturnValue({
+      status: "authorization-satisfied",
+      reason: "ECOG 0",
+    });
+    mockFetch({
+      Condition: BC_CONDITION_BUNDLE,
+      her2: OBS_BUNDLE,
+      stage: OBS_BUNDLE,
+      ecog: OBS_BUNDLE,
+    });
+    const decision = await evaluatePolicy("p1", "ddAC-T");
+    expect(decision.status).toBe("approved");
+    expect(decision.substitutions).toBeUndefined();
+  });
+
+  it("returns no substitutions when regimenId is not provided", async () => {
+    vi.mocked(evaluateBreastCancerPolicy).mockReturnValue({
+      status: "authorization-satisfied",
+      reason: "ECOG 0",
+    });
+    mockFetch({
+      Condition: BC_CONDITION_BUNDLE,
+      her2: OBS_BUNDLE,
+      stage: OBS_BUNDLE,
+      ecog: OBS_BUNDLE,
+    });
+    const decision = await evaluatePolicy("p1");
+    expect(decision.status).toBe("approved");
+    expect(decision.substitutions).toBeUndefined();
+  });
+
+  it("returns no substitutions when policy is pended", async () => {
+    vi.mocked(evaluateBreastCancerPolicy).mockReturnValue({
+      status: "pa-required",
+      reason: "ECOG >= 1",
+    });
+    mockFetch({
+      Condition: BC_CONDITION_BUNDLE,
+      her2: OBS_BUNDLE,
+      stage: OBS_BUNDLE,
+      ecog: OBS_BUNDLE,
+    });
+    const decision = await evaluatePolicy("p1", "TH");
+    expect(decision.status).toBe("pended");
+    expect(decision.substitutions).toBeUndefined();
   });
 });

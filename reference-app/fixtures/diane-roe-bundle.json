@@ -1,0 +1,230 @@
+{
+  "resourceType": "Bundle",
+  "id": "diane-roe-fixtures",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:diane-roe",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "diane-roe",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Diane Roe</b>, 49-year-old female (DOB 1977-06-22). Stage IIIA primary malignant neoplasm of the right breast, diagnosed March 2024. HER2-positive by IHC (3+). ECOG Performance Status 0 — fully active.</p><p><b>Expected CDS outcome:</b> All required data elements present; ECOG 0 meets pre-authorization criteria. CRD returns pre-authorization, but payer formulary requires biosimilar substitution: trastuzumab → trastuzumab-dttb (Ontrudy). The SMART app surfaces this payer modification to the ordering clinician.</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR"
+                }
+              ]
+            },
+            "system": "http://mopa-reference.example.org/mrn",
+            "value": "MRN-004"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Roe",
+            "given": ["Diane", "Elizabeth"]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1977-06-22"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/diane-roe"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:diane-roe-breast-cancer",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "diane-roe-breast-cancer",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "problem-list-item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "372137005",
+              "display": "Primary malignant neoplasm of breast"
+            },
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "C50.911",
+              "display": "Malignant neoplasm of unspecified site of right female breast"
+            }
+          ],
+          "text": "Breast Cancer (right)"
+        },
+        "subject": {
+          "reference": "Patient/diane-roe"
+        },
+        "onsetDateTime": "2024-03-01",
+        "recordedDate": "2024-03-05"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/diane-roe-breast-cancer"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:diane-roe-her2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "diane-roe-her2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85319-2",
+              "display": "HER2, Breast cancer specimen"
+            }
+          ],
+          "text": "HER2 Status (IHC)"
+        },
+        "subject": {
+          "reference": "Patient/diane-roe"
+        },
+        "effectiveDateTime": "2024-03-10",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "416940007",
+              "display": "Positive (qualifier value)"
+            }
+          ],
+          "text": "IHC 3+ (Positive)"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/diane-roe-her2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:diane-roe-cancer-stage",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "diane-roe-cancer-stage",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "21908-9",
+              "display": "Stage group.clinical Cancer"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/diane-roe"
+        },
+        "effectiveDateTime": "2024-03-10",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1222802001",
+              "display": "IIIA (AJCC)"
+            }
+          ],
+          "text": "Stage IIIA"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/diane-roe-cancer-stage"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:diane-roe-ecog-ps",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "diane-roe-ecog-ps",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "89247-1",
+              "display": "ECOG Performance Status score"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/diane-roe"
+        },
+        "effectiveDateTime": "2024-03-10",
+        "valueInteger": 0
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/diane-roe-ecog-ps"
+      }
+    }
+  ]
+}

@@ -2,14 +2,16 @@ import { type NextRequest, NextResponse } from "next/server";
 import { evaluateGuideline } from "../../../lib/guideline";
 import {
   LOINC,
+  REGIMENS,
   evaluateBreastCancerPolicy,
   extractEcogScore,
   toBundle,
   type OncologyContext,
+  type Regimen as SharedRegimen,
 } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
-// Request / response types
+// Types
 // ---------------------------------------------------------------------------
 
 interface AnswerCoding {
@@ -27,6 +29,25 @@ interface EvaluateRequest {
   };
 }
 
+/** A required substitution surfaced from the payer policy. */
+interface SubstitutionResult {
+  originalDisplay: string;
+  substitutedDisplay: string;
+  rationale: string;
+}
+
+interface EvaluateResponse {
+  regimens: Awaited<ReturnType<typeof evaluateGuideline>>;
+  paStatus: "pre-approved" | "pa-required" | "dtr-required";
+  ecogScore: number | undefined;
+  /** Payer-required substitutions (e.g. biosimilar). Empty when none. */
+  substitutions: SubstitutionResult[];
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
 function buildObs(loincCode: string, loincDisplay: string, patientId: string, value: AnswerCoding) {
   return {
     resourceType: "Observation",
@@ -42,8 +63,6 @@ function buildObs(loincCode: string, loincDisplay: string, patientId: string, va
 }
 
 function buildEcogObs(patientId: string, value: AnswerCoding) {
-  // Carry the SNOMED grade coding so extractEcogScore can map it to an
-  // integer. The CRD pre-approval logic reads valueInteger when present.
   return {
     resourceType: "Observation",
     status: "final",
@@ -59,7 +78,6 @@ function buildEcogObs(patientId: string, value: AnswerCoding) {
   };
 }
 
-/** Filter resources whose Observation code matches a LOINC code. */
 function obsBundleByLoinc(resources: unknown[], loincCode: string) {
   return toBundle(
     resources.filter((r) => {
@@ -68,6 +86,33 @@ function obsBundleByLoinc(resources: unknown[], loincCode: string) {
       return obs.code?.coding?.some((c) => c.system === LOINC && c.code === loincCode);
     })
   );
+}
+
+/**
+ * Find biosimilar substitutions across all regimens that are on-guideline.
+ * In the demo, TH and PHD carry trastuzumab → trastuzumab-dttb.
+ */
+function findSubstitutionsForIndicatedRegimens(
+  regimens: SharedRegimen[],
+  onGuidelineIds: string[],
+): SubstitutionResult[] {
+  const subs: SubstitutionResult[] = [];
+  for (const regimen of regimens) {
+    if (!onGuidelineIds.includes(regimen.id)) continue;
+    for (const phase of regimen.phases) {
+      for (const drug of phase.drugs) {
+        if (drug.biosimilars?.length) {
+          const bio = drug.biosimilars[0];
+          subs.push({
+            originalDisplay: drug.display,
+            substitutedDisplay: bio.display,
+            rationale: bio.rationale,
+          });
+        }
+      }
+    }
+  }
+  return subs;
 }
 
 // ---------------------------------------------------------------------------
@@ -102,14 +147,8 @@ export async function POST(request: NextRequest) {
   // Evaluate guideline eligibility
   const regimens = await evaluateGuideline(patientId, resources);
 
-  // Determine PA status using the shared policy so the SMART app, CRD
-  // service, and payer backend all reason over the same rules. The synthetic
-  // resources are wrapped into Bundle-shaped objects to match the contract
-  // the shared helpers expect.
+  // Determine PA status using the shared policy
   const ctx: OncologyContext = {
-    // The SMART "what-if" panel does not synthesize a Condition; use the
-    // Patient resource as a non-null placeholder so hasBreastCancer returns
-    // false without a missing-data false-positive on conditions.
     conditions: toBundle(resources.filter((r) => (r as { resourceType?: string }).resourceType === "Patient")),
     her2: obsBundleByLoinc(resources, "85319-2"),
     cancerStage: obsBundleByLoinc(resources, "21908-9"),
@@ -127,5 +166,21 @@ export async function POST(request: NextRequest) {
         ? "pa-required"
         : "dtr-required";
 
-  return NextResponse.json({ regimens, paStatus, ecogScore });
+  // Find biosimilar substitutions for indicated regimens.
+  // Only surface substitutions when the policy is pre-approved or PA-required
+  // (i.e. the data is complete enough for the payer to weigh in).
+  const indicatedIds = regimens.filter((r) => r.onGuideline).map((r) => r.id);
+  const substitutions =
+    paStatus === "dtr-required"
+      ? []
+      : findSubstitutionsForIndicatedRegimens(REGIMENS, indicatedIds);
+
+  const response: EvaluateResponse = {
+    regimens,
+    paStatus,
+    ecogScore,
+    substitutions,
+  };
+
+  return NextResponse.json(response);
 }

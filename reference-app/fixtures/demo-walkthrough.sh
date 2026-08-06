@@ -6,6 +6,7 @@
 #   - Starting services and loading fixtures
 #   - Path 1: Authorization Satisfied (all data present)
 #   - Path 2: DTR Required (HER2 missing → collect → Authorization Satisfied)
+#   - Path 4: Biosimilar Substitution (payer modifies ordered regimen)
 #   - Layer 1: SMART App gap analysis and guideline-based regimen options
 #
 # Usage:
@@ -340,6 +341,48 @@ narrate "  3. Check Coverage → Authorization Satisfied"
 prompt
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Step 9: Path 4 — Biosimilar Substitution (Diane Roe)
+# ─────────────────────────────────────────────────────────────────────────────
+
+step "9" "Path 4 — Biosimilar Substitution (Diane Roe)"
+
+narrate "Diane Roe: HER2+ breast cancer, Stage IIIA, ECOG 0 — all data present."
+narrate "The payer policy approves the TH regimen but requires biosimilar"
+narrate "substitution: trastuzumab → trastuzumab-dttb (Ontrudy)."
+echo ""
+action "Open EHR and select Diane Roe"
+echo -e "${DIM}  http://localhost:4001 → click 'Diane Roe'${RESET}"
+narrate "Notice the violet 'Biosimilar Sub' badge in the patient list."
+prompt
+
+action "Navigate to order entry and select the TH regimen"
+echo -e "${DIM}  Click 'Orders' → select 'TH — Trastuzumab + Paclitaxel'${RESET}"
+narrate "The order-select hook fires. Since ECOG is 0, the CRD returns"
+narrate "'Authorization Satisfied' with a payer modification note."
+narrate "The card detail mentions the required biosimilar substitution."
+prompt
+
+action "Click 'Sign Order' to fire order-sign"
+narrate "The order-sign hook fires again with the authorization-satisfied card."
+narrate "The card carries the biosimilar substitution detail so the clinician"
+narrate "sees the payer modification before signing."
+prompt
+
+action "Launch the SMART App from the card link"
+narrate "The SMART App performs gap analysis — all data present."
+narrate "Below the guideline-indicated regimens, a violet 'Payer Modification"
+narrate "Required' panel appears showing:"
+narrate "  trastuzumab → trastuzumab-dttb (Ontrudy)"
+narrate "The clinician can see exactly what the payer will change."
+prompt
+
+action "Submit Prior Authorization (if PA-required path with ECOG ≥ 1)"
+narrate "The PAS service returns a ClaimResponse with processNote entries"
+narrate "carrying the substitution detail. The EHR's PA display shows the"
+narrate "payer modification section beneath the approval."
+prompt
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Summary
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -364,6 +407,12 @@ echo -e "     back to the EHR FHIR server."
 echo ""
 echo -e "  5. ${BOLD}Layer 1 SMART App${RESET} — optional pre-order CDS that performs gap"
 echo -e "     analysis and presents guideline-concordant regimen options."
+echo ""
+echo -e "  6. ${BOLD}Biosimilar Substitution${RESET} — when the payer policy approves a"
+echo -e "     regimen but requires a drug product substitution (e.g. trastuzumab"
+echo -e "     → trastuzumab-dttb), the SMART app surfaces the modification in a"
+echo -e "     violet 'Payer Modification Required' panel. The CRD card and PAS"
+echo -e "     ClaimResponse also carry the substitution detail."
 echo ""
 echo -e "${DIM}  Services:${RESET}"
 echo -e "${DIM}    Hub:          http://localhost:4000${RESET}"

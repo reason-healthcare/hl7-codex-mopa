@@ -16,10 +16,12 @@ import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@mopa/cds-hoo
 import {
   FHIR_QUERIES,
   MISSING_KEY_LABELS,
+  REGIMENS,
   evaluateBreastCancerPolicy,
   hasBreastCancer,
   fetchBundle,
   type OncologyContext,
+  type Regimen,
 } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
@@ -75,6 +77,26 @@ export function buildDiscoveryResponse(): { services: CdsService[] } {
       },
     ],
   };
+}
+
+/**
+ * Find biosimilar substitutions for a regimen (by id).
+ * Returns human-readable substitution strings for card detail text.
+ */
+function findSubstitutionDetail(regimenId: string): string | null {
+  const regimen = REGIMENS.find((r) => r.id === regimenId) as Regimen | undefined;
+  if (!regimen) return null;
+
+  const subs: string[] = [];
+  for (const phase of regimen.phases) {
+    for (const drug of phase.drugs) {
+      if (drug.biosimilars?.length) {
+        const bio = drug.biosimilars[0];
+        subs.push(`${drug.display} → ${bio.display}`);
+      }
+    }
+  }
+  return subs.length > 0 ? subs.join("; ") : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -219,7 +241,28 @@ export async function handleOncologyCrd(
   const result = evaluateBreastCancerPolicy(ctx);
 
   if (result.status === "authorization-satisfied") {
-    return { cards: [buildAuthorizationSatisfiedCard(result.reason)] };
+    // Check if the ordered regimen has required biosimilar substitutions.
+    // The draftOrders Bundle contains the RequestGroup with
+    // instantiatesCanonical pointing to the regimen PlanDefinition.
+    const draftOrders = request.context.draftOrders as {
+      entry?: Array<{ resource?: Record<string, unknown> }>;
+    };
+    const rg = draftOrders?.entry?.find(
+      (e) => e.resource?.resourceType === "RequestGroup"
+    )?.resource;
+    const canonical = rg
+      ? (rg.instantiatesCanonical as string[] | undefined)?.[0]
+      : undefined;
+    const regimen = canonical
+      ? REGIMENS.find((r) => r.canonicalUrl === canonical)
+      : undefined;
+    const subDetail = regimen ? findSubstitutionDetail(regimen.id) : null;
+
+    const detail = subDetail
+      ? `${result.reason} **Payer modification required: ${subDetail}.** The SMART app provides full substitution details.`
+      : result.reason;
+
+    return { cards: [buildAuthorizationSatisfiedCard(detail)] };
   }
 
   if (result.status === "pa-required") {

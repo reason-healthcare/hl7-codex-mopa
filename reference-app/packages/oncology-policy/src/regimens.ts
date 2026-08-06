@@ -23,6 +23,18 @@ export const EXT_DAYS = `${MOPA_BASE}/StructureDefinition/regimen-days-of-cycle`
 // Regimen data model
 // ---------------------------------------------------------------------------
 
+/**
+ * A biosimilar alternative for a drug in a regimen.
+ * Payer formulary policies may require substituting an originator
+ * biologic with an FDA-approved biosimilar when one is available.
+ */
+export interface BiosimilarAlternative {
+  rxnorm: string;
+  display: string;
+  /** Why the payer prefers this product (formulary rule, cost, etc.). */
+  rationale: string;
+}
+
 export interface DrugEntry {
   actionId: string;
   title: string;
@@ -32,6 +44,8 @@ export interface DrugEntry {
   period: number; // cycle period in days
   count?: number; // number of cycles (omit = indefinite)
   daysOfCycle?: number[]; // which days within the cycle (1-indexed)
+  /** Biosimilar alternatives the payer may require as substitutions. */
+  biosimilars?: BiosimilarAlternative[];
 }
 
 /** A phase groups concurrent drugs; sequential regimens have multiple phases. */
@@ -94,6 +108,13 @@ export const REGIMENS: Regimen[] = [
             dosageText: "4 mg/kg IV loading dose week 1, then 2 mg/kg IV weekly (days 1, 8, 15)",
             period: 21,
             daysOfCycle: [1, 8, 15],
+            biosimilars: [
+              {
+                rxnorm: "1992624",
+                display: "trastuzumab-dttb (Ontrudy)",
+                rationale: "Payer requires biosimilar substitution when an FDA-approved biosimilar is available",
+              },
+            ],
           },
         ],
       },
@@ -187,6 +208,13 @@ export const REGIMENS: Regimen[] = [
             dosageText: "8 mg/kg IV cycle 1, then 6 mg/kg IV q21d, day 1",
             period: 21,
             daysOfCycle: [1],
+            biosimilars: [
+              {
+                rxnorm: "1992624",
+                display: "trastuzumab-dttb (Ontrudy)",
+                rationale: "Payer requires biosimilar substitution when an FDA-approved biosimilar is available",
+              },
+            ],
           },
           {
             actionId: "docetaxel-phd",
