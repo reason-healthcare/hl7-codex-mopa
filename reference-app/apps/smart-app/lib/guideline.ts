@@ -5,16 +5,17 @@
  * determine regimen eligibility.
  */
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { createRequire } from "node:module";
 import { CqlExecutionEngine } from "@mopa/cql-engine";
 import type { ElmJson } from "@mopa/cql-engine";
 
-// Load the compiled ELM JSON at module init time. Using readFileSync +
-// JSON.parse avoids `require()` on a JSON file and works in both CJS and
-// ESM module resolution modes.
-const guidelineElm = JSON.parse(
-  readFileSync(resolve(process.cwd(), "cql/elm/BreastCancerGuideline.elm.json"), "utf-8")
-) as ElmJson;
+// Load the compiled ELM JSON at module init time. The ELM file lives at the
+// monorepo root (reference-app/cql/elm/), not inside the smart-app directory.
+// We use createRequire to resolve the path relative to this source file
+// (the same approach the original `require()` used, but without the lint
+// suppression for no-require-imports on a JSON file).
+const require = createRequire(import.meta.url);
+const guidelineElm = require("../../../../cql/elm/BreastCancerGuideline.elm.json") as ElmJson;
 
 const engine = new CqlExecutionEngine();
 
