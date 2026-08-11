@@ -15,7 +15,7 @@ import type { ElmJson } from "@mopa/cql-engine";
 // (the same approach the original `require()` used, but without the lint
 // suppression for no-require-imports on a JSON file).
 const require = createRequire(import.meta.url);
-const guidelineElm = require("../../../../cql/elm/BreastCancerGuideline.elm.json") as ElmJson;
+const guidelineElm = require("../../../cql/elm/BreastCancerGuideline.elm.json") as ElmJson;
 
 const engine = new CqlExecutionEngine();
 
