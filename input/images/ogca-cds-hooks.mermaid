@@ -15,6 +15,7 @@ sequenceDiagram
       CRD-->>EHR: Approvable — PA can be bypassed (info)
     else Context incomplete
       CRD-->>EHR: DTR launch card (warning)
+      Note over EHR: DTR collects data but does NOT persist to FHIR server
     else Criteria not met
       CRD-->>EHR: PA will be required (warning)
     end
@@ -23,15 +24,15 @@ sequenceDiagram
   rect rgb(240, 248, 240)
     Note over EHR,CRD: order-sign — Final Determination
     EHR->>CRD: POST /cds-services/oncology-crd (order-sign)
-    CRD->>EHR: Re-query FHIR server for updated context
-    EHR-->>CRD: Updated patient context
+    CRD->>EHR: Query FHIR server for oncology context
+    EHR-->>CRD: Patient context (DTR responses not persisted — may still be missing)
     CRD->>CRD: Final coverage determination
 
     alt Authorization satisfied
       CRD-->>EHR: Authorization Satisfied (success) — PA bypassed
     else PA required
       CRD-->>EHR: PA required (warning)
-    else DTR still required
-      CRD-->>EHR: DTR launch card (warning)
+    else Context still incomplete
+      CRD-->>EHR: DTR launch card (warning) — data still missing
     end
   end

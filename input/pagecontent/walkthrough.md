@@ -43,8 +43,9 @@ Step 1  POST /cds-services/oncology-crd  ← order-select fires (informational)
           ↳ 1c: Response B — DTR required (warning, HER2 status missing from EHR)
 Step 2  DTR questionnaire launched (Response B path only)
 Step 3  POST /cds-services/oncology-crd  ← order-sign fires (final determination)
-          ↳ 3a: CRD service re-queries EHR FHIR server (HER2 now present in Response B path)
-          ↳ 3b: Response — Authorization Satisfied (success indicator)
+          ↳ 3a: CRD service queries EHR FHIR server (DTR responses may NOT be persisted)
+          ↳ 3b: Response A — Authorization Satisfied (success indicator)
+          ↳ 3b: Response B — DTR still required (warning, data still missing)
 ```
 
 #### Step 1 — order-select (Informational Approvability Check)
@@ -280,8 +281,15 @@ Dr. Lopez clicks "Complete Prior Authorization Documentation." The DTR SMART app
 within the EHR and pre-populates all answers derivable from the patient record. The only
 unanswered item is HER2 status.
 
-Dr. Lopez enters HER2 IHC 3+ (positive). The DTR app saves a `QuestionnaireResponse` to
-the EHR's FHIR server and signals completion.
+Dr. Lopez enters HER2 IHC 3+ (positive). The DTR app captures the result as a
+`QuestionnaireResponse` and signals completion to the EHR.
+
+> **DTR responses are not persisted to the EHR FHIR server.** In most EHR deployments, the
+> DTR `QuestionnaireResponse` is held in the EHR session context (or as an in-progress order
+> attachment) but is **not** written back to the FHIR server as a clinical `Observation`.
+> This means the CRD service cannot rely on finding DTR-collected data when it queries the
+> EHR FHIR server at `order-sign`. The `QuestionnaireResponse` travels with the order
+> submission to PAS, not back to the EHR's clinical data store.
 
 This DTR exchange is governed by the Da Vinci DTR specification and is not reproduced in
 full here.
@@ -295,8 +303,12 @@ fires `order-sign`. The key differences from `order-select`:
 - All companion `MedicationRequest` resources are now finalised and included in
   `context.draftOrders`.
 - The CRD service returns the **final binding determination** (not informational).
-- In the Response B path, the CRD service re-queries the EHR FHIR server and now finds
-  the HER2 Observation saved by DTR.
+- The CRD service queries the EHR FHIR server again for oncology context. However, because
+  DTR responses are not persisted to the FHIR server, the CRD service **cannot assume**
+  that data collected via DTR will be present. If the data is still missing, the CRD
+  service returns a DTR-required card again, or the EHR may include the DTR
+  `QuestionnaireResponse` in `context.draftOrders` so the CRD service can read it
+  directly from the hook context rather than relying on a FHIR query.
 
 ##### Request (abbreviated — changes from order-select highlighted)
 
@@ -356,8 +368,11 @@ Content-Type: application/json
 }
 ```
 
-The CRD service re-queries the EHR FHIR server using `fhirAuthorization`. In the Response B path,
-the HER2 Observation saved by DTR is now present on the EHR server.
+The CRD service queries the EHR FHIR server using `fhirAuthorization`. In the Response B path,
+the HER2 status collected by DTR is **not** expected to be present on the EHR FHIR server —
+DTR `QuestionnaireResponse` resources are held in the EHR session, not written back as
+clinical `Observation` resources. The CRD service evaluation at `order-sign` therefore
+**cannot assume** that data gaps identified at `order-select` have been filled.
 
 ##### Response — Authorization Satisfied
 

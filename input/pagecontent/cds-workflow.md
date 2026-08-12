@@ -53,8 +53,10 @@ resources. The CRD service re-evaluates and returns the **final coverage determi
   PA can be bypassed. This is a binding determination at sign time.
 - **`indicator: "warning"`** — PA required. The provider may still sign, but PA must be
   submitted before fulfillment.
-- **`indicator: "warning"`** — DTR still required. Missing data was not collected between
-  select and sign; the card launches DTR for final documentation.
+- **`indicator: "warning"`** — DTR still required. Missing data collected via DTR at
+  `order-select` is not persisted to the EHR FHIR server and therefore may not be
+  available to the CRD service at `order-sign`. The card launches DTR for final
+  documentation, or the EHR may carry the DTR `QuestionnaireResponse` in `context.draftOrders`.
 
 ### How the CRD Service Obtains Patient Context
 
@@ -124,6 +126,15 @@ Upon receiving the hook, the CRD service:
    - At `order-select`: informational cards indicating approvability status
    - At `order-sign`: final determination cards (success/warning as appropriate)
 
+> **DTR data persistence assumption.** The CRD service **SHOULD NOT** assume that data
+> collected via DTR between `order-select` and `order-sign` will be available when querying
+> the EHR FHIR server at `order-sign`. In most EHR deployments, DTR `QuestionnaireResponse`
+> resources are held in the EHR session context — not written back as clinical
+> `Observation` resources on the FHIR server. If the CRD service requires DTR-collected
+> data for its final determination, the EHR **SHOULD** include the `QuestionnaireResponse`
+> in `context.draftOrders` at `order-sign` so the CRD service can read it directly from the
+> hook context.
+
 ### Possible CRD Outcomes
 
 | Stage | Condition | CRD Response | Indicator |
@@ -134,7 +145,7 @@ Upon receiving the hook, the CRD service:
 | order-select | Regimen categorically excluded | Not covered | `critical` |
 | order-sign | Context complete + criteria satisfied | **Authorization Satisfied** — PA bypassed | `success` |
 | order-sign | Context complete + PA required | PA required — submit via PAS | `warning` |
-| order-sign | Context incomplete | DTR launch card (data still missing) | `warning` |
+| order-sign | Context incomplete (DTR data not persisted) | DTR launch card or read QuestionnaireResponse from draftOrders | `warning` |
 {: .table }
 
 ### Biosimilar Substitution at order-select
