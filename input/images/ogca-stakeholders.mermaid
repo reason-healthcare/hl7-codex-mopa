@@ -3,11 +3,8 @@ flowchart TD
   Patient(["👤 Cancer Patient"])
   Payer["Health Plan / Payer"]
   EHR["EHR / Ordering System"]
-  GA["Guideline Authority\n(e.g., NCCN, ASCO)"]
 
   Clinician -- "treats" --> Patient
   Clinician -- "orders treatment via" --> EHR
   EHR -- "requests authorization" --> Payer
   Payer -- "authorizes treatment for" --> Patient
-  GA -- "informs coverage policy" --> Payer
-  GA -- "provides CDS" --> Clinician
