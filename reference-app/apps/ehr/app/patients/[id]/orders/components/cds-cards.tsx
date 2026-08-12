@@ -192,10 +192,13 @@ export function OrderSelectSummary({
   patientId: string;
   selectedRegimenId?: string;
 }) {
+  // At order-select: info indicator = approvable; warning + prior-auth = PA will be required
+  // At order-sign: success indicator = authorization satisfied; warning + prior-auth = PA required
+  const approvable = cards.some((c) => c.indicator === "info");
   const authSatisfied = cards.some((c) => c.indicator === "success");
   const paRequired = cards.some((c) => c.source.topic?.code === "prior-auth-required");
   const dtrCard = cards.find((c) => (c.links?.length ?? 0) > 0);
-  const coverageMet = authSatisfied || paRequired;
+  const coverageMet = approvable || authSatisfied || paRequired;
 
   return (
     <div className="divide-y divide-slate-100">
@@ -204,7 +207,7 @@ export function OrderSelectSummary({
         <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">Coverage Criteria</span>
         <div className="flex-1">
           {coverageMet ? (
-            <StatusBadge indicator="info" label="Met" />
+            <StatusBadge indicator="info" label={approvable ? "Approvable" : "Met"} />
           ) : (
             <>
               <StatusBadge indicator={cards[0]?.indicator ?? "warning"} label="Incomplete" />

@@ -63,24 +63,6 @@ services:
         condition: service_healthy
 
   # ---------------------------------------------------------------------------
-  # CDS SMART App (port 4002)
-  # ---------------------------------------------------------------------------
-  smart-app:
-    build:
-      context: .
-      dockerfile: apps/smart-app/Dockerfile
-    container_name: mopa-smart-app
-    ports:
-      - "4002:4002"
-    environment:
-      - SMART_AUTH_BYPASS=true
-      - PORT=4002
-      - LOG_HUB_URL=http://hub:4000/api/log
-      - NEXT_PUBLIC_EHR_BASE_URL=http://localhost:4001
-      - EHR_FHIR_BASE_URL=http://ehr:4001/api/fhir
-      - KNOWLEDGE_REPO_URL=http://hub:4000
-
-  # ---------------------------------------------------------------------------
   # CRD Service (port 4003)
   # ---------------------------------------------------------------------------
   crd-service:

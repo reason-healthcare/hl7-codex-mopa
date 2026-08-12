@@ -152,6 +152,56 @@ export function buildPaRequiredCard(detail?: string): CdsCard {
   };
 }
 
+/**
+ * Informational approvability card for order-select.
+ * Uses indicator: "info" (not "success") because the order is not yet signed.
+ * The final binding determination comes at order-sign.
+ */
+export function buildApprovableCard(detail?: string): CdsCard {
+  return {
+    summary: "Approvable — PA Can Be Bypassed",
+    detail:
+      detail ??
+      "All required oncology context has been retrieved from the EHR and coverage " +
+      "criteria are met. This is an informational check at order selection — " +
+      "the final determination will be returned at order sign. Prior authorization " +
+      "conditions have been evaluated and PA can be bypassed.",
+    indicator: "info",
+    source: {
+      ...buildCardSource(),
+      topic: {
+        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
+        code: "coverage-information",
+        display: "Coverage Information",
+      },
+    },
+  };
+}
+
+/**
+ * Informational PA-required card for order-select.
+ * Uses indicator: "warning" to advise the provider that PA will be needed.
+ */
+export function buildPaWillBeRequiredCard(detail?: string): CdsCard {
+  return {
+    summary: "PA Will Be Required",
+    detail:
+      detail ??
+      "All required oncology context has been retrieved from the EHR and coverage " +
+      "criteria are met, but prior authorization will be required before fulfillment. " +
+      "You may proceed with signing — a PA request will be submitted to the payer.",
+    indicator: "warning",
+    source: {
+      ...buildCardSource(),
+      topic: {
+        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
+        code: "prior-auth-required",
+        display: "Prior Authorization Required",
+      },
+    },
+  };
+}
+
 export function buildDtrCard(missingKeys: string[]): CdsCard {
   const missingDisplay = missingKeys.map((k) => MISSING_KEY_LABELS[k] ?? k).join(", ");
 
@@ -240,6 +290,11 @@ export async function handleOncologyCrd(
   // Evaluate the breast cancer coverage policy.
   const result = evaluateBreastCancerPolicy(ctx);
 
+  // Determine the hook type to select the appropriate card semantics.
+  // order-select: informational (info/warning) — advisory, order not yet signed.
+  // order-sign: final determination (success/warning) — binding.
+  const isOrderSelect = request.hook === "order-select";
+
   if (result.status === "authorization-satisfied") {
     // Check if the ordered regimen has required biosimilar substitutions.
     // The draftOrders Bundle contains the RequestGroup with
@@ -259,14 +314,30 @@ export async function handleOncologyCrd(
     const subDetail = regimen ? findSubstitutionDetail(regimen.id) : null;
 
     const detail = subDetail
-      ? `${result.reason} **Payer modification required: ${subDetail}.** The SMART app provides full substitution details.`
+      ? `${result.reason} **Payer modification required: ${subDetail}.**`
       : result.reason;
 
-    return { cards: [buildAuthorizationSatisfiedCard(detail)] };
+    // order-select: informational approvable card (info indicator)
+    // order-sign: final authorization satisfied card (success indicator)
+    return {
+      cards: [
+        isOrderSelect
+          ? buildApprovableCard(detail)
+          : buildAuthorizationSatisfiedCard(detail),
+      ],
+    };
   }
 
   if (result.status === "pa-required") {
-    return { cards: [buildPaRequiredCard(result.reason)] };
+    // order-select: informational "PA will be required" (warning)
+    // order-sign: final "PA required" (warning)
+    return {
+      cards: [
+        isOrderSelect
+          ? buildPaWillBeRequiredCard(result.reason)
+          : buildPaRequiredCard(result.reason),
+      ],
+    };
   }
 
   return { cards: [buildDtrCard(result.missingKeys)] };
