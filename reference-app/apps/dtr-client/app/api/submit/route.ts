@@ -57,11 +57,18 @@ function buildQuestionnaireResponse(
 /**
  * Submit DTR documentation.
  *
- * For each answered item:
- *   1. POST a FHIR Observation so the CRD prefetch can find it on the next order-select.
- *   2. POST a single QuestionnaireResponse aggregating all answers.
+ * IG GUIDANCE — DTR data is NOT persisted to the EHR FHIR server for clinical use.
  *
- * Uses native fetch (not fhir-kit-client) to avoid agentkeepalive conflicts in Next.js.
+ * The correct MOPA pattern: DTR returns a QuestionnaireResponse in the
+ * CDS Hooks context.draftOrders Bundle so the CRD can re-evaluate without
+ * re-querying the FHIR server. The EHR does NOT write QuestionnaireResponse
+ * (or derived Observations) to the FHIR server as clinical data.
+ *
+ * This implementation writes Observations and QuestionnaireResponse to the
+ * HAPI FHIR server for demonstration purposes — it allows the CRD to pick
+ * up the data on the next order-select call without an in-flight context.
+ * In a production system, the EHR would hold the QuestionnaireResponse in
+ * session storage and include it in draftOrders at order-sign.
  */
 export async function POST(request: NextRequest) {
   let body: SubmitRequest;
@@ -98,7 +105,8 @@ export async function POST(request: NextRequest) {
   const today = new Date().toISOString().slice(0, 10);
 
   // ------------------------------------------------------------------
-  // 1. POST a FHIR Observation for each answered item
+  // DEMO ONLY: POST a FHIR Observation for each answered item.
+  // Production: hold in session; include in draftOrders at order-sign.
   // ------------------------------------------------------------------
   const observationIds: string[] = [];
   for (const [linkId, answerCoding] of Object.entries(body.answers)) {
@@ -120,7 +128,8 @@ export async function POST(request: NextRequest) {
   }
 
   // ------------------------------------------------------------------
-  // 2. POST a QuestionnaireResponse aggregating all answers
+  // DEMO ONLY: POST a QuestionnaireResponse to the FHIR server.
+  // Production: return QuestionnaireResponse in CDS Hooks context.
   // ------------------------------------------------------------------
   try {
     const res = await fetch(`${EHR_FHIR_BASE}/QuestionnaireResponse`, {
@@ -141,7 +150,7 @@ export async function POST(request: NextRequest) {
       status: 201,
       durationMs: Date.now() - t0,
       response: { qrId: saved.id, observationIds },
-      summary: `DTR write-back complete — QR ${saved.id ?? "unknown"}, ${observationIds.length} observations`,
+      summary: `DTR write-back complete (demo) — QR ${saved.id ?? "unknown"}, ${observationIds.length} observations`,
     });
     return NextResponse.json({ qrId: saved.id, observationIds });
   } catch (e) {
