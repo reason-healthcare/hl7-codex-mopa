@@ -48,19 +48,19 @@ for format rules and commit discipline.
 - [x] Implement home page with link to Jane Smith's chart
 
 ### apps/smart-app (stub)
-- [x] Scaffold Next.js app at `apps/smart-app` with placeholder landing page (port 4001)
+- [x] Scaffold Next.js app at `apps/smart-app` with placeholder landing page (removed — smart-app removed from workspace)
 
 ### apps/crd-service (stub)
-- [x] Scaffold Next.js app at `apps/crd-service` with placeholder landing page (port 4002)
+- [x] Scaffold Next.js app at `apps/crd-service` with placeholder landing page (port 4003)
 
 ### apps/dtr-client (stub)
-- [x] Scaffold Next.js app at `apps/dtr-client` with placeholder landing page (port 4003)
+- [x] Scaffold Next.js app at `apps/dtr-client` with placeholder landing page (port 4004)
 
 ### apps/pas-service (stub)
-- [x] Scaffold Next.js app at `apps/pas-service` with placeholder landing page (port 4004)
+- [x] Scaffold Next.js app at `apps/pas-service` with placeholder landing page (port 4005)
 
 ### apps/payer-backend (stub)
-- [x] Scaffold Next.js app at `apps/payer-backend` with placeholder landing page (port 4005)
+- [x] Scaffold Next.js app at `apps/payer-backend` with placeholder landing page (port 4006)
 
 ### Docker Compose
 - [x] Create `reference-app/docker-compose.yml` with HAPI FHIR + all 6 apps

@@ -1,7 +1,7 @@
 # MOPA Reference Application
 
 A runnable, demo-quality reference implementation of the **Medical Oncology Prior
-Authorization (MOPA)** workflow across seven actors: Hub, EHR, CDS SMART App, CRD Service,
+Authorization (MOPA)** workflow across seven actors: Hub, EHR, CRD Service,
 DTR Client, PAS Service, and Payer Backend.
 
 ---

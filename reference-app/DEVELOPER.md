@@ -7,12 +7,11 @@
 ```
 reference-app/
 ├── apps/
-│   ├── ehr/              :4000  Oncology EHR — patient chart, order entry, SMART host
-│   ├── smart-app/        :4001  Layer 1 CDS SMART App — gap analysis, regimen options
-│   ├── crd-service/      :4002  CRD Service — CDS Hooks server, Library host
-│   ├── dtr-client/       :4003  DTR Client — questionnaire, prepopulation, QR persistence
-│   ├── pas-service/      :4004  PAS Service — $submit, routing, ClaimResponse
-│   └── payer-backend/    :4005  Payer Backend — CQL policy evaluation, determination
+│   ├── ehr/              :4001  Oncology EHR — patient chart, order entry, SMART host
+│   ├── crd-service/      :4003  CRD Service — CDS Hooks server, Library host
+│   ├── dtr-client/       :4004  DTR Client — questionnaire, prepopulation, QR persistence
+│   ├── pas-service/      :4005  PAS Service — $submit, routing, ClaimResponse
+│   └── payer-backend/    :4006  Payer Backend — TypeScript policy evaluation, determination
 └── packages/
     ├── fhir-client/      fhir-kit-client re-export + fhir-zod schemas + proxy handler
     ├── cds-hooks/        CDS Hooks types, discovery, request/response helpers
@@ -93,12 +92,12 @@ Each app has a `.env.local` file. Copy `.env.example` (when present) and adjust.
 | `SMART_AUTH_BYPASS` | `true` | all apps — skip SMART OAuth for local dev |
 | `SMART_JWT_SECRET` | `mopa-dev-secret-…` | EHR — HS256 token signing key |
 | `FHIR_BASE_URL` | `http://localhost:8080/fhir` | EHR — upstream HAPI base URL |
-| `NEXT_PUBLIC_CRD_SERVICE_URL` | `http://localhost:4002` | EHR, smart-app |
-| `NEXT_PUBLIC_EHR_BASE_URL` | `http://localhost:4000` | smart-app, dtr-client |
-| `DTR_CLIENT_URL` | `http://localhost:4003` | CRD Service |
-| `EHR_FHIR_BASE_URL` | `http://localhost:4000/api/fhir` | dtr-client, payer-backend |
-| `PAS_SERVICE_URL` | `http://localhost:4004` | EHR |
-| `PAYER_BACKEND_URL` | `http://localhost:4005` | PAS Service |
+| `NEXT_PUBLIC_CRD_SERVICE_URL` | `http://localhost:4003` | EHR |
+| `NEXT_PUBLIC_EHR_BASE_URL` | `http://localhost:4001` | dtr-client |
+| `DTR_CLIENT_URL` | `http://localhost:4004` | CRD Service |
+| `EHR_FHIR_BASE_URL` | `http://localhost:4001/api/fhir` | dtr-client, payer-backend |
+| `PAS_SERVICE_URL` | `http://localhost:4005` | EHR |
+| `PAYER_BACKEND_URL` | `http://localhost:4006` | PAS Service |
 
 ---
 

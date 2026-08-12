@@ -89,28 +89,6 @@ function VArrow({ label }: { label: string }) {
 }
 
 /** Forked connector: two labelled downward arrows side-by-side. */
-function ForkArrow({ left, right }: { left: string; right: string }) {
-  return (
-    <div className="flex items-start">
-      <div className="flex-1 flex flex-col items-center">
-        <div className="w-px h-3 bg-slate-500" />
-        <span className="text-xs text-slate-600 font-medium leading-tight py-1 px-3 text-center">
-          {left}
-        </span>
-        <div className="w-px h-3 bg-slate-500" />
-        <span className="text-slate-500 text-sm leading-none">&#x25BC;</span>
-      </div>
-      <div className="flex-1 flex flex-col items-center">
-        <div className="w-px h-3 bg-slate-500" />
-        <span className="text-xs text-slate-600 font-medium leading-tight py-1 px-3 text-center">
-          {right}
-        </span>
-        <div className="w-px h-3 bg-slate-500" />
-        <span className="text-slate-500 text-sm leading-none">&#x25BC;</span>
-      </div>
-    </div>
-  );
-}
 
 /** Horizontal connector between two sibling boxes (used inside the CRD group). */
 function _HArrow({ label }: { label: string }) {
@@ -154,35 +132,23 @@ function ServicesTab() {
         </div>
       </div>
 
-      {/* Fork: EHR → SMART App (left) / EHR → CRD group (right) */}
-      <ForkArrow left="SMART App launch" right="CDS Hooks order-select / sign · PA submit" />
-
-      {/* Row 2: SMART App | CRD+DTR+PAS group */}
-      <div className="flex gap-4 items-stretch">
-        {/* Left: SMART App */}
-        <div className="flex-1 flex flex-col border border-blue-200 rounded-md bg-blue-50/40 p-2.5">
-          <p className="text-[10px] font-semibold text-blue-500 uppercase tracking-wider mb-2">
-            Layer 1 &mdash; Guideline Authority
-          </p>
-          <SvcBox
-            name="CDS SMART App"
-            port={4002}
-            role="Gap analysis · regimen recommendations"
-            accent="blue"
-            className="flex-1"
-          />
+      {/* Arrow: EHR → CRD/DTR/PAS group */}
+      <div className="flex justify-center py-1">
+        <div className="flex flex-col items-center text-[10px] text-slate-500 italic">
+          <span className="mb-0.5">order-select (info) → order-sign (binding) · PA submit</span>
+          <div className="w-px h-3 bg-slate-300" />
         </div>
+      </div>
 
-        {/* Right: CRD group — all amber */}
-        <div className="flex-1 border border-amber-200 rounded-md bg-amber-50/40 p-2.5">
-          <p className="text-[10px] font-semibold text-amber-500 uppercase tracking-wider mb-2">
-            Layer 2 &mdash; Coverage &amp; Authorization
-          </p>
-          <div className="flex gap-2">
-            <SvcBox name="CRD" port={4003} role="Coverage determination" accent="amber" />
-            <SvcBox name="DTR" port={4004} role="Questionnaire · write-back" accent="amber" />
-            <SvcBox name="PAS" port={4005} role="PA submission routing" accent="amber" />
-          </div>
+      {/* Row 2: CRD+DTR+PAS group */}
+      <div className="border border-amber-200 rounded-md bg-amber-50/40 p-2.5">
+        <p className="text-[10px] font-semibold text-amber-500 uppercase tracking-wider mb-2">
+          Coverage &amp; Authorization (CDS Hooks)
+        </p>
+        <div className="flex gap-2">
+          <SvcBox name="CRD" port={4003} role="Coverage determination · order-select · order-sign" accent="amber" />
+          <SvcBox name="DTR" port={4004} role="Questionnaire · DTR launch via CRD card" accent="amber" />
+          <SvcBox name="PAS" port={4005} role="PA submission routing" accent="amber" />
         </div>
       </div>
 
@@ -190,7 +156,7 @@ function ServicesTab() {
       <div className="flex">
         <div className="flex-1" />
         <div className="flex-1 flex flex-col items-center">
-          <VArrow label="PA evaluate (CQL)" />
+          <VArrow label="PA evaluate" />
         </div>
       </div>
 
@@ -227,10 +193,7 @@ function ServicesTab() {
           <span className="w-3 h-3 rounded-sm bg-slate-800 border border-slate-700 inline-block" />
           Platform (EHR &amp; Hub)
         </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-sm bg-blue-100 border border-blue-300 inline-block" />
-          Layer 1 &mdash; Guideline Authority
-        </span>
+
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded-sm bg-amber-100 border border-amber-300 inline-block" />
           Layer 2 &mdash; Payer Policy
@@ -545,7 +508,7 @@ export default async function HubPage({
           </h1>
           <p className="text-sm text-slate-500 mt-0.5 mb-4 flex items-center justify-between gap-6">
             <span>
-              Reference implementation across seven actors — Hub, EHR, CDS SMART App, CRD Service, DTR
+              Reference implementation across six actors — Hub, EHR, CRD Service, DTR Client, PAS Service, and Payer Backend, CRD Service, DTR
               Client, PAS Service, Payer Backend.
             </span>
             <a
