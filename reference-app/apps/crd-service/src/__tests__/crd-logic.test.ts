@@ -4,6 +4,8 @@ import {
   evaluateBreastCancerPolicy,
   buildAuthorizationSatisfiedCard,
   buildPaRequiredCard,
+  buildApprovableCard,
+  buildPaWillBeRequiredCard,
   buildDtrCard,
   handleOncologyCrd,
   CRD_SERVICE_ID,
@@ -220,6 +222,30 @@ describe("buildPaRequiredCard", () => {
   });
 });
 
+describe("buildApprovableCard", () => {
+  it("returns an info card (not success)", () => {
+    expect(buildApprovableCard().indicator).toBe("info");
+  });
+
+  it("summary says Approvable", () => {
+    expect(buildApprovableCard().summary).toContain("Approvable");
+  });
+
+  it("has coverage-information topic code", () => {
+    expect(buildApprovableCard().source.topic?.code).toBe("coverage-information");
+  });
+});
+
+describe("buildPaWillBeRequiredCard", () => {
+  it("returns a warning card", () => {
+    expect(buildPaWillBeRequiredCard().indicator).toBe("warning");
+  });
+
+  it("summary says PA Will Be Required", () => {
+    expect(buildPaWillBeRequiredCard().summary).toBe("PA Will Be Required");
+  });
+});
+
 describe("buildDtrCard", () => {
   it("returns a warning card with a SMART link", () => {
     const card = buildDtrCard(["her2"]);
@@ -296,18 +322,19 @@ describe("handleOncologyCrd", () => {
     );
   });
 
-  it("order-select + all data present → authorization satisfied", async () => {
+  it("order-select + all data present → approvable (info)", async () => {
     const response = await handleOncologyCrd(baseRequest);
-    expect(response.cards[0]?.indicator).toBe("success");
-    expect(response.cards[0]?.summary).toBe("Authorization Satisfied");
+    expect(response.cards[0]?.indicator).toBe("info");
+    expect(response.cards[0]?.summary).toContain("Approvable");
   });
 
-  it("order-sign + all data present → authorization satisfied", async () => {
+  it("order-sign + all data present → authorization satisfied (success)", async () => {
     const response = await handleOncologyCrd({
       ...baseRequest,
       hook: "order-sign",
     });
     expect(response.cards[0]?.indicator).toBe("success");
+    expect(response.cards[0]?.summary).toBe("Authorization Satisfied");
   });
 
   it("DTR card when HER2 absent", async () => {

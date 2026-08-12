@@ -156,22 +156,7 @@ export default async function PatientChartPage({ params }: PageProps) {
           >
             Order Entry →
           </Link>
-          <a
-            href={(() => {
-              const u = new URL("http://localhost:4002/launch");
-              u.searchParams.set(
-                "iss",
-                `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"}/api/fhir`
-              );
-              u.searchParams.set("launch", `patient/${patient.id}`);
-              return u.toString();
-            })()}
-            className="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded font-medium transition-colors text-white"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Launch CDS App ↗
-          </a>
+
         </div>
       </div>
       {/* Demographics */}
