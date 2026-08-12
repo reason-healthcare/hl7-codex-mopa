@@ -37,9 +37,14 @@ A conformant Oncology CRD Client SHALL:
 
 1. Include the selected anti-cancer regimen as a `RequestGroup` conforming to
    `OncologyAntiCancerRegimenRequestGroup` in `context.draftOrders` and `context.selections`.
-2. Populate `RequestGroup.instantiatesCanonical` with the canonical URL of the
+2. Fire `order-select` when the provider selects a regimen from the order-set, before signing.
+   At this stage the `RequestGroup` is present but component MedicationRequests may not yet
+   be finalised.
+3. Fire `order-sign` when the provider signs the order, with finalised component
+   MedicationRequest resources included in context.draftOrders.
+4. Populate `RequestGroup.instantiatesCanonical` with the canonical URL of the
    `OncologyAntiCancerRegimenPlanDefinition` when the definition is known.
-3. Provide `fhirAuthorization` in the CDS Hooks request when available, to allow the CRD
+5. Provide `fhirAuthorization` in the CDS Hooks request when available, to allow the CRD
    service to query patient context directly from the EHR FHIR server.
 """
 
@@ -108,7 +113,13 @@ A conformant Oncology CRD Service SHALL:
 2. Use `fhirAuthorization` — when provided in the CDS Hooks request — to query the EHR FHIR
    server for required oncology patient context (cancer condition, staging, biomarkers, line
    of therapy, performance status, prior therapy).
-3. Return a DTR launch card when required context is not available from the EHR FHIR server.
+3. Return informational cards at `order-select` indicating the approvability status of the
+   ordered regimen. These cards are advisory — the order has not been committed.
+4. Return a final determination at `order-sign` with the appropriate indicator: `success`
+   for Authorization Satisfied, `warning` for PA-required or DTR-required.
+5. Surface biosimilar substitution requirements at `order-select` so the provider is
+   informed of payer modifications before signing.
+6. Return a DTR launch card when required context is not available from the EHR FHIR server.
 """
 
 * rest[=].resource[+].type = #RequestGroup

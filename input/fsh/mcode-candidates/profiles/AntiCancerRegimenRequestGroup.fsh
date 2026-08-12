@@ -11,6 +11,26 @@ Description: """A patient-specific ordered anti-cancer therapy regimen instance.
 This resource is included in the CDS Hooks draftOrders Bundle and referenced in
 context.selections at order-select and order-sign.
 
+**CDS Hooks Context.** This profile is designed for use in the Da Vinci CRD workflow.
+The `RequestGroup` is the primary prior-authorization subject — the unit of evaluation
+for coverage policy — not the individual `MedicationRequest` components within it.
+
+**Two-Stage Hook Pattern.** The MOPA workflow uses `order-select` and `order-sign`
+as distinct stages:
+
+- **`order-select`** (informational): The `RequestGroup` is present in `context.draftOrders`
+  but component `MedicationRequest` resources may not yet be finalised. The CRD service
+  returns informational cards indicating approvability. This is advisory — the order is
+  not yet committed.
+- **`order-sign`** (final determination): The `RequestGroup` is accompanied by finalised
+  component `MedicationRequest` resources. The CRD service returns the final coverage
+  determination (Authorization Satisfied, PA required, or DTR required).
+
+**CRD Order Profile Proposal.** This profile serves as the domain-specific layer for
+oncology regimens. A complementary CRD order profile for `RequestGroup` is proposed
+(MOPA-DV-CRD-003) to formalize `RequestGroup` as a standard order type in the Da Vinci
+CRD IG, analogous to existing CRD profiles for `MedicationRequest` and `ServiceRequest`.
+
 RequestGroup.instantiatesCanonical SHALL be populated with the canonical URL of the
 AntiCancerRegimenPlanDefinition when the canonical regimen definition is known.
 
@@ -52,7 +72,10 @@ See the mCODE Gap Proposals page in this IG for the full proposal backlog."""
 * instantiatesCanonical ^short = "Canonical URL of the AntiCancerRegimenPlanDefinition this instance instantiates"
 * instantiatesCanonical ^definition = """When the canonical regimen definition is known, this SHALL reference an
 AntiCancerRegimenPlanDefinition. The CRD Service SHOULD use this reference to identify
-the regimen and locate the associated data requirements Library."""
+the regimen and locate the associated data requirements Library.
+
+At order-select this field helps the CRD service identify the regimen protocol for
+approvability evaluation. At order-sign it supports the final coverage determination."""
 
 // Patient-specific ordering context extensions
 // regimenIntent: why THIS patient is receiving this regimen (ordering decision, not protocol property)
@@ -76,7 +99,7 @@ the regimen and locate the associated data requirements Library."""
 * action.relatedAction.relationship ^short = "Use 'after-end' for sequential phase ordering"
 
 * action.resource MS
-* action.resource ^short = "Reference to draft MedicationRequest for this component (available at order-sign)"
+* action.resource ^short = "Reference to draft MedicationRequest for this component. Present at order-sign; MAY be absent at order-select."
 
 // Nested actions for phased regimens
 * action.action MS
