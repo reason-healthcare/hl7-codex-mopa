@@ -21,14 +21,16 @@ requirements to prescription drugs — including chemotherapeutics and anti-canc
 
 ### The Framework
 
-This IG addresses two connected layers:
+This IG defines a structured authorization exchange using the standard Da Vinci CRD workflow
+where the payer CRD service uses FHIR authorization (when provided) to query the EHR for
+required oncology patient context (diagnosis, staging, biomarkers, line of therapy) directly.
 
-1. **Optional pre-order CDS** — clinical guideline-aligned regimen recommendations surfaced in the EHR
-   before an order is placed
+The workflow uses two CDS Hooks stages:
 
-2. **Structured authorization exchange** — a standard Da Vinci CRD workflow where the payer
-   CRD service uses FHIR authorization (when provided) to query the EHR for required oncology
-   patient context (diagnosis, staging, biomarkers, line of therapy) directly.
+- **`order-select` (informational)** — the CRD service evaluates approvability and returns
+  advisory cards before the provider signs the order
+- **`order-sign` (final determination)** — the CRD service returns the binding coverage
+  determination
 
 For the upstream standards work items, see:
 
@@ -38,13 +40,6 @@ For the upstream standards work items, see:
 <div style="border:2px solid #555; border-radius:6px; padding:16px; margin:1.2em 0; font-family:inherit; max-width:800px;">
 <div style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:14px;">The MOPA Framework</div>
 <div style="display:flex; gap:12px; margin-bottom:10px;">
-<div style="flex:1; border:2px solid #5b9bd5; border-radius:4px; padding:10px;">
-<div style="font-weight:bold; text-align:center; margin-bottom:8px;">Optional Pre-order CDS</div>
-<div style="display:flex; gap:8px; justify-content:center;">
-<div style="border:1px solid #5b9bd5; border-radius:3px; padding:4px 14px; background:#dce6f1;"><a href="https://hl7.org/fhir/uv/crmi/" target="_blank" rel="noopener noreferrer">CRMI</a></div>
-<div style="border:1px solid #5b9bd5; border-radius:3px; padding:4px 14px; background:#dce6f1;"><a href="https://hl7.org/fhir/uv/cpg/" target="_blank" rel="noopener noreferrer">CPG</a></div>
-</div>
-</div>
 <div style="flex:1; border:2px solid #70ad47; border-radius:4px; padding:10px;">
 <div style="font-weight:bold; text-align:center; margin-bottom:8px;">Structured Auth Exchange</div>
 <div style="display:flex; gap:8px; justify-content:center;">
@@ -65,7 +60,6 @@ For the upstream standards work items, see:
 <div style="font-weight:bold; text-align:center; margin-bottom:8px; color:#e67e22;">Enablers</div>
 <div style="display:flex; gap:12px;">
 <div style="flex:1; border:1px solid #e67e22; border-radius:3px; padding:6px; text-align:center; background:#fef5ec; font-weight:bold;"><a href="https://cds-hooks.hl7.org/" target="_blank" rel="noopener noreferrer">CDS Hooks</a></div>
-<div style="flex:1; border:1px solid #e67e22; border-radius:3px; padding:6px; text-align:center; background:#fef5ec; font-weight:bold;"><a href="https://hl7.org/fhir/smart-app-launch/" target="_blank" rel="noopener noreferrer">SMART Launch</a></div>
 </div>
 </div>
 </div>
@@ -119,7 +113,7 @@ For the upstream standards work items, see:
 ### How to Read This Guide
 
 - [Background](background.html) — Clinical problem, regulatory context, and gaps in existing standards
-- [Use Cases and Actors](use-cases.html) — The two-layer workflow, system actors, and actor responsibilities
+- [Use Cases and Actors](use-cases.html) — The workflow, system actors, and actor responsibilities
 - [Da Vinci Gap Proposals](davinci-gap-proposals.html) — CRD, DTR, and PAS proposals derived from the gap analysis
 - [mCODE Gap Proposals](mcode-gap-proposals.html) — Data model proposals derived from the gap analysis
 - **Specification:**

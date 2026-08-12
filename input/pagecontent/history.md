@@ -3,7 +3,7 @@
 
 Initial draft release.
 
-- Defined two-layer Medical Oncology Prior Authorization (MOPA) framework: pre-order CDS + Da Vinci CRD/DTR/PAS
+- Defined Medical Oncology Prior Authorization (MOPA) framework: Da Vinci CRD/DTR/PAS with two-stage CDS Hooks (order-select informational, order-sign final)
 - Defined `OncologyAntiCancerRegimenPlanDefinition` profile
 - Defined `OncologyAntiCancerRegimenRequestGroup` profile with cycle-day timing and sequential
   phase ordering
