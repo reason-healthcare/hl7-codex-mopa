@@ -3,45 +3,60 @@ sequenceDiagram
   autonumber
   actor Oncologist
   participant EHR as Oncology EHR
-  participant CDS as Pre-Order CDS
   participant CRD as CRD Service
   participant DTR as DTR Client
   participant PAS as PAS Service
   participant Payer as Payer Backend
 
-  rect rgb(240, 248, 240)
-    Note over Oncologist,CDS: Optional — Layer 1: Pre-Order CDS
-    Oncologist->>EHR: Open chart / begin treatment planning
-    EHR->>CDS: Evaluate patient context (diagnosis, stage, biomarkers)
-    CDS-->>EHR: Guideline-aligned regimen options
-    EHR-->>Oncologist: Present options before order selection
-  end
+  Oncologist->>EHR: Open chart / begin treatment planning
+  Oncologist->>EHR: Select anti-cancer regimen from order-set
+  EHR->>EHR: Create draft RequestGroup (instantiatesCanonical → PlanDefinition)
 
   rect rgb(230, 240, 255)
-    Note over Oncologist,Payer: Layer 2: Structured Authorization Exchange
-    Oncologist->>EHR: Select anti-cancer regimen
-    EHR->>EHR: Create draft RequestGroup (instantiatesCanonical → PlanDefinition)
-    EHR->>CRD: CDS Hooks order-select (RequestGroup + oncology extension)
-    CRD->>CRD: Evaluate context completeness and guideline criteria
+    Note over Oncologist,EHR: order-select — Informational Approvability Check
+    EHR->>CRD: CDS Hooks order-select (RequestGroup + fhirAuthorization)
+    CRD->>EHR: Query FHIR server for oncology context (Condition, Observation, MedicationRequest)
+    EHR-->>CRD: Patient context (diagnosis, stage, biomarkers, ECOG, prior therapy)
+    CRD->>CRD: Evaluate context completeness and coverage criteria
 
     alt Context complete + criteria satisfied
-      CRD-->>EHR: Pre-approval / no PA required
+      CRD-->>EHR: Approvable — PA can be bypassed (info)
     else Context incomplete
-      CRD-->>EHR: DTR launch card
+      CRD-->>EHR: DTR launch card (warning)
       EHR->>DTR: Launch DTR
       DTR-->>EHR: Completed QuestionnaireResponse
     else Criteria not met
-      CRD-->>EHR: PA required card
+      CRD-->>EHR: PA will be required (warning)
     end
 
-    Oncologist->>EHR: Sign order
-    Note over EHR: RequestGroup populated with component MedicationRequests
+    EHR-->>Oncologist: Present approvability cards (advisory, not yet signed)
+  end
 
-    opt PA required
-      EHR->>PAS: Submit PA request
-      PAS->>Payer: Transmit for adjudication
-      Payer-->>PAS: PA decision
-      PAS-->>EHR: Approval / pended / denied
-      EHR-->>Oncologist: Display PA outcome
+  Oncologist->>EHR: Sign order
+  Note over EHR: RequestGroup + finalised component MedicationRequests
+
+  rect rgb(240, 248, 240)
+    Note over Oncologist,EHR: order-sign — Final Determination
+    EHR->>CRD: CDS Hooks order-sign (RequestGroup + MedicationRequests + fhirAuthorization)
+    CRD->>EHR: Re-query FHIR server (HER2 now present in DTR path)
+    EHR-->>CRD: Updated patient context
+    CRD->>CRD: Final coverage determination
+
+    alt Authorization satisfied
+      CRD-->>EHR: Authorization Satisfied (success) — PA bypassed
+    else PA required
+      CRD-->>EHR: PA required (warning)
+    else DTR still required
+      CRD-->>EHR: DTR launch card (warning)
     end
+
+    EHR-->>Oncologist: Display final determination
+  end
+
+  opt PA required
+    EHR->>PAS: Submit PA request
+    PAS->>Payer: Transmit for adjudication
+    Payer-->>PAS: PA decision (approved / pended / denied)
+    PAS-->>EHR: ClaimResponse with determination
+    EHR-->>Oncologist: Display PA outcome
   end

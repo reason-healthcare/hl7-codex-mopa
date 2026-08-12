@@ -4,17 +4,34 @@ sequenceDiagram
   participant EHR as CRD Client (EHR)
   participant CRD as CRD Service
 
-  EHR->>CRD: POST /cds-services/oncology-crd (order-select / order-sign)
+  rect rgb(230, 240, 255)
+    Note over EHR,CRD: order-select — Informational
+    EHR->>CRD: POST /cds-services/oncology-crd (order-select)
+    CRD->>EHR: Query FHIR server (fhirAuthorization) for oncology context
+    EHR-->>CRD: Patient context (Condition, Observation, MedicationRequest)
+    CRD->>CRD: Evaluate context completeness and coverage criteria
 
-  CRD->>CRD: Resolve regimen + data requirements
-  CRD->>CRD: Evaluate context completeness and criteria
+    alt Context complete + criteria met
+      CRD-->>EHR: Approvable — PA can be bypassed (info)
+    else Context incomplete
+      CRD-->>EHR: DTR launch card (warning)
+    else Criteria not met
+      CRD-->>EHR: PA will be required (warning)
+    end
+  end
 
-  alt Context complete — criteria met
-    CRD-->>EHR: No PA required / pre-approval
-  else Context incomplete
-    CRD-->>EHR: DTR launch card
-  else Context complete — criteria not met
-    CRD-->>EHR: PA required card
-  else Regimen unrecognised
-    CRD-->>EHR: Coverage guidance card
+  rect rgb(240, 248, 240)
+    Note over EHR,CRD: order-sign — Final Determination
+    EHR->>CRD: POST /cds-services/oncology-crd (order-sign)
+    CRD->>EHR: Re-query FHIR server for updated context
+    EHR-->>CRD: Updated patient context
+    CRD->>CRD: Final coverage determination
+
+    alt Authorization satisfied
+      CRD-->>EHR: Authorization Satisfied (success) — PA bypassed
+    else PA required
+      CRD-->>EHR: PA required (warning)
+    else DTR still required
+      CRD-->>EHR: DTR launch card (warning)
+    end
   end
