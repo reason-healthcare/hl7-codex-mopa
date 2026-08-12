@@ -30,7 +30,7 @@ semantics. Implementers SHALL understand and follow this distinction:
 | Stage | Purpose | Card Semantics |
 |---|---|---|
 | `order-select` | Informational approvability check — fires when the provider selects a regimen, before signing | Cards SHOULD use `indicator: "info"` for approvable regimens (advisory, not binding). `indicator: "warning"` for PA-required or DTR-required. `indicator: "critical"` only for categorical exclusions. |
-| `order-sign` | Final determination — fires when the provider signs the order | Cards carry the binding determination: `indicator: "success"` for Authorization Satisfied, `indicator: "warning"` for PA-required or DTR-required. |
+| `order-sign` | Final determination — fires when the provider signs the order | Cards carry the binding determination: `indicator: "success"` for Authorization Satisfied, `indicator: "warning"` for PA-required or DTR-required. DTR data collected at `order-select` is **not** assumed to be persisted to the EHR FHIR server. |
 {: .table}
 
 ### Oncology CRD Client
