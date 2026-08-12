@@ -49,13 +49,17 @@ sequenceDiagram
       CRD-->>EHR: PA required (warning)
     else Context still incomplete
       CRD-->>EHR: DTR launch card (warning) — data still missing
+      EHR->>DTR: Launch DTR again (collect remaining missing data)
+      Note over DTR: DTR collects data but does NOT persist to EHR FHIR server
+      DTR-->>EHR: Completed QuestionnaireResponse (held in EHR session)
+      EHR-->>Oncologist: DTR complete — proceed to PA submission
     end
 
     EHR-->>Oncologist: Display final determination
   end
 
-  opt PA required
-    EHR->>PAS: Submit PA request (including QuestionnaireResponse from DTR)
+  opt PA required or DTR was launched
+    EHR->>PAS: Submit PA request (including QuestionnaireResponse(s) from DTR)
     PAS->>Payer: Transmit for adjudication
     Payer-->>PAS: PA decision (approved / pended / denied)
     PAS-->>EHR: ClaimResponse with determination
