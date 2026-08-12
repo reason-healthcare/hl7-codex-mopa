@@ -12,6 +12,8 @@ blocking for a pilot implementation.
 |---|---|---|---|
 | MOPA-DV-CRD-001 | CRD | Oncology coverage outcome semantics | Nice-to-have |
 | MOPA-DV-CRD-002 | CRD | `RequestGroup` as the PA unit in CRD hooks | **Must-have** |
+| MOPA-DV-CRD-003 | CRD | CRD order profile for `RequestGroup` (analogous to MedicationRequest/ServiceRequest profiles) | **Must-have** |
+| MOPA-DV-CRD-004 | CRD | `order-select` informational approvability semantics | Nice-to-have |
 | MOPA-DV-DTR-001 | DTR | `RequestGroup` as the order subject in DTR | **Must-have** |
 | MOPA-DV-DTR-002 | DTR | Structured exception / contraindication capture | Nice-to-have |
 | MOPA-DV-PAS-001 | PAS | Regimen-level structured submission | **Must-have** |
@@ -87,6 +89,109 @@ Da Vinci CRD IG — hook context guidance and `RequestGroup` support.
 
 CRD work group review; may require a hook definition amendment or a new oncology-specific
 hook context profile.
+
+#### MOPA-DV-CRD-003 — CRD order profile for `RequestGroup`
+
+**Priority: Must-have**
+
+**Problem**
+
+Da Vinci CRD defines order profiles for specific resource types — `MedicationRequest`,
+`ServiceRequest`, `DeviceRequest`, and others — that constrain the resource for use in CRD
+hook contexts and specify how the CRD service should evaluate them. There is no
+corresponding CRD order profile for `RequestGroup`, which is the resource type MOPA uses as
+the primary PA subject for oncology regimens. Without a CRD profile for `RequestGroup`:
+
+- EHRs have no standard guidance on what a `RequestGroup` in `context.draftOrders` should
+  conform to when passed to a CRD service
+- CRD services have no standard profile to validate against when evaluating the ordered
+  regimen
+- The CRD IG's coverage-information and suggestion card patterns are not formally tied to
+  `RequestGroup` as a valid order type
+
+**Proposed solution**
+
+Define a CRD order profile for `RequestGroup` in the Da Vinci CRD IG, analogous to the
+existing profiles for `MedicationRequest` and `ServiceRequest`. The profile should:
+
+1. **Constrain `RequestGroup` for CRD hook contexts** — require `status`, `intent = order`,
+   `subject`, and `action` elements; reference the MOPA `AntiCancerRegimenRequestGroup`
+   profile as a domain-specific specialization
+2. **Define CRD service evaluation expectations** — how a CRD service should interpret
+   `RequestGroup.instantiatesCanonical` to identify the regimen protocol, and how to
+   evaluate the regimen as a whole rather than per-component
+3. **Specify card behavior for `RequestGroup`** — what card types and indicators are
+   appropriate when the PA subject is a regimen-level `RequestGroup` (e.g., coverage
+   information at the regimen level, not per-medication)
+4. **Support both `order-select` and `order-sign`** — the profile should accommodate the
+   two-stage pattern where `order-select` carries only the `RequestGroup` (no finalised
+   `MedicationRequest` components) and `order-sign` carries the full bundle
+
+This proposal is complementary to [MOPA-DV-CRD-002](#mopa-dv-crd-002--requestgroup-as-the-pa-unit-in-crd-hooks),
+which establishes that `RequestGroup` should be the PA unit. This proposal asks CRD to
+formalize the resource profile that supports that decision.
+
+**Examples**
+
+- [TH Regimen Order](RequestGroup-THRegimenOrder.html) — `RequestGroup` conforming to the
+  MOPA `AntiCancerRegimenRequestGroup` profile, which would be the domain-specific layer on
+  top of the proposed CRD `RequestGroup` order profile
+- [order-select Bundle](Bundle-ExampleOrderSelectBundle.html) — `RequestGroup` alone in
+  `context.draftOrders` at `order-select`
+- [order-sign Bundle](Bundle-ExampleOrderSignBundle.html) — `RequestGroup` plus component
+  `MedicationRequest` resources at `order-sign`
+
+**Target destination**
+
+Da Vinci CRD IG — order profile section, alongside existing `MedicationRequest` and
+`ServiceRequest` CRD profiles.
+
+**Disposition path**
+
+CRD work group ballot proposal; coordinate with the CIC work group on the
+`AntiCancerRegimenRequestGroup` domain profile that would sit on top of the CRD profile.
+
+#### MOPA-DV-CRD-004 — `order-select` informational approvability semantics
+
+**Priority: Nice-to-have**
+
+**Problem**
+
+The CDS Hooks specification defines `order-select` as a hook that fires when a clinician
+selects an order from a catalog or order set, but does not prescribe the semantics of the
+cards returned. In practice, some CRD services return the same final determination at
+`order-select` as at `order-sign`, which can confuse providers — the order is not yet
+committed, but the card reads as if it is a final authorization decision.
+
+In the oncology PA workflow, `order-select` is best used as an **informational
+approvability check**: the provider is asking "will this be approvable if I sign it?" The
+final binding determination should come at `order-sign`. There is no standard guidance
+distinguishing the card semantics between these two stages.
+
+**Proposed solution**
+
+Add CRD guidance distinguishing card semantics at `order-select` vs `order-sign`:
+
+- **`order-select`** — cards SHOULD be informational (`indicator: "info"`) when the regimen
+  appears approvable, indicating that the assessment is advisory and the final determination
+  will come at sign. Warning cards for PA-required or DTR-required are appropriate. Critical
+  cards SHOULD be reserved for categorical exclusions (never covered), since the order is
+  not yet committed.
+- **`order-sign`** — cards carry the final binding determination. Success indicates
+  Authorization Satisfied (PA bypassed); warning indicates PA required or DTR still needed.
+
+This distinction helps providers understand that the `order-select` card is a pre-check,
+not a final answer, and encourages them to proceed (or not) based on that advisory
+information.
+
+**Target destination**
+
+Da Vinci CRD IG — hook response guidance section.
+
+**Disposition path**
+
+CRD work group discussion; may be included as implementation guidance rather than a
+normative requirement.
 
 ### DTR
 

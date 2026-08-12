@@ -217,29 +217,44 @@ into the CDS Hooks workflow described in Layer 2.
 
 ### Layer 2 — Structured Authorization Exchange (CDS Hooks)
 
-This is the automated pipeline that fires during order entry. The EHR fires a standard CDS Hooks
-request containing the ordered `RequestGroup` and — when available — `fhirAuthorization`
-credentials. The CRD service uses those credentials to query the EHR FHIR server directly for
-the oncology patient context it needs. No special extension or prefetch configuration is required
-from the EHR.
+This is the automated pipeline that fires during order entry. It uses two CDS Hooks stages:
+
+1. **`order-select` (informational)** — fires when the provider selects a regimen from the
+   order-set, before signing. The CRD service evaluates approvability and returns informational
+   cards so the provider can see whether the regimen will be approvable, whether PA will be
+   required, or whether documentation is missing. This is advisory — the order has not been
+   committed.
+
+2. **`order-sign` (final determination)** — fires when the provider clicks Sign. The CRD
+   service returns the final coverage determination: Authorization Satisfied (PA bypassed),
+   PA required, or DTR still needed.
+
+The EHR fires a standard CDS Hooks request containing the ordered `RequestGroup` and — when
+available — `fhirAuthorization` credentials. The CRD service uses those credentials to query
+the EHR FHIR server directly for the oncology patient context it needs. No special extension
+or prefetch configuration is required from the EHR.
 
 #### API Call Sequence
 
 ```
-Step 1  POST /cds-services/oncology-crd  ← order-select fires
+Step 1  POST /cds-services/oncology-crd  ← order-select fires (informational)
           ↳ 1a: CRD service reads RequestGroup from draftOrders
           ↳ 1b: CRD service queries EHR FHIR server (using fhirAuthorization)
-          ↳ 1c: Response A — Authorization Satisfied (all context present)
-          ↳ 1c: Response B — DTR required (HER2 status missing from EHR)
+          ↳ 1c: Response A — Approvable (info indicator, PA can be bypassed)
+          ↳ 1c: Response B — DTR required (warning, HER2 status missing from EHR)
 Step 2  DTR questionnaire launched (Response B path only)
-Step 3  POST /cds-services/oncology-crd  ← order-sign fires (full MedicationRequests)
+Step 3  POST /cds-services/oncology-crd  ← order-sign fires (final determination)
+          ↳ 3a: CRD service re-queries EHR FHIR server (HER2 now present in Response B path)
+          ↳ 3b: Response — Authorization Satisfied (success indicator)
 ```
 
-#### Step 1 — order-select
+#### Step 1 — order-select (Informational Approvability Check)
 
 Dr. Lopez selects the **TH regimen** from the oncology order-set. The EHR creates a draft
-`RequestGroup` and fires `order-select` with standard CDS Hooks context and FHIR authorization.
-The CRD service will query back to the EHR FHIR server using the provided access token.
+`RequestGroup` and fires `order-select` — this is an **informational** call that happens
+**before the order is signed**. The CRD service evaluates the regimen's approvability and
+returns advisory cards so Dr. Lopez can see whether the order will be approvable before
+committing to it. The order is still a draft at this stage.
 
 ##### Step 1b — order-select Hook Request
 
@@ -396,11 +411,12 @@ On receipt of the query results, the CDS Service evaluates:
    → Authorization Satisfied
 ```
 
-##### Step 1c Response A — Authorization Satisfied (All Context Present)
+##### Step 1c Response A — Approvable (Informational)
 
 All required oncology context was retrieved from the EHR FHIR server and all PA criteria
-were met. While prior authorization would typically be needed, the conditions evaluated by
-prior authorization have already been evaluated and therefore prior authorization can be bypassed.
+were met. At `order-select` the CRD service returns an **informational** card (indicator: `info`)
+indicating that the regimen is approvable and PA can be bypassed. This is advisory — the
+provider has not yet signed the order. The final binding determination comes at `order-sign`.
 
 ```jsonc
 // HTTP/1.1 200 OK
@@ -410,9 +426,9 @@ prior authorization have already been evaluated and therefore prior authorizatio
   "cards": [
     {
       "uuid":      "card-e7f1a2b3-4c5d-6e7f-8a9b-0c1d2e3f4a5b",
-      "summary":   "TH Regimen: Authorization Satisfied",
-      "indicator": "success",
-      "detail":    "Adjuvant TH (paclitaxel + trastuzumab) for HER2-positive Stage IIB breast cancer: while prior authorization would typically be required, the prior authorization conditions have been evaluated and prior authorization can be bypassed. HER2 IHC positivity confirmed, Stage IIB, first-line adjuvant.",
+      "summary":   "TH Regimen: Approvable — PA Can Be Bypassed",
+      "indicator": "info",
+      "detail":    "Adjuvant TH (paclitaxel + trastuzumab) for HER2-positive Stage IIB breast cancer: prior authorization conditions have been evaluated and PA can be bypassed. This is an informational check at order selection — the final determination will be returned at order sign. HER2 IHC positivity confirmed, Stage IIB, first-line adjuvant.",
       "source": {
         "label": "MOPA Coverage Decision Support",
         "url":   "https://cds.example.org",
@@ -475,10 +491,13 @@ full here.
 
 #### Step 3 — order-sign: Final Determination
 
-Dr. Lopez reviews the order and clicks **Sign**. The EHR fires `order-sign`. The key
-difference from `order-select`: all companion `MedicationRequest` resources are now
-finalised and included in `context.draftOrders`. In the Response B path, the CRD service
-re-queries the EHR FHIR server and now finds the HER2 Observation saved by DTR.
+Dr. Lopez reviews the informational card from `order-select` and clicks **Sign**. The EHR
+fires `order-sign`. The key differences from `order-select`:
+- All companion `MedicationRequest` resources are now finalised and included in
+  `context.draftOrders`.
+- The CRD service returns the **final binding determination** (not informational).
+- In the Response B path, the CRD service re-queries the EHR FHIR server and now finds
+  the HER2 Observation saved by DTR.
 
 ##### Request (abbreviated — changes from order-select highlighted)
 

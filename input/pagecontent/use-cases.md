@@ -50,26 +50,28 @@ Once a regimen is selected, the workflow uses the standard Da Vinci CRD/DTR/PAS 
 3. Clinician selects anti-cancer regimen → EHR creates draft RequestGroup
    (RequestGroup.instantiatesCanonical → PlanDefinition regimen definition)
 
-4. EHR fires standard CDS Hooks `order-select`:
+4. EHR fires standard CDS Hooks `order-select` (informational):
    - Selected `RequestGroup` in `context.selections` and `context.draftOrders`
    - `fhirAuthorization` included when EHR FHIR access is available
+   - CRD Service evaluates and returns **informational** cards:
+     - Approvable (info) → PA can be bypassed; advisory check before signing
+     - PA will be required (warning) → provider may proceed knowing PA is needed
+     - DTR required (warning) → missing data; launch DTR to collect before signing
+   - This is advisory — the order is not yet committed
 
-5. CRD Service evaluates:
-   - Reads the `RequestGroup` to identify the ordered regimen
-   - If `fhirAuthorization` is provided, queries the EHR FHIR server for required
-     oncology context (cancer condition, staging, biomarkers, line of therapy, etc.)
-   - Evaluates retrieved context against coverage policy
+5. Provider reviews approvability cards and decides whether to proceed
+
+6. EHR fires standard CDS Hooks `order-sign` (final determination):
+   - `RequestGroup` plus finalised component `MedicationRequest` resources
+   - CRD Service re-evaluates and returns the **final binding determination**:
 
    IF context sufficient + criteria satisfied → Authorization Satisfied (PA bypassed)
    IF context incomplete in EHR → return DTR launch card
    IF context complete but criteria not met → return PA required card
 
-6. DTR (if launched) uses the oncology questionnaire to:
+7. DTR (if launched) uses the oncology questionnaire to:
    - Prepopulate known patient data from the EHR
    - Collect missing documentation not found via FHIR query
-
-7. At order-sign, EHR includes instantiated component MedicationRequest resources
-   in the RequestGroup actions
 
 8. PAS (if PA required) submits structured authorization package
    Payer adjudicates and returns decision
