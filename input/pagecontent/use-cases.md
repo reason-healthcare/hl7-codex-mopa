@@ -10,33 +10,15 @@
 | **Guideline Authority** | An organization (e.g., NCCN, ASCO, internal pathways program) that publishes canonical regimen definitions as computable `PlanDefinition` artifacts |
 {: .table }
 
-### The Two-Layer Framework
+### Workflow
 
-This IG defines two connected layers that together address the full oncology PA workflow.
+The MOPA workflow uses the standard Da Vinci CRD/DTR/PAS sequence with two CDS Hooks stages:
 
-#### Layer 1 — Pre-Order Clinical Decision Support (optional)
-
-Before a clinician places an order, the EHR surfaces clinical guideline-aligned regimen recommendations
-based on the patient's specific situation: diagnosis, stage, biomarkers, and line of therapy.
-
-This layer:
-- Evaluates patient-specific context against computable clinical guidelines
-- Returns recommended regimens with clinical guideline-aligned options
-- Surfaces clinically relevant regimen choices before the order is placed
-
-This layer is **provider-driven**, **guideline-informed**, and focuses on selecting the right
-treatment upfront.
-
-The upstream standards proposals for this workflow are collected on the
-[Da Vinci Gap Proposals](davinci-gap-proposals.html) and
-[mCODE Gap Proposals](mcode-gap-proposals.html) pages.
-
-#### Layer 2 — Structured Authorization Exchange (Da Vinci CRD → DTR → PAS)
-
-Once a regimen is selected, the workflow uses the standard Da Vinci CRD/DTR/PAS sequence:
-
-- **CRD** receives the ordered `RequestGroup` and — if provided FHIR authorization — queries the
-  EHR's FHIR server directly for the oncology patient context required to evaluate the order
+- **`order-select` (informational)** — fires when the provider selects a regimen from the
+  order-set, before signing. The CRD service evaluates approvability and returns informational
+  cards. This is advisory — the order has not been committed.
+- **`order-sign` (final determination)** — fires when the provider signs the order. The CRD
+  service returns the final binding coverage determination.
 - **DTR** collects any missing data the CRD service could not retrieve from the EHR FHIR server
 - **PAS** submits the structured authorization package when PA is still required
 
@@ -44,13 +26,10 @@ Once a regimen is selected, the workflow uses the standard Da Vinci CRD/DTR/PAS 
 
 1. Clinician opens patient chart and begins treatment planning
 
-2. [Optional] Pre-order CDS evaluates patient context and returns
-   clinical guideline-aligned regimen options before order selection
-
-3. Clinician selects anti-cancer regimen → EHR creates draft RequestGroup
+2. Clinician selects anti-cancer regimen → EHR creates draft RequestGroup
    (RequestGroup.instantiatesCanonical → PlanDefinition regimen definition)
 
-4. EHR fires standard CDS Hooks `order-select` (informational):
+3. EHR fires standard CDS Hooks `order-select` (informational):
    - Selected `RequestGroup` in `context.selections` and `context.draftOrders`
    - `fhirAuthorization` included when EHR FHIR access is available
    - CRD Service evaluates and returns **informational** cards:
@@ -59,9 +38,9 @@ Once a regimen is selected, the workflow uses the standard Da Vinci CRD/DTR/PAS 
      - DTR required (warning) → missing data; launch DTR to collect before signing
    - This is advisory — the order is not yet committed
 
-5. Provider reviews approvability cards and decides whether to proceed
+4. Provider reviews approvability cards and decides whether to proceed
 
-6. EHR fires standard CDS Hooks `order-sign` (final determination):
+5. EHR fires standard CDS Hooks `order-sign` (final determination):
    - `RequestGroup` plus finalised component `MedicationRequest` resources
    - CRD Service re-evaluates and returns the **final binding determination**:
 
@@ -69,11 +48,11 @@ Once a regimen is selected, the workflow uses the standard Da Vinci CRD/DTR/PAS 
    IF context incomplete in EHR → return DTR launch card
    IF context complete but criteria not met → return PA required card
 
-7. DTR (if launched) uses the oncology questionnaire to:
+6. DTR (if launched) uses the oncology questionnaire to:
    - Prepopulate known patient data from the EHR
    - Collect missing documentation not found via FHIR query
 
-8. PAS (if PA required) submits structured authorization package
+7. PAS (if PA required) submits structured authorization package
    Payer adjudicates and returns decision
 
 <div style="display: block; float: none;">

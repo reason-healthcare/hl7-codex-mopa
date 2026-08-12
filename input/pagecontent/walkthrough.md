@@ -2,222 +2,10 @@
 
 ### Overview
 
-This page traces the concrete API calls involved in two MOPA workflows for the same clinical
-scenario, corresponding to the two-layer framework defined in [Use Cases and Actors](use-cases.html).
+This page traces the concrete API calls involved in the MOPA workflow for a single clinical
+scenario, using the Da Vinci CRD → DTR → PAS pipeline.
 
-**Layer 1** (optional) is provider-driven pre-order CDS: a SMART app launched from the EHR
-that reviews available patient data, collects missing elements, and presents
-guideline-concordant regimen options before an order is placed.
-
-**Layer 2** is the automated structured authorization exchange: the CDS Hooks pipeline that
-fires during order entry and drives CRD → DTR → PAS as needed.
-
-Both layers share the same oncology data categories as the basis for clinical evaluation.
-
-### Clinical Scenario
-
-**Patient:** Jane Smith (DOB 1968-04-15, MRN-78432)  
-**Clinician:** Dr. Maria Lopez, medical oncologist  
-**Diagnosis:** Invasive ductal carcinoma, right breast — HER2+, ER−, PR−, Stage IIB (T2 N1 M0), diagnosed November 2025  
-**Order:** Adjuvant TH regimen (paclitaxel 80 mg/m² IV weekly + trastuzumab), 12-week course
-
----
-
-### Layer 1 — Pre-Order Clinical Decision Support (Optional)
-
-The SMART app is the primary CDS tool for the provider. It is launched directly from the
-EHR when the provider clicks a CDS button in the patient chart. It has three responsibilities:
-
-1. **Data review** — query the FHIR server for relevant oncology data elements and display what is present
-2. **Data collection** — allow the provider to enter or confirm any missing elements inline
-3. **Regimen options** — present guideline-concordant anticancer regimen options based on the
-   complete clinical context
-
-This flow is governed by the SMART App Launch (EHR launch) specification. No CDS Hooks
-invocation occurs.
-
-#### When This Applies
-
-- Provider opens a patient chart and clicks the oncology CDS tool
-- An oncology coordinator reviews PA readiness before the ordering encounter
-- A clinician wants to explore guideline-based regimen options before selecting from the
-  order-set
-
-#### Step 1 — EHR Launch
-
-The provider clicks the CDS button in the EHR. The EHR initiates a SMART EHR launch,
-providing the app with the FHIR server base URL and a launch token encoding the current
-patient context.
-
-```
-GET https://smart-app.example.org/launch?iss=https%3A%2F%2Fehr.example.org%2Ffhir&launch=<launch-token>
-```
-
-The app completes the SMART OAuth flow and obtains an access token scoped to the current
-patient. The SMART App Launch specification governs this exchange and it is not reproduced
-here.
-
-#### Step 2 — Cancer Type Identification
-
-With a patient-scoped access token, the app queries the EHR FHIR server for the patient's
-active primary cancer condition to determine which oncology data categories apply.
-
-##### App reads primary cancer condition
-
-```
-GET https://ehr.example.org/fhir/Condition?patient=MOPAPatientExample
-    &code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-primary-cancer-disorder-vs
-    &clinical-status=active
-Accept: application/fhir+json
-Authorization: Bearer <smart-access-token>
-```
-
-```
-// Response: single active primary cancer — breast cancer (SNOMED 254837009)
-{
-  "resourceType": "Bundle", "type": "searchset", "total": 1,
-  "entry": [{
-    "resource": {
-      "resourceType": "Condition",
-      "code": { "coding": [{ "system": "http://snomed.info/sct", "code": "254837009", "display": "Malignant neoplasm of breast" }] },
-      "clinicalStatus": { "coding": [{ "code": "active" }] }
-    }
-  }]
-}
-```
-
-The app uses the cancer type to determine which oncology data elements to query next.
-
-#### Step 3 — Data Element Queries
-
-For each oncology data category relevant to breast cancer, the app queries the EHR FHIR server.
-These run in parallel where possible.
-
-```
-// Primary cancer condition (already retrieved in Step 2 — reused)
-
-// TNM stage group
-GET https://ehr.example.org/fhir/Observation
-    ?patient=MOPAPatientExample
-    &_profile=http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-stage-group
-    &_sort=-date&_count=1
-Authorization: Bearer <smart-access-token>
-
-// Tumor markers (ER, PR, HER2)
-GET https://ehr.example.org/fhir/Observation
-    ?patient=MOPAPatientExample
-    &code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-marker-test-vs
-    &_sort=-date
-Authorization: Bearer <smart-access-token>
-
-// ECOG performance status
-GET https://ehr.example.org/fhir/Observation
-    ?patient=MOPAPatientExample
-    &_profile=http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-ecog-performance-status
-    &_sort=-date&_count=1
-Authorization: Bearer <smart-access-token>
-
-// Line of therapy
-GET https://ehr.example.org/fhir/Observation
-    ?patient=MOPAPatientExample
-    &_profile=http://hl7.org/fhir/us/codex-mopa/StructureDefinition/line-of-therapy-observation
-Authorization: Bearer <smart-access-token>
-
-// Prior systemic therapy
-GET https://ehr.example.org/fhir/MedicationRequest
-    ?patient=MOPAPatientExample
-    &_profile=http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-medication-request
-    &status=completed,stopped
-Authorization: Bearer <smart-access-token>
-```
-
-#### Step 4 — UX: Data Review, Missing Item Input, and Regimen Options
-
-With query results in hand the app presents a three-phase interface. This is a UX
-description, not an API call.
-
-##### Phase 1 — Data Review
-
-Each relevant oncology data element is shown with its current value or a missing indicator:
-
-| Data Element | Value | Source |
-|---|---|---|
-| Primary cancer | Malignant neoplasm of breast | Condition (confirmed, active) |
-| TNM stage | Stage IIB (T2 N1 M0) | Observation 2025-11-10 |
-| ER status | Negative | Observation 2025-11-12 |
-| PR status | Negative | Observation 2025-11-12 |
-| HER2 status | **Missing** | No result found |
-| ECOG performance status | PS 1 | Observation 2026-05-10 |
-| Line of therapy | First-line | Observation |
-| Prior systemic therapy | None on record | MedicationRequest |
-{: .table }
-
-##### Phase 2 — Missing Item Input
-
-For each missing element the app renders an inline input. HER2 status is the only gap for
-Jane Smith. Dr. Lopez selects the result directly in the app:
-
-> **HER2 status** _(required for trastuzumab coverage)_  
-> \[ IHC 0 \] \[ IHC 1+ \] \[ IHC 2+ \] **\[ IHC 3+ (Positive) \]** \[ ISH Amplified \] \[ ISH Not Amplified \]
-
-> **EHR write-back limitation:** Not all EHRs grant SMART apps write access to clinical
-> data. Whether the app can persist entered values as `Observation` resources on the EHR
-> FHIR server depends on the scopes the EHR grants at launch. Two patterns are realistic:
->
-> - **Write-back supported** — the EHR grants `patient/Observation.write` (or `patient/*.write`)
->   and the app persists the entered value directly. When order-select fires shortly after,
->   the CRD service queries the EHR FHIR server and finds the new Observation, allowing a
->   complete determination without invoking DTR.
->
-> - **Write-back not supported** — the EHR does not grant write scopes. The app holds the
->   entered value in session only. The gap remains in the FHIR server, so the CDS Service
->   will still return a DTR card at order-select time. The app’s value for the session
->   serves as a convenience pre-fill for the DTR questionnaire rather than a durable record.
-
-Where write-back is supported, the app persists the entered value as an `Observation`
-conforming to `mcode-tumor-marker-test`:
-
-```
-POST https://ehr.example.org/fhir/Observation
-Content-Type: application/fhir+json
-Authorization: Bearer <smart-access-token>
-
-{
-  "resourceType": "Observation",
-  "meta": { "profile": ["http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tumor-marker-test"] },
-  "status": "final",
-  "code": { "coding": [{ "system": "http://loinc.org", "code": "85319-2", "display": "HER2 [Presence] in Breast cancer specimen by Immune stain" }] },
-  "subject": { "reference": "Patient/MOPAPatientExample" },
-  "effectiveDateTime": "2026-05-15",
-  "valueCodeableConcept": {
-    "coding": [{ "system": "http://snomed.info/sct", "code": "10828004", "display": "Positive (qualifier value)" }]
-  }
-}
-```
-
-##### Phase 3 — Guideline-Based Regimen Options
-
-With all data elements now present and confirmed, the app evaluates the clinical context
-against its guideline knowledge base and presents applicable anticancer regimen options.
-For Jane Smith (HER2+, ER−, PR−, Stage IIB, adjuvant intent, first-line, ECOG PS 1, no
-prior HER2-directed therapy):
-
-| Regimen | Guideline Authority | Setting | Notes |
-|---|---|---|---|
-| **TH** (paclitaxel + trastuzumab) | Guideline Authority | Adjuvant, HER2+ | Approvable for Stage I–II, HER2+, node-positive |
-| **AC→TH** (ddAC → paclitaxel + trastuzumab) | Guideline Authority | Adjuvant, HER2+ | Higher-risk node-positive disease |
-| **TCHP** (docetaxel + carboplatin + trastuzumab + pertuzumab) | Guideline Authority | Adjuvant, HER2+, node-positive | Consider when anthracycline contraindicated |
-{: .table }
-
-The provider selects the approvable regimen. That selection is carried forward into the
-EHR order-set, which creates the `RequestGroup` and fires `order-select` — transitioning
-into the CDS Hooks workflow described in Layer 2.
-
----
-
-### Layer 2 — Structured Authorization Exchange (CDS Hooks)
-
-This is the automated pipeline that fires during order entry. It uses two CDS Hooks stages:
+The workflow uses two CDS Hooks stages:
 
 1. **`order-select` (informational)** — fires when the provider selects a regimen from the
    order-set, before signing. The CRD service evaluates approvability and returns informational
@@ -228,6 +16,17 @@ This is the automated pipeline that fires during order entry. It uses two CDS Ho
 2. **`order-sign` (final determination)** — fires when the provider clicks Sign. The CRD
    service returns the final coverage determination: Authorization Satisfied (PA bypassed),
    PA required, or DTR still needed.
+
+### Clinical Scenario
+
+**Patient:** Jane Smith (DOB 1968-04-15, MRN-78432)  
+**Clinician:** Dr. Maria Lopez, medical oncologist  
+**Diagnosis:** Invasive ductal carcinoma, right breast — HER2+, ER−, PR−, Stage IIB (T2 N1 M0), diagnosed November 2025  
+**Order:** Adjuvant TH regimen (paclitaxel 80 mg/m² IV weekly + trastuzumab), 12-week course
+
+---
+
+### CDS Hooks Workflow
 
 The EHR fires a standard CDS Hooks request containing the ordered `RequestGroup` and — when
 available — `fhirAuthorization` credentials. The CRD service uses those credentials to query
