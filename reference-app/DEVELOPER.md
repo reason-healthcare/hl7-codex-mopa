@@ -176,7 +176,6 @@ bash fixtures/load-fixtures.sh https://my-server.example.com/fhir
 | 2 | CRD Service + EHR Order Entry | ✅ Complete |
 | 3 | CQL Guideline + Payer Policy | ✅ Complete |
 | 4 | SMART OAuth | ✅ Complete |
-| 5 | CDS SMART App (Layer 1) | ✅ Complete |
 | 6 | DTR Client | ✅ Complete |
 | 7 | PAS Service + Payer Backend | ✅ Complete |
 | 8 | Integration, Polish, Docs | 🔜 |

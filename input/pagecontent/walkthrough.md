@@ -429,6 +429,89 @@ configuration.
 
 ---
 
+### Biosimilar Substitution — Propose Alternate Request
+
+When the payer policy requires a biosimilar substitution (e.g., trastuzumab → trastuzumab-dttb),
+the CRD service returns a **second card** at `order-select` alongside the approvable card. This
+card uses the CDS Hooks suggestion mechanism (the Da Vinci CRD "Propose Alternate Request"
+pattern) to propose replacing the original `MedicationRequest` with a biosimilar alternative.
+
+#### Card structure
+
+The substitution suggestion card contains:
+
+- `indicator: "info"` — the regimen is approvable; the card proposes a modification
+- `source.topic.code: "therapy-alternatives-req"` — CRD response type
+- `suggestions[0]` with `actions`:
+  - `delete` — targets the original trastuzumab `MedicationRequest` by `resourceId`
+    (matching its `fullUrl` in `context.draftOrders`)
+  - `create` — contains the replacement `MedicationRequest` with
+    trastuzumab-dttb (RxNorm 1992624) and a `substitution` element
+    indicating formulary policy
+- `selectionBehavior: "at-most-one"` — accept the substitution or proceed as-is
+- `overrideReasons` — clinical contraindication, patient preference, formulary exception
+
+#### Provider interaction
+
+The EHR renders the suggestion as Accept/Override buttons in the Coverage Discovery panel.
+When the provider **accepts**:
+
+1. The EHR applies the delete + create actions to `context.draftOrders` in-session
+2. `RequestGroup.action[].resource` references are updated to point to the replacement
+3. The modified Bundle is sent to `order-sign`
+4. The CRD service returns **Authorization Satisfied** because the order now reflects
+   the payer-approved regimen
+
+When the provider **overrides**, the original order proceeds to `order-sign` unchanged.
+The CRD service notes the override and may require PA submission for the non-substituted regimen.
+
+#### Example response (order-select with biosimilar substitution)
+
+```jsonc
+{
+  "cards": [
+    {
+      "uuid": "card-approvable-...",
+      "summary": "Approvable — PA Can Be Bypassed",
+      "indicator": "info",
+      "detail": "All required oncology context has been retrieved... Payer modification required: trastuzumab → trastuzumab-dttb (Ontrudy).",
+      "source": { "label": "MOPA CRD Service", "topic": { "code": "coverage-information" } }
+    },
+    {
+      "uuid": "card-suggestion-...",
+      "summary": "Payer Modification Required — Biosimilar Substitution",
+      "indicator": "info",
+      "source": {
+        "label": "MOPA CRD Service",
+        "topic": { "system": "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp", "code": "therapy-alternatives-req" }
+      },
+      "suggestions": [
+        {
+          "label": "Accept Substitution (trastuzumab → trastuzumab-dttb)",
+          "uuid": "suggestion-...",
+          "isRecommended": true,
+          "actions": [
+            { "type": "delete", "description": "Remove original trastuzumab order", "resourceId": "urn:uuid:mr-trastuzumab-th" },
+            { "type": "create", "description": "Substitute trastuzumab-dttb (Ontrudy) for trastuzumab", "resource": { "resourceType": "MedicationRequest", "..." } }
+          ]
+        }
+      ],
+      "selectionBehavior": "at-most-one",
+      "overrideReasons": [
+        { "code": "clinical-contraindication", "display": "Clinical contraindication to biosimilar" },
+        { "code": "patient-preference", "display": "Patient already established on reference product" },
+        { "code": "formulary-exception", "display": "Formulary exception approved" }
+      ]
+    }
+  ]
+}
+```
+
+> **See [Da Vinci Gap Proposals](davinci-gap-proposals.html) — MOPA-DV-CRD-005** for the
+> upstream proposal to formalize this pattern in the CRD IG.
+
+---
+
 #### See Also
 
 - [CRD Workflow](cds-workflow.html) — how the CRD service queries back and conformance requirements

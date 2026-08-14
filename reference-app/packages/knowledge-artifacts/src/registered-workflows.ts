@@ -138,7 +138,7 @@ export const REGISTERED_WORKFLOWS: WorkflowEntry[] = [
         { input: "HER2 / Stage / ECOG absent", output: "DTR required: collect missing data" },
         {
           input: "All present, ECOG = 0",
-          output: "Pre-authorized, no PA required",
+          output: "Approvable, PA not required",
           positive: true,
         },
         { input: "All present, ECOG >= 1", output: "PA required: submit to payer", positive: true },
@@ -213,12 +213,12 @@ export const REGISTERED_WORKFLOWS: WorkflowEntry[] = [
         { input: "EGFR / ALK / PD-L1 absent", output: "DTR required: collect biomarker data" },
         {
           input: "Actionable mutation, ECOG 0 to 1",
-          output: "Pre-authorized: targeted therapy",
+          output: "Approvable: targeted therapy",
           positive: true,
         },
         {
           input: "IO eligible (PD-L1 >= 50%), ECOG 0 to 1",
-          output: "Pre-authorized: immunotherapy",
+          output: "Approvable: immunotherapy",
           positive: true,
         },
         {

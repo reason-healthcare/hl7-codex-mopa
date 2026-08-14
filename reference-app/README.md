@@ -1,7 +1,7 @@
 # MOPA Reference Application
 
 A runnable, demo-quality reference implementation of the **Medical Oncology Prior
-Authorization (MOPA)** workflow across seven actors: Hub, EHR, CRD Service,
+Authorization (MOPA)** workflow across six actors: Hub, EHR, CRD Service,
 DTR Client, PAS Service, and Payer Backend.
 
 ---
@@ -37,18 +37,19 @@ docker compose up   # all apps + HAPI, production builds
 
 ## Demo patient cases
 
-All three cases are loaded by a single script. Each patient has a distinct clinical
+Four patients are loaded by a single script. Each patient has a distinct clinical
 profile that exercises a different CDS outcome when an order is placed in the EHR.
 
 ```bash
 bash fixtures/load-fixtures.sh
 ```
 
-| Patient | ECOG | HER2 | Expected CDS outcome |
+| Patient | ECOG | HER2 | Expected CDS outcome at order-select |
 |---|---|---|---|
-| **Jane Smith** (MRN-001) | 0 | Positive | Authorization Satisfied |
-| **Maria Garcia** (MRN-002) | 1 | Positive | Authorization Satisfied |
+| **Jane Smith** (MRN-001) | 0 | Positive | Approvable — PA not required |
+| **Maria Garcia** (MRN-002) | 1 | Positive | Approvable — PA required |
 | **Sandra Chen** (MRN-003) | 1 | Absent | DTR Required — collect HER2 first |
+| **Diane Roe** (MRN-004) | 0 | Positive | Approvable + biosimilar substitution suggestion |
 
 The load script is idempotent. Re-running it purges existing data for each patient
 before reloading, so you can reset mid-demo without side effects.
@@ -74,33 +75,25 @@ with narration and prompts. Use `--quick` to skip setup if services are already 
 ## Walkthrough — placing an order
 
 1. Open the **Hub** at [http://localhost:4000](http://localhost:4000)
-2. Switch to the **Demo Fixtures** tab to see all three patient cases
+2. Switch to the **Demo Fixtures** tab to see all four patient cases
 3. Click **Open in EHR** on any case
 4. In the patient chart, open **Order Entry** and select the **TH** regimen
 5. CRD fires on `order-select` — the outcome depends on the patient's data:
 
    | Case | What you see |
    |---|---|
-   | Jane Smith | Authorization Satisfied — sign and proceed |
-   | Maria Garcia | Authorization Satisfied — sign and proceed |
-   | Sandra Chen | DTR card — launch DTR, enter HER2, return to EHR |
+   | Jane Smith | Approvable, PA not required — sign and proceed |
+   | Maria Garcia | Approvable, PA required — sign, then submit PA |
+   | Sandra Chen | Documentation Required — launch DTR, enter HER2, return to EHR |
+   | Diane Roe | Approvable + violet suggestion panel: Accept Substitution (trastuzumab-dttb) or Override |
 
 6. After DTR (Sandra Chen): HER2 is now present. The EHR re-fires `order-select` and
-   CRD returns Authorization Satisfied.
+   CRD returns Approvable.
 
----
-
-## CDS SMART App
-
-Launch from the EHR patient chart. Operates in two modes:
-
-**Default mode** — Gap analysis against the BreastCancerGuideline CQL library.
-When HER2 is missing an inline form lets the clinician enter the result and writes
-the observation back to HAPI.
-
-**Read-only (what-if)** — Add `?mode=readonly` to the launch URL. A what-if panel lets
-users enter hypothetical values for all required data elements and evaluates guideline
-eligibility locally — nothing is written to FHIR.
+7. For Diane Roe: if the provider **accepts** the substitution, the EHR updates the
+   draft orders in-session (replaces trastuzumab with trastuzumab-dttb) and sends the
+   modified Bundle to `order-sign`. If **overridden**, the original order proceeds
+   unchanged.
 
 ---
 
@@ -111,11 +104,8 @@ Browse at [http://localhost:4000/?tab=content](http://localhost:4000/?tab=conten
 All FHIR knowledge artifacts are served by the Hub at `/fhir/PlanDefinition` and
 `/fhir/Library`. The content browser organises them by type and layer:
 
-- **ECA Rules — Guideline Authority** (`BreastCancerGuidelineCDS`, `NSCLCGuidelineCDS`)
-  — evidence-based regimen recommendations, used by the CDS SMART App
 - **ECA Rules — Payer Policy** (`BreastCancerPAWorkflow`, `NSCLCPAWorkflow`)
-  — coverage determination rules used by the CRD Service; carry CDS Hooks
-  `action.trigger` so discovery is derived from the registered PlanDefinitions
+  — coverage determination rules used by the CRD Service
 - **Order Sets — Regimen Templates** (`RegimenTH`, `RegimenPHD`, `RegimenDdACT`, …)
   — canonical chemotherapy regimen definitions per the MOPA
   `AntiCancerRegimenPlanDefinition` profile; include structured timing and
@@ -131,7 +121,6 @@ Each artifact links to its raw FHIR JSON via the Hub API.
 |---|---|
 | Hub | 4000 |
 | EHR | 4001 |
-| CDS SMART App | 4002 |
 | CRD Service | 4003 |
 | DTR Client | 4004 |
 | PAS Service | 4005 |

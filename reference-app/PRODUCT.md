@@ -10,7 +10,7 @@ Oncology developers and clinical staff running demos of the MOPA workflow. Prima
 
 ## Product Purpose
 
-Reference implementation of the Medical Oncology Prior Authorization (MOPA) workflow across seven actors: Hub, EHR, CRD Service, DTR Client, PAS Service, and Payer Backend. The CRD service uses standard CDS Hooks with fhirAuthorization to query the EHR FHIR server directly for oncology patient context. Success means a developer or clinician can demo the full workflow without the UI getting in the way.
+Reference implementation of the Medical Oncology Prior Authorization (MOPA) workflow across six actors: Hub, EHR, CRD Service, DTR Client, PAS Service, and Payer Backend. The CRD service uses standard CDS Hooks with fhirAuthorization to query the EHR FHIR server directly for oncology patient context. Success means a developer or clinician can demo the full workflow without the UI getting in the way.
 
 ## Brand Personality
 

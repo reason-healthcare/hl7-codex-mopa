@@ -262,19 +262,32 @@ narrate "Diane Roe: HER2+ breast cancer, Stage IIIA, ECOG 0 — all data present
 narrate "The payer policy approves the TH regimen but requires a biosimilar"
 narrate "substitution: trastuzumab → trastuzumab-dttb (Ontrudy, RxNorm 1992624)."
 echo ""
-narrate "order-select fires: all criteria are met → 'Approvable'."
-narrate "The card detail mentions the required biosimilar substitution."
-narrate "A violet 'Biosimilar Sub' badge appears in the patient list and on the card."
+narrate "order-select fires: all criteria are met → 'Approvable' card (indicator: info)."
+narrate "In addition, the CRD returns a second card — a Propose Alternate Request"
+narrate "card (topic: therapy-alternatives-req) with a CDS Hooks suggestion:"
+narrate "  • 'Accept Substitution (trastuzumab → trastuzumab-dttb)' button"
+narrate "  • 'Override' button"
+narrate "  • Override reasons: clinical contraindication, patient preference, formulary exception"
 echo ""
-narrate "order-sign fires: the authorization-satisfied card carries the substitution"
-narrate "detail so the clinician sees the payer modification before signing."
+narrate "The suggestion card uses delete + create actions:"
+narrate "  • delete: removes the original trastuzumab MedicationRequest (by resourceId)"
+narrate "  • create: adds a replacement MedicationRequest with trastuzumab-dttb (RxNorm 1992624)"
+echo ""
+narrate "If the provider accepts: the EHR applies the actions in-session, updates"
+narrate "RequestGroup references, and sends the modified Bundle to order-sign."
+narrate "If overridden: the original order proceeds to order-sign unchanged."
+echo ""
+narrate "A violet 'Biosimilar Sub' badge appears in the patient list."
 echo ""
 action "Open: $EHR_URL"
 narrate "  1. Click 'Diane Roe' — violet 'Biosimilar Sub' badge in patient list"
 narrate "  2. Go to Order Entry → select 'TH — Trastuzumab + Paclitaxel'"
-narrate "  3. Check Coverage → 'Approvable' card with biosimilar detail"
-narrate "  4. Sign Order → 'Authorization Satisfied' card with substitution note"
-narrate "  5. The order includes trastuzumab-dttb (Ontrudy) per payer policy"
+narrate "  3. Check Coverage → 'Approvable' card + violet suggestion panel"
+narrate "  4. Click 'Accept Substitution' → draft orders updated in-session"
+narrate "  5. Sign Order → 'Authorization Satisfied' (modified Bundle sent to order-sign)"
+narrate "  OR"
+narrate "  4b. Click 'Override' → original order preserved"
+narrate "  5b. Sign Order → 'Authorization Satisfied' with substitution note"
 prompt
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -343,6 +356,44 @@ narrate "order-select for Sandra Chen: HER2 is missing → indicator: 'warning'"
 narrate "'Documentation Required' card with a SMART link to launch the DTR client."
 prompt
 
+narrate "Now let's try Diane Roe (all data present, biosimilar substitution):"
+echo ""
+
+# Build a TH regimen draft order for Diane Roe
+RESPONSE3=$(curl -sf -X POST "$CRD_URL/api/cds-services/oncology-crd"   -H "Content-Type: application/json"   -d "{
+    "hookInstance": "demo-walkthrough-3",
+    "hook": "order-select",
+    "context": {
+      "userId": "Practitioner/demo",
+      "patientId": "diane-roe",
+      "draftOrders": {
+        "resourceType": "Bundle",
+        "type": "collection",
+        "entry": [{
+          "fullUrl": "urn:uuid:rg-TH",
+          "resource": {
+            "resourceType": "RequestGroup",
+            "id": "rg-TH",
+            "status": "draft",
+            "intent": "order",
+            "instantiatesCanonical": ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"]
+          }
+        }]
+      },
+      "selections": ["urn:uuid:rg-TH"]
+    },
+    "fhirServer": "$FHIR_BASE"
+  }" 2>/dev/null || echo '{"error": "CRD service unreachable"}')
+
+echo "$RESPONSE3" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE3"
+echo ""
+narrate "order-select for Diane Roe: two cards returned —"
+narrate "  Card 1: 'Approvable' (indicator: info)"
+narrate "  Card 2: 'Payer Modification Required' (indicator: info, topic: therapy-alternatives-req)"
+narrate "    with suggestions[0].actions containing delete + create for the biosimilar"
+narrate "    substitution, selectionBehavior: at-most-one, and overrideReasons."
+prompt
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Step 8: Hub — knowledge artifacts and content viewer
 # ─────────────────────────────────────────────────────────────────────────────
@@ -390,9 +441,11 @@ echo -e "     evaluates the PA request and returns a ClaimResponse. For biosimil
 echo -e "     substitutions, processNote entries surface the payer modification."
 echo ""
 echo -e "  5. ${BOLD}Biosimilar Substitution${RESET} — payer approves the TH regimen but"
-echo -e "     requires trastuzumab → trastuzumab-dttb (Ontrudy). The CRD card and"
-echo -e "     PAS ClaimResponse carry the substitution detail so the clinician"
-echo -e "     sees exactly what the payer will change before signing."
+echo -e "     requires trastuzumab → trastuzumab-dttb (Ontrudy). At order-select,"
+echo -e "     the CRD returns a Propose Alternate Request card with a suggestion"
+echo -e "     (delete + create actions). The provider can Accept (EHR updates draft"
+echo -e "     orders in-session) or Override. The PAS ClaimResponse also carries"
+echo -e "     the substitution detail in processNote entries."
 echo ""
 echo -e "${DIM}  Services:${RESET}"
 echo -e "${DIM}    Hub:           http://localhost:4000${RESET}"
