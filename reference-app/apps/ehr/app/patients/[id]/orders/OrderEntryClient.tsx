@@ -142,7 +142,7 @@ export default function OrderEntryPage({
         </div>
       )}
 
-      {/* CDS Guidance panel — consistent provenance wrapper for all hook responses */}
+      {/* Coverage Discovery panel — shows draft order details + coverage determination */}
       {cards.length > 0 && activeHook && (
         <section>
           <CrdResponsePanel
@@ -150,6 +150,7 @@ export default function OrderEntryPage({
             hook={activeHook}
             patientId={patientId}
             selectedRegimenId={selected?.id}
+            regimen={selected ?? undefined}
           />
         </section>
       )}

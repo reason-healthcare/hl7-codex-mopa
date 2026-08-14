@@ -1,6 +1,7 @@
 "use client";
 
 import type { CdsCard } from "@mopa/cds-hooks";
+import type { Regimen } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
 // SMART launch URL builder
@@ -108,6 +109,43 @@ export function StatusBadge({ indicator, label }: { indicator: string; label: st
 }
 
 // ---------------------------------------------------------------------------
+// Draft order details
+// ---------------------------------------------------------------------------
+
+/**
+ * Renders the selected regimen's drug details as a compact list.
+ * Shown in the Coverage Discovery panel so the clinician sees exactly
+ * what is being evaluated before signing.
+ */
+function DraftOrderDetails({ regimen }: { regimen: Regimen }) {
+  return (
+    <div className="space-y-2">
+      {regimen.phases.map((phase) => (
+        <div key={phase.id}>
+          <p className="text-xs font-medium text-slate-500">{phase.title}</p>
+          <ul className="mt-1 space-y-1">
+            {phase.drugs.map((drug) => (
+              <li key={drug.actionId} className="text-sm text-slate-700">
+                <span className="font-medium">{drug.display}</span>
+                <span className="text-slate-400"> · {drug.dosageText}</span>
+                {drug.biosimilars?.map((bio) => (
+                  <span
+                    key={bio.rxnorm}
+                    className="ml-2 inline-flex items-center gap-0.5 text-xs font-semibold px-1.5 py-0.5 rounded bg-violet-100 text-violet-800"
+                  >
+                    → {bio.display}
+                  </span>
+                ))}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // CDS card row
 // ---------------------------------------------------------------------------
 
@@ -180,17 +218,20 @@ export function CdsCardRow({
 // ---------------------------------------------------------------------------
 
 /**
- * Structured two-line summary for order-select responses.
- * Shows Coverage Criteria status and, when determinable, PA Requirement.
+ * Structured summary for order-select responses.
+ * Shows the draft order being evaluated, Coverage Criteria status, and
+ * PA Requirement when determinable.
  */
 export function OrderSelectSummary({
   cards,
   patientId,
   selectedRegimenId,
+  regimen,
 }: {
   cards: CdsCard[];
   patientId: string;
   selectedRegimenId?: string;
+  regimen?: Regimen;
 }) {
   // At order-select: info indicator = approvable; warning + prior-auth = PA will be required
   // At order-sign: success indicator = authorization satisfied; warning + prior-auth = PA required
@@ -202,6 +243,20 @@ export function OrderSelectSummary({
 
   return (
     <div className="divide-y divide-slate-100">
+      {/* Row 0: Draft Order — what is being evaluated */}
+      {regimen && (
+        <div className="px-4 py-3 bg-slate-50">
+          <span className="text-xs text-slate-400 block mb-2">Draft Order</span>
+          <div className="flex items-start gap-2">
+            <span className="text-sm font-semibold text-slate-900">{regimen.shortLabel}</span>
+            <span className="text-xs text-slate-400 mt-0.5">{regimen.description}</span>
+          </div>
+          <div className="mt-2">
+            <DraftOrderDetails regimen={regimen} />
+          </div>
+        </div>
+      )}
+
       {/* Row 1: Coverage Criteria */}
       <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
         <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">Coverage Criteria</span>
@@ -268,7 +323,7 @@ export function OrderSelectSummary({
 }
 
 // ---------------------------------------------------------------------------
-// CRD response panel
+// Coverage Discovery panel
 // ---------------------------------------------------------------------------
 
 /**
@@ -280,11 +335,13 @@ export function CrdResponsePanel({
   hook,
   patientId,
   selectedRegimenId,
+  regimen,
 }: {
   cards: CdsCard[];
   hook: "order-select" | "order-sign";
   patientId: string;
   selectedRegimenId?: string;
+  regimen?: Regimen;
 }) {
   const sourceLabel = cards[0]?.source.label ?? "CRD Service";
 
@@ -293,7 +350,7 @@ export function CrdResponsePanel({
       {/* Provenance header */}
       <div className="bg-slate-100 border-b border-slate-200 px-4 py-2 flex items-center justify-between">
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
-          CDS Guidance
+          Coverage Discovery
         </span>
         <div className="flex items-center gap-2 text-xs text-slate-400">
           <span>{sourceLabel}</span>
@@ -307,6 +364,7 @@ export function CrdResponsePanel({
           cards={cards}
           patientId={patientId}
           selectedRegimenId={selectedRegimenId}
+          regimen={regimen}
         />
       ) : (
         <div className="divide-y divide-slate-100">
