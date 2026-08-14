@@ -1,6 +1,6 @@
 # Medical Oncology Prior Authorization (MOPA) Implementation Guide
 
-Site: **https://reason-healthcare.github.io/hl7-codex-mopa/**
+Site: **https://reason-healthcare.github.io/hl7-codex-ocpa/**
 
 > 💬 **Have feedback?** See the [Feedback Guide](./docs/FEEDBACK.md) for easy ways to submit comments — including options for non-technical reviewers and AI-assisted issue filing.
 
