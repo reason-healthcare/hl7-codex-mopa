@@ -7,13 +7,21 @@ import { buildDraftBundle, type Regimen } from "@mopa/oncology-policy";
  * Fire a CDS Hooks order-select or order-sign request through the EHR's
  * /api/crd-hooks proxy route. The proxy injects fhirServer and
  * fhirAuthorization server-side.
+ *
+ * @param hook       - "order-select" or "order-sign"
+ * @param patientId  - FHIR patient ID
+ * @param regimen    - selected regimen (used to build draftOrders if no override)
+ * @param draftOrdersOverride - when provided (e.g. after suggestion acceptance),
+ *                              sends the modified Bundle instead of rebuilding
+ *                              from the regimen template
  */
 export async function fireCdsHook(
   hook: "order-select" | "order-sign",
   patientId: string,
   regimen: Regimen,
+  draftOrdersOverride?: object,
 ): Promise<CdsResponse> {
-  const draftOrders = buildDraftBundle(patientId, regimen);
+  const draftOrders = draftOrdersOverride ?? buildDraftBundle(patientId, regimen);
 
   const body = {
     hookInstance: crypto.randomUUID(),

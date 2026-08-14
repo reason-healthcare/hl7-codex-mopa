@@ -363,3 +363,67 @@ export function buildDraftBundle(patientId: string, regimen: Regimen) {
     entry: [{ fullUrl: rgFullUrl, resource: requestGroup }, ...medEntries],
   };
 }
+
+// ---------------------------------------------------------------------------
+// Biosimilar substitution helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Build a replacement MedicationRequest for a biosimilar substitution.
+ *
+ * Given a drug entry that has biosimilar alternatives, this produces a new
+ * MedicationRequest with the biosimilar's RxNorm code and display, keeping
+ * the same dosage instructions and patient reference.
+ *
+ * @returns the replacement MedicationRequest resource, or null if the drug
+ *          has no biosimilar alternatives.
+ */
+export function buildReplacementMedicationRequest(
+  patientId: string,
+  drug: DrugEntry,
+): { resource: object; resourceId: string } | null {
+  const bio = drug.biosimilars?.[0];
+  if (!bio) return null;
+
+  return {
+    resourceId: `urn:uuid:mr-${drug.actionId}`,
+    resource: {
+      resourceType: "MedicationRequest",
+      status: "draft",
+      intent: "order",
+      subject: { reference: `Patient/${patientId}` },
+      medicationCodeableConcept: {
+        coding: [{ system: RXNORM, code: bio.rxnorm, display: bio.display }],
+        text: bio.display,
+      },
+      dosageInstruction: [{ text: drug.dosageText }],
+      substitution: {
+        allowed: true,
+        reason: {
+          coding: [
+            {
+              system: "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+              code: "FP",
+              display: "Formulary Policy",
+            },
+          ],
+        },
+      },
+    },
+  };
+}
+
+/**
+ * Find all drugs in a regimen that have biosimilar alternatives.
+ */
+export function findBiosimilarDrugs(regimen: Regimen): Array<{ phase: Phase; drug: DrugEntry }> {
+  const result: Array<{ phase: Phase; drug: DrugEntry }> = [];
+  for (const phase of regimen.phases) {
+    for (const drug of phase.drugs) {
+      if (drug.biosimilars?.length) {
+        result.push({ phase, drug });
+      }
+    }
+  }
+  return result;
+}

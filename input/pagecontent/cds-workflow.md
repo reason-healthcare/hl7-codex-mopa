@@ -151,11 +151,43 @@ Upon receiving the hook, the CRD service:
 ### Biosimilar Substitution at order-select
 
 When the payer's coverage policy requires a biosimilar substitution (e.g., trastuzumab →
-trastuzumab-dttb), the CRD service **SHOULD** surface this at `order-select` as an
-informational card so the provider sees the modification **before** signing. The card
-detail text should clearly state the required substitution. At `order-sign`, the final
-determination card carries the substitution detail and the PAS `ClaimResponse` includes
-`processNote` entries with the full substitution rationale.
+trastuzumab-dttb), the CRD service **SHOULD** return a **Propose Alternate Request** card
+at `order-select` using the CDS Hooks suggestion mechanism. This allows the provider to
+accept or override the substitution **before** signing.
+
+The card uses the following CDS Hooks constructs:
+
+- **`suggestions`** — one suggestion containing `delete` + `create` actions
+  - `delete` action: targets the original `MedicationRequest` by `resourceId`
+    (matching its `fullUrl` in `context.draftOrders`)
+  - `create` action: contains the replacement `MedicationRequest` with the
+    biosimilar's RxNorm code and a `substitution` element indicating
+    formulary policy
+- **`selectionBehavior: "at-most-one"`** — the provider either accepts the
+  substitution or proceeds with the original order
+- **`overrideReasons`** — oncology-specific reasons for declining:
+  clinical contraindication, patient preference, formulary exception
+- **`source.topic.code: "therapy-alternatives-req"`** — CRD response type
+  for alternate request proposals
+- **`indicator: "info"`** — the regimen is approvable; the card proposes a
+  modification, not a denial
+
+When the provider **accepts** the suggestion, the EHR applies the delete + create
+actions to the draft orders in-session, updates `RequestGroup.action[].resource`
+references to point to the replacement `MedicationRequest`, and sends the modified
+Bundle to `order-sign`. The CRD service then returns **Authorization Satisfied**
+because the order now reflects the payer-approved regimen.
+
+When the provider **overrides** the suggestion, the original order proceeds to
+`order-sign` unchanged. The CRD service notes the override and may require PA
+submission for the non-substituted regimen.
+
+At `order-sign`, the final determination card carries the substitution detail and
+the PAS `ClaimResponse` includes `processNote` entries with the full substitution
+rationale.
+
+> **See [Da Vinci Gap Proposals](davinci-gap-proposals.html) — MOPA-DV-CRD-005** for
+> the upstream proposal to formalize this pattern in the CRD IG.
 
 ### Conformance Requirements
 
@@ -169,7 +201,7 @@ determination card carries the substitution detail and the PAS `ClaimResponse` i
 | **Oncology CRD Service** | **SHOULD** use `fhirAuthorization` to query the EHR for required oncology facts when provided |
 | **Oncology CRD Service** | **SHALL** return informational cards at `order-select` indicating approvability status |
 | **Oncology CRD Service** | **SHALL** return a final determination at `order-sign` with the appropriate indicator (`success` or `warning`) |
-| **Oncology CRD Service** | **SHOULD** surface biosimilar substitution requirements at `order-select` so the provider is informed before signing |
+| **Oncology CRD Service** | **SHOULD** return a Propose Alternate Request card (suggestion with delete + create actions) at `order-select` when the payer requires a biosimilar substitution, so the provider can accept or override before signing |
 | **Oncology CRD Service** | **SHALL** return a DTR launch card when required context is not available via FHIR query |
 {: .table }
 
