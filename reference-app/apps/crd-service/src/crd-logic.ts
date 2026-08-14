@@ -12,12 +12,14 @@
  * templates, or condition registry are used.
  */
 
-import type { CdsCard, CdsRequest, CdsResponse, CdsService } from "@mopa/cds-hooks";
+import type { CdsAction, CdsCard, CdsRequest, CdsResponse, CdsService } from "@mopa/cds-hooks";
 import {
   FHIR_QUERIES,
   MISSING_KEY_LABELS,
   REGIMENS,
+  buildReplacementMedicationRequest,
   evaluateBreastCancerPolicy,
+  findBiosimilarDrugs,
   hasBreastCancer,
   fetchBundle,
   type OncologyContext,
@@ -91,7 +93,7 @@ function findSubstitutionDetail(regimenId: string): string | null {
   for (const phase of regimen.phases) {
     for (const drug of phase.drugs) {
       if (drug.biosimilars?.length) {
-        const bio = drug.biosimilars[0];
+        const bio = drug.biosimilars?.[0]; if (!bio) continue;
         subs.push(`${drug.display} → ${bio.display}`);
       }
     }
@@ -175,6 +177,101 @@ export function buildApprovableCard(detail?: string): CdsCard {
         display: "Coverage Information",
       },
     },
+  };
+}
+
+/**
+ * Build a CDS Hooks suggestion card for biosimilar substitution at order-select.
+ *
+ * Per the CDS Hooks 2.0 spec, a card may carry `suggestions` with `actions`
+ * of type `delete` + `create` to propose replacing a draft order resource.
+ * The CRD IG calls this the "Propose Alternate Request" response pattern.
+ *
+ * The card uses:
+ * - `indicator: "info"` — the regimen is approvable, but the payer modifies it
+ * - `source.topic.code: "therapy-alternatives-req"` — CRD response type
+ * - `selectionBehavior: "at-most-one"` — accept the substitution or proceed as-is
+ * - `overrideReasons` — reasons the provider may decline the substitution
+ */
+export function buildSubstitutionSuggestionCard(
+  patientId: string,
+  regimen: Regimen,
+): CdsCard | null {
+  const biosimilarDrugs = findBiosimilarDrugs(regimen);
+  if (biosimilarDrugs.length === 0) return null;
+
+  const actions: CdsAction[] = [];
+  const subDescriptions: string[] = [];
+
+  for (const { drug } of biosimilarDrugs) {
+    const replacement = buildReplacementMedicationRequest(patientId, drug);
+    if (!replacement) continue;
+
+    const bio = drug.biosimilars?.[0]; if (!bio) continue;
+
+    // Delete the original MedicationRequest from draftOrders
+    actions.push({
+      type: "delete",
+      description: `Remove original ${drug.display} order`,
+      resourceId: replacement.resourceId,
+    });
+
+    // Create the replacement MedicationRequest with the biosimilar
+    actions.push({
+      type: "create",
+      description: `Substitute ${bio.display} for ${drug.display}`,
+      resource: replacement.resource,
+    });
+
+    subDescriptions.push(`${drug.display} → ${bio.display}`);
+  }
+
+  if (actions.length === 0) return null;
+
+  const subText = subDescriptions.join("; ");
+
+  return {
+    uuid: crypto.randomUUID(),
+    summary: "Payer Modification Required — Biosimilar Substitution",
+    detail:
+      `Coverage criteria are met, but the payer policy requires the following ` +
+      `substitution: **${subText}**. Accept the substitution to proceed with ` +
+      `the payer-approved regimen, or override if clinically contraindicated.`,
+    indicator: "info",
+    source: {
+      ...buildCardSource(),
+      topic: {
+        system: "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
+        code: "therapy-alternatives-req",
+        display: "Propose Alternate Request",
+      },
+    },
+    suggestions: [
+      {
+        label: `Accept Substitution (${subText})`,
+        uuid: crypto.randomUUID(),
+        isRecommended: true,
+        actions,
+      },
+    ],
+    selectionBehavior: "at-most-one",
+    overrideReasons: [
+      {
+        code: "clinical-contraindication",
+        display: "Clinical contraindication to biosimilar",
+        system: "http://example.org/mopa/override-reasons",
+      },
+      {
+        code: "patient-preference",
+        display: "Patient already established on reference product",
+        system: "http://example.org/mopa/override-reasons",
+      },
+      {
+        code: "formulary-exception",
+        display: "Formulary exception approved",
+        system: "http://example.org/mopa/override-reasons",
+      },
+    ],
   };
 }
 
@@ -317,14 +414,24 @@ export async function handleOncologyCrd(
       ? `${result.reason} **Payer modification required: ${subDetail}.**`
       : result.reason;
 
-    // order-select: informational approvable card (info indicator)
+    if (isOrderSelect) {
+      // At order-select: return the informational approvable card.
+      // If the regimen has biosimilar substitutions, also return a
+      // suggestion card so the provider can accept or override the
+      // replacement before signing.
+      const cards: CdsCard[] = [buildApprovableCard(detail)];
+
+      if (regimen) {
+        const subCard = buildSubstitutionSuggestionCard(patientId, regimen);
+        if (subCard) cards.push(subCard);
+      }
+
+      return { cards };
+    }
+
     // order-sign: final authorization satisfied card (success indicator)
     return {
-      cards: [
-        isOrderSelect
-          ? buildApprovableCard(detail)
-          : buildAuthorizationSatisfiedCard(detail),
-      ],
+      cards: [buildAuthorizationSatisfiedCard(detail)],
     };
   }
 

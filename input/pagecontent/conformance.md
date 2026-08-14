@@ -49,6 +49,11 @@ A conformant **Oncology CRD Client** (EHR or ordering system):
    do not have a published canonical definition; omitting this field is permitted.
 5. **SHOULD** provide `fhirAuthorization` in the CDS Hooks request to allow the CRD service to
    query patient context directly from the EHR FHIR server.
+6. **SHALL** apply accepted CDS Hooks suggestion actions (delete + create) to
+   `context.draftOrders` in-session when a Propose Alternate Request card is accepted
+   at `order-select`. The EHR **SHALL** update `RequestGroup.action[].resource`
+   references to point to the replacement resources, and send the modified Bundle to
+   `order-sign`.
 
 ### Oncology CRD Service
 
@@ -63,8 +68,11 @@ A conformant **Oncology CRD Service**:
    of the ordered regimen. These cards are advisory — the order has not been committed.
 4. **SHALL** return a final determination at `order-sign` with the appropriate indicator:
    `success` for Authorization Satisfied, `warning` for PA-required or DTR-required.
-5. **SHOULD** surface biosimilar substitution requirements at `order-select` so the provider
-   is informed of payer modifications before signing.
+5. **SHOULD** return a Propose Alternate Request card at `order-select` when the payer
+   policy requires a biosimilar substitution. The card **SHOULD** use the CDS Hooks
+   suggestion mechanism with `delete` + `create` actions targeting the component
+   `MedicationRequest` within the `RequestGroup`, `selectionBehavior: "at-most-one"`,
+   and oncology-specific `overrideReasons`. See [MOPA-DV-CRD-005](davinci-gap-proposals.html#mopa-dv-crd-005--propose-alternate-request-for-requestgroup-partial-replacement).
 6. **SHALL** return a DTR launch card when required patient context is not available from the
    EHR FHIR server.
 

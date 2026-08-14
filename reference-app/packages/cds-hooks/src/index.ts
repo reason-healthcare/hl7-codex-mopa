@@ -73,7 +73,11 @@ export type CardIndicator = "info" | "warning" | "critical" | "success";
 export interface CdsAction {
   type: "create" | "update" | "delete";
   description: string;
+  /** FHIR resource to create/update (for create and update actions). */
   resource?: unknown;
+  /** ID of the draft order resource to delete or update (for delete and update actions).
+   *  References the resource by its id within context.draftOrders. */
+  resourceId?: string;
 }
 
 export interface CdsSuggestion {
@@ -120,6 +124,7 @@ const CdsActionSchema = z.object({
   type: z.enum(["create", "update", "delete"]),
   description: z.string(),
   resource: z.unknown().optional(),
+  resourceId: z.string().optional(),
 });
 
 const CdsSuggestionSchema = z.object({
@@ -151,6 +156,15 @@ export const CdsCardSchema = z.object({
   }),
   suggestions: z.array(CdsSuggestionSchema).optional(),
   selectionBehavior: z.literal("at-most-one").optional(),
+  overrideReasons: z
+    .array(
+      z.object({
+        code: z.string(),
+        display: z.string().optional(),
+        system: z.string().optional(),
+      })
+    )
+    .optional(),
   links: z.array(CdsLinkSchema).optional(),
 });
 

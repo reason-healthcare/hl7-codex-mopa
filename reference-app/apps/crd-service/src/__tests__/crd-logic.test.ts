@@ -7,12 +7,14 @@ import {
   buildApprovableCard,
   buildPaWillBeRequiredCard,
   buildDtrCard,
+  buildSubstitutionSuggestionCard,
   handleOncologyCrd,
   CRD_SERVICE_ID,
   CRD_SERVICE_ID_SIGN,
   MISSING_KEY_LABELS,
   type OncologyContext,
 } from "../crd-logic";
+import { REGIMENS } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -387,5 +389,155 @@ describe("handleOncologyCrd", () => {
     });
     expect(response.cards[0]?.indicator).toBe("info");
     expect(response.cards[0]?.summary).toMatch(/No applicable coverage policy/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// buildSubstitutionSuggestionCard
+// ---------------------------------------------------------------------------
+
+describe("buildSubstitutionSuggestionCard", () => {
+  it("returns null for regimen without biosimilars", () => {
+    // ddAC-T has no biosimilars
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
+    expect(card).toBeNull();
+  });
+
+  it("returns a suggestion card for TH regimen (has biosimilars)", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+
+    expect(card).not.toBeNull();
+    expect(card!.indicator).toBe("info");
+    expect(card!.source.topic?.code).toBe("therapy-alternatives-req");
+    expect(card!.suggestions).toBeDefined();
+    expect(card!.suggestions!.length).toBe(1);
+    expect(card!.selectionBehavior).toBe("at-most-one");
+  });
+
+  it("suggestion has delete + create actions", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+
+    const actions = card!.suggestions![0].actions!;
+    const types = actions.map((a: { type: string }) => a.type);
+    expect(types).toContain("delete");
+    expect(types).toContain("create");
+  });
+
+  it("delete action references the original MedicationRequest resourceId", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+
+    const deleteAction = card!.suggestions![0].actions!.find((a: { type: string }) => a.type === "delete");
+    expect(deleteAction!.resourceId).toBe("urn:uuid:mr-trastuzumab-th");
+  });
+
+  it("create action has a MedicationRequest with biosimilar RxNorm code", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+
+    const createAction = card!.suggestions![0].actions!.find((a: { type: string }) => a.type === "create");
+    const resource = createAction!.resource as { resourceType: string; medicationCodeableConcept: { coding: Array<{ code: string; display: string }> } };
+    expect(resource.resourceType).toBe("MedicationRequest");
+    expect(resource.medicationCodeableConcept.coding[0].code).toBe("1992624");
+    expect(resource.medicationCodeableConcept.coding[0].display).toContain("trastuzumab-dttb");
+  });
+
+  it("card has override reasons", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+
+    expect(card!.overrideReasons).toBeDefined();
+    expect(card!.overrideReasons!.length).toBeGreaterThan(0);
+    expect(card!.overrideReasons![0].code).toBe("clinical-contraindication");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// handleOncologyCrd — biosimilar suggestion at order-select
+// ---------------------------------------------------------------------------
+
+describe("handleOncologyCrd — biosimilar substitution", () => {
+  const thDraftOrders = {
+    resourceType: "Bundle" as const,
+    type: "collection" as const,
+    entry: [
+      {
+        fullUrl: "urn:uuid:rg-TH",
+        resource: {
+          resourceType: "RequestGroup",
+          id: "rg-TH",
+          status: "draft",
+          intent: "order",
+          instantiatesCanonical: ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"],
+        },
+      },
+    ],
+  };
+
+  beforeEach(() => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockImplementation((url: string) => {
+        if (url.includes("Condition")) {
+          return Promise.resolve({ ok: true, json: async () => FULL_CONTEXT.conditions });
+        }
+        if (url.includes("85319-2") || url.includes("431396003")) {
+          return Promise.resolve({ ok: true, json: async () => FULL_CONTEXT.her2 });
+        }
+        if (url.includes("21908-9")) {
+          return Promise.resolve({ ok: true, json: async () => FULL_CONTEXT.cancerStage });
+        }
+        if (url.includes("89247-1")) {
+          return Promise.resolve({ ok: true, json: async () => makeBundle([ECOG_OBS]) });
+        }
+        if (url.includes("MedicationRequest")) {
+          return Promise.resolve({ ok: true, json: async () => FULL_CONTEXT.priorTherapy });
+        }
+        return Promise.resolve({ ok: false, status: 404, json: async () => ({}) });
+      })
+    );
+  });
+
+  it("order-select with TH regimen returns approvable card + substitution suggestion card", async () => {
+    const response = await handleOncologyCrd({
+      hookInstance: "test",
+      hook: "order-select",
+      context: {
+        userId: "Practitioner/p1",
+        patientId: "jane-smith",
+        draftOrders: thDraftOrders,
+        selections: ["urn:uuid:rg-TH"],
+      },
+      fhirServer: "http://localhost:8080/fhir",
+    });
+
+    expect(response.cards.length).toBe(2);
+    // First card: approvable
+    expect(response.cards[0]?.indicator).toBe("info");
+    expect(response.cards[0]?.summary).toContain("Approvable");
+    // Second card: substitution suggestion
+    expect(response.cards[1]?.suggestions).toBeDefined();
+    expect(response.cards[1]?.source.topic?.code).toBe("therapy-alternatives-req");
+  });
+
+  it("order-sign with TH regimen returns only authorization satisfied (no suggestion)", async () => {
+    const response = await handleOncologyCrd({
+      hookInstance: "test",
+      hook: "order-sign",
+      context: {
+        userId: "Practitioner/p1",
+        patientId: "jane-smith",
+        draftOrders: thDraftOrders,
+        selections: ["urn:uuid:rg-TH"],
+      },
+      fhirServer: "http://localhost:8080/fhir",
+    });
+
+    expect(response.cards.length).toBe(1);
+    expect(response.cards[0]?.indicator).toBe("success");
+    expect(response.cards[0]?.suggestions).toBeUndefined();
   });
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import type { CdsCard } from "@mopa/cds-hooks";
+import type { CdsCard, CdsSuggestion } from "@mopa/cds-hooks";
 import type { Regimen } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
@@ -146,6 +146,89 @@ function DraftOrderDetails({ regimen }: { regimen: Regimen }) {
 }
 
 // ---------------------------------------------------------------------------
+// Suggestion panel
+// ---------------------------------------------------------------------------
+
+/**
+ * Renders a CDS Hooks suggestion as Accept/Override buttons.
+ * When the provider accepts, the EHR applies the delete + create actions
+ * to update the draft orders. When overridden, the original order proceeds.
+ */
+export function SuggestionPanel({
+  card,
+  onAccept,
+  onOverride,
+  accepted,
+  overridden,
+}: {
+  card: CdsCard;
+  onAccept: () => void;
+  onOverride: () => void;
+  accepted: boolean;
+  overridden: boolean;
+}) {
+  const suggestions = card.suggestions ?? [];
+  if (suggestions.length === 0) return null;
+
+  return (
+    <div className="px-4 py-3 bg-violet-50 border-t border-violet-200">
+      <div className="flex items-start gap-3">
+        <span className="mt-0.5 flex-shrink-0 text-violet-600" aria-hidden="true">⬆</span>
+        <div className="flex-1 space-y-3">
+          <div>
+            <p className="text-sm font-semibold text-violet-900">{card.summary}</p>
+            {card.detail && (
+              <p className="mt-1 text-sm text-violet-700 leading-relaxed">
+                {renderDetail(card.detail)}
+              </p>
+            )}
+          </div>
+
+          {accepted ? (
+            <div className="flex items-center gap-2 text-sm text-green-700">
+              <span aria-hidden="true">✓</span>
+              <span className="font-medium">Substitution accepted — order updated</span>
+            </div>
+          ) : overridden ? (
+            <div className="flex items-center gap-2 text-sm text-slate-600">
+              <span aria-hidden="true">✓</span>
+              <span className="font-medium">Override recorded — original order preserved</span>
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {suggestions.map((suggestion: CdsSuggestion) => (
+                  <button
+                    key={suggestion.uuid ?? suggestion.label}
+                    type="button"
+                    onClick={onAccept}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-violet-700 text-white rounded hover:bg-violet-800 transition-colors"
+                  >
+                    {suggestion.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={onOverride}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 bg-white border border-slate-300 text-slate-600 rounded hover:bg-slate-50 transition-colors"
+                >
+                  Override
+                </button>
+              </div>
+              {card.overrideReasons && card.overrideReasons.length > 0 && (
+                <p className="text-xs text-slate-400">
+                  Override reasons: {card.overrideReasons.map((r) => r.display ?? r.code).join(", ")}
+                </p>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // CDS card row
 // ---------------------------------------------------------------------------
 
@@ -227,11 +310,19 @@ export function OrderSelectSummary({
   patientId,
   selectedRegimenId,
   regimen,
+  onAcceptSuggestion,
+  onOverrideSuggestion,
+  suggestionAccepted,
+  suggestionOverridden,
 }: {
   cards: CdsCard[];
   patientId: string;
   selectedRegimenId?: string;
   regimen?: Regimen;
+  onAcceptSuggestion?: () => void;
+  onOverrideSuggestion?: () => void;
+  suggestionAccepted?: boolean;
+  suggestionOverridden?: boolean;
 }) {
   // At order-select: info indicator = approvable; warning + prior-auth = PA will be required
   // At order-sign: success indicator = authorization satisfied; warning + prior-auth = PA required
@@ -318,6 +409,20 @@ export function OrderSelectSummary({
           )}
         </div>
       )}
+
+      {/* Suggestion cards — biosimilar substitution proposals */}
+      {cards
+        .filter((c) => c.suggestions && c.suggestions.length > 0)
+        .map((card) => (
+          <SuggestionPanel
+            key={card.uuid ?? card.summary}
+            card={card}
+            onAccept={onAcceptSuggestion ?? (() => {})}
+            onOverride={onOverrideSuggestion ?? (() => {})}
+            accepted={suggestionAccepted ?? false}
+            overridden={suggestionOverridden ?? false}
+          />
+        ))}
     </div>
   );
 }
@@ -336,12 +441,20 @@ export function CrdResponsePanel({
   patientId,
   selectedRegimenId,
   regimen,
+  onAcceptSuggestion,
+  onOverrideSuggestion,
+  suggestionAccepted,
+  suggestionOverridden,
 }: {
   cards: CdsCard[];
   hook: "order-select" | "order-sign";
   patientId: string;
   selectedRegimenId?: string;
   regimen?: Regimen;
+  onAcceptSuggestion?: () => void;
+  onOverrideSuggestion?: () => void;
+  suggestionAccepted?: boolean;
+  suggestionOverridden?: boolean;
 }) {
   const sourceLabel = cards[0]?.source.label ?? "CRD Service";
 
@@ -365,6 +478,10 @@ export function CrdResponsePanel({
           patientId={patientId}
           selectedRegimenId={selectedRegimenId}
           regimen={regimen}
+          onAcceptSuggestion={onAcceptSuggestion}
+          onOverrideSuggestion={onOverrideSuggestion}
+          suggestionAccepted={suggestionAccepted}
+          suggestionOverridden={suggestionOverridden}
         />
       ) : (
         <div className="divide-y divide-slate-100">

@@ -14,6 +14,7 @@ blocking for a pilot implementation.
 | MOPA-DV-CRD-002 | CRD | `RequestGroup` as the PA unit in CRD hooks | **Must-have** |
 | MOPA-DV-CRD-003 | CRD | CRD order profile for `RequestGroup` (analogous to MedicationRequest/ServiceRequest profiles) | **Must-have** |
 | MOPA-DV-CRD-004 | CRD | `order-select` informational approvability semantics | Nice-to-have |
+| MOPA-DV-CRD-005 | CRD | Propose Alternate Request for RequestGroup partial replacement (biosimilar substitution) | **Must-have** |
 | MOPA-DV-DTR-001 | DTR | `RequestGroup` as the order subject in DTR | **Must-have** |
 | MOPA-DV-DTR-002 | DTR | Structured exception / contraindication capture | Nice-to-have |
 | MOPA-DV-PAS-001 | PAS | Regimen-level structured submission | **Must-have** |
@@ -192,6 +193,93 @@ Da Vinci CRD IG — hook response guidance section.
 
 CRD work group discussion; may be included as implementation guidance rather than a
 normative requirement.
+
+### CRD (continued)
+
+
+#### MOPA-DV-CRD-005 — Propose Alternate Request for RequestGroup partial replacement
+
+**Priority: Must-have**
+
+**Problem**
+
+The CDS Hooks specification defines a suggestion mechanism (`card.suggestions` with
+`actions` of type `create`, `update`, and `delete`) that allows a CRD service to propose
+modifications to the draft orders. The Da Vinci CRD IG describes this as the "Propose
+Alternate Request" response type, with guidance for individual `MedicationRequest` and
+`ServiceRequest` resources.
+
+However, when the PA subject is a `RequestGroup` (as in MOPA's regimen-level authorization),
+there is no standard guidance for **partial replacement** of component resources within the
+`RequestGroup`. For example, a payer may approve a regimen but require substituting one drug
+(trastuzumab) with a biosimilar (trastuzumab-dttb). The CRD service needs to propose deleting
+the original `MedicationRequest` and creating a replacement, while keeping the rest of the
+regimen intact.
+
+The current specification does not address:
+
+- How `delete` and `create` actions reference component `MedicationRequest` resources
+  within a `RequestGroup` in `context.draftOrders` (by `resourceId` matching the
+  entry's `fullUrl` or `resource.id`)
+- How the EHR should update `RequestGroup.action[].resource` references when a
+  component is replaced
+- What `source.topic` code is appropriate for a partial-replacement suggestion
+  (the CRD response types ValueSet includes `therapy-alternatives-req`, but this
+  has not been applied to `RequestGroup` partial replacement)
+- What `overrideReasons` are appropriate for oncology biosimilar substitution
+  scenarios
+
+**Proposed solution**
+
+Extend the CRD IG's "Propose Alternate Request" guidance to cover `RequestGroup`
+partial replacement:
+
+1. **Action targeting** — clarify that `delete` and `update` actions reference
+   component resources in `context.draftOrders` by their entry `fullUrl` (or
+   `resource.id` when `fullUrl` is absent). The CRD service identifies which
+   `MedicationRequest` to replace by matching the `resourceId` to the draft
+   orders Bundle entry.
+
+2. **RequestGroup reference update** — when a component `MedicationRequest` is
+   deleted and a replacement created, the EHR **SHALL** update
+   `RequestGroup.action[].resource.reference` to point to the new resource.
+   This preserves the regimen structure while reflecting the substitution.
+
+3. **Topic code** — use `therapy-alternatives-req` from the CRD response types
+   ValueSet for cards that propose a partial replacement within a `RequestGroup`.
+
+4. **Override reasons** — define an oncology-specific override reason set for
+   biosimilar substitution scenarios:
+   - `clinical-contraindication` — clinical contraindication to the biosimilar
+   - `patient-preference` — patient already established on the reference product
+   - `formulary-exception` — formulary exception approved by the payer
+
+5. **Selection behavior** — `selectionBehavior: "at-most-one"` is appropriate
+   because the provider either accepts the substitution or proceeds with the
+   original order. The suggestion is not mandatory — the provider may override.
+
+6. **order-select vs order-sign** — the Propose Alternate Request card **SHOULD**
+   be returned at `order-select` (informational, `indicator: "info"`) so the
+   provider sees the modification before signing. If the provider accepts, the
+   EHR updates the draft orders in-session and sends the modified Bundle to
+   `order-sign`. If the provider overrides, the original order proceeds to
+   `order-sign` unchanged.
+
+**Examples**
+
+- [TH Regimen Order](RequestGroup-THRegimenOrder.html) — regimen with trastuzumab
+  component that may be replaced with a biosimilar
+- [CRD Workflow](cds-workflow.html) — biosimilar substitution at order-select
+
+**Target destination**
+
+Da Vinci CRD IG — "Propose Alternate Request" response type guidance, extended for
+`RequestGroup` partial replacement.
+
+**Disposition path**
+
+CRD work group review; coordinate with the CDS Hooks work group on the `resourceId`
+semantics for actions targeting `draftOrders` entries.
 
 ### DTR
 

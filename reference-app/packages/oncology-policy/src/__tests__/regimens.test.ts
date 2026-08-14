@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   REGIMENS,
   buildDraftBundle,
+  buildReplacementMedicationRequest,
+  findBiosimilarDrugs,
   MOPA_BASE,
   RXNORM,
   TREATMENT_LINE,
@@ -176,5 +178,60 @@ describe("biosimilar alternatives", () => {
     const th = REGIMENS.find((r) => r.id === "TH") as Regimen;
     const paclitaxel = th.phases[0]?.drugs.find((d) => d.actionId === "paclitaxel-th");
     expect(paclitaxel?.biosimilars).toBeUndefined();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// buildReplacementMedicationRequest
+// ---------------------------------------------------------------------------
+
+describe("buildReplacementMedicationRequest", () => {
+  it("returns null for drug without biosimilars", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const drug = ddact.phases[0].drugs[0];
+    expect(buildReplacementMedicationRequest("jane-smith", drug)).toBeNull();
+  });
+
+  it("returns replacement for drug with biosimilars", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const trastuzumab = th.phases[0].drugs.find((d) => d.actionId === "trastuzumab-th")!;
+    const result = buildReplacementMedicationRequest("jane-smith", trastuzumab);
+
+    expect(result).not.toBeNull();
+    expect(result!.resourceId).toBe("urn:uuid:mr-trastuzumab-th");
+
+    const resource = result!.resource as {
+      resourceType: string;
+      medicationCodeableConcept: { coding: Array<{ code: string; display: string }> };
+      substitution?: { allowed: boolean };
+    };
+    expect(resource.resourceType).toBe("MedicationRequest");
+    expect(resource.medicationCodeableConcept.coding[0].code).toBe("1992624");
+    expect(resource.medicationCodeableConcept.coding[0].display).toContain("trastuzumab-dttb");
+    expect(resource.substitution?.allowed).toBe(true);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// findBiosimilarDrugs
+// ---------------------------------------------------------------------------
+
+describe("findBiosimilarDrugs", () => {
+  it("returns empty array for regimen without biosimilars", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    expect(findBiosimilarDrugs(ddact)).toHaveLength(0);
+  });
+
+  it("returns drugs with biosimilars for TH regimen", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    const result = findBiosimilarDrugs(th);
+    expect(result).toHaveLength(1);
+    expect(result[0].drug.actionId).toBe("trastuzumab-th");
+  });
+
+  it("returns drugs with biosimilars for PHD regimen", () => {
+    const phd = REGIMENS.find((r) => r.id === "PHD")!;
+    const result = findBiosimilarDrugs(phd);
+    expect(result.length).toBeGreaterThan(0);
   });
 });

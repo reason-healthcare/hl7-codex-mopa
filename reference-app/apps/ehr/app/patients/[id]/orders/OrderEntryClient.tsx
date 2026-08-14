@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { CdsCard } from "@mopa/cds-hooks";
-import { REGIMENS, type Regimen } from "@mopa/oncology-policy";
+import type { CdsCard, CdsAction } from "@mopa/cds-hooks";
+import { REGIMENS, buildDraftBundle, type Regimen } from "@mopa/oncology-policy";
 import { RegimenSelector } from "./components/regimen-selector";
 import { CrdResponsePanel } from "./components/cds-cards";
 import { ClaimResponseDisplay, type ClaimResponseSummary } from "./components/pa-display";
@@ -22,6 +22,14 @@ export default function OrderEntryPage({
   const [paSubmitting, setPaSubmitting] = useState(false);
   const [paError, setPaError] = useState<string | null>(null);
   const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
+
+  // Suggestion state — tracks whether the provider accepted or overrode
+  // a biosimilar substitution proposed by the CRD at order-select.
+  const [suggestionAccepted, setSuggestionAccepted] = useState(false);
+  const [suggestionOverridden, setSuggestionOverridden] = useState(false);
+  // The modified draftOrders Bundle after applying substitution actions.
+  // When set, this is sent to order-sign instead of the regimen template.
+  const [modifiedDraftOrders, setModifiedDraftOrders] = useState<object | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -49,12 +57,13 @@ export default function OrderEntryPage({
   async function callCrdHook(
     hook: "order-select" | "order-sign",
     regimen: Regimen,
-    onSuccess: (cards: CdsCard[]) => void
+    onSuccess: (cards: CdsCard[]) => void,
+    draftOrdersOverride?: object,
   ) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fireCdsHook(hook, patientId, regimen);
+      const response = await fireCdsHook(hook, patientId, regimen, draftOrdersOverride);
       onSuccess(response.cards);
       setActiveHook(hook);
     } catch (e) {
@@ -71,17 +80,97 @@ export default function OrderEntryPage({
     setActiveHook(null);
     setClaimResponse(null);
     setPaError(null);
+    setSuggestionAccepted(false);
+    setSuggestionOverridden(false);
+    setModifiedDraftOrders(null);
     callCrdHook("order-select", regimen, setCards);
+  }
+
+  /**
+   * Accept a biosimilar substitution suggestion.
+   *
+   * Applies the CDS Hooks suggestion actions (delete + create) to the
+   * draft orders Bundle, producing a modified Bundle that is sent to
+   * order-sign instead of the regimen template.
+   */
+  function onAcceptSuggestion() {
+    if (!selected) return;
+
+    const suggestionCard = cards.find((c) => c.suggestions?.length);
+    if (!suggestionCard?.suggestions) return;
+
+    // Start from the regimen template draft orders
+    const bundle = buildDraftBundle(patientId, selected) as {
+      resourceType: string;
+      type: string;
+      entry: Array<{ fullUrl: string; resource: Record<string, unknown> }>;
+    };
+
+    // Collect all actions across all suggestions
+    const allActions: CdsAction[] = suggestionCard.suggestions.flatMap((s) => s.actions ?? []);
+
+    // Apply delete actions: remove entries whose fullUrl matches resourceId
+    const deleteIds = new Set(
+      allActions.filter((a) => a.type === "delete").map((a) => a.resourceId)
+    );
+    let entries = bundle.entry.filter((e) => !deleteIds.has(e.fullUrl));
+
+    // Apply create actions: add new entries with generated fullUrls
+    for (const action of allActions.filter((a) => a.type === "create")) {
+      if (!action.resource) continue;
+      const resource = action.resource as Record<string, unknown>;
+      const newId = (resource.id as string) ?? crypto.randomUUID();
+      entries.push({ fullUrl: `urn:uuid:${newId}`, resource });
+    }
+
+    // Update the RequestGroup's action references to point to the new resources
+    // (the RequestGroup is always the first entry)
+    const rgEntry = entries.find((e) => e.resource.resourceType === "RequestGroup");
+    if (rgEntry) {
+      const actions = rgEntry.resource.action as Array<Record<string, unknown>> | undefined;
+      if (actions) {
+        for (const phaseAction of actions) {
+          const drugActions = phaseAction.action as Array<Record<string, unknown>> | undefined;
+          if (!drugActions) continue;
+          for (const drugAction of drugActions) {
+            const ref = drugAction.resource as { reference: string } | undefined;
+            if (ref && deleteIds.has(ref.reference)) {
+              // Point to the first created resource (the replacement)
+              const created = allActions.find((a) => a.type === "create");
+              if (created?.resource) {
+                const newRes = created.resource as Record<string, unknown>;
+                const newId = (newRes.id as string) ?? "replacement";
+                drugAction.resource = { reference: `urn:uuid:${newId}` };
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const modifiedBundle = { ...bundle, entry: entries };
+    setModifiedDraftOrders(modifiedBundle);
+    setSuggestionAccepted(true);
+    setSuggestionOverridden(false);
+  }
+
+  function onOverrideSuggestion() {
+    setSuggestionOverridden(true);
+    setSuggestionAccepted(false);
+    // Keep the original draft orders — no modification needed
   }
 
   function onSignOrder() {
     if (!selected) return;
     setClaimResponse(null);
     setPaError(null);
+    // If the substitution was accepted, send the modified draft orders to order-sign
+    // so the CRD sees the biosimilar MedicationRequest and returns "Authorization Satisfied".
+    const draftOverride = suggestionAccepted ? modifiedDraftOrders ?? undefined : undefined;
     callCrdHook("order-sign", selected, (newCards) => {
       setCards(newCards);
       setSigned(true);
-    });
+    }, draftOverride);
   }
 
   // PA submission only applies if a prior-auth-required card is returned
@@ -151,6 +240,10 @@ export default function OrderEntryPage({
             patientId={patientId}
             selectedRegimenId={selected?.id}
             regimen={selected ?? undefined}
+            onAcceptSuggestion={onAcceptSuggestion}
+            onOverrideSuggestion={onOverrideSuggestion}
+            suggestionAccepted={suggestionAccepted}
+            suggestionOverridden={suggestionOverridden}
           />
         </section>
       )}
