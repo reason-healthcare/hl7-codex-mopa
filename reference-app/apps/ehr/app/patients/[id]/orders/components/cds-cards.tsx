@@ -243,10 +243,10 @@ export function OrderSelectSummary({
 
   return (
     <div className="divide-y divide-slate-100">
-      {/* Row 0: Draft Order — what is being evaluated */}
+      {/* Row 0: Selected Order — what is being evaluated */}
       {regimen && (
         <div className="px-4 py-3 bg-slate-50">
-          <span className="text-xs text-slate-400 block mb-2">Draft Order</span>
+          <span className="text-xs text-slate-400 block mb-2">Selected Order</span>
           <div className="flex items-start gap-2">
             <span className="text-sm font-semibold text-slate-900">{regimen.shortLabel}</span>
             <span className="text-xs text-slate-400 mt-0.5">{regimen.description}</span>
