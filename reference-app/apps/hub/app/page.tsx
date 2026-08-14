@@ -216,8 +216,8 @@ const FIXTURE_CASES = [
     patientId: "jane-smith",
     mrn: "MRN-001",
     dob: "1972-04-15",
-    outcome: "Pre-authorized" as const,
-    outcomeNote: "ECOG 0 — no PA required",
+    outcome: "Approvable" as const,
+    outcomeNote: "ECOG 0 — PA not required",
   },
   {
     patientId: "maria-garcia",
@@ -238,14 +238,14 @@ const FIXTURE_CASES = [
     mrn: "MRN-004",
     dob: "1977-06-22",
     outcome: "Biosimilar Sub" as const,
-    outcomeNote: "ECOG 0 — payer requires trastuzumab-dttb",
+    outcomeNote: "ECOG 0 — payer requires biosimilar substitution",
   },
 ] as const;
 
 type Outcome = (typeof FIXTURE_CASES)[number]["outcome"];
 
 const OUTCOME_STYLE: Record<Outcome, string> = {
-  "Pre-authorized": "bg-green-100 text-green-800 border-green-300",
+  "Approvable": "bg-green-100 text-green-800 border-green-300",
   "PA Required": "bg-amber-100 text-amber-800 border-amber-300",
   "DTR Required": "bg-slate-100 text-slate-700 border-slate-300",
   "Biosimilar Sub": "bg-violet-100 text-violet-800 border-violet-300",

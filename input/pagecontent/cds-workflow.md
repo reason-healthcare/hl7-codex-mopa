@@ -140,6 +140,7 @@ Upon receiving the hook, the CRD service:
 | Stage | Condition | CRD Response | Indicator |
 |---|---|---|---|
 | order-select | Context complete + criteria satisfied | Approvable — PA can be bypassed | `info` |
+| order-select | Context complete + biosimilar substitution required | Approvable + Propose Alternate Request card (suggestion with delete + create) | `info` |
 | order-select | Context complete + PA required | PA will be required at sign | `warning` |
 | order-select | Context incomplete | DTR launch card to collect missing data | `warning` |
 | order-select | Regimen categorically excluded | Not covered | `critical` |
