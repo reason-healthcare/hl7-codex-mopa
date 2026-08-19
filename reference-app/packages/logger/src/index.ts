@@ -15,7 +15,7 @@
 // Types
 // ---------------------------------------------------------------------------
 
-export type ServiceName = "crd" | "dtr" | "pas" | "payer" | "hub" | "ehr" | "smart";
+export type ServiceName = "crd" | "dtr" | "pas" | "payer" | "hub" | "ehr";
 
 export type LogLevel = "info" | "warn" | "error";
 
@@ -31,8 +31,6 @@ export type LogType =
   | "pa.submit"     // PA $submit received by PAS
   | "pa.evaluate"   // Payer policy evaluation invoked
   | "pa.result"     // PA determination returned
-  | "smart.launch"  // SMART App launch initiated
-  | "smart.token"   // SMART access token issued
   | "error";        // Any service-level error
 
 export interface LogEntry {

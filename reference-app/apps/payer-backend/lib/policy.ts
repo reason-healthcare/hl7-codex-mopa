@@ -70,7 +70,7 @@ async function getBundleResources(url: string): Promise<Record<string, unknown>[
  * Find all biosimilar substitutions required by the payer for a given regimen.
  *
  * Walks the regimen's drugs and collects any that have a `biosimilars` entry.
- * In the demo, the TH and PHD regimens carry trastuzumab → trastuzumab-dttb.
+ * In the demo, the ddAC-T regimen carries pegfilgrastim → Udenyca step therapy.
  */
 function findBiosimilarSubstitutions(regimen: Regimen): DrugSubstitution[] {
   const subs: DrugSubstitution[] = [];

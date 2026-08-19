@@ -13,6 +13,20 @@ code "HER2 by IHC": '85319-2' from "LOINC"
 code "HER2 Gene Amplification": '431396003' from "SNOMED-CT"
     display 'Human epidermal growth factor 2 gene amplification detected'
 
+// Hormone receptor status
+code "ER by IHC": '85337-4' from "LOINC"
+    display 'Estrogen receptor Ag [Presence] in Breast cancer specimen by Immune stain'
+code "PR by IHC": '85339-0' from "LOINC"
+    display 'Progesterone receptor Ag [Presence] in Breast cancer specimen by Immune stain'
+
+// Genomic risk
+code "Oncotype DX Recurrence Score": '76761-1' from "LOINC"
+    display 'Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method'
+
+// Menopausal status
+code "Postmenopausal State": '428361000124107' from "SNOMED-CT"
+    display 'Postmenopausal state'
+
 // Cancer staging
 code "Clinical Stage Group": '21908-9' from "LOINC"
     display 'Stage group.clinical Cancer'
@@ -29,10 +43,18 @@ context Patient
 
 /**
  * ---- Required data element presence checks ----
+ * Aligned with the CodeX PA in MedOnc POC required clinical elements:
+ * Diagnosis, ER/PR/HER2, Stage, Menopausal status, Oncotype DX score.
  */
 
 define "Breast Cancer Diagnosis Present":
   exists([Condition: "Primary Malignant Breast Cancer"])
+
+define "ER Status Present":
+  exists([Observation: "ER by IHC"])
+
+define "PR Status Present":
+  exists([Observation: "PR by IHC"])
 
 define "HER2 Status Present":
   exists([Observation: "HER2 by IHC"])
@@ -40,6 +62,12 @@ define "HER2 Status Present":
 
 define "Cancer Stage Present":
   exists([Observation: "Clinical Stage Group"])
+
+define "Menopausal Status Present":
+  exists([Observation: "Postmenopausal State"])
+
+define "OncotypeDX Present":
+  exists([Observation: "Oncotype DX Recurrence Score"])
 
 define "ECOG PS Present":
   exists([Observation: "ECOG Performance Status"])
@@ -50,8 +78,12 @@ define "ECOG PS Present":
 
 define "All Data Present":
   "Breast Cancer Diagnosis Present"
+    and "ER Status Present"
+    and "PR Status Present"
     and "HER2 Status Present"
     and "Cancer Stage Present"
+    and "Menopausal Status Present"
+    and "OncotypeDX Present"
     and "ECOG PS Present"
 
 /**

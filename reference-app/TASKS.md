@@ -501,3 +501,76 @@ for format rules and commit discipline.
 ### Documentation
 - [x] SPEC-NOTES.md — added SN-004 documenting the simplification
 - [x] TASKS.md — this section
+
+---
+
+## CodeX PA in MedOnc POC Alignment (2026-08-18)
+
+Aligned one patient fixture and the breast cancer knowledge artifacts with the
+CodeX Prior Authorization in Medical Oncology proof-of-concept document.
+
+### Patient fixture — Katherine Johnson (MRN-005)
+- [x] Create `fixtures/katherine-johnson-bundle.json` matching the POC base case:
+  ER+, PR-, HER2- (IHC 1+), Stage IIA (T2 N0 M0), node-negative, post-menopausal,
+  Oncotype DX recurrence score 28, ECOG 0
+- [x] Wire into `fixtures/load-fixtures.sh` as Case 5
+- [x] Update README demo patient table
+
+### Guideline CQL — BreastCancerGuideline.cql
+- [x] Fix `Is HER2 Positive` to check the valueCodeableConcept coding for the
+      SNOMED positive qualifier code (10828004 / legacy 416940007), not just
+      observation presence — a HER2 IHC 1+ (negative) observation must not be
+      treated as positive
+- [x] Add `Is ER Positive` (value-based check on LOINC 85337-4)
+- [x] Add `Is Postmenopausal` (SNOMED 428361000124107 presence)
+- [x] Add `OncotypeDX Score High` (LOINC 76761-1, value >= 26 per NCCN/TAILORx)
+- [x] Refine `ddACT Eligible` to require HER2-negative, ER-positive,
+      post-menopausal, and OncotypeDX >= 26 (was: just "not HER2 positive")
+- [x] Recompile ELM with `rh cql compile` (v0.2.8)
+
+### Payer policy CQL — BreastCancerPayerPolicy.cql
+- [x] Add `ER Status Present`, `PR Status Present`, `Menopausal Status Present`,
+      `OncotypeDX Present` data completeness checks
+- [x] Update `All Data Present` to include all eight required elements
+      (diagnosis, ER, PR, HER2, stage, menopausal status, OncotypeDX, ECOG)
+- [x] Recompile ELM
+
+### cql-engine ELM compatibility patches
+- [x] Add `patchElmCompatibility()` to fix rh v0.2.x → cql-execution v3.x ELM gaps:
+  - `First`/`Last`: rh emits `operand`, cql-execution expects `source`
+  - `Property` with query-alias `ExpressionRef`: cql-execution needs `scope` for
+    FHIR choice-type resolution (Observation.value → valueCodeableConcept)
+- [x] Commit `cql/FHIRHelpers.cql` + `cql/elm/FHIRHelpers.elm.json` so
+      `rh cql compile` can resolve the `include FHIRHelpers` declaration
+- [x] Document cql-execution-compatible CQL patterns (`.value` accessor on
+      FHIR primitives, nested `exists` for coding traversal)
+
+### Knowledge artifact FHIR resources
+- [x] `libraries.ts` — add ER, PR, OncotypeDX, menopausal status to
+      GUIDELINE_LIBRARY and PAYER_POLICY_LIBRARY dataRequirement arrays
+- [x] `plan-definitions.ts` — update guideline PlanDefinition description,
+      purpose, and ddACT action description to reflect OncotypeDX-driven logic
+- [x] `registered-workflows.ts` — update layer 1 and layer 2 decision rows
+
+### Regimen drug policy
+- [x] `oncology-policy/regimens.ts` — add pegfilgrastim (Neulasta, RxNorm 67108)
+      to ddAC-T AC phase with pegfilgrastim-cbqv (Udenyca, RxNorm 2102692)
+      step-therapy alternative
+- [x] `plan-definitions.ts` — add pegfilgrastim action to REGIMEN_DDACT
+
+### Tests
+- [x] cql-engine: 18 tests (6 payer policy + 7 guideline + 5 helpers) covering
+      Katherine Johnson scenario, HER2 value checking, ER positive/negative,
+      OncotypeDX threshold, data completeness for all eight elements
+- [x] oncology-policy: update regimen tests for pegfilgrastim/Udenyca biosimilar
+- [x] crd-service: update substitution suggestion test for ddAC-T
+- [x] payer-backend: update policy test for ddAC-T Udenyca substitution
+- [x] All 233 tests pass
+
+### Documentation
+- [x] README — add Katherine Johnson to demo table and walkthrough
+- [x] DEVELOPER.md — add knowledge-artifacts and oncology-policy packages,
+      document ELM compatibility patches, update fixture helpers
+- [x] PLAN.md — update CQL compile instructions with --lib-path and ELM compat note
+- [x] SPEC-NOTES.md — SN-005 documenting cql-execution ELM compatibility
+- [x] TASKS.md — this section

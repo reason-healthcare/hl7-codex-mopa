@@ -85,6 +85,7 @@ export class CqlExecutionEngine implements CqlEngine {
     patientId: string,
     resources: unknown[]
   ): Promise<CqlExpressionResults> {
+    patchElmCompatibility(elm);
     const lib = new Library(elm);
     const executor = new Executor(lib);
 
@@ -100,4 +101,57 @@ export class CqlExecutionEngine implements CqlEngine {
 
     return patientResults as CqlExpressionResults;
   }
+}
+
+// ---------------------------------------------------------------------------
+// ELM compatibility patches (rh v0.2.x -> cql-execution v3.x)
+// ---------------------------------------------------------------------------
+
+/**
+ * Patch ELM JSON produced by `rh cql compile` v0.2.x for compatibility with
+ * the cql-execution v3.x evaluator (Stage 1).
+ *
+ * rh v0.2.8 emits `First` / `Last` with the child expression under an
+ * `operand` key, but cql-execution's First/Last classes read `json.source`.
+ * Without this patch, `First.execute` throws because `this.source` is
+ * undefined.
+ */
+function patchElmCompatibility(elm: ElmJson): void {
+  const walk = (node: unknown): void => {
+    if (!node || typeof node !== "object") return;
+    const obj = node as Record<string, unknown>;
+    const type = obj["type"];
+
+    // Fix 1: rh v0.2.x emits First/Last with `operand` but cql-execution
+    // expects `source`.
+    if (type === "First" || type === "Last") {
+      if ("operand" in obj && !("source" in obj)) {
+        obj["source"] = obj["operand"];
+        delete obj["operand"];
+      }
+    }
+
+    // Fix 2: rh v0.2.x emits Property with `source: ExpressionRef("alias")`
+    // for query-alias references, but cql-execution expects `scope: "alias"`.
+    // Without `scope`, the Property resolves the ExpressionRef which returns
+    // the raw FHIRObject, but the .get() fallback for choice types (e.g.,
+    // Observation.value -> valueCodeableConcept) only works when `scope`
+    // is set so that ctx.get(scope) returns the FHIRObject directly.
+    if (type === "Property" && "source" in obj && !("scope" in obj)) {
+      const src = obj["source"] as Record<string, unknown> | undefined;
+      if (src?.["type"] === "ExpressionRef" && typeof src["name"] === "string") {
+        obj["scope"] = src["name"];
+        delete obj["source"];
+      }
+    }
+
+    for (const value of Object.values(obj)) {
+      if (Array.isArray(value)) {
+        for (const item of value) walk(item);
+      } else {
+        walk(value);
+      }
+    }
+  };
+  walk(elm);
 }

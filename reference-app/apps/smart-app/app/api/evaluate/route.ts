@@ -90,7 +90,7 @@ function obsBundleByLoinc(resources: unknown[], loincCode: string) {
 
 /**
  * Find biosimilar substitutions across all regimens that are on-guideline.
- * In the demo, TH and PHD carry trastuzumab → trastuzumab-dttb.
+ * In the demo, ddAC-T carries pegfilgrastim → Udenyca step therapy.
  */
 function findSubstitutionsForIndicatedRegimens(
   regimens: SharedRegimen[],

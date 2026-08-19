@@ -232,7 +232,7 @@ export function buildSubstitutionSuggestionCard(
 
   return {
     uuid: crypto.randomUUID(),
-    summary: "Payer Modification Required — Biosimilar Substitution",
+    summary: "Payer Modification Required — Step-Therapy Substitution",
     detail:
       `Coverage criteria are met, but the payer policy requires the following ` +
       `substitution: **${subText}**. Accept the substitution to proceed with ` +
@@ -255,23 +255,6 @@ export function buildSubstitutionSuggestionCard(
       },
     ],
     selectionBehavior: "at-most-one",
-    overrideReasons: [
-      {
-        code: "clinical-contraindication",
-        display: "Clinical contraindication to biosimilar",
-        system: "http://example.org/mopa/override-reasons",
-      },
-      {
-        code: "patient-preference",
-        display: "Patient already established on reference product",
-        system: "http://example.org/mopa/override-reasons",
-      },
-      {
-        code: "formulary-exception",
-        display: "Formulary exception approved",
-        system: "http://example.org/mopa/override-reasons",
-      },
-    ],
   };
 }
 
@@ -322,6 +305,51 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
       },
     ],
   };
+}
+
+// ---------------------------------------------------------------------------
+// Substitution verification at order-sign
+// ---------------------------------------------------------------------------
+
+/**
+ * Check whether the draft orders contain any non-preferred drugs that the
+ * payer requires to be substituted. At order-sign, if a required substitution
+ * was NOT applied (the provider overrode the suggestion), the order cannot
+ * be approved.
+ *
+ * @returns list of unsubstituted drug display names, or empty if all clear
+ */
+function findUnsubstitutedDrugs(
+  draftOrders: { entry?: Array<{ resource?: Record<string, unknown> }> } | undefined,
+  regimen: Regimen | undefined,
+): string[] {
+  if (!draftOrders || !regimen) return [];
+
+  const biosimilarDrugs = findBiosimilarDrugs(regimen);
+  if (biosimilarDrugs.length === 0) return [];
+
+  // Collect RxNorm codes of the original (non-preferred) drugs
+  const nonPreferredCodes = new Set(
+    biosimilarDrugs.map(({ drug }) => drug.rxnorm)
+  );
+
+  // Scan MedicationRequest resources in the draft orders
+  const unsubstituted: string[] = [];
+  for (const entry of draftOrders.entry ?? []) {
+    const res = entry.resource;
+    if (!res || res.resourceType !== "MedicationRequest") continue;
+    const mcc = res.medicationCodeableConcept as
+      | { coding?: Array<{ system?: string; code?: string }> }
+      | undefined;
+    const rxnormCode = mcc?.coding?.find(
+      (c) => c.system === "http://www.nlm.nih.gov/research/umls/rxnorm"
+    )?.code;
+    if (rxnormCode && nonPreferredCodes.has(rxnormCode)) {
+      const drug = biosimilarDrugs.find(({ drug }) => drug.rxnorm === rxnormCode)?.drug;
+      if (drug) unsubstituted.push(drug.display);
+    }
+  }
+  return unsubstituted;
 }
 
 // ---------------------------------------------------------------------------
@@ -427,6 +455,31 @@ export async function handleOncologyCrd(
       }
 
       return { cards };
+    }
+
+    // order-sign: verify that required substitutions were applied.
+    // If the provider overrode the substitution suggestion, the draft orders
+    // still contain the non-preferred drug and the order cannot be approved.
+    if (!isOrderSelect && regimen) {
+      const unsubstituted = findUnsubstitutedDrugs(
+        request.context.draftOrders as
+          | { entry?: Array<{ resource?: Record<string, unknown> }> }
+          | undefined,
+        regimen,
+      );
+      if (unsubstituted.length > 0) {
+        const drugList = unsubstituted.join(", ");
+        return {
+          cards: [
+            buildPaRequiredCard(
+              `Required substitution not applied: ${drugList}. ` +
+              `The payer will not approve this order without the preferred ` +
+              `product. Accept the substitution or submit a PA with ` +
+              `exception justification.`
+            ),
+          ],
+        };
+      }
     }
 
     // order-sign: final authorization satisfied card (success indicator)

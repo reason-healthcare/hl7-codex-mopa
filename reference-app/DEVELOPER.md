@@ -15,7 +15,9 @@ reference-app/
 └── packages/
     ├── fhir-client/      fhir-kit-client re-export + fhir-zod schemas + proxy handler
     ├── cds-hooks/        CDS Hooks types, discovery, request/response helpers
-    ├── cql-engine/       CqlEngine interface + cql-execution adapter
+    ├── cql-engine/       CqlEngine interface + cql-execution adapter + ELM compat patches
+    ├── knowledge-artifacts/  FHIR Library + PlanDefinition resources, condition registry
+    ├── oncology-policy/  Shared terminology, FHIR queries, coverage eval, regimen definitions
     ├── smart-auth/       SMART on FHIR OAuth (EHR launch, PKCE, token cookies)
     └── ui/               Shared Tailwind components
 ```
@@ -125,6 +127,34 @@ ELM JSON is compiled at author-time using `rh cql compile` and committed to
 `cql/elm/`. Both the CRD Service and Payer Backend load ELM via `require()` so
 Next.js bundles it with no `__dirname` issues.
 
+The engine includes a `patchElmCompatibility` function that fixes ELM differences
+between `rh` v0.2.x and `cql-execution` v3.x at runtime:
+- `First`/`Last` elements: rh emits `operand`, cql-execution expects `source`
+- `Property` elements referencing query aliases: rh emits `source=ExpressionRef`,
+  cql-execution needs `scope` for FHIR choice-type resolution (e.g.,
+  `Observation.value` → `valueCodeableConcept` / `valueInteger`)
+
+A `FHIRHelpers.cql` library is committed to `cql/` and its compiled ELM to
+`cql/elm/` so that `rh cql compile` can resolve the `include FHIRHelpers`
+declaration. CQL that accesses FHIR primitive values (e.g., `O.value.coding`
+where `C.code.value` extracts the string from a FHIR.Coding) must use the
+`.value` property accessor pattern compatible with cql-execution's FHIR model
+info resolution.
+
+### `@mopa/knowledge-artifacts`
+
+FHIR Library and PlanDefinition resources for the MOPA workflow. Includes the
+breast cancer guideline and payer policy libraries, regimen PlanDefinitions
+(TH, PHD, ddAC→T with pegfilgrastim), the condition registry for CRD routing,
+and the registered-workflows catalog used by the Hub content viewer.
+
+### `@mopa/oncology-policy`
+
+Shared terminology constants, FHIR query templates, coverage evaluation helpers,
+and regimen definitions used by both the CRD Service and Payer Backend. The
+regimen definitions include biosimilar/step-therapy alternatives (e.g.,
+pegfilgrastim → pegfilgrastim-cbqv/Udenyca).
+
 ### `@mopa/smart-auth`
 
 SMART on FHIR authorization code flow with PKCE. The EHR acts as the authorization
@@ -140,13 +170,22 @@ Shared Tailwind components (`PatientBanner`). Extended throughout phases.
 ## Fixture helpers
 
 ```bash
-bash fixtures/load-fixtures.sh          # load Jane Smith (idempotent)
-bash fixtures/add-her2.sh               # add IHC 3+ HER2 Observation
+bash fixtures/load-fixtures.sh          # load all four demo patients (idempotent)
+bash fixtures/add-her2.sh               # add IHC 3+ HER2 Observation for Jane Smith
 bash fixtures/remove-her2.sh            # remove HER2 (reset to gap state)
 
 # Load into a non-default FHIR server
 bash fixtures/load-fixtures.sh https://my-server.example.com/fhir
 ```
+
+### Demo patients
+
+| Patient | MRN | Key clinical profile |
+|---|---|---|
+| Jane Smith | MRN-001 | Stage IIIA, HER2+, ECOG 0 |
+| Maria Garcia | MRN-002 | Stage IIIA, HER2+, ECOG 1 |
+| Sandra Chen | MRN-003 | Stage IIIA, HER2 absent, ECOG 1 |
+| Katherine Johnson | MRN-004 | ER+, HER2- (IHC 1+), Stage IIA, post-menopausal, OncotypeDX 28 — CodeX PA in MedOnc POC base case |
 
 ---
 

@@ -190,9 +190,9 @@ export function SuggestionPanel({
               <span className="font-medium">Substitution accepted — order updated</span>
             </div>
           ) : overridden ? (
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <span aria-hidden="true">✓</span>
-              <span className="font-medium">Override recorded — original order preserved</span>
+            <div className="flex items-start gap-2 text-sm text-amber-700">
+              <span aria-hidden="true">⚠</span>
+              <span className="font-medium">Override recorded — the order will not be approved without the substitution. Sign to submit for PA with exception justification.</span>
             </div>
           ) : (
             <>
@@ -215,11 +215,7 @@ export function SuggestionPanel({
                   Override
                 </button>
               </div>
-              {card.overrideReasons && card.overrideReasons.length > 0 && (
-                <p className="text-xs text-slate-400">
-                  Override reasons: {card.overrideReasons.map((r) => r.display ?? r.code).join(", ")}
-                </p>
-              )}
+
             </>
           )}
         </div>

@@ -397,28 +397,28 @@ describe("handleOncologyCrd", () => {
 // ---------------------------------------------------------------------------
 
 describe("buildSubstitutionSuggestionCard", () => {
-  it("returns null for regimen without biosimilars", () => {
-    // ddAC-T has no biosimilars
+  it("returns a suggestion card for ddAC-T regimen (pegfilgrastim → Udenyca step therapy)", () => {
     const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
     const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
-    expect(card).toBeNull();
-  });
-
-  it("returns a suggestion card for TH regimen (has biosimilars)", () => {
-    const th = REGIMENS.find((r) => r.id === "TH")!;
-    const card = buildSubstitutionSuggestionCard("jane-smith", th);
-
     expect(card).not.toBeNull();
     expect(card!.indicator).toBe("info");
     expect(card!.source.topic?.code).toBe("therapy-alternatives-req");
     expect(card!.suggestions).toBeDefined();
     expect(card!.suggestions!.length).toBe(1);
-    expect(card!.selectionBehavior).toBe("at-most-one");
+    const actions = card!.suggestions![0].actions ?? [];
+    expect(actions.length).toBe(2);
+    expect(actions[0]?.type).toBe("delete");
+    expect(actions[1]?.type).toBe("create");
   });
 
-  it("suggestion has delete + create actions", () => {
+  it("returns null for TH regimen (no biosimilars)", () => {
     const th = REGIMENS.find((r) => r.id === "TH")!;
-    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+    expect(buildSubstitutionSuggestionCard("jane-smith", th)).toBeNull();
+  });
+
+  it("ddAC-T suggestion has delete + create actions for pegfilgrastim", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
 
     const actions = card!.suggestions![0].actions!;
     const types = actions.map((a: { type: string }) => a.type);
@@ -426,52 +426,82 @@ describe("buildSubstitutionSuggestionCard", () => {
     expect(types).toContain("create");
   });
 
-  it("delete action references the original MedicationRequest resourceId", () => {
-    const th = REGIMENS.find((r) => r.id === "TH")!;
-    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+  it("ddAC-T delete action references the original pegfilgrastim resourceId", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
 
     const deleteAction = card!.suggestions![0].actions!.find((a: { type: string }) => a.type === "delete");
-    expect(deleteAction!.resourceId).toBe("urn:uuid:mr-trastuzumab-th");
+    expect(deleteAction!.resourceId).toBe("urn:uuid:mr-pegfilgrastim-ac");
   });
 
-  it("create action has a MedicationRequest with biosimilar RxNorm code", () => {
-    const th = REGIMENS.find((r) => r.id === "TH")!;
-    const card = buildSubstitutionSuggestionCard("jane-smith", th);
+  it("ddAC-T create action has a MedicationRequest with Udenyca RxNorm code", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
 
     const createAction = card!.suggestions![0].actions!.find((a: { type: string }) => a.type === "create");
     const resource = createAction!.resource as { resourceType: string; medicationCodeableConcept: { coding: Array<{ code: string; display: string }> } };
     expect(resource.resourceType).toBe("MedicationRequest");
-    expect(resource.medicationCodeableConcept.coding[0].code).toBe("1992624");
-    expect(resource.medicationCodeableConcept.coding[0].display).toContain("trastuzumab-dttb");
+    expect(resource.medicationCodeableConcept.coding[0].code).toBe("2102692");
+    expect(resource.medicationCodeableConcept.coding[0].display).toContain("Udenyca");
   });
 
-  it("card has override reasons", () => {
-    const th = REGIMENS.find((r) => r.id === "TH")!;
-    const card = buildSubstitutionSuggestionCard("jane-smith", th);
-
-    expect(card!.overrideReasons).toBeDefined();
-    expect(card!.overrideReasons!.length).toBeGreaterThan(0);
-    expect(card!.overrideReasons![0].code).toBe("clinical-contraindication");
+  it("ddAC-T card has no override reasons (substitution is mandatory)", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
+    expect(card!.overrideReasons).toBeUndefined();
   });
 });
 
 // ---------------------------------------------------------------------------
-// handleOncologyCrd — biosimilar suggestion at order-select
+// handleOncologyCrd — step-therapy substitution at order-select / order-sign
 // ---------------------------------------------------------------------------
 
-describe("handleOncologyCrd — biosimilar substitution", () => {
-  const thDraftOrders = {
+describe("handleOncologyCrd — step-therapy substitution", () => {
+  // Draft orders with the ORIGINAL pegfilgrastim (Neulasta) — substitution NOT applied
+  const ddactDraftOrders = {
     resourceType: "Bundle" as const,
     type: "collection" as const,
     entry: [
       {
-        fullUrl: "urn:uuid:rg-TH",
+        fullUrl: "urn:uuid:rg-ddAC-T",
         resource: {
           resourceType: "RequestGroup",
-          id: "rg-TH",
+          id: "rg-ddAC-T",
           status: "draft",
           intent: "order",
-          instantiatesCanonical: ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"],
+          instantiatesCanonical: ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenDdACT"],
+        },
+      },
+      {
+        fullUrl: "urn:uuid:mr-pegfilgrastim-ac",
+        resource: {
+          resourceType: "MedicationRequest",
+          status: "draft",
+          intent: "order",
+          subject: { reference: "Patient/jane-smith" },
+          medicationCodeableConcept: {
+            coding: [{ system: "http://www.nlm.nih.gov/research/umls/rxnorm", code: "67108", display: "pegfilgrastim (Neulasta)" }],
+          },
+        },
+      },
+    ],
+  };
+
+  // Draft orders with Udenyca — substitution WAS applied
+  const ddactSubstitutedOrders = {
+    ...ddactDraftOrders,
+    entry: [
+      ddactDraftOrders.entry[0],
+      {
+        fullUrl: "urn:uuid:mr-pegfilgrastim-ac",
+        resource: {
+          resourceType: "MedicationRequest",
+          status: "draft",
+          intent: "order",
+          subject: { reference: "Patient/jane-smith" },
+          medicationCodeableConcept: {
+            coding: [{ system: "http://www.nlm.nih.gov/research/umls/rxnorm", code: "2102692", display: "pegfilgrastim-cbqv (Udenyca)" }],
+          },
         },
       },
     ],
@@ -501,37 +531,54 @@ describe("handleOncologyCrd — biosimilar substitution", () => {
     );
   });
 
-  it("order-select with TH regimen returns approvable card + substitution suggestion card", async () => {
+  it("order-select with ddAC-T returns approvable card + substitution suggestion card", async () => {
     const response = await handleOncologyCrd({
       hookInstance: "test",
       hook: "order-select",
       context: {
         userId: "Practitioner/p1",
         patientId: "jane-smith",
-        draftOrders: thDraftOrders,
-        selections: ["urn:uuid:rg-TH"],
+        draftOrders: ddactDraftOrders,
+        selections: ["urn:uuid:rg-ddAC-T"],
       },
       fhirServer: "http://localhost:8080/fhir",
     });
 
     expect(response.cards.length).toBe(2);
-    // First card: approvable
     expect(response.cards[0]?.indicator).toBe("info");
     expect(response.cards[0]?.summary).toContain("Approvable");
-    // Second card: substitution suggestion
     expect(response.cards[1]?.suggestions).toBeDefined();
     expect(response.cards[1]?.source.topic?.code).toBe("therapy-alternatives-req");
   });
 
-  it("order-sign with TH regimen returns only authorization satisfied (no suggestion)", async () => {
+  it("order-sign without substitution returns PA required (not approved)", async () => {
     const response = await handleOncologyCrd({
       hookInstance: "test",
       hook: "order-sign",
       context: {
         userId: "Practitioner/p1",
         patientId: "jane-smith",
-        draftOrders: thDraftOrders,
-        selections: ["urn:uuid:rg-TH"],
+        draftOrders: ddactDraftOrders,
+        selections: ["urn:uuid:rg-ddAC-T"],
+      },
+      fhirServer: "http://localhost:8080/fhir",
+    });
+
+    expect(response.cards.length).toBe(1);
+    expect(response.cards[0]?.indicator).toBe("warning");
+    expect(response.cards[0]?.source.topic?.code).toBe("prior-auth-required");
+    expect(response.cards[0]?.detail).toContain("pegfilgrastim");
+  });
+
+  it("order-sign with substitution applied returns authorization satisfied", async () => {
+    const response = await handleOncologyCrd({
+      hookInstance: "test",
+      hook: "order-sign",
+      context: {
+        userId: "Practitioner/p1",
+        patientId: "jane-smith",
+        draftOrders: ddactSubstitutedOrders,
+        selections: ["urn:uuid:rg-ddAC-T"],
       },
       fhirServer: "http://localhost:8080/fhir",
     });

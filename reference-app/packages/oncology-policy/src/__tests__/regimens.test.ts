@@ -148,28 +148,20 @@ describe("buildDraftBundle", () => {
 // ---------------------------------------------------------------------------
 
 describe("biosimilar alternatives", () => {
-  it("TH regimen trastuzumab has a biosimilar alternative", () => {
-    const th = REGIMENS.find((r) => r.id === "TH") as Regimen;
-    const trastuzumab = th.phases[0]?.drugs.find((d) => d.actionId === "trastuzumab-th");
-    expect(trastuzumab?.biosimilars).toBeDefined();
-    expect(trastuzumab?.biosimilars).toHaveLength(1);
-    expect(trastuzumab?.biosimilars?.[0]?.display).toContain("trastuzumab-dttb");
-    expect(trastuzumab?.biosimilars?.[0]?.rxnorm).toBe("1992624");
-    expect(trastuzumab?.biosimilars?.[0]?.rationale).toContain("biosimilar");
-  });
-
-  it("PHD regimen trastuzumab has a biosimilar alternative", () => {
-    const phd = REGIMENS.find((r) => r.id === "PHD") as Regimen;
-    const trastuzumab = phd.phases[0]?.drugs.find((d) => d.actionId === "trastuzumab-phd");
-    expect(trastuzumab?.biosimilars).toBeDefined();
-    expect(trastuzumab?.biosimilars?.[0]?.display).toContain("trastuzumab-dttb");
-  });
-
-  it("ddAC-T regimen has no biosimilar alternatives (small molecules)", () => {
+  it("ddAC-T regimen pegfilgrastim has Udenyca step-therapy alternative", () => {
     const ddact = REGIMENS.find((r) => r.id === "ddAC-T") as Regimen;
+    const acPhase = ddact.phases.find((p) => p.id === "ac-phase");
+    const pegfilgrastim = acPhase?.drugs.find((d) => d.actionId === "pegfilgrastim-ac");
+    expect(pegfilgrastim?.biosimilars).toBeDefined();
+    expect(pegfilgrastim?.biosimilars).toHaveLength(1);
+    expect(pegfilgrastim?.biosimilars?.[0]?.display).toContain("Udenyca");
+    expect(pegfilgrastim?.biosimilars?.[0]?.rxnorm).toBe("2102692");
+    // Small molecule drugs (doxorubicin, cyclophosphamide, paclitaxel) have no biosimilars
     for (const phase of ddact.phases) {
       for (const drug of phase.drugs) {
-        expect(drug.biosimilars).toBeUndefined();
+        if (drug.actionId !== "pegfilgrastim-ac") {
+          expect(drug.biosimilars).toBeUndefined();
+        }
       }
     }
   });
@@ -186,29 +178,27 @@ describe("biosimilar alternatives", () => {
 // ---------------------------------------------------------------------------
 
 describe("buildReplacementMedicationRequest", () => {
-  it("returns null for drug without biosimilars", () => {
+  it("returns null for small-molecule drug without biosimilars", () => {
     const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
-    const drug = ddact.phases[0].drugs[0];
+    const drug = ddact.phases[0].drugs.find((d) => d.actionId === "doxorubicin-ac")!;
     expect(buildReplacementMedicationRequest("jane-smith", drug)).toBeNull();
   });
 
-  it("returns replacement for drug with biosimilars", () => {
+  it("returns Udenyca replacement for pegfilgrastim in ddAC-T", () => {
+    const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
+    const pegfilgrastim = ddact.phases[0].drugs.find((d) => d.actionId === "pegfilgrastim-ac")!;
+    const result = buildReplacementMedicationRequest("jane-smith", pegfilgrastim);
+    expect(result).not.toBeNull();
+    expect(result!.resourceId).toBe("urn:uuid:mr-pegfilgrastim-ac");
+    const resource = result!.resource as { medicationCodeableConcept: { coding: Array<{ code: string; display: string }> } };
+    expect(resource.medicationCodeableConcept.coding[0].code).toBe("2102692");
+    expect(resource.medicationCodeableConcept.coding[0].display).toContain("Udenyca");
+  });
+
+  it("returns null for TH trastuzumab (no biosimilars)", () => {
     const th = REGIMENS.find((r) => r.id === "TH")!;
     const trastuzumab = th.phases[0].drugs.find((d) => d.actionId === "trastuzumab-th")!;
-    const result = buildReplacementMedicationRequest("jane-smith", trastuzumab);
-
-    expect(result).not.toBeNull();
-    expect(result!.resourceId).toBe("urn:uuid:mr-trastuzumab-th");
-
-    const resource = result!.resource as {
-      resourceType: string;
-      medicationCodeableConcept: { coding: Array<{ code: string; display: string }> };
-      substitution?: { allowed: boolean };
-    };
-    expect(resource.resourceType).toBe("MedicationRequest");
-    expect(resource.medicationCodeableConcept.coding[0].code).toBe("1992624");
-    expect(resource.medicationCodeableConcept.coding[0].display).toContain("trastuzumab-dttb");
-    expect(resource.substitution?.allowed).toBe(true);
+    expect(buildReplacementMedicationRequest("jane-smith", trastuzumab)).toBeNull();
   });
 });
 
@@ -217,21 +207,20 @@ describe("buildReplacementMedicationRequest", () => {
 // ---------------------------------------------------------------------------
 
 describe("findBiosimilarDrugs", () => {
-  it("returns empty array for regimen without biosimilars", () => {
+  it("returns pegfilgrastim for ddAC-T regimen (Udenyca step therapy)", () => {
     const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
-    expect(findBiosimilarDrugs(ddact)).toHaveLength(0);
-  });
-
-  it("returns drugs with biosimilars for TH regimen", () => {
-    const th = REGIMENS.find((r) => r.id === "TH")!;
-    const result = findBiosimilarDrugs(th);
+    const result = findBiosimilarDrugs(ddact);
     expect(result).toHaveLength(1);
-    expect(result[0].drug.actionId).toBe("trastuzumab-th");
+    expect(result[0].drug.actionId).toBe("pegfilgrastim-ac");
   });
 
-  it("returns drugs with biosimilars for PHD regimen", () => {
+  it("returns empty array for TH regimen (no biosimilars)", () => {
+    const th = REGIMENS.find((r) => r.id === "TH")!;
+    expect(findBiosimilarDrugs(th)).toHaveLength(0);
+  });
+
+  it("returns empty array for PHD regimen (no biosimilars)", () => {
     const phd = REGIMENS.find((r) => r.id === "PHD")!;
-    const result = findBiosimilarDrugs(phd);
-    expect(result.length).toBeGreaterThan(0);
+    expect(findBiosimilarDrugs(phd)).toHaveLength(0);
   });
 });

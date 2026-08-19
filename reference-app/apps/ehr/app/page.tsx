@@ -1,25 +1,13 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { ServiceIntro } from "@mopa/ui";
+import { DEMO_CASES, type DemoOutcome } from "@mopa/oncology-policy";
 
-const PATIENTS = [
-  {
-    id: process.env.JANE_SMITH_PATIENT_ID ?? "jane-smith",
-    name: "Jane Smith",
-    dob: "1972-04-15",
-    mrn: "MRN-001",
-    outcome: "Approvable" as const,
-  },
-  { id: "maria-garcia", name: "Maria Garcia", dob: "1975-08-22", mrn: "MRN-002", outcome: "PA Required"  as const },
-  { id: "sandra-chen",  name: "Sandra Chen",  dob: "1963-11-05", mrn: "MRN-003", outcome: "DTR Required" as const },
-  { id: "diane-roe",    name: "Diane Roe",    dob: "1977-06-22", mrn: "MRN-004", outcome: "Biosimilar Sub"  as const },
-];
-
-const OUTCOME_BADGE: Record<(typeof PATIENTS)[number]["outcome"], string> = {
+const OUTCOME_BADGE: Record<DemoOutcome, string> = {
   "Approvable":     "bg-green-100 text-green-800 border border-green-200",
   "PA Required":    "bg-amber-100 text-amber-800 border border-amber-200",
   "DTR Required":   "bg-slate-100 text-slate-600 border border-slate-200",
-  "Biosimilar Sub": "bg-violet-100 text-violet-800 border border-violet-200",
+  "Step Therapy":   "bg-blue-100 text-blue-800 border border-blue-200",
 };
 
 function stripXhtml(div: string): string {
@@ -46,7 +34,8 @@ async function fetchNarrative(fhirBase: string, id: string): Promise<string | nu
 
 export default async function Home() {
   const fhirBase = process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
-  const narratives = await Promise.all(PATIENTS.map((p) => fetchNarrative(fhirBase, p.id)));
+  const patients = DEMO_CASES.map((c) => ({ ...c, id: c.patientId }));
+  const narratives = await Promise.all(patients.map((p) => fetchNarrative(fhirBase, p.id)));
 
   return (
     <>
@@ -72,7 +61,7 @@ export default async function Home() {
               </tr>
             </thead>
             <tbody>
-              {PATIENTS.map((p, i) => (
+              {patients.map((p, i) => (
                 <Fragment key={p.id}>
                   <tr className="border-t border-slate-200 hover:bg-slate-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>

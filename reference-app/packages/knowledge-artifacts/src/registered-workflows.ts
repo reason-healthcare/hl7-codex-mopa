@@ -98,19 +98,23 @@ export const REGISTERED_WORKFLOWS: WorkflowEntry[] = [
       libraryVersion: GUIDELINE_LIBRARY.version,
       usedBy: "CDS SMART App",
       purpose:
-        "Encodes evidence-based clinical criteria for breast cancer chemotherapy " +
-        "selection based on HER2 receptor status. Used exclusively by the Layer 1 " +
-        "CDS SMART App. Does not encode coverage, authorization, or administrative requirements.",
+        "Encodes evidence-based clinical criteria for breast cancer chemotherapy selection. " +
+        "For HER2-positive disease, TH and PHD regimens are indicated. For HER2-negative, " +
+        "ER-positive disease, the Oncotype DX recurrence score, menopausal status, and ER status " +
+        "determine whether adjuvant chemotherapy (ddAC→T) is indicated per NCCN/TAILORx criteria. " +
+        "Used exclusively by the Layer 1 CDS SMART App. Does not encode coverage, authorization, " +
+        "or administrative requirements.",
       decisionRows: [
         { input: "No active breast cancer diagnosis", output: "No recommendation" },
         { input: "Diagnosis present, HER2 positive", output: "TH indicated", positive: true },
         { input: "Diagnosis present, HER2 positive", output: "PHD indicated", positive: true },
         {
-          input: "Diagnosis present, HER2 negative",
-          output: "ddAC to T indicated",
+          input: "HER2-negative, ER+, post-menopausal, OncotypeDX >= 26",
+          output: "ddAC→T indicated",
           positive: true,
         },
-        { input: "Diagnosis present, HER2 absent", output: "Gap: document HER2 status" },
+        { input: "HER2-negative, ER+, OncotypeDX < 26", output: "Endocrine therapy; chemo not indicated" },
+        { input: "HER2 / ER / OncotypeDX absent", output: "Gap: document biomarker status" },
       ],
       planDef: {
         id: GUIDELINE_PLAN_DEFINITION.id,
@@ -130,19 +134,19 @@ export const REGISTERED_WORKFLOWS: WorkflowEntry[] = [
       usedBy: "CRD Service",
       purpose:
         "Enables systematic evaluation of prior authorization requirements at the " +
-        "point of prescribing. Reduces manual review burden by ensuring data completeness " +
-        "before PA submission and pre-authorizing eligible patients (ECOG 0) without a " +
-        "formal PA request.",
+        "point of prescribing. Requires diagnosis, ER/PR/HER2 status, cancer stage, menopausal " +
+        "status, Oncotype DX score, and ECOG performance status before a coverage determination. " +
+        "Pre-authorizes eligible patients (ECOG 0) without a formal PA request.",
       decisionRows: [
         { input: "No active breast cancer diagnosis", output: "No recommendation" },
-        { input: "HER2 / Stage / ECOG absent", output: "DTR required: collect missing data" },
+        { input: "ER / PR / HER2 / Stage / Menopausal / OncotypeDX / ECOG absent", output: "DTR required: collect missing data" },
         {
           input: "All present, ECOG = 0",
           output: "Approvable, PA not required",
           positive: true,
         },
         { input: "All present, ECOG >= 1", output: "PA required: submit to payer", positive: true },
-        { input: "HER2 negative, criteria not met", output: "Policy not met" },
+        { input: "Required data not met", output: "Policy not met" },
       ],
       planDef: {
         id: PLAN_DEFINITION.id,

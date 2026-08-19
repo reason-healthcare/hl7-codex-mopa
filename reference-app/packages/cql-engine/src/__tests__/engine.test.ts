@@ -26,7 +26,9 @@ beforeAll(() => {
 // FHIR fixture helpers
 // ---------------------------------------------------------------------------
 
-const PATIENT_ID = "jane-smith";
+const PATIENT_ID = "katherine-johnson";
+const SNOMED = "http://snomed.info/sct";
+const LOINC = "http://loinc.org";
 
 function makeObs(code: string, system: string): object {
   return {
@@ -35,6 +37,36 @@ function makeObs(code: string, system: string): object {
     status: "final",
     code: { coding: [{ system, code }] },
     subject: { reference: `Patient/${PATIENT_ID}` },
+  };
+}
+
+function makeObsWithValue(
+  code: string,
+  system: string,
+  valueCode: string,
+  valueSystem: string,
+  valueDisplay: string
+): object {
+  return {
+    resourceType: "Observation",
+    id: `obs-${code}`,
+    status: "final",
+    code: { coding: [{ system, code }] },
+    subject: { reference: `Patient/${PATIENT_ID}` },
+    valueCodeableConcept: {
+      coding: [{ system: valueSystem, code: valueCode, display: valueDisplay }],
+    },
+  };
+}
+
+function makeObsWithInteger(code: string, system: string, value: number): object {
+  return {
+    resourceType: "Observation",
+    id: `obs-${code}`,
+    status: "final",
+    code: { coding: [{ system, code }] },
+    subject: { reference: `Patient/${PATIENT_ID}` },
+    valueInteger: value,
   };
 }
 
@@ -52,11 +84,28 @@ function makeDiagnosis(snomedCode: string): object {
   };
 }
 
-const HER2_OBS = makeObs("85319-2", "http://loinc.org");
-const STAGE_OBS = makeObs("21908-9", "http://loinc.org");
-const ECOG_OBS = makeObs("89247-1", "http://loinc.org");
 const PATIENT = { resourceType: "Patient", id: PATIENT_ID };
 const BREAST_CA_DX = makeDiagnosis("372137005");
+
+// HER2 observations
+const HER2_POSITIVE = makeObsWithValue("85319-2", LOINC, "10828004", SNOMED, "Positive (qualifier value)");
+const HER2_NEGATIVE = makeObsWithValue("85319-2", LOINC, "260385009", SNOMED, "Negative (qualifier value)");
+
+// ER / PR observations
+const ER_POSITIVE = makeObsWithValue("85337-4", LOINC, "10828004", SNOMED, "Positive (qualifier value)");
+const PR_NEGATIVE = makeObsWithValue("85339-0", LOINC, "260385009", SNOMED, "Negative (qualifier value)");
+
+// Stage observation
+const STAGE_OBS = makeObsWithValue("21908-9", LOINC, "1222766008", SNOMED, "Stage IIA (AJCC)");
+
+// ECOG observation
+const ECOG_OBS = makeObsWithInteger("89247-1", LOINC, 0);
+
+// OncotypeDX observation (recurrence score = 28)
+const ONCOTYPEDX_28 = makeObsWithInteger("76761-1", LOINC, 28);
+
+// Menopausal status observation (postmenopausal)
+const POSTMENOPAUSAL = makeObsWithValue("428361000124107", SNOMED, "428361000124107", SNOMED, "Postmenopausal state");
 
 // ---------------------------------------------------------------------------
 // buildPatientBundle / extractBundleResources
@@ -64,14 +113,14 @@ const BREAST_CA_DX = makeDiagnosis("372137005");
 
 describe("buildPatientBundle", () => {
   it("wraps resources in a collection Bundle", () => {
-    const bundle = buildPatientBundle(PATIENT_ID, [PATIENT, HER2_OBS]);
+    const bundle = buildPatientBundle(PATIENT_ID, [PATIENT, HER2_POSITIVE]);
     expect(bundle.resourceType).toBe("Bundle");
     expect(bundle.type).toBe("collection");
     expect(bundle.entry).toHaveLength(2);
   });
 
   it("injects a stub Patient when none is provided", () => {
-    const bundle = buildPatientBundle(PATIENT_ID, [HER2_OBS]);
+    const bundle = buildPatientBundle(PATIENT_ID, [HER2_POSITIVE]);
     const types = bundle.entry.map((e) => (e.resource as { resourceType: string }).resourceType);
     expect(types).toContain("Patient");
   });
@@ -90,7 +139,7 @@ describe("extractBundleResources", () => {
     const bundle = {
       resourceType: "Bundle",
       type: "searchset",
-      entry: [{ resource: HER2_OBS }, { resource: STAGE_OBS }],
+      entry: [{ resource: HER2_POSITIVE }, { resource: STAGE_OBS }],
     };
     expect(extractBundleResources(bundle)).toHaveLength(2);
   });
@@ -106,61 +155,86 @@ describe("extractBundleResources", () => {
 // BreastCancerPayerPolicy CQL evaluation
 // ---------------------------------------------------------------------------
 
-// Shared across both CQL evaluation describe blocks — CqlExecutionEngine is
-// stateless so a single instance is safe for all tests.
 const engine = new CqlExecutionEngine();
 
 describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
+  const FULL_DATA = [
+    PATIENT,
+    BREAST_CA_DX,
+    ER_POSITIVE,
+    PR_NEGATIVE,
+    HER2_NEGATIVE,
+    STAGE_OBS,
+    POSTMENOPAUSAL,
+    ONCOTYPEDX_28,
+    ECOG_OBS,
+  ];
+
   it("all data present → AllDataPresent=true, PAResult=approved", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [
-      PATIENT,
-      BREAST_CA_DX,
-      HER2_OBS,
-      STAGE_OBS,
-      ECOG_OBS,
-    ]);
+    const results = await engine.evaluate(policyElm, PATIENT_ID, FULL_DATA);
     expect(results["All Data Present"]).toBe(true);
     expect(results["PA Result"]).toBe("approved");
   });
 
-  it("HER2 absent → HER2StatusPresent=false, AllDataPresent=false, PAResult=dtr-required", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [
-      PATIENT,
-      BREAST_CA_DX,
-      STAGE_OBS,
-      ECOG_OBS,
-    ]);
-    expect(results["HER2 Status Present"]).toBe(false);
+  it("ER absent → AllDataPresent=false, PAResult=dtr-required", async () => {
+    const results = await engine.evaluate(
+      policyElm,
+      PATIENT_ID,
+      FULL_DATA.filter((r) => r !== ER_POSITIVE)
+    );
+    expect(results["ER Status Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
     expect(results["PA Result"]).toBe("dtr-required");
   });
 
-  it("CancerStage absent → CancerStagePresent=false", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [
-      PATIENT,
-      BREAST_CA_DX,
-      HER2_OBS,
-      ECOG_OBS,
-    ]);
-    expect(results["Cancer Stage Present"]).toBe(false);
+  it("PR absent → AllDataPresent=false", async () => {
+    const results = await engine.evaluate(
+      policyElm,
+      PATIENT_ID,
+      FULL_DATA.filter((r) => r !== PR_NEGATIVE)
+    );
+    expect(results["PR Status Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
   });
 
-  it("ECOG absent → ECOGPSPresent=false", async () => {
-    const results = await engine.evaluate(policyElm, PATIENT_ID, [
-      PATIENT,
-      BREAST_CA_DX,
-      HER2_OBS,
-      STAGE_OBS,
-    ]);
-    expect(results["ECOG PS Present"]).toBe(false);
+  it("OncotypeDX absent → AllDataPresent=false", async () => {
+    const results = await engine.evaluate(
+      policyElm,
+      PATIENT_ID,
+      FULL_DATA.filter((r) => r !== ONCOTYPEDX_28)
+    );
+    expect(results["OncotypeDX Present"]).toBe(false);
+    expect(results["All Data Present"]).toBe(false);
+  });
+
+  it("Menopausal status absent → AllDataPresent=false", async () => {
+    const results = await engine.evaluate(
+      policyElm,
+      PATIENT_ID,
+      FULL_DATA.filter((r) => r !== POSTMENOPAUSAL)
+    );
+    expect(results["Menopausal Status Present"]).toBe(false);
+    expect(results["All Data Present"]).toBe(false);
+  });
+
+  it("HER2 absent → AllDataPresent=false", async () => {
+    const results = await engine.evaluate(
+      policyElm,
+      PATIENT_ID,
+      FULL_DATA.filter((r) => r !== HER2_NEGATIVE)
+    );
+    expect(results["HER2 Status Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
   });
 
   it("no data → all checks false, PAResult=dtr-required", async () => {
     const results = await engine.evaluate(policyElm, PATIENT_ID, [PATIENT]);
+    expect(results["ER Status Present"]).toBe(false);
+    expect(results["PR Status Present"]).toBe(false);
     expect(results["HER2 Status Present"]).toBe(false);
     expect(results["Cancer Stage Present"]).toBe(false);
+    expect(results["Menopausal Status Present"]).toBe(false);
+    expect(results["OncotypeDX Present"]).toBe(false);
     expect(results["ECOG PS Present"]).toBe(false);
     expect(results["All Data Present"]).toBe(false);
     expect(results["PA Result"]).toBe("dtr-required");
@@ -172,11 +246,11 @@ describe("BreastCancerPayerPolicy — CqlExecutionEngine", () => {
 // ---------------------------------------------------------------------------
 
 describe("BreastCancerGuideline — CqlExecutionEngine", () => {
-  it("HER2 present → IsHER2Positive=true, TH/PHD eligible, ddACT not eligible", async () => {
+  it("HER2 positive (IHC 3+) → IsHER2Positive=true, TH/PHD eligible, ddACT not eligible", async () => {
     const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
       PATIENT,
       BREAST_CA_DX,
-      HER2_OBS,
+      HER2_POSITIVE,
     ]);
     expect(results["Is HER2 Positive"]).toBe(true);
     expect(results["TH Eligible"]).toBe(true);
@@ -184,11 +258,76 @@ describe("BreastCancerGuideline — CqlExecutionEngine", () => {
     expect(results["ddACT Eligible"]).toBe(false);
   });
 
-  it("HER2 absent → IsHER2Positive=false, ddACT eligible, TH/PHD not eligible", async () => {
-    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [PATIENT, BREAST_CA_DX]);
+  it("HER2 negative (IHC 1+) without ER/OncotypeDX → ddACT not eligible (missing criteria)", async () => {
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      HER2_NEGATIVE,
+    ]);
     expect(results["Is HER2 Positive"]).toBe(false);
     expect(results["TH Eligible"]).toBe(false);
     expect(results["PHD Eligible"]).toBe(false);
+    expect(results["ddACT Eligible"]).toBe(false);
+  });
+
+  it("Katherine Johnson scenario: ER+, HER2-, postmenopausal, OncotypeDX 28 → ddACT eligible", async () => {
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      ER_POSITIVE,
+      PR_NEGATIVE,
+      HER2_NEGATIVE,
+      STAGE_OBS,
+      POSTMENOPAUSAL,
+      ONCOTYPEDX_28,
+    ]);
+    expect(results["Is HER2 Positive"]).toBe(false);
+    expect(results["Is ER Positive"]).toBe(true);
+    expect(results["Is Postmenopausal"]).toBe(true);
+    expect(results["OncotypeDX Score High"]).toBe(true);
     expect(results["ddACT Eligible"]).toBe(true);
+    expect(results["TH Eligible"]).toBe(false);
+    expect(results["PHD Eligible"]).toBe(false);
+  });
+
+  it("ER negative → IsERPositive=false, ddACT not eligible", async () => {
+    const erNegative = makeObsWithValue("85337-4", LOINC, "260385009", SNOMED, "Negative (qualifier value)");
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      erNegative,
+      HER2_NEGATIVE,
+      POSTMENOPAUSAL,
+      ONCOTYPEDX_28,
+    ]);
+    expect(results["Is ER Positive"]).toBe(false);
+    expect(results["ddACT Eligible"]).toBe(false);
+  });
+
+  it("OncotypeDX below threshold (score 18) → ddACT not eligible", async () => {
+    const lowScore = makeObsWithInteger("76761-1", LOINC, 18);
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
+      PATIENT,
+      BREAST_CA_DX,
+      ER_POSITIVE,
+      HER2_NEGATIVE,
+      POSTMENOPAUSAL,
+      lowScore,
+    ]);
+    expect(results["OncotypeDX Score High"]).toBe(false);
+    expect(results["ddACT Eligible"]).toBe(false);
+  });
+
+  it("no diagnosis → no regimens eligible", async () => {
+    const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
+      PATIENT,
+      ER_POSITIVE,
+      HER2_NEGATIVE,
+      POSTMENOPAUSAL,
+      ONCOTYPEDX_28,
+    ]);
+    expect(results["Has Active Breast Cancer"]).toBe(false);
+    expect(results["ddACT Eligible"]).toBe(false);
+    expect(results["TH Eligible"]).toBe(false);
   });
 });

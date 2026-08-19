@@ -6,6 +6,7 @@
 <artifactPageExtension value="-mappings"/>
 <artifact id="StructureDefinition/anticancer-regimen-plandefinition" key="StructureDefinition-anticancer-regimen-plandefinition" name="Anti-Cancer Regimen PlanDefinition"/>
 <artifact id="StructureDefinition/anticancer-regimen-requestgroup" key="StructureDefinition-anticancer-regimen-requestgroup" name="Anti-Cancer Regimen RequestGroup"/>
+<artifact id="StructureDefinition/data-requirement-label" key="StructureDefinition-data-requirement-label" name="Data Requirement Label"/>
 <artifact id="Practitioner/MOPAOncologistExample" key="Practitioner-MOPAOncologistExample" name="Example Oncologist: Dr. Maria Lopez"/>
 <artifact id="Patient/MOPAPatientExample" key="Patient-MOPAPatientExample" name="Example Patient: Jane Smith"/>
 <artifact id="PlanDefinition/PHDRegimenDefinition" key="PlanDefinition-PHDRegimenDefinition" name="Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)"/>

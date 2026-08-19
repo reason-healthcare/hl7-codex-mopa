@@ -146,7 +146,7 @@ describe("evaluatePolicy with biosimilar substitutions", () => {
     vi.clearAllMocks();
   });
 
-  it("returns substitutions when TH regimen is ordered and approved", async () => {
+  it("returns no substitutions when TH regimen is ordered (no biosimilars)", async () => {
     vi.mocked(evaluateBreastCancerPolicy).mockReturnValue({
       status: "authorization-satisfied",
       reason: "ECOG 0",
@@ -159,14 +159,10 @@ describe("evaluatePolicy with biosimilar substitutions", () => {
     });
     const decision = await evaluatePolicy("p1", "TH");
     expect(decision.status).toBe("approved");
-    expect(decision.substitutions).toBeDefined();
-    expect(decision.substitutions).toHaveLength(1);
-    expect(decision.substitutions?.[0]?.originalDisplay).toBe("trastuzumab");
-    expect(decision.substitutions?.[0]?.substitutedDisplay).toContain("trastuzumab-dttb");
-    expect(decision.reason).toContain("substitution");
+    expect(decision.substitutions).toBeUndefined();
   });
 
-  it("returns no substitutions when ddAC-T regimen is ordered (no biosimilars)", async () => {
+  it("returns Udenyca substitution when ddAC-T regimen is ordered (pegfilgrastim step therapy)", async () => {
     vi.mocked(evaluateBreastCancerPolicy).mockReturnValue({
       status: "authorization-satisfied",
       reason: "ECOG 0",
@@ -179,7 +175,9 @@ describe("evaluatePolicy with biosimilar substitutions", () => {
     });
     const decision = await evaluatePolicy("p1", "ddAC-T");
     expect(decision.status).toBe("approved");
-    expect(decision.substitutions).toBeUndefined();
+    expect(decision.substitutions).toBeDefined();
+    expect(decision.substitutions).toHaveLength(1);
+    expect(decision.substitutions?.[0]?.substitutedDisplay).toContain("Udenyca");
   });
 
   it("returns no substitutions when regimenId is not provided", async () => {

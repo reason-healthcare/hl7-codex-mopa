@@ -37,8 +37,10 @@ export const GUIDELINE_LIBRARY = {
   usageContext: layerContext(MOPA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
   description:
     "CQL library encoding evidence-based clinical criteria for breast cancer " +
-    "chemotherapy selection based on HER2 receptor status. Used by the Layer 1 " +
-    "CDS SMART App. Does not encode payer policy.",
+    "chemotherapy selection. For HER2-positive disease, TH and PHD regimens are indicated. " +
+    "For HER2-negative, ER-positive disease, the Oncotype DX recurrence score, menopausal " +
+    "status, and ER status determine whether adjuvant chemotherapy (ddAC→T) is indicated " +
+    "per NCCN/TAILORx criteria. Used by the Layer 1 CDS SMART App. Does not encode payer policy.",
   dataRequirement: [
     {
       type: "Condition",
@@ -102,6 +104,73 @@ export const GUIDELINE_LIBRARY = {
         },
       ],
     },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "85337-4",
+              display: "Estrogen receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "ER Status (IHC)",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "76761-1",
+              display:
+                "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "Oncotype DX Recurrence Score",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.SNOMED,
+              code: "428361000124107",
+              display: "Postmenopausal state",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "Menopausal Status",
+        },
+      ],
+    },
   ],
   content: [
     { contentType: "text/cql", url: `${BASE_URL}/cql/BreastCancerGuideline.cql` },
@@ -131,8 +200,9 @@ export const PAYER_POLICY_LIBRARY = {
   usageContext: layerContext(MOPA_LAYER.PAYER_POLICY, "Payer Policy"),
   description:
     "CQL library defining data completeness and authorization level requirements " +
-    "for breast cancer chemotherapy PA. Adds staging and performance status requirements " +
-    "on top of HER2.",
+    "for breast cancer chemotherapy PA. Requires diagnosis, ER/PR/HER2 status, cancer " +
+    "stage, menopausal status, Oncotype DX score, and ECOG performance status before " +
+    "a coverage determination can be rendered.",
   dataRequirement: [
     {
       type: "Condition",
@@ -180,6 +250,51 @@ export const PAYER_POLICY_LIBRARY = {
       codeFilter: [
         {
           path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "85337-4",
+              display: "Estrogen receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "ER Status",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "85339-0",
+              display:
+                "Progesterone receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "PR Status",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
+      codeFilter: [
+        {
+          path: "code",
           code: [{ system: SYSTEM.LOINC, code: "21908-9", display: "Stage group.clinical Cancer" }],
         },
       ],
@@ -205,6 +320,51 @@ export const PAYER_POLICY_LIBRARY = {
         {
           url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
           valueString: "ECOG Performance Status",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.SNOMED,
+              code: "428361000124107",
+              display: "Postmenopausal state",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "Menopausal Status",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "76761-1",
+              display:
+                "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "Oncotype DX Recurrence Score",
         },
       ],
     },
@@ -283,6 +443,51 @@ export const LIBRARY_RESOURCE = {
         {
           url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
           valueString: "HER2 Status",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "85337-4",
+              display: "Estrogen receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "ER Status",
+        },
+      ],
+    },
+    {
+      type: "Observation",
+      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
+      codeFilter: [
+        {
+          path: "code",
+          code: [
+            {
+              system: SYSTEM.LOINC,
+              code: "85339-0",
+              display:
+                "Progesterone receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+            },
+          ],
+        },
+      ],
+      extension: [
+        {
+          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
+          valueString: "PR Status",
         },
       ],
     },

@@ -60,6 +60,42 @@
           }
         },
         {
+          "name": "ER by IHC",
+          "id": "85337-4",
+          "display": "Estrogen receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        },
+        {
+          "name": "PR by IHC",
+          "id": "85339-0",
+          "display": "Progesterone receptor Ag [Presence] in Breast cancer specimen by Immune stain",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        },
+        {
+          "name": "Oncotype DX Recurrence Score",
+          "id": "76761-1",
+          "display": "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "LOINC"
+          }
+        },
+        {
+          "name": "Postmenopausal State",
+          "id": "428361000124107",
+          "display": "Postmenopausal state",
+          "accessLevel": "Public",
+          "codeSystem": {
+            "name": "SNOMED-CT"
+          }
+        },
+        {
           "name": "Primary Malignant Breast Cancer",
           "id": "372137005",
           "display": "Primary malignant neoplasm of breast",
@@ -125,35 +161,149 @@
                 "localId": "5",
                 "locator": "0-0:0-0",
                 "operand": {
-                  "type": "Retrieve",
+                  "type": "Query",
                   "localId": "6",
                   "locator": "0-0:0-0",
-                  "dataType": "{http://hl7.org/fhir}Observation",
-                  "codeProperty": "code",
-                  "codes": {
-                    "type": "List",
-                    "element": [
-                      {
-                        "type": "CodeRef",
+                  "source": [
+                    {
+                      "alias": "O",
+                      "expression": {
+                        "type": "Retrieve",
                         "localId": "7",
                         "locator": "0-0:0-0",
-                        "name": "HER2 by IHC"
+                        "dataType": "{http://hl7.org/fhir}Observation",
+                        "codeProperty": "code",
+                        "codes": {
+                          "type": "List",
+                          "element": [
+                            {
+                              "type": "CodeRef",
+                              "localId": "8",
+                              "locator": "0-0:0-0",
+                              "name": "HER2 by IHC"
+                            }
+                          ]
+                        },
+                        "include": [],
+                        "codeFilter": [],
+                        "dateFilter": [],
+                        "otherFilter": []
                       }
-                    ]
-                  },
-                  "include": [],
-                  "codeFilter": [],
-                  "dateFilter": [],
-                  "otherFilter": []
+                    }
+                  ],
+                  "where": {
+                    "type": "Exists",
+                    "localId": "9",
+                    "locator": "0-0:0-0",
+                    "operand": {
+                      "type": "Query",
+                      "localId": "10",
+                      "locator": "0-0:0-0",
+                      "source": [
+                        {
+                          "alias": "C",
+                          "expression": {
+                            "type": "Property",
+                            "localId": "11",
+                            "locator": "0-0:0-0",
+                            "source": {
+                              "type": "Property",
+                              "localId": "12",
+                              "locator": "0-0:0-0",
+                              "source": {
+                                "type": "ExpressionRef",
+                                "localId": "13",
+                                "locator": "0-0:0-0",
+                                "name": "O"
+                              },
+                              "path": "value"
+                            },
+                            "path": "coding"
+                          }
+                        }
+                      ],
+                      "where": {
+                        "type": "Or",
+                        "localId": "14",
+                        "locator": "0-0:0-0",
+                        "operand": [
+                          {
+                            "type": "Equal",
+                            "localId": "15",
+                            "locator": "0-0:0-0",
+                            "operand": [
+                              {
+                                "type": "Property",
+                                "localId": "16",
+                                "locator": "0-0:0-0",
+                                "source": {
+                                  "type": "Property",
+                                  "localId": "17",
+                                  "locator": "0-0:0-0",
+                                  "source": {
+                                    "type": "ExpressionRef",
+                                    "localId": "18",
+                                    "locator": "0-0:0-0",
+                                    "name": "C"
+                                  },
+                                  "path": "code"
+                                },
+                                "path": "value"
+                              },
+                              {
+                                "type": "Literal",
+                                "localId": "19",
+                                "locator": "0-0:0-0",
+                                "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                "value": "10828004"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "Equal",
+                            "localId": "20",
+                            "locator": "0-0:0-0",
+                            "operand": [
+                              {
+                                "type": "Property",
+                                "localId": "21",
+                                "locator": "0-0:0-0",
+                                "source": {
+                                  "type": "Property",
+                                  "localId": "22",
+                                  "locator": "0-0:0-0",
+                                  "source": {
+                                    "type": "ExpressionRef",
+                                    "localId": "23",
+                                    "locator": "0-0:0-0",
+                                    "name": "C"
+                                  },
+                                  "path": "code"
+                                },
+                                "path": "value"
+                              },
+                              {
+                                "type": "Literal",
+                                "localId": "24",
+                                "locator": "0-0:0-0",
+                                "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                "value": "416940007"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
                 }
               },
               {
                 "type": "Exists",
-                "localId": "8",
+                "localId": "25",
                 "locator": "0-0:0-0",
                 "operand": {
                   "type": "Retrieve",
-                  "localId": "9",
+                  "localId": "26",
                   "locator": "0-0:0-0",
                   "dataType": "{http://hl7.org/fhir}Observation",
                   "codeProperty": "code",
@@ -162,7 +312,7 @@
                     "element": [
                       {
                         "type": "CodeRef",
-                        "localId": "10",
+                        "localId": "27",
                         "locator": "0-0:0-0",
                         "name": "HER2 Gene Amplification"
                       }
@@ -178,23 +328,275 @@
           }
         },
         {
+          "name": "Is ER Positive",
+          "context": "Patient",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Exists",
+            "localId": "28",
+            "locator": "0-0:0-0",
+            "operand": {
+              "type": "Query",
+              "localId": "29",
+              "locator": "0-0:0-0",
+              "source": [
+                {
+                  "alias": "O",
+                  "expression": {
+                    "type": "Retrieve",
+                    "localId": "30",
+                    "locator": "0-0:0-0",
+                    "dataType": "{http://hl7.org/fhir}Observation",
+                    "codeProperty": "code",
+                    "codes": {
+                      "type": "List",
+                      "element": [
+                        {
+                          "type": "CodeRef",
+                          "localId": "31",
+                          "locator": "0-0:0-0",
+                          "name": "ER by IHC"
+                        }
+                      ]
+                    },
+                    "include": [],
+                    "codeFilter": [],
+                    "dateFilter": [],
+                    "otherFilter": []
+                  }
+                }
+              ],
+              "where": {
+                "type": "Exists",
+                "localId": "32",
+                "locator": "0-0:0-0",
+                "operand": {
+                  "type": "Query",
+                  "localId": "33",
+                  "locator": "0-0:0-0",
+                  "source": [
+                    {
+                      "alias": "C",
+                      "expression": {
+                        "type": "Property",
+                        "localId": "34",
+                        "locator": "0-0:0-0",
+                        "source": {
+                          "type": "Property",
+                          "localId": "35",
+                          "locator": "0-0:0-0",
+                          "source": {
+                            "type": "ExpressionRef",
+                            "localId": "36",
+                            "locator": "0-0:0-0",
+                            "name": "O"
+                          },
+                          "path": "value"
+                        },
+                        "path": "coding"
+                      }
+                    }
+                  ],
+                  "where": {
+                    "type": "Or",
+                    "localId": "37",
+                    "locator": "0-0:0-0",
+                    "operand": [
+                      {
+                        "type": "Equal",
+                        "localId": "38",
+                        "locator": "0-0:0-0",
+                        "operand": [
+                          {
+                            "type": "Property",
+                            "localId": "39",
+                            "locator": "0-0:0-0",
+                            "source": {
+                              "type": "Property",
+                              "localId": "40",
+                              "locator": "0-0:0-0",
+                              "source": {
+                                "type": "ExpressionRef",
+                                "localId": "41",
+                                "locator": "0-0:0-0",
+                                "name": "C"
+                              },
+                              "path": "code"
+                            },
+                            "path": "value"
+                          },
+                          {
+                            "type": "Literal",
+                            "localId": "42",
+                            "locator": "0-0:0-0",
+                            "valueType": "{urn:hl7-org:elm-types:r1}String",
+                            "value": "10828004"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "Equal",
+                        "localId": "43",
+                        "locator": "0-0:0-0",
+                        "operand": [
+                          {
+                            "type": "Property",
+                            "localId": "44",
+                            "locator": "0-0:0-0",
+                            "source": {
+                              "type": "Property",
+                              "localId": "45",
+                              "locator": "0-0:0-0",
+                              "source": {
+                                "type": "ExpressionRef",
+                                "localId": "46",
+                                "locator": "0-0:0-0",
+                                "name": "C"
+                              },
+                              "path": "code"
+                            },
+                            "path": "value"
+                          },
+                          {
+                            "type": "Literal",
+                            "localId": "47",
+                            "locator": "0-0:0-0",
+                            "valueType": "{urn:hl7-org:elm-types:r1}String",
+                            "value": "416940007"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Is Postmenopausal",
+          "context": "Patient",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Exists",
+            "localId": "48",
+            "locator": "0-0:0-0",
+            "operand": {
+              "type": "Retrieve",
+              "localId": "49",
+              "locator": "0-0:0-0",
+              "dataType": "{http://hl7.org/fhir}Observation",
+              "codeProperty": "code",
+              "codes": {
+                "type": "List",
+                "element": [
+                  {
+                    "type": "CodeRef",
+                    "localId": "50",
+                    "locator": "0-0:0-0",
+                    "name": "Postmenopausal State"
+                  }
+                ]
+              },
+              "include": [],
+              "codeFilter": [],
+              "dateFilter": [],
+              "otherFilter": []
+            }
+          }
+        },
+        {
+          "name": "OncotypeDX Score High",
+          "context": "Patient",
+          "accessLevel": "Public",
+          "expression": {
+            "type": "Exists",
+            "localId": "51",
+            "locator": "0-0:0-0",
+            "operand": {
+              "type": "Query",
+              "localId": "52",
+              "locator": "0-0:0-0",
+              "source": [
+                {
+                  "alias": "O",
+                  "expression": {
+                    "type": "Retrieve",
+                    "localId": "53",
+                    "locator": "0-0:0-0",
+                    "dataType": "{http://hl7.org/fhir}Observation",
+                    "codeProperty": "code",
+                    "codes": {
+                      "type": "List",
+                      "element": [
+                        {
+                          "type": "CodeRef",
+                          "localId": "54",
+                          "locator": "0-0:0-0",
+                          "name": "Oncotype DX Recurrence Score"
+                        }
+                      ]
+                    },
+                    "include": [],
+                    "codeFilter": [],
+                    "dateFilter": [],
+                    "otherFilter": []
+                  }
+                }
+              ],
+              "where": {
+                "type": "GreaterOrEqual",
+                "localId": "55",
+                "locator": "0-0:0-0",
+                "operand": [
+                  {
+                    "type": "Property",
+                    "localId": "56",
+                    "locator": "0-0:0-0",
+                    "source": {
+                      "type": "Property",
+                      "localId": "57",
+                      "locator": "0-0:0-0",
+                      "source": {
+                        "type": "ExpressionRef",
+                        "localId": "58",
+                        "locator": "0-0:0-0",
+                        "name": "O"
+                      },
+                      "path": "value"
+                    },
+                    "path": "value"
+                  },
+                  {
+                    "type": "Literal",
+                    "localId": "59",
+                    "locator": "0-0:0-0",
+                    "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                    "value": "26"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
           "name": "TH Eligible",
           "context": "Patient",
           "accessLevel": "Public",
           "expression": {
             "type": "And",
-            "localId": "11",
+            "localId": "60",
             "locator": "0-0:0-0",
             "operand": [
               {
                 "type": "ExpressionRef",
-                "localId": "12",
+                "localId": "61",
                 "locator": "0-0:0-0",
                 "name": "Has Active Breast Cancer"
               },
               {
                 "type": "ExpressionRef",
-                "localId": "13",
+                "localId": "62",
                 "locator": "0-0:0-0",
                 "name": "Is HER2 Positive"
               }
@@ -207,18 +609,18 @@
           "accessLevel": "Public",
           "expression": {
             "type": "And",
-            "localId": "14",
+            "localId": "63",
             "locator": "0-0:0-0",
             "operand": [
               {
                 "type": "ExpressionRef",
-                "localId": "15",
+                "localId": "64",
                 "locator": "0-0:0-0",
                 "name": "Has Active Breast Cancer"
               },
               {
                 "type": "ExpressionRef",
-                "localId": "16",
+                "localId": "65",
                 "locator": "0-0:0-0",
                 "name": "Is HER2 Positive"
               }
@@ -231,25 +633,64 @@
           "accessLevel": "Public",
           "expression": {
             "type": "And",
-            "localId": "17",
+            "localId": "66",
             "locator": "0-0:0-0",
             "operand": [
               {
-                "type": "ExpressionRef",
-                "localId": "18",
+                "type": "And",
+                "localId": "67",
                 "locator": "0-0:0-0",
-                "name": "Has Active Breast Cancer"
+                "operand": [
+                  {
+                    "type": "And",
+                    "localId": "68",
+                    "locator": "0-0:0-0",
+                    "operand": [
+                      {
+                        "type": "And",
+                        "localId": "69",
+                        "locator": "0-0:0-0",
+                        "operand": [
+                          {
+                            "type": "ExpressionRef",
+                            "localId": "70",
+                            "locator": "0-0:0-0",
+                            "name": "Has Active Breast Cancer"
+                          },
+                          {
+                            "type": "Not",
+                            "localId": "71",
+                            "locator": "0-0:0-0",
+                            "operand": {
+                              "type": "ExpressionRef",
+                              "localId": "72",
+                              "locator": "0-0:0-0",
+                              "name": "Is HER2 Positive"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "ExpressionRef",
+                        "localId": "73",
+                        "locator": "0-0:0-0",
+                        "name": "Is ER Positive"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "ExpressionRef",
+                    "localId": "74",
+                    "locator": "0-0:0-0",
+                    "name": "Is Postmenopausal"
+                  }
+                ]
               },
               {
-                "type": "Not",
-                "localId": "19",
+                "type": "ExpressionRef",
+                "localId": "75",
                 "locator": "0-0:0-0",
-                "operand": {
-                  "type": "ExpressionRef",
-                  "localId": "20",
-                  "locator": "0-0:0-0",
-                  "name": "Is HER2 Positive"
-                }
+                "name": "OncotypeDX Score High"
               }
             ]
           }
@@ -259,7 +700,7 @@
     "annotation": [
       {
         "type": "CqlToElmInfo",
-        "translatorVersion": "0.2.0-beta.2",
+        "translatorVersion": "0.2.8",
         "translatorOptions": "DisableListDemotion,DisableListPromotion,EnableAnnotations,EnableLocators"
       }
     ]

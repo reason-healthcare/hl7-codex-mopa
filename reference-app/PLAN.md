@@ -124,9 +124,19 @@ dependency on `cql-execution`. The reference app is a direct driver for this wor
 
 ```bash
 # Compile CQL to ELM JSON (dev/build time via rh binary or Docker)
-rh cql compile BreastCancerGuideline.cql --output BreastCancerGuideline.elm.json
-rh cql compile BreastCancerPayerPolicy.cql --output BreastCancerPayerPolicy.elm.json
+# FHIRHelpers.cql must be present in cql/ for the include to resolve
+rh cql compile cql/BreastCancerGuideline.cql --output cql/elm/BreastCancerGuideline.elm.json --lib-path cql
+rh cql compile cql/BreastCancerPayerPolicy.cql --output cql/elm/BreastCancerPayerPolicy.elm.json --lib-path cql
 ```
+
+> **ELM compatibility:** `rh` v0.2.x produces ELM that differs from what
+> `cql-execution` v3.x expects. The `CqlExecutionEngine` applies runtime
+> patches (`patchElmCompatibility`) for `First`/`Last` operand→source and
+> `Property` source→scope fixes. CQL that accesses FHIR choice-type values
+> (e.g., `Observation.value`) must use `.value` property accessors on FHIR
+> primitives (e.g., `C.code.value` rather than `C.code`) for cql-execution
+> compatibility. Stage 2 (`rh-cql` WASM evaluator) will eliminate these
+> workarounds.
 
 ---
 

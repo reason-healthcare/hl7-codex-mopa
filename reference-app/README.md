@@ -49,7 +49,7 @@ bash fixtures/load-fixtures.sh
 | **Jane Smith** (MRN-001) | 0 | Positive | Approvable — PA not required |
 | **Maria Garcia** (MRN-002) | 1 | Positive | Approvable — PA required |
 | **Sandra Chen** (MRN-003) | 1 | Absent | DTR Required — collect HER2 first |
-| **Diane Roe** (MRN-004) | 0 | Positive | Approvable + biosimilar substitution suggestion |
+| **Katherine Johnson** (MRN-004) | 0 | Negative (IHC 1+) | CodeX POC base case: ER+, HER2-, OncotypeDX 28 → ddAC→T + pegfilgrastim (Udenyca step therapy) |
 
 The load script is idempotent. Re-running it purges existing data for each patient
 before reloading, so you can reset mid-demo without side effects.
@@ -77,7 +77,7 @@ with narration and prompts. Use `--quick` to skip setup if services are already 
 1. Open the **Hub** at [http://localhost:4000](http://localhost:4000)
 2. Switch to the **Demo Fixtures** tab to see all four patient cases
 3. Click **Open in EHR** on any case
-4. In the patient chart, open **Order Entry** and select the **TH** regimen
+4. In the patient chart, open **Order Entry** and select a regimen
 5. CRD fires on `order-select` — the outcome depends on the patient's data:
 
    | Case | What you see |
@@ -85,15 +85,15 @@ with narration and prompts. Use `--quick` to skip setup if services are already 
    | Jane Smith | Approvable, PA not required — sign and proceed |
    | Maria Garcia | Approvable, PA required — sign, then submit PA |
    | Sandra Chen | Documentation Required — launch DTR, enter HER2, return to EHR |
-   | Diane Roe | Approvable + violet suggestion panel: Accept Substitution (trastuzumab-dttb) or Override |
+   | Katherine Johnson | Approvable + suggestion panel: substitute pegfilgrastim-cbqv (Udenyca) for Neulasta per step-therapy policy |
 
 6. After DTR (Sandra Chen): HER2 is now present. The EHR re-fires `order-select` and
    CRD returns Approvable.
 
-7. For Diane Roe: if the provider **accepts** the substitution, the EHR updates the
-   draft orders in-session (replaces trastuzumab with trastuzumab-dttb) and sends the
-   modified Bundle to `order-sign`. If **overridden**, the original order proceeds
-   unchanged.
+7. For Katherine Johnson: the guideline evaluates ER+, HER2-, post-menopausal, and
+   Oncotype DX score 28 to confirm ddAC→T is indicated (NCCN/TAILORx threshold ≥ 26).
+   The payer's step-therapy policy requires substituting pegfilgrastim-cbqv (Udenyca)
+   for Neulasta. The same accept/override interaction applies.
 
 ---
 

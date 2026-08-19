@@ -189,7 +189,7 @@ export const REGIMEN_DDACT = {
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
   usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
-    "Dose-dense AC x4 cycles (q14d) then paclitaxel x4 cycles (q14d). Standard adjuvant regimen. Requires G-CSF support.",
+    "Dose-dense AC x4 cycles (q14d) with pegfilgrastim support, then paclitaxel x4 cycles (q14d). Adjuvant regimen for ER-positive, HER2-negative breast cancer when Oncotype DX indicates chemotherapy benefit.",
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254837009", display: "Malignant neoplasm of breast" }],
   },
@@ -224,6 +224,15 @@ export const REGIMEN_DDACT = {
           type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
           timingTiming: {
             extension: [daysOfCycle(1)],
+            repeat: { period: 14, periodUnit: "d" },
+          },
+        },
+        {
+          id: "pegfilgrastim",
+          title: "Pegfilgrastim 6 mg SC \u2014 Day 2 of each 14-day cycle (G-CSF support)",
+          type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
+          timingTiming: {
+            extension: [daysOfCycle(2)],
             repeat: { period: 14, periodUnit: "d" },
           },
         },
@@ -377,12 +386,16 @@ export const GUIDELINE_PLAN_DEFINITION = {
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "eca-rule", display: "ECA Rule" }] },
   usageContext: layerContext(MOPA_LAYER.GUIDELINE_AUTHORITY, "Guideline Authority"),
   description:
-    "ECA rule surfacing evidence-based regimen recommendations based on HER2 receptor " +
-    "status for breast cancer chemotherapy.",
+    "ECA rule surfacing evidence-based regimen recommendations for breast cancer " +
+    "chemotherapy. HER2 status determines HER2-directed options; for HER2-negative, " +
+    "ER-positive disease, the Oncotype DX recurrence score and menopausal status " +
+    "determine whether adjuvant chemotherapy is indicated.",
   purpose:
     "Provides real-time evidence-based clinical decision support to oncologists ordering " +
-    "chemotherapy, ensuring guideline-concordant recommendations based on HER2 receptor status. " +
-    "The SMART App uses this rule to surface clinically indicated options and identify missing clinical data.",
+    "chemotherapy. For HER2-positive disease, TH and PHD regimens are indicated. For HER2-negative, " +
+    "ER-positive disease, the Oncotype DX recurrence score (>= 26 for post-menopausal women per " +
+    "NCCN/TAILORx) determines whether adjuvant chemotherapy (ddAC→T) is indicated. The SMART App " +
+    "uses this rule to surface clinically indicated options and identify missing clinical data.",
   library: [`${BASE_URL}/Library/BreastCancerGuideline`],
   action: [
     {
@@ -413,7 +426,7 @@ export const GUIDELINE_PLAN_DEFINITION = {
       condition: [
         {
           kind: "applicability",
-          expression: { language: "text/cql-identifier", expression: "Is HER2 Positive" },
+          expression: { language: "text/cql-identifier", expression: "Has Active Breast Cancer" },
         },
       ],
       action: [
@@ -444,7 +457,7 @@ export const GUIDELINE_PLAN_DEFINITION = {
         {
           id: "recommend-ddact",
           title: "ddAC→T — Dose-dense AC → Paclitaxel",
-          description: "HER2-negative. For triple-negative or HR+ disease.",
+          description: "HER2-negative, ER-positive, post-menopausal, OncotypeDX >= 26. Adjuvant chemotherapy indicated per NCCN/TAILORx.",
           definitionCanonical: `${BASE_URL}/PlanDefinition/RegimenDdACT`,
           condition: [
             {

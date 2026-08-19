@@ -241,3 +241,71 @@ with the simplified IG specification.
 **Proposed specification change:**
 None — the IG has already been simplified. This note documents the reference
 implementation alignment.
+
+---
+
+## SN-005 — rh v0.2.x ELM is not directly compatible with cql-execution v3.x
+
+**Discovered during:** CodeX PA in MedOnc POC alignment (2026-08-18)
+
+**Status: ⚠️ Workaround applied in reference implementation**
+
+**Observed problem:**
+The reference implementation compiles CQL to ELM JSON using `rh cql compile`
+(v0.2.8) and evaluates it at runtime using the `cql-execution` npm package
+(v3.3.0) with `cql-exec-fhir` (v2.1.6). Three ELM structural differences were
+identified that cause cql-execution to silently return incorrect results or
+throw at runtime:
+
+1. **`First` / `Last` operand key:** rh v0.2.8 emits the child expression under
+   an `operand` key, but cql-execution's `First`/`Last` classes read
+   `json.source`. Without a patch, `First.execute` throws because
+   `this.source` is undefined.
+
+2. **`Property` source vs scope for query aliases:** rh emits
+   `Property(source=ExpressionRef("O"))` for query-alias property references,
+   but cql-execution needs `Property(scope="O")` for the `FHIRObject.get()`
+   fallback to fire on FHIR choice types (e.g., `Observation.value` →
+   `valueCodeableConcept` / `valueInteger`). With `source`, the ExpressionRef
+   resolves the alias correctly, but the resulting object's `getPropertyFromObject`
+   does not invoke `.get()` because the `obj[path]` lookup returns undefined
+   before the `.get()` fallback is reached (the FHIRObject wrapper is lost
+   during ExpressionRef execution).
+
+3. **FHIRHelpers include resolution:** rh v0.2.8 does not bundle FHIRHelpers
+   internally (v0.1.0-beta.1 did). A `FHIRHelpers.cql` file must be present in
+   the library search path (`--lib-path`) for `include FHIRHelpers` to resolve.
+   Additionally, rh compiles FHIRHelpers function definitions as
+   `ExpressionDef` with an `operand` field rather than `FunctionDef`, which
+   prevents cql-execution from recognizing them as callable functions.
+
+4. **FHIR primitive `.value` access:** CQL that accesses FHIR primitive values
+   (e.g., `Coding.code`) must use the `.value` property accessor
+   (`Coding.code.value`) to extract the system string, because cql-exec-fhir
+   wraps FHIR primitives in `FHIRObject` instances whose `.get("code")` returns
+   a FHIRObject wrapping the string, not a plain JavaScript string. Direct
+   comparison (`C.code = '10828004'`) fails; `C.code.value = '10828004'`
+   succeeds.
+
+**Workaround applied:**
+- `patchElmCompatibility()` in `packages/cql-engine/src/index.ts` fixes issues
+  1 and 2 at runtime by walking the ELM tree and rewriting `First`/`Last`
+  `operand` → `source` and `Property` `source=ExpressionRef` → `scope`.
+- `cql/FHIRHelpers.cql` and `cql/elm/FHIRHelpers.elm.json` are committed so
+  `rh cql compile --lib-path cql` can resolve the include (issue 3).
+- CQL expressions that check FHIR CodeableConcept values use the pattern
+  `exists(O.value.coding C where C.code.value = '...')` rather than
+  `O.value ~ "Code"` (issue 4). Integer comparisons use `O.value.value >= N`
+  rather than `O.value >= N`.
+
+**Proposed specification change:**
+None — this is a tooling compatibility issue between `rh` and `cql-execution`,
+not a specification gap. The Stage 2 plan to replace `cql-execution` with the
+`rh-cql` WASM evaluator will eliminate all four workarounds because the same
+toolchain (`rh`) will both compile and evaluate CQL.
+
+**Reference implementation:**
+- `packages/cql-engine/src/index.ts` — `patchElmCompatibility()` function
+- `cql/FHIRHelpers.cql` — FHIRHelpers v4.0.0 library (extracted from hl7.fhir.r4.examples)
+- `cql/elm/FHIRHelpers.elm.json` — compiled ELM
+- `cql/BreastCancerGuideline.cql` — uses `.value` accessor pattern for FHIR primitives

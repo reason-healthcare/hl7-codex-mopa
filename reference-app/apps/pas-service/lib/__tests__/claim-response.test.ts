@@ -54,9 +54,9 @@ describe("buildClaimResponse with substitutions", () => {
       substitutions: [
         {
           originalRxnorm: "224905",
-          originalDisplay: "trastuzumab",
-          substitutedRxnorm: "1992624",
-          substitutedDisplay: "trastuzumab-dttb (Ontrudy)",
+          originalDisplay: "pegfilgrastim (Neulasta)",
+          substitutedRxnorm: "2102692",
+          substitutedDisplay: "pegfilgrastim-cbqv (Udenyca)",
           rationale: "Payer requires biosimilar substitution",
         },
       ],
@@ -64,10 +64,10 @@ describe("buildClaimResponse with substitutions", () => {
     expect(cr.outcome).toBe("complete");
     expect(cr.processNote).toBeDefined();
     expect(cr.processNote).toHaveLength(1);
-    expect(cr.processNote?.[0]?.text).toContain("trastuzumab");
-    expect(cr.processNote?.[0]?.text).toContain("trastuzumab-dttb");
+    expect(cr.processNote?.[0]?.text).toContain("pegfilgrastim (Neulasta)");
+    expect(cr.processNote?.[0]?.text).toContain("pegfilgrastim-cbqv (Udenyca)");
     expect(cr.processNote?.[0]?.text).toContain("224905");
-    expect(cr.processNote?.[0]?.text).toContain("1992624");
+    expect(cr.processNote?.[0]?.text).toContain("2102692");
   });
 
   it("has no processNote when substitutions are absent", () => {
@@ -93,9 +93,9 @@ describe("buildClaimResponse with substitutions", () => {
       substitutions: [
         {
           originalRxnorm: "224905",
-          originalDisplay: "trastuzumab",
-          substitutedRxnorm: "1992624",
-          substitutedDisplay: "trastuzumab-dttb",
+          originalDisplay: "pegfilgrastim (Neulasta)",
+          substitutedRxnorm: "2102692",
+          substitutedDisplay: "pegfilgrastim-cbqv (Udenyca)",
           rationale: "Biosimilar required",
         },
         {
@@ -108,7 +108,7 @@ describe("buildClaimResponse with substitutions", () => {
       ],
     });
     expect(cr.processNote).toHaveLength(2);
-    expect(cr.processNote?.[0]?.text).toContain("trastuzumab");
+    expect(cr.processNote?.[0]?.text).toContain("pegfilgrastim (Neulasta)");
     expect(cr.processNote?.[1]?.text).toContain("pertuzumab");
   });
 });

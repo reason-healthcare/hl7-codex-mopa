@@ -108,13 +108,6 @@ export const REGIMENS: Regimen[] = [
             dosageText: "4 mg/kg IV loading dose week 1, then 2 mg/kg IV weekly (days 1, 8, 15)",
             period: 21,
             daysOfCycle: [1, 8, 15],
-            biosimilars: [
-              {
-                rxnorm: "1992624",
-                display: "trastuzumab-dttb (Ontrudy)",
-                rationale: "Payer requires biosimilar substitution when an FDA-approved biosimilar is available",
-              },
-            ],
           },
         ],
       },
@@ -125,7 +118,7 @@ export const REGIMENS: Regimen[] = [
     label: "ddAC\u2192T \u2014 Dose-dense AC \u2192 Paclitaxel",
     shortLabel: "ddAC\u2192T",
     description:
-      "Dose-dense doxorubicin/cyclophosphamide then paclitaxel. Adjuvant for HER2-negative breast cancer.",
+      "Dose-dense doxorubicin/cyclophosphamide then paclitaxel, with pegfilgrastim (G-CSF) support. Adjuvant for ER-positive, HER2-negative breast cancer when Oncotype DX indicates chemotherapy benefit.",
     canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenDdACT`,
     intent: { code: "373846009", display: "Adjuvant - intent", system: SNOMED },
     treatmentLine: { code: "1L", display: "First-line" },
@@ -153,6 +146,22 @@ export const REGIMENS: Regimen[] = [
             dosageText: "600 mg/m\u00b2 IV, day 1 of each 14-day cycle",
             period: 14,
             daysOfCycle: [1],
+          },
+          {
+            actionId: "pegfilgrastim-ac",
+            title: "Pegfilgrastim 6 mg SC \u2014 day 2 of each 14-day cycle (G-CSF support)",
+            rxnorm: "67108",
+            display: "pegfilgrastim (Neulasta)",
+            dosageText: "6 mg subcutaneous, day 2 of each 14-day cycle (G-CSF support for dose-dense regimen)",
+            period: 14,
+            daysOfCycle: [2],
+            biosimilars: [
+              {
+                rxnorm: "2102692",
+                display: "pegfilgrastim-cbqv (Udenyca)",
+                rationale: "Payer step-therapy policy requires pegfilgrastim-cbqv (Udenyca) unless the patient has received Neulasta in the past 365 days, has a contraindication, or has previously failed Neulasta",
+              },
+            ],
           },
         ],
       },
@@ -208,13 +217,6 @@ export const REGIMENS: Regimen[] = [
             dosageText: "8 mg/kg IV cycle 1, then 6 mg/kg IV q21d, day 1",
             period: 21,
             daysOfCycle: [1],
-            biosimilars: [
-              {
-                rxnorm: "1992624",
-                display: "trastuzumab-dttb (Ontrudy)",
-                rationale: "Payer requires biosimilar substitution when an FDA-approved biosimilar is available",
-              },
-            ],
           },
           {
             actionId: "docetaxel-phd",

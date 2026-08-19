@@ -167,5 +167,8 @@ export function evaluateBreastCancerPolicy(ctx: OncologyContext): CheckResult {
   };
 }
 
+// Demo patient case definitions (single source of truth for EHR + Hub UIs)
+export { DEMO_CASES, type DemoCase, type DemoOutcome } from "./demo-cases";
+
 // Regimen data model and FHIR bundle builder
 export * from "./regimens";

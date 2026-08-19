@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContentPage from "./content/page";
 import ActivityFeed from "./activity/ActivityFeed";
+import { DEMO_CASES, type DemoOutcome } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
 // Diagram primitives
@@ -211,44 +212,11 @@ function ServicesTab() {
 // Tab: Demo Fixtures
 // ---------------------------------------------------------------------------
 
-const FIXTURE_CASES = [
-  {
-    patientId: "jane-smith",
-    mrn: "MRN-001",
-    dob: "1972-04-15",
-    outcome: "Approvable" as const,
-    outcomeNote: "ECOG 0 — PA not required",
-  },
-  {
-    patientId: "maria-garcia",
-    mrn: "MRN-002",
-    dob: "1975-08-22",
-    outcome: "PA Required" as const,
-    outcomeNote: "ECOG 1 — submit PA to payer",
-  },
-  {
-    patientId: "sandra-chen",
-    mrn: "MRN-003",
-    dob: "1963-11-05",
-    outcome: "DTR Required" as const,
-    outcomeNote: "HER2 absent — collect via DTR",
-  },
-  {
-    patientId: "diane-roe",
-    mrn: "MRN-004",
-    dob: "1977-06-22",
-    outcome: "Biosimilar Sub" as const,
-    outcomeNote: "ECOG 0 — payer requires biosimilar substitution",
-  },
-] as const;
-
-type Outcome = (typeof FIXTURE_CASES)[number]["outcome"];
-
-const OUTCOME_STYLE: Record<Outcome, string> = {
+const OUTCOME_STYLE: Record<DemoOutcome, string> = {
   "Approvable": "bg-green-100 text-green-800 border-green-300",
   "PA Required": "bg-amber-100 text-amber-800 border-amber-300",
   "DTR Required": "bg-slate-100 text-slate-700 border-slate-300",
-  "Biosimilar Sub": "bg-violet-100 text-violet-800 border-violet-300",
+  "Step Therapy": "bg-blue-100 text-blue-800 border-blue-300",
 };
 
 function stripXhtml(div: string): string {
@@ -324,9 +292,9 @@ async function DemoFixturesTab() {
   const fhirBase = process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir";
   const ehrBase = process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001";
 
-  // Fetch patient + clinical data for all three cases in parallel
+  // Fetch patient + clinical data for all four cases in parallel
   const caseData = await Promise.all(
-    FIXTURE_CASES.map(async (c) => {
+    DEMO_CASES.map(async (c) => {
       const [patient, conditions, observations] = await Promise.all([
         fetchPatient(fhirBase, c.patientId),
         fetchBundle(`${fhirBase}/Condition?patient=${c.patientId}&_count=10`),
@@ -343,7 +311,7 @@ async function DemoFixturesTab() {
       {/* Instruction bar */}
       <div className="bg-white border border-slate-200 rounded px-4 py-3 flex items-start justify-between gap-6">
         <p className="text-sm text-slate-600">
-          Three patient cases, each pre-loaded with clinical data that exercises a different CDS
+          Four patient cases, each pre-loaded with clinical data that exercises a different CDS
           outcome. Reset to reload all cases into HAPI FHIR, then open each chart in the EHR.
         </p>
         <ResetFixturesButton />

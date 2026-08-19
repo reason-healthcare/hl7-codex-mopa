@@ -6,7 +6,7 @@
 #   - Starting services and loading fixtures
 #   - Path 1: Approvable (all data present, order-select info → sign → PA not required)
 #   - Path 2: DTR Required (HER2 missing → collect → Authorization Satisfied)
-#   - Path 4: Biosimilar Substitution (payer modifies ordered regimen)
+#   - Path 4: Step-Therapy Substitution (payer modifies ordered regimen)
 #
 # Usage:
 #   bash fixtures/demo-walkthrough.sh           # full walkthrough
@@ -93,7 +93,7 @@ echo -e "${DIM}  Four demo patients are available:${RESET}"
 echo -e "${DIM}    Jane Smith   — ECOG 0, HER2+  → Approvable → PA not required${RESET}"
 echo -e "${DIM}    Maria Garcia — ECOG 1, HER2+  → Approvable → PA required${RESET}"
 echo -e "${DIM}    Sandra Chen  — ECOG 1, HER2✗  → DTR Required → Approvable${RESET}"
-echo -e "${DIM}    Diane Roe    — ECOG 0, HER2+  → Approvable + biosimilar substitution${RESET}"
+echo -e "${DIM}    Katherine J.  — ER+, HER2-    → ddAC→T + Udenyca step therapy${RESET}"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Step 0: Setup (skipped in --quick mode)
@@ -117,7 +117,7 @@ if [[ "$QUICK" == false ]]; then
   echo " ready!"
   prompt
 
-  narrate "Loading demo patient fixtures (Jane Smith, Maria Garcia, Sandra Chen, Diane Roe)..."
+  narrate "Loading demo patient fixtures (Jane Smith, Maria Garcia, Sandra Chen, Katherine Johnson)..."
   action "bash fixtures/load-fixtures.sh"
   bash "$SCRIPT_DIR/load-fixtures.sh" "$FHIR_BASE"
   prompt
@@ -253,41 +253,43 @@ narrate "  9. order-select fires again → green 'Approvable'"
 prompt
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Step 6: Path 4 — Biosimilar Substitution (Diane Roe)
+# Step 6: Path 4 — Step-Therapy Substitution (Katherine Johnson)
 # ─────────────────────────────────────────────────────────────────────────────
 
-step "6" "Path 4 — Biosimilar Substitution (Diane Roe)"
+step "6" "Path 4 — Step-Therapy Substitution (Katherine Johnson)"
 
-narrate "Diane Roe: HER2+ breast cancer, Stage IIIA, ECOG 0 — all data present."
-narrate "The payer policy approves the TH regimen but requires a biosimilar"
-narrate "substitution: trastuzumab → trastuzumab-dttb (Ontrudy, RxNorm 1992624)."
+narrate "Katherine Johnson: ER+, HER2- (IHC 1+), Stage IIA, post-menopausal,"
+narrate "Oncotype DX score 28 — adjuvant chemotherapy indicated (NCCN/TAILORx)."
+narrate "The guideline evaluates ddAC→T as eligible. The payer policy approves"
+narrate "but requires step-therapy substitution: pegfilgrastim (Neulasta) →"
+narrate "pegfilgrastim-cbqv (Udenyca, RxNorm 2102692)."
 echo ""
 narrate "order-select fires: all criteria are met → 'Approvable' card (indicator: info)."
 narrate "In addition, the CRD returns a second card — a Propose Alternate Request"
 narrate "card (topic: therapy-alternatives-req) with a CDS Hooks suggestion:"
-narrate "  • 'Accept Substitution (trastuzumab → trastuzumab-dttb)' button"
-narrate "  • 'Override' button"
-narrate "  • Override reasons: clinical contraindication, patient preference, formulary exception"
+narrate "  • 'Accept Substitution (pegfilgrastim → Udenyca)' button"
+narrate "  • 'Override' button — but the order will NOT be approved without the substitution"
 echo ""
 narrate "The suggestion card uses delete + create actions:"
-narrate "  • delete: removes the original trastuzumab MedicationRequest (by resourceId)"
-narrate "  • create: adds a replacement MedicationRequest with trastuzumab-dttb (RxNorm 1992624)"
+narrate "  • delete: removes the original pegfilgrastim MedicationRequest (by resourceId)"
+narrate "  • create: adds a replacement MedicationRequest with Udenyca (RxNorm 2102692)"
 echo ""
 narrate "If the provider accepts: the EHR applies the actions in-session, updates"
 narrate "RequestGroup references, and sends the modified Bundle to order-sign."
-narrate "If overridden: the original order proceeds to order-sign unchanged."
+narrate "If overridden: the original order proceeds to order-sign, but the CRD"
+narrate "returns 'PA Required' — the order will not be approved without the substitution."
 echo ""
-narrate "A violet 'Biosimilar Sub' badge appears in the patient list."
+narrate "A blue 'Step Therapy' badge appears in the patient list."
 echo ""
 action "Open: $EHR_URL"
-narrate "  1. Click 'Diane Roe' — violet 'Biosimilar Sub' badge in patient list"
-narrate "  2. Go to Order Entry → select 'TH — Trastuzumab + Paclitaxel'"
-narrate "  3. Check Coverage → 'Approvable' card + violet suggestion panel"
+narrate "  1. Click 'Katherine Johnson' — blue 'Step Therapy' badge in patient list"
+narrate "  2. Go to Order Entry → select 'ddAC→T — Dose-dense AC → Paclitaxel'"
+narrate "  3. Check Coverage → 'Approvable' card + blue suggestion panel"
 narrate "  4. Click 'Accept Substitution' → draft orders updated in-session"
 narrate "  5. Sign Order → 'Authorization Satisfied' (modified Bundle sent to order-sign)"
 narrate "  OR"
 narrate "  4b. Click 'Override' → original order preserved"
-narrate "  5b. Sign Order → 'Authorization Satisfied' with substitution note"
+narrate "  5b. Sign Order → 'PA Required' — not approved without substitution"
 prompt
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -356,42 +358,42 @@ narrate "order-select for Sandra Chen: HER2 is missing → indicator: 'warning'"
 narrate "'Documentation Required' card with a SMART link to launch the DTR client."
 prompt
 
-narrate "Now let's try Diane Roe (all data present, biosimilar substitution):"
+narrate "Now let's try Katherine Johnson (ER+, HER2-, step-therapy substitution):"
 echo ""
 
-# Build a TH regimen draft order for Diane Roe
+# Build a ddAC-T regimen draft order for Katherine Johnson
 RESPONSE3=$(curl -sf -X POST "$CRD_URL/api/cds-services/oncology-crd"   -H "Content-Type: application/json"   -d "{
     "hookInstance": "demo-walkthrough-3",
     "hook": "order-select",
     "context": {
       "userId": "Practitioner/demo",
-      "patientId": "diane-roe",
+      "patientId": "katherine-johnson",
       "draftOrders": {
         "resourceType": "Bundle",
         "type": "collection",
         "entry": [{
-          "fullUrl": "urn:uuid:rg-TH",
+          "fullUrl": "urn:uuid:rg-ddAC-T",
           "resource": {
             "resourceType": "RequestGroup",
-            "id": "rg-TH",
+            "id": "rg-ddAC-T",
             "status": "draft",
             "intent": "order",
-            "instantiatesCanonical": ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"]
+            "instantiatesCanonical": ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenDdACT"]
           }
         }]
       },
-      "selections": ["urn:uuid:rg-TH"]
+      "selections": ["urn:uuid:rg-ddAC-T"]
     },
     "fhirServer": "$FHIR_BASE"
   }" 2>/dev/null || echo '{"error": "CRD service unreachable"}')
 
 echo "$RESPONSE3" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE3"
 echo ""
-narrate "order-select for Diane Roe: two cards returned —"
+narrate "order-select for Katherine Johnson: two cards returned —"
 narrate "  Card 1: 'Approvable' (indicator: info)"
 narrate "  Card 2: 'Payer Modification Required' (indicator: info, topic: therapy-alternatives-req)"
-narrate "    with suggestions[0].actions containing delete + create for the biosimilar"
-narrate "    substitution, selectionBehavior: at-most-one, and overrideReasons."
+narrate "    with suggestions[0].actions containing delete + create for the"
+narrate "    pegfilgrastim → Udenyca step-therapy substitution."
 prompt
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -440,11 +442,12 @@ echo -e "  4. ${BOLD}PAS${RESET} — invoked when PA is required (ECOG ≥ 1). T
 echo -e "     evaluates the PA request and returns a ClaimResponse. For biosimilar"
 echo -e "     substitutions, processNote entries surface the payer modification."
 echo ""
-echo -e "  5. ${BOLD}Biosimilar Substitution${RESET} — payer approves the TH regimen but"
-echo -e "     requires trastuzumab → trastuzumab-dttb (Ontrudy). At order-select,"
+echo -e "  5. ${BOLD}Step-Therapy Substitution${RESET} — payer approves the ddAC→T regimen but"
+echo -e "     requires pegfilgrastim (Neulasta) → Udenyca. At order-select,"
 echo -e "     the CRD returns a Propose Alternate Request card with a suggestion"
-echo -e "     (delete + create actions). The provider can Accept (EHR updates draft"
-echo -e "     orders in-session) or Override. The PAS ClaimResponse also carries"
+echo -e "     (delete + create actions). The provider must Accept to get approval"
+echo -e "     (EHR updates draft orders in-session). If overridden, the order"
+echo -e "     is NOT approved at sign. The PAS ClaimResponse also carries"
 echo -e "     the substitution detail in processNote entries."
 echo ""
 echo -e "${DIM}  Services:${RESET}"

@@ -13,7 +13,6 @@ const SVC_BADGE: Record<ServiceName, string> = {
   pas:   "bg-slate-100  text-slate-700  border-slate-300",
   payer: "bg-orange-100 text-orange-800 border-orange-300",
   ehr:   "bg-slate-800  text-white      border-slate-700",
-  smart: "bg-blue-100   text-blue-800   border-blue-300",
   hub:   "bg-teal-100   text-teal-800   border-teal-300",
 };
 
@@ -23,7 +22,6 @@ const SVC_DOT: Record<ServiceName, string> = {
   pas:   "bg-slate-400",
   payer: "bg-orange-400",
   ehr:   "bg-slate-600",
-  smart: "bg-blue-400",
   hub:   "bg-teal-400",
 };
 
@@ -302,7 +300,7 @@ export default function ActivityFeed() {
   const filtered = filter === "all" ? entries : entries.filter((e) => e.service === filter);
   const groups   = groupEntries(filtered);
 
-  const services: Array<ServiceName | "all"> = ["all", "crd", "dtr", "pas", "payer", "smart"];
+  const services: Array<ServiceName | "all"> = ["all", "crd", "dtr", "pas", "payer", "ehr", "hub"];
 
   return (
     <div className="flex flex-col gap-3 w-full">

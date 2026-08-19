@@ -1,0 +1,405 @@
+{
+  "resourceType": "Bundle",
+  "id": "katherine-johnson-fixtures",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:katherine-johnson",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "katherine-johnson",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Katherine Johnson</b>, 52-year-old female (DOB 1974-03-15). Invasive ductal carcinoma of the right breast, Stage IIA (T2 N0 M0), diagnosed January 2026. ER+, PR-, HER2- (IHC 1+). Post-menopausal. Oncotype DX recurrence score 28. ECOG Performance Status 0. Surgery (lumpectomy + sentinel lymph node biopsy) completed; no prior systemic therapy.</p><p><b>Clinical scenario (CodeX PA in MedOnc POC base case):</b> Adjuvant systemic therapy selection after surgery. Oncotype DX score 28 supports adjuvant chemotherapy. Proposed regimen: dose-dense AC/T with pegfilgrastim (Neulasta) support. Payer step-therapy policy requires pegfilgrastim-cbqv (Udenyca) unless exception criteria are met.</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR"
+                }
+              ]
+            },
+            "system": "http://mopa-reference.example.org/mrn",
+            "value": "MRN-004"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Johnson",
+            "given": ["Katherine", "Mae"]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1974-03-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/katherine-johnson"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-breast-cancer",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "katherine-johnson-breast-cancer",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "problem-list-item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "372137005",
+              "display": "Primary malignant neoplasm of breast"
+            },
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "C50.911",
+              "display": "Malignant neoplasm of unspecified site of right female breast"
+            }
+          ],
+          "text": "Invasive ductal carcinoma of the breast (right)"
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "onsetDateTime": "2026-01-15",
+        "recordedDate": "2026-01-20"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/katherine-johnson-breast-cancer"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-er-status",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-er-status",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85337-4",
+              "display": "Estrogen receptor Ag [Presence] in Breast cancer specimen by Immune stain"
+            }
+          ],
+          "text": "ER Status (IHC)"
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-01-18",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "10828004",
+              "display": "Positive (qualifier value)"
+            }
+          ],
+          "text": "ER positive"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-er-status"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-pr-status",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-pr-status",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85339-0",
+              "display": "Progesterone receptor Ag [Presence] in Breast cancer specimen by Immune stain"
+            }
+          ],
+          "text": "PR Status (IHC)"
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-01-18",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009",
+              "display": "Negative (qualifier value)"
+            }
+          ],
+          "text": "PR negative"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-pr-status"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-her2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-her2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85319-2",
+              "display": "HER2, Breast cancer specimen"
+            }
+          ],
+          "text": "HER2 Status (IHC)"
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-01-18",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009",
+              "display": "Negative (qualifier value)"
+            }
+          ],
+          "text": "IHC 1+ (Negative)"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-her2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-cancer-stage",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-cancer-stage",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "21908-9",
+              "display": "Stage group.clinical Cancer"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-01-18",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1222766008",
+              "display": "American Joint Committee on Cancer stage IIA (qualifier value)"
+            }
+          ],
+          "text": "Stage IIA (T2 N0 M0)"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-cancer-stage"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-oncotypedx",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-oncotypedx",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "76761-1",
+              "display": "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method"
+            }
+          ],
+          "text": "Oncotype DX Recurrence Score"
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-02-10",
+        "valueInteger": 28
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-oncotypedx"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-menopausal-status",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-menopausal-status",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "428361000124107",
+              "display": "Postmenopausal state"
+            }
+          ],
+          "text": "Menopausal status"
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-01-15",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "428361000124107",
+              "display": "Postmenopausal state"
+            }
+          ],
+          "text": "Post-menopausal"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-menopausal-status"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:katherine-johnson-ecog-ps",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "katherine-johnson-ecog-ps",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "89247-1",
+              "display": "ECOG Performance Status score"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/katherine-johnson"
+        },
+        "effectiveDateTime": "2026-02-15",
+        "valueInteger": 0
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/katherine-johnson-ecog-ps"
+      }
+    }
+  ]
+}
