@@ -23,12 +23,8 @@ export default function OrderEntryPage({
   const [paError, setPaError] = useState<string | null>(null);
   const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
 
-  // Suggestion state — tracks whether the provider accepted or overrode
-  // a biosimilar substitution proposed by the CRD at order-select.
   const [suggestionAccepted, setSuggestionAccepted] = useState(false);
   const [suggestionOverridden, setSuggestionOverridden] = useState(false);
-  // The modified draftOrders Bundle after applying substitution actions.
-  // When set, this is sent to order-sign instead of the regimen template.
   const [modifiedDraftOrders, setModifiedDraftOrders] = useState<object | null>(null);
 
   useEffect(() => {
@@ -86,45 +82,24 @@ export default function OrderEntryPage({
     callCrdHook("order-select", regimen, setCards);
   }
 
-  /**
-   * Accept a biosimilar substitution suggestion.
-   *
-   * Applies the CDS Hooks suggestion actions (delete + create) to the
-   * draft orders Bundle, producing a modified Bundle that is sent to
-   * order-sign instead of the regimen template.
-   */
   function onAcceptSuggestion() {
     if (!selected) return;
-
     const suggestionCard = cards.find((c) => c.suggestions?.length);
     if (!suggestionCard?.suggestions) return;
-
-    // Start from the regimen template draft orders
     const bundle = buildDraftBundle(patientId, selected) as {
       resourceType: string;
       type: string;
       entry: Array<{ fullUrl: string; resource: Record<string, unknown> }>;
     };
-
-    // Collect all actions across all suggestions
     const allActions: CdsAction[] = suggestionCard.suggestions.flatMap((s) => s.actions ?? []);
-
-    // Apply delete actions: remove entries whose fullUrl matches resourceId
-    const deleteIds = new Set(
-      allActions.filter((a) => a.type === "delete").map((a) => a.resourceId)
-    );
+    const deleteIds = new Set(allActions.filter((a) => a.type === "delete").map((a) => a.resourceId));
     let entries = bundle.entry.filter((e) => !deleteIds.has(e.fullUrl));
-
-    // Apply create actions: add new entries with generated fullUrls
     for (const action of allActions.filter((a) => a.type === "create")) {
       if (!action.resource) continue;
       const resource = action.resource as Record<string, unknown>;
       const newId = (resource.id as string) ?? crypto.randomUUID();
       entries.push({ fullUrl: `urn:uuid:${newId}`, resource });
     }
-
-    // Update the RequestGroup's action references to point to the new resources
-    // (the RequestGroup is always the first entry)
     const rgEntry = entries.find((e) => e.resource.resourceType === "RequestGroup");
     if (rgEntry) {
       const actions = rgEntry.resource.action as Array<Record<string, unknown>> | undefined;
@@ -135,7 +110,6 @@ export default function OrderEntryPage({
           for (const drugAction of drugActions) {
             const ref = drugAction.resource as { reference: string } | undefined;
             if (ref && deleteIds.has(ref.reference)) {
-              // Point to the first created resource (the replacement)
               const created = allActions.find((a) => a.type === "create");
               if (created?.resource) {
                 const newRes = created.resource as Record<string, unknown>;
@@ -147,9 +121,7 @@ export default function OrderEntryPage({
         }
       }
     }
-
-    const modifiedBundle = { ...bundle, entry: entries };
-    setModifiedDraftOrders(modifiedBundle);
+    setModifiedDraftOrders({ ...bundle, entry: entries });
     setSuggestionAccepted(true);
     setSuggestionOverridden(false);
   }
@@ -157,15 +129,12 @@ export default function OrderEntryPage({
   function onOverrideSuggestion() {
     setSuggestionOverridden(true);
     setSuggestionAccepted(false);
-    // Keep the original draft orders — no modification needed
   }
 
   function onSignOrder() {
     if (!selected) return;
     setClaimResponse(null);
     setPaError(null);
-    // If the substitution was accepted, send the modified draft orders to order-sign
-    // so the CRD sees the biosimilar MedicationRequest and returns "Authorization Satisfied".
     const draftOverride = suggestionAccepted ? modifiedDraftOrders ?? undefined : undefined;
     callCrdHook("order-sign", selected, (newCards) => {
       setCards(newCards);
@@ -173,7 +142,6 @@ export default function OrderEntryPage({
     }, draftOverride);
   }
 
-  // PA submission only applies if a prior-auth-required card is returned
   const hasPaCard = cards.some((c) => c.source.topic?.code === "prior-auth-required");
 
   async function submitPa() {
@@ -185,11 +153,7 @@ export default function OrderEntryPage({
       const res = await fetch("/api/pa-submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          patientId,
-          regimenId: selected.id,
-          regimenLabel: selected.label,
-        }),
+        body: JSON.stringify({ patientId, regimenId: selected.id, regimenLabel: selected.label }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -205,35 +169,80 @@ export default function OrderEntryPage({
   }
 
   return (
-    <div className="space-y-6">
-      {/* Regimen selector */}
-      <RegimenSelector
-        regimens={REGIMENS}
-        selectedId={selected?.id}
-        onSelect={onSelectRegimen}
-      />
+    <div className="flex gap-4">
+      {/* ── Left: Regimen selection + order details ── */}
+      <div className="w-80 flex-shrink-0 space-y-4">
+        <RegimenSelector regimens={REGIMENS} selectedId={selected?.id} onSelect={onSelectRegimen} />
 
-      {/* Loading */}
-      {loading && (
-        <div className="flex items-center gap-2 text-sm text-slate-500">
-          <span
-            className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0"
-            aria-hidden="true"
-          />
-          Consulting CRD service…
-        </div>
-      )}
+        {/* Order details for selected regimen */}
+        {selected && (
+          <div className="border border-slate-200 rounded-lg overflow-hidden">
+            <div className="bg-slate-50 px-3 py-2 border-b border-slate-200">
+              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Order Details</span>
+            </div>
+            <div className="p-3 space-y-3">
+              {selected.phases.map((phase) => (
+                <div key={phase.id}>
+                  <p className="text-xs font-medium text-slate-500">{phase.title}</p>
+                  <ul className="mt-1 space-y-1.5">
+                    {phase.drugs.map((drug) => (
+                      <li key={drug.actionId} className="text-sm">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-slate-800">{drug.display}</span>
+                          {drug.biosimilars?.map((bio) => (
+                            <span key={bio.rxnorm} className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800">
+                              → {bio.display}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-xs text-slate-400">{drug.dosageText}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-      {/* Error */}
-      {error && (
-        <div className="border border-red-200 bg-red-50 rounded px-4 py-3 text-sm text-red-700">
-          <span className="font-semibold">CRD error:</span> {error}
-        </div>
-      )}
+        {/* Sign Order */}
+        {selected && !loading && (
+          <div className="flex items-center gap-4 pt-1">
+            {signed ? (
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700">
+                <span aria-hidden="true">✓</span> Order Signed
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={onSignOrder}
+                className="w-full px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 transition-colors"
+              >
+                Sign Order
+              </button>
+            )}
+          </div>
+        )}
+      </div>
 
-      {/* Coverage Discovery panel — shows draft order details + coverage determination */}
-      {cards.length > 0 && activeHook && (
-        <section>
+      {/* ── Right: CDS guidance + PA ── */}
+      <div className="flex-1 min-w-0 space-y-4">
+        <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Coverage Discovery</h2>
+
+        {loading && (
+          <div className="flex items-center gap-2 text-sm text-slate-500">
+            <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+            Consulting CRD service…
+          </div>
+        )}
+
+        {error && (
+          <div className="border border-red-200 bg-red-50 rounded px-4 py-3 text-sm text-red-700">
+            <span className="font-semibold">CRD error:</span> {error}
+          </div>
+        )}
+
+        {cards.length > 0 && activeHook && (
           <CrdResponsePanel
             cards={cards}
             hook={activeHook}
@@ -245,66 +254,45 @@ export default function OrderEntryPage({
             suggestionAccepted={suggestionAccepted}
             suggestionOverridden={suggestionOverridden}
           />
-        </section>
-      )}
+        )}
 
-      {/* Sign Order */}
-      {selected && !loading && (
-        <section className="flex items-center gap-4 pt-1 border-t border-slate-200">
-          {signed ? (
-            <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700">
-              <span aria-hidden="true">✓</span> Order Signed
-            </span>
-          ) : (
-            <button
-              type="button"
-              onClick={onSignOrder}
-              className="px-5 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700 transition-colors"
-            >
-              Sign Order
-            </button>
-          )}
-          {!signed && (
-            <p className="text-xs text-slate-400">
-              Signing fires the order-sign hook and initiates authorization.
-            </p>
-          )}
-        </section>
-      )}
+        {!selected && !loading && (
+          <div className="border border-slate-200 rounded-lg px-6 py-10 text-center">
+            <p className="text-sm text-slate-400">Select a regimen to begin coverage discovery.</p>
+          </div>
+        )}
 
-      {/* Prior Authorization — action section, distinct from the CDS card that requests it */}
-      {hasPaCard && (
-        <section className="border border-slate-200 rounded overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
-            <h2 className="text-sm font-semibold text-slate-800">Prior Authorization</h2>
-            <p className="text-sm text-slate-500 mt-0.5">
-              Submit a prior-authorization request to the payer for a coverage determination.
-            </p>
+        {/* Prior Authorization */}
+        {hasPaCard && (
+          <div className="border border-slate-200 rounded-lg overflow-hidden">
+            <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200">
+              <h3 className="text-sm font-semibold text-slate-800">Prior Authorization</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Submit a PA request to the payer for a coverage determination.
+              </p>
+            </div>
+            <div className="px-4 py-3 space-y-3">
+              {paError && (
+                <div className="border border-red-200 bg-red-50 rounded px-3 py-2 text-sm text-red-700">
+                  {paError}
+                </div>
+              )}
+              {claimResponse ? (
+                <ClaimResponseDisplay outcome={claimResponse.outcome} disposition={claimResponse.disposition} />
+              ) : (
+                <button
+                  type="button"
+                  onClick={submitPa}
+                  disabled={paSubmitting}
+                  className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
+                </button>
+              )}
+            </div>
           </div>
-          <div className="px-4 py-3 space-y-3">
-            {paError && (
-              <div className="border border-red-200 bg-red-50 rounded px-3 py-2 text-sm text-red-700">
-                {paError}
-              </div>
-            )}
-            {claimResponse ? (
-              <ClaimResponseDisplay
-                outcome={claimResponse.outcome}
-                disposition={claimResponse.disposition}
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={submitPa}
-                disabled={paSubmitting}
-                className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700 transition-colors"
-              >
-                {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
-              </button>
-            )}
-          </div>
-        </section>
-      )}
+        )}
+      </div>
     </div>
   );
 }

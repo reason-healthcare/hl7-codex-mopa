@@ -4,77 +4,30 @@ import {
   BundleSchema,
   ConditionSchema,
   ObservationSchema,
-  getPatientDisplayName,
 } from "@mopa/fhir-client";
 import type { Condition, Observation, Patient } from "@mopa/fhir-client";
 import Link from "next/link";
+import {
+  categorizeObservations,
+  conditionDisplay,
+  obsDisplay,
+  formatObsValue,
+  shortSystem,
+  calculateAge,
+  type CategorizedObs,
+} from "./_lib/chart-helpers";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
 function getFhirClient() {
-  return new Client({
-    baseUrl: process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir",
-  });
+  return new Client({ baseUrl: process.env.FHIR_BASE_URL ?? "http://localhost:8080/fhir" });
 }
 
 const SYS_ICD10 = "http://hl7.org/fhir/sid/icd-10-cm";
 const SYS_SNOMED = "http://snomed.info/sct";
 const SYS_LOINC = "http://loinc.org";
-
-type Coding = { system?: string; code?: string; display?: string };
-
-/**
- * Return the first coding whose system matches one of the given systems,
- * checked in priority order. Falls back to the first coding if none match.
- */
-function pickCoding(codings: Coding[] | undefined, ...priority: string[]): Coding | undefined {
-  if (!codings?.length) return undefined;
-  for (const sys of priority) {
-    const match = codings.find((c) => c.system === sys);
-    if (match) return match;
-  }
-  return codings[0];
-}
-
-/** Display name for a Condition — ICD-10-CM preferred, SNOMED fallback. */
-function conditionDisplay(cond: Condition): string {
-  const c = pickCoding(cond.code?.coding, SYS_ICD10, SYS_SNOMED);
-  return c?.display ?? cond.code?.text ?? "Unknown";
-}
-
-/** Display name for an Observation — LOINC preferred, SNOMED fallback. */
-function obsDisplay(obs: Observation): string {
-  const c = pickCoding(obs.code?.coding, SYS_LOINC, SYS_SNOMED);
-  return c?.display ?? obs.code?.text ?? "Unknown";
-}
-
-function formatObsValue(obs: Observation): string {
-  if (obs.valueCodeableConcept) {
-    const c = pickCoding(obs.valueCodeableConcept.coding, SYS_SNOMED, SYS_LOINC);
-    return c?.display ?? c?.code ?? obs.valueCodeableConcept.text ?? "—";
-  }
-  if (obs.valueQuantity) {
-    return `${obs.valueQuantity.value ?? ""} ${obs.valueQuantity.unit ?? ""}`.trim();
-  }
-  if (obs.valueInteger !== undefined) return String(obs.valueInteger);
-  if (obs.valueString) return obs.valueString;
-  return "—";
-}
-
-/** Shorten a FHIR system URL to a human-readable label. */
-function shortSystem(system: string | undefined): string {
-  if (!system) return "";
-  if (system === SYS_ICD10) return "ICD-10-CM";
-  if (system.includes("icd-10")) return "ICD-10";
-  if (system.includes("icd")) return "ICD";
-  if (system.includes("loinc")) return "LOINC";
-  if (system.includes("snomed")) return "SNOMED CT";
-  if (system.includes("unitsofmeasure")) return "UCUM";
-  if (system.includes("rxnorm")) return "RxNorm";
-  return system.split("/").filter(Boolean).pop() ?? system;
-}
 
 function bundleResources<T>(raw: unknown, resourceType: string, parse: (r: unknown) => T): T[] {
   const bundle = BundleSchema.parse(raw);
@@ -95,13 +48,11 @@ export default async function PatientChartPage({ params }: PageProps) {
 
   try {
     patient = PatientSchema.parse(await client.read({ resourceType: "Patient", id }));
-
     conditions = bundleResources(
       await client.search({ resourceType: "Condition", searchParams: { patient: id } }),
       "Condition",
       (r) => ConditionSchema.parse(r)
     );
-
     observations = bundleResources(
       await client.search({
         resourceType: "Observation",
@@ -116,7 +67,7 @@ export default async function PatientChartPage({ params }: PageProps) {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <div className="px-6 py-8">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-xl">
           <h2 className="text-red-700 font-semibold text-lg mb-2">Error loading patient</h2>
           <p className="text-red-600 text-sm font-mono">{error}</p>
@@ -130,168 +81,163 @@ export default async function PatientChartPage({ params }: PageProps) {
 
   if (!patient) return null;
 
-  const displayName = getPatientDisplayName(patient);
+  const { biomarkers, staging, labs } = categorizeObservations(observations);
+  const age = patient.birthDate ? calculateAge(patient.birthDate) : null;
 
   return (
-    <main className="w-full max-w-5xl mx-auto px-6 py-8 space-y-8">
-      {/* Back link */}
-      <Link href="/" className="text-xs text-slate-500 hover:text-slate-700 transition-colors">
-        ← Patient List
-      </Link>
-
-      {/* Patient banner */}
-      <div className="bg-slate-50 border border-slate-200 rounded-lg px-5 py-4 flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-base font-semibold text-slate-900">{displayName}</h1>
-          <div className="flex items-center gap-4 text-xs text-slate-500 mt-1">
-            {patient.birthDate && <span>DOB: {patient.birthDate}</span>}
-            {patient.gender && <span className="capitalize">Sex: {patient.gender}</span>}
-            <span className="font-mono text-slate-400">ID: {patient.id}</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <Link
-            href={`/patients/${patient.id}/orders`}
-            className="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded font-medium transition-colors text-white"
-          >
-            Order Entry →
-          </Link>
-
-        </div>
+    <div className="px-5 py-4 space-y-5 max-w-5xl">
+      {/* ── Action bar ── */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-base font-semibold text-slate-800">Chart Review</h1>
+        <Link
+          href={`/patients/${id}/orders`}
+          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+        >
+          New Order Entry →
+        </Link>
       </div>
-      {/* Demographics */}
-      <section>
-        <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
-          Demographics
-        </h2>
-        <dl className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <dt className="text-slate-500">Full Name</dt>
-            <dd className="font-medium">{displayName}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">Date of Birth</dt>
-            <dd className="font-medium">{patient.birthDate ?? "—"}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">Gender</dt>
-            <dd className="font-medium capitalize">{patient.gender ?? "—"}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">FHIR ID</dt>
-            <dd className="font-mono text-xs text-slate-500">{patient.id}</dd>
-          </div>
-          {patient.identifier?.map((ident) => (
-            <div key={ident.value ?? ident.system ?? ident.use ?? "id"}>
-              <dt className="text-slate-500">
-                {ident.type?.coding?.[0]?.code ?? ident.system ?? "Identifier"}
-              </dt>
-              <dd className="font-medium">{ident.value ?? "—"}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
-      {/* Problem List */}
-      <section>
-        <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
-          Problem List
-        </h2>
-        {conditions.length === 0 ? (
-          <p className="text-slate-400 text-sm italic">No conditions recorded.</p>
-        ) : (
-          <table className="w-full text-sm border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-left">
-                <th className="px-3 py-2 font-medium text-slate-600">Condition</th>
-                <th className="px-3 py-2 font-medium text-slate-600">Status</th>
-                <th className="px-3 py-2 font-medium text-slate-600">Onset</th>
-              </tr>
-            </thead>
-            <tbody>
-              {conditions.map((cond) => {
-                const codeCoding = pickCoding(cond.code?.coding, SYS_ICD10, SYS_SNOMED);
+      {/* ── Clinical Synopsis ── */}
+      <div className="border border-slate-200 rounded-lg overflow-hidden">
+        <div className="bg-slate-50 px-4 py-2 border-b border-slate-200">
+          <h2 className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Clinical Synopsis</h2>
+        </div>
+
+        {/* Problem List */}
+        <div className="border-b border-slate-100">
+          <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
+            <span className="text-xs font-medium text-slate-500">Problem List</span>
+          </div>
+          {conditions.length === 0 ? (
+            <p className="px-4 py-3 text-sm text-slate-400 italic">No conditions recorded.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <tbody>
+                {conditions.map((cond) => {
+                  const code = cond.code?.coding?.find((c) => c.system === SYS_ICD10) ?? cond.code?.coding?.[0];
+                  return (
+                    <tr key={cond.id} className="border-b border-slate-50 last:border-0">
+                      <td className="px-4 py-2">
+                        <span className="font-medium text-slate-800">{conditionDisplay(cond)}</span>
+                        {code?.code && (
+                          <span className="ml-2 text-xs font-mono text-slate-400">
+                            {code.code} · {shortSystem(code.system)}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 text-right">
+                        <span className="inline-flex items-center gap-1 text-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                          <span className="text-slate-600 capitalize">{cond.clinicalStatus?.coding?.[0]?.code ?? "—"}</span>
+                        </span>
+                      </td>
+                      <td className="px-4 py-2 text-right text-xs text-slate-400 whitespace-nowrap">
+                        {cond.onsetDateTime?.slice(0, 10) ?? "—"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {/* Biomarker Results */}
+        {biomarkers.length > 0 && (
+          <div className="border-b border-slate-100">
+            <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
+              <span className="text-xs font-medium text-slate-500">Biomarker Results</span>
+            </div>
+            <div className="grid grid-cols-3 divide-x divide-slate-100">
+              {biomarkers.map((b) => {
+                const label = b.label.split(" ")[0];
+                const isPositive = b.valueCode === "10828004" || b.valueCode === "416940007";
                 return (
-                  <tr key={cond.id} className="border-t border-slate-200 hover:bg-slate-50">
-                    <td className="px-3 py-2">
-                      {conditionDisplay(cond)}
-                      {codeCoding?.code && (
-                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                          {codeCoding.code}
-                          {codeCoding.system && (
-                            <span className="font-sans"> · {shortSystem(codeCoding.system)}</span>
-                          )}
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-3 py-2 capitalize">
-                      {cond.clinicalStatus?.coding?.[0]?.code ?? "—"}
-                    </td>
-                    <td className="px-3 py-2">{cond.onsetDateTime?.slice(0, 10) ?? "—"}</td>
-                  </tr>
+                  <div key={b.obs.id} className="px-4 py-3">
+                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">{label}</p>
+                    <p className={`text-sm font-semibold mt-0.5 ${isPositive ? "text-rose-700" : "text-slate-700"}`}>
+                      {b.value}
+                    </p>
+                    <p className="text-[10px] text-slate-400 mt-0.5 font-mono">{b.code} · {shortSystem(b.system)}</p>
+                    <p className="text-[10px] text-slate-400">{b.date}</p>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
+            </div>
+          </div>
         )}
-      </section>
 
-      {/* Observations */}
-      <section>
-        <h2 className="text-sm font-semibold text-slate-700 border-b border-slate-200 pb-2 mb-4">
-          Observations
-        </h2>
-        {observations.length === 0 ? (
-          <p className="text-slate-400 text-sm italic">No observations recorded.</p>
-        ) : (
-          <table className="w-full text-sm border-collapse">
+        {/* Staging & Genomic */}
+        {staging.length > 0 && (
+          <div className="border-b border-slate-100">
+            <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
+              <span className="text-xs font-medium text-slate-500">Staging &amp; Clinical Assessment</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-100">
+              {staging.map((s) => (
+                <div key={s.obs.id} className="px-4 py-3">
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">
+                    {s.label.length > 40 ? s.code : s.label}
+                  </p>
+                  <p className="text-sm font-semibold mt-0.5 text-slate-700">{s.value}</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5 font-mono">{s.code} · {shortSystem(s.system)}</p>
+                  <p className="text-[10px] text-slate-400">{s.date}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Other Labs */}
+        {labs.length > 0 && (
+          <div>
+            <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
+              <span className="text-xs font-medium text-slate-500">Other Observations</span>
+            </div>
+            <table className="w-full text-sm">
+              <tbody>
+                {labs.map((l) => (
+                  <tr key={l.obs.id} className="border-b border-slate-50 last:border-0">
+                    <td className="px-4 py-1.5 text-slate-700">{l.label}</td>
+                    <td className="px-4 py-1.5 text-slate-600 font-medium">{l.value}</td>
+                    <td className="px-4 py-1.5 text-xs text-slate-400 font-mono">{l.code} · {shortSystem(l.system)}</td>
+                    <td className="px-4 py-1.5 text-xs text-slate-400 text-right whitespace-nowrap">{l.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* ── All Observations (expandable) ── */}
+      {observations.length > 0 && (
+        <details className="border border-slate-200 rounded-lg overflow-hidden">
+          <summary className="px-4 py-2 bg-slate-50 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-slate-100 transition-colors">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+              All Observations ({observations.length})
+            </span>
+          </summary>
+          <table className="w-full text-sm">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-left">
-                <th className="px-3 py-2 font-medium text-slate-600">Observation</th>
-                <th className="px-3 py-2 font-medium text-slate-600">Value</th>
-                <th className="px-3 py-2 font-medium text-slate-600">Status</th>
-                <th className="px-3 py-2 font-medium text-slate-600">Date</th>
+                <th className="px-3 py-2 font-medium text-slate-600 text-xs">Observation</th>
+                <th className="px-3 py-2 font-medium text-slate-600 text-xs">Value</th>
+                <th className="px-3 py-2 font-medium text-slate-600 text-xs">Code</th>
+                <th className="px-3 py-2 font-medium text-slate-600 text-xs">Date</th>
               </tr>
             </thead>
             <tbody>
               {observations.map((obs) => {
-                const obsCoding = pickCoding(obs.code?.coding, SYS_LOINC, SYS_SNOMED);
-                const valCoding = obs.valueCodeableConcept?.coding?.[0];
-                const valQty = obs.valueQuantity;
+                const coding = obs.code?.coding?.find((c) => c.system === SYS_LOINC) ?? obs.code?.coding?.[0];
                 return (
-                  <tr key={obs.id} className="border-t border-slate-200 hover:bg-slate-50">
-                    <td className="px-3 py-2">
-                      {obsDisplay(obs)}
-                      {obsCoding?.code && (
-                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                          {obsCoding.code}
-                          {obsCoding.system && (
-                            <span className="font-sans"> · {shortSystem(obsCoding.system)}</span>
-                          )}
-                        </div>
-                      )}
+                  <tr key={obs.id} className="border-t border-slate-100">
+                    <td className="px-3 py-1.5 text-slate-700">{obsDisplay(obs)}</td>
+                    <td className="px-3 py-1.5 text-slate-600 font-medium">{formatObsValue(obs)}</td>
+                    <td className="px-3 py-1.5 text-xs text-slate-400 font-mono">
+                      {coding?.code ?? "—"} · {shortSystem(coding?.system)}
                     </td>
-                    <td className="px-3 py-2">
-                      {formatObsValue(obs)}
-                      {valCoding?.code && (
-                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                          {valCoding.code}
-                          {valCoding.system && (
-                            <span className="font-sans"> · {shortSystem(valCoding.system)}</span>
-                          )}
-                        </div>
-                      )}
-                      {!valCoding && valQty?.code && (
-                        <div className="text-xs text-slate-400 mt-0.5 font-mono">
-                          {valQty.code}
-                          {valQty.system && (
-                            <span className="font-sans"> · {shortSystem(valQty.system)}</span>
-                          )}
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-3 py-2 capitalize">{obs.status ?? "—"}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">
+                    <td className="px-3 py-1.5 text-xs text-slate-400 whitespace-nowrap">
                       {obs.effectiveDateTime?.slice(0, 10) ?? "—"}
                     </td>
                   </tr>
@@ -299,8 +245,49 @@ export default async function PatientChartPage({ params }: PageProps) {
               })}
             </tbody>
           </table>
-        )}
-      </section>
-    </main>
+        </details>
+      )}
+
+      {/* ── Demographics detail ── */}
+      <details className="border border-slate-200 rounded-lg overflow-hidden">
+        <summary className="px-4 py-2 bg-slate-50 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-slate-100 transition-colors">
+          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Demographics</span>
+        </summary>
+        <dl className="grid grid-cols-2 gap-4 text-sm px-4 py-3">
+          <div>
+            <dt className="text-slate-500 text-xs">Date of Birth</dt>
+            <dd className="font-medium">{patient.birthDate ?? "—"}{age !== null && ` (${age} yrs)`}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500 text-xs">Gender</dt>
+            <dd className="font-medium capitalize">{patient.gender ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500 text-xs">FHIR ID</dt>
+            <dd className="font-mono text-xs text-slate-500">{patient.id}</dd>
+          </div>
+          {patient.identifier?.map((ident) => (
+            <div key={ident.value ?? ident.system ?? "id"}>
+              <dt className="text-slate-500 text-xs">
+                {ident.type?.coding?.[0]?.code ?? ident.system ?? "Identifier"}
+              </dt>
+              <dd className="font-medium">{ident.value ?? "—"}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
+
+      {/* ── Clinical Narrative ── */}
+      {patient.text?.div && (
+        <details className="border border-slate-200 rounded-lg overflow-hidden">
+          <summary className="px-4 py-2 bg-slate-50 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-slate-100 transition-colors">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Clinical Narrative</span>
+          </summary>
+          <div className="px-4 py-3 text-sm text-slate-600 leading-relaxed">
+            {patient.text.div.replace(/<[^>]+>/g, " ").replace(/\s{2,}/g, " ").trim()}
+          </div>
+        </details>
+      )}
+    </div>
   );
 }
