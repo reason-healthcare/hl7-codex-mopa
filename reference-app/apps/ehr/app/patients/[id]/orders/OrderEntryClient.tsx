@@ -88,6 +88,68 @@ function PhaseHeader({ num, title }: { num: string; title: string }) {
   );
 }
 
+function SubStepHeader({
+  num,
+  service,
+  title,
+  status,
+}: {
+  num: string;
+  service: string;
+  title: string;
+  status: StepStatus;
+}) {
+  const statusLabel: Record<StepStatus, string> = {
+    pending: "Pending",
+    active: "In progress",
+    action: "Action needed",
+    complete: "Complete",
+    skipped: "Skipped",
+  };
+  const statusColor: Record<StepStatus, string> = {
+    pending: "text-slate-400",
+    active: "text-blue-600",
+    action: "text-amber-600",
+    complete: "text-green-600",
+    skipped: "text-slate-400",
+  };
+
+  return (
+    <div className="px-3 py-2 bg-slate-100 border-b border-slate-200 space-y-1.5">
+      <div className="flex items-center gap-2">
+        {status === "complete" ? (
+          <span
+            className="flex items-center justify-center w-4 h-4 rounded-full bg-green-500 text-white text-[10px] font-bold"
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+        ) : status === "skipped" ? (
+          <span
+            className="flex items-center justify-center w-4 h-4 rounded-full bg-slate-300 text-white text-[10px] font-bold"
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+        ) : (
+          <span
+            className={`w-2 h-2 rounded-full ${status === "active" ? "bg-blue-500 animate-pulse" : status === "action" ? "bg-amber-500" : "bg-slate-200"}`}
+          />
+        )}
+        <span className={`text-[10px] font-medium ${statusColor[status]}`}>
+          {statusLabel[status]}
+        </span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[10px] font-mono font-semibold text-slate-400">{num}</span>
+        <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">{service}</span>
+        <span className="text-xs text-slate-400">·</span>
+        <span className="text-xs text-slate-500">{title}</span>
+      </div>
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
@@ -520,7 +582,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
         {/* ── 1.2 DTR · Documentation ── */}
         <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
-          <StepHeader num={"1.2"} service="DTR" title="Documentation" status={dtrStatus} />
+          <SubStepHeader num="1.2" service="DTR" title="Documentation" status={dtrStatus} />
           <div className="bg-white px-4 py-3">
             {dtrStatus === "skipped" && (
               <p className="text-sm text-slate-400">
@@ -573,8 +635,8 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
         {/* ── 2.1 CRD · Authorization ── */}
         <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
-          <StepHeader
-            num={"2.1"}
+          <SubStepHeader
+            num="2.1"
             service="CRD"
             title="Authorization"
             status={signed && !signDtrCard ? "complete" : signLoading ? "active" : "pending"}
@@ -614,8 +676,8 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
         {/* ── 2.2 DTR · Documentation ── */}
         <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
-          <StepHeader
-            num={"2.2"}
+          <SubStepHeader
+            num="2.2"
             service="DTR"
             title="Documentation"
             status={!signed ? "pending" : signDtrCard ? "action" : "skipped"}
@@ -661,7 +723,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
         {/* ── 3. PAS · Prior Authorization ── */}
         <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
-          <StepHeader num={"3"} service="PAS" title="Submit PA" status={pasStatus} />
+          <SubStepHeader num="3" service="PAS" title="Submit PA" status={pasStatus} />
           <div className="bg-white px-4 py-3 space-y-3">
             {pasStatus === "skipped" && (
               <p className="text-sm text-green-700 font-medium flex items-center gap-2">
