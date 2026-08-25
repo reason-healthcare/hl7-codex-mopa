@@ -25,7 +25,7 @@ function StepHeader({
   title,
   status,
 }: {
-  num: number;
+  num: number | string;
   service: string;
   title: string;
   status: StepStatus;
@@ -79,6 +79,15 @@ function StepHeader({
   );
 }
 
+function PhaseHeader({ num, title }: { num: string; title: string }) {
+  return (
+    <div className="flex items-center gap-2 pt-1">
+      <span className="text-sm font-bold text-slate-800">{num}</span>
+      <span className="text-sm font-bold text-slate-800 uppercase tracking-wide">{title}</span>
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
@@ -119,7 +128,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const _dtrNeeded = !!selectDtrCard || !!signDtrCard;
 
   // Coverage status from order-select
-  const coverageMet =
+  const _coverageMet =
     selectCards.some((c) => c.indicator === "info" || c.indicator === "success") ||
     selectCards.some((c) => c.source.topic?.code === "prior-auth-required");
 
@@ -310,7 +319,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           ? "skipped"
           : "action";
 
-  const signStatus: StepStatus = !selected
+  const _signStatus: StepStatus = !selected
     ? "pending"
     : signLoading
       ? "active"
@@ -464,7 +473,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
       {/* ════════════════════════════════════════════════════════════════
           Right column — Coverage & Authorization workflow
           ════════════════════════════════════════════════════════════════ */}
-      <div className="w-[420px] flex-shrink-0 space-y-3">
+      <div className="w-[420px] flex-shrink-0 space-y-2">
         <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wide">
           Coverage &amp; Authorization
         </h2>
@@ -475,9 +484,12 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           </div>
         )}
 
-        {/* ── Step 1: CRD · Order Select ── */}
-        <div className="border border-slate-200 rounded-lg overflow-hidden">
-          <StepHeader num={1} service="CRD" title="Order Select" status={selectStatus} />
+        {/* ════════ 1. Order Select ════════ */}
+        <PhaseHeader num="1." title="Order Select" />
+
+        {/* ── 1.1 CRD · Coverage Discovery ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
+          <StepHeader num={"1.1"} service="CRD" title="Coverage Discovery" status={selectStatus} />
           <div className="bg-white">
             {selectLoading && (
               <div className="flex items-center gap-2 text-sm text-slate-500 px-4 py-4">
@@ -506,9 +518,9 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           </div>
         </div>
 
-        {/* ── Step 2: DTR · Documentation ── */}
-        <div className="border border-slate-200 rounded-lg overflow-hidden">
-          <StepHeader num={2} service="DTR" title="Documentation" status={dtrStatus} />
+        {/* ── 1.2 DTR · Documentation ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
+          <StepHeader num={"1.2"} service="DTR" title="Documentation" status={dtrStatus} />
           <div className="bg-white px-4 py-3">
             {dtrStatus === "skipped" && (
               <p className="text-sm text-slate-400">
@@ -556,9 +568,17 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           </div>
         </div>
 
-        {/* ── Step 3: CRD · Order Sign ── */}
-        <div className="border border-slate-200 rounded-lg overflow-hidden">
-          <StepHeader num={3} service="CRD" title="Order Sign" status={signStatus} />
+        {/* ════════ 2. Order Sign ════════ */}
+        <PhaseHeader num="2." title="Order Sign" />
+
+        {/* ── 2.1 CRD · Authorization ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
+          <StepHeader
+            num={"2.1"}
+            service="CRD"
+            title="Authorization"
+            status={signed && !signDtrCard ? "complete" : signLoading ? "active" : "pending"}
+          />
           <div className="bg-white">
             {signLoading && (
               <div className="flex items-center gap-2 text-sm text-slate-500 px-4 py-4">
@@ -577,32 +597,6 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
             {signCards.length > 0 && !signLoading && (
               <div className="divide-y divide-slate-100">
-                {/* DTR launch link — same prominent UX as step 2 */}
-                {signDtrCard && (
-                  <div className="px-4 py-3 bg-amber-50">
-                    {signDtrCard.detail && (
-                      <p className="text-sm text-slate-600 mb-3 leading-relaxed">
-                        {renderDetailInline(signDtrCard.detail)}
-                      </p>
-                    )}
-                    {signDtrCard.links?.map((link) => {
-                      const href = buildDtrHref(link, signDtrCard, patientId, selected?.id);
-                      return (
-                        <a
-                          key={link.url}
-                          href={href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"
-                        >
-                          {link.label}
-                          <span aria-hidden="true">↗</span>
-                        </a>
-                      );
-                    })}
-                  </div>
-                )}
-                {/* Non-DTR sign cards */}
                 {signCards
                   .filter((c) => !((c.links?.length ?? 0) > 0))
                   .map((card, i) => (
@@ -618,9 +612,56 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           </div>
         </div>
 
-        {/* ── Step 4: PAS · Prior Authorization ── */}
-        <div className="border border-slate-200 rounded-lg overflow-hidden">
-          <StepHeader num={4} service="PAS" title="Prior Authorization" status={pasStatus} />
+        {/* ── 2.2 DTR · Documentation ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
+          <StepHeader
+            num={"2.2"}
+            service="DTR"
+            title="Documentation"
+            status={!signed ? "pending" : signDtrCard ? "action" : "skipped"}
+          />
+          <div className="bg-white px-4 py-3">
+            {!signed && <p className="text-sm text-slate-400">Awaiting order-sign guidance.</p>}
+
+            {signed && signDtrCard && (
+              <>
+                {signDtrCard.detail && (
+                  <p className="text-sm text-slate-600 mb-3 leading-relaxed">
+                    {renderDetailInline(signDtrCard.detail)}
+                  </p>
+                )}
+                {signDtrCard.links?.map((link) => {
+                  const href = buildDtrHref(link, signDtrCard, patientId, selected?.id);
+                  return (
+                    <a
+                      key={link.url}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"
+                    >
+                      {link.label}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  );
+                })}
+              </>
+            )}
+
+            {signed && !signDtrCard && (
+              <p className="text-sm text-slate-400">
+                All required clinical data present — documentation not needed.
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* ════════ 3. PAS ════════ */}
+        <PhaseHeader num="3." title="Prior Authorization" />
+
+        {/* ── 3. PAS · Prior Authorization ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden ml-4">
+          <StepHeader num={"3"} service="PAS" title="Submit PA" status={pasStatus} />
           <div className="bg-white px-4 py-3 space-y-3">
             {pasStatus === "skipped" && (
               <p className="text-sm text-green-700 font-medium flex items-center gap-2">
