@@ -210,12 +210,10 @@ export function CdsCardRow({
 
   return (
     <div className="px-4 py-3 bg-slate-50">
-      <div className="flex items-start gap-3">
-        <span className="mt-0.5 flex-shrink-0">
-          <StatusBadge indicator={card.indicator} label={cfg.label} />
-        </span>
+      <div className="space-y-2">
+        <StatusBadge indicator={card.indicator} label={cfg.label} />
 
-        <div className="flex-1 min-w-0">
+        <div>
           <p className="text-sm font-semibold leading-snug text-slate-900">{card.summary}</p>
           {card.detail && (
             <p className="mt-1 text-sm text-slate-600 leading-relaxed">
