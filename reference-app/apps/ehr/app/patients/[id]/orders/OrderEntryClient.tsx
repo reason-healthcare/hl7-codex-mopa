@@ -155,12 +155,22 @@ function SubStepHeader({
 // ---------------------------------------------------------------------------
 
 export default function OrderEntryPage({ patientId }: { patientId: string }) {
-  const [selected, setSelected] = useState<Regimen | null>(null);
+  // On DTR return (?dtr-complete=true&regimen=X), pre-populate state from
+  // URL params so the page renders correctly on the first paint — no flash
+  // of "select a regimen" before the useEffect re-fires order-select.
+  const dtrReturnParams =
+    typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+  const isDtrReturn = dtrReturnParams?.get("dtr-complete") === "true";
+  const dtrRegimenId = dtrReturnParams?.get("regimen");
+  const dtrRegimen =
+    isDtrReturn && dtrRegimenId ? (REGIMENS.find((r) => r.id === dtrRegimenId) ?? null) : null;
+
+  const [selected, setSelected] = useState<Regimen | null>(dtrRegimen);
 
   // CRD state — separate per hook
   const [selectCards, setSelectCards] = useState<CdsCard[]>([]);
   const [signCards, setSignCards] = useState<CdsCard[]>([]);
-  const [selectLoading, setSelectLoading] = useState(false);
+  const [selectLoading, setSelectLoading] = useState(isDtrReturn);
   const [signLoading, setSignLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -178,7 +188,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [modifiedDraftOrders, setModifiedDraftOrders] = useState<object | null>(null);
 
   // DTR completion tracking
-  const [dtrCompleted, setDtrCompleted] = useState(false);
+  const [dtrCompleted, setDtrCompleted] = useState(isDtrReturn);
 
   // ── Derived state for the workflow steps ──
 
@@ -207,27 +217,23 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     selected && suggestionAccepted ? applyBiosimilarSubstitution(selected) : selected;
 
   // ── DTR return handler ──
+  // On DTR return, state is pre-initialized from URL params (regimen
+  // selected, dtrCompleted=true, selectLoading=true). This effect
+  // cleans the URL and re-fires order-select to get updated coverage
+  // results — the DTR client has written the missing observations to
+  // the EHR FHIR server.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("dtr-complete") !== "true") return;
-    const regimenId = params.get("regimen");
-    const regimen = REGIMENS.find((r) => r.id === regimenId);
+    if (!isDtrReturn || !dtrRegimen) return;
     const clean = new URL(window.location.href);
     clean.searchParams.delete("dtr-complete");
     clean.searchParams.delete("regimen");
     window.history.replaceState({}, "", clean.toString());
-    if (!regimen) return;
-    setSelected(regimen);
-    setSigned(false);
-    setSignCards([]);
-    setDtrCompleted(true);
-    setSelectLoading(true);
     setError(null);
-    fireCdsHook("order-select", patientId, regimen)
+    fireCdsHook("order-select", patientId, dtrRegimen)
       .then((r) => setSelectCards(r.cards))
       .catch((e: unknown) => setError(e instanceof Error ? e.message : "CRD service unavailable"))
       .finally(() => setSelectLoading(false));
-  }, [patientId]);
+  }, [patientId, isDtrReturn, dtrRegimen]);
 
   // ── CRD hook caller ──
   async function callCrdHook(
