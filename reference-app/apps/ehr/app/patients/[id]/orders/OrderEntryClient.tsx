@@ -512,9 +512,9 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
           <div className="bg-white px-4 py-3">
             {dtrStatus === "skipped" && (
               <p className="text-sm text-slate-400">
-                {coverageMet
-                  ? "All required clinical data present — documentation not needed."
-                  : "Not required at this time."}
+                {selectDtrCard
+                  ? "Skipped — order signed without completing documentation."
+                  : "All required clinical data present — documentation not needed."}
               </p>
             )}
 
