@@ -30,19 +30,12 @@ function StepHeader({
   title: string;
   status: StepStatus;
 }) {
-  const dotClass: Record<StepStatus, string> = {
-    pending: "bg-slate-200",
-    active: "bg-blue-500 animate-pulse",
-    action: "bg-amber-500",
-    complete: "bg-green-500",
-    skipped: "bg-slate-200",
-  };
   const statusLabel: Record<StepStatus, string> = {
     pending: "Pending",
     active: "In progress",
     action: "Action needed",
     complete: "Complete",
-    skipped: "Not required",
+    skipped: "Skipped",
   };
   const statusColor: Record<StepStatus, string> = {
     pending: "text-slate-400",
@@ -55,7 +48,25 @@ function StepHeader({
   return (
     <div className="flex items-center justify-between px-3 py-2 bg-slate-100 border-b border-slate-200">
       <div className="flex items-center gap-2">
-        <span className={`w-2 h-2 rounded-full ${dotClass[status]}`} />
+        {status === "complete" ? (
+          <span
+            className="flex items-center justify-center w-4 h-4 rounded-full bg-green-500 text-white text-[10px] font-bold"
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+        ) : status === "skipped" ? (
+          <span
+            className="flex items-center justify-center w-4 h-4 rounded-full bg-slate-300 text-white text-[10px] font-bold"
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+        ) : (
+          <span
+            className={`w-2 h-2 rounded-full ${status === "active" ? "bg-blue-500 animate-pulse" : status === "action" ? "bg-amber-500" : "bg-slate-200"}`}
+          />
+        )}
         <span className="text-[10px] font-mono font-semibold text-slate-400">{num}</span>
         <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">{service}</span>
         <span className="text-xs text-slate-400">·</span>
