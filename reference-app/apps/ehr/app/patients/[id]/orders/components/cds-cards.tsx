@@ -311,26 +311,24 @@ export function OrderSelectSummary({
   return (
     <div className="divide-y divide-slate-100">
       {/* Row 1: Coverage Criteria */}
-      <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
-        <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">Coverage Criteria</span>
-        <div className="flex-1">
-          {coverageMet ? (
-            <StatusBadge indicator="info" label={approvable ? "Approvable" : "Met"} />
-          ) : (
-            <>
-              <StatusBadge indicator={cards[0]?.indicator ?? "warning"} label="Incomplete" />
-              {(dtrCard ?? cards[0])?.detail && (
-                <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">
-                  {/* biome-ignore lint/style/noNonNullAssertion: guarded by .detail check above */}
-                  {renderDetail((dtrCard ?? cards[0])!.detail!)}
-                </p>
-              )}
-              <p className="mt-2 text-xs text-amber-600 font-medium">
-                Documentation required — see Step 2.
+      <div className="px-4 py-3 bg-slate-50 space-y-2">
+        <span className="text-xs text-slate-400">Coverage Criteria</span>
+        {coverageMet ? (
+          <StatusBadge indicator="info" label={approvable ? "Approvable" : "Met"} />
+        ) : (
+          <div className="space-y-1.5">
+            <StatusBadge indicator={cards[0]?.indicator ?? "warning"} label="Incomplete" />
+            {(dtrCard ?? cards[0])?.detail && (
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {/* biome-ignore lint/style/noNonNullAssertion: guarded by .detail check above */}
+                {renderDetail((dtrCard ?? cards[0])!.detail!)}
               </p>
-            </>
-          )}
-        </div>
+            )}
+            <p className="text-xs text-amber-600 font-medium">
+              Documentation required — see Step 2.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Row 2: PA Requirement — shown when coverage criteria are met.
@@ -340,8 +338,8 @@ export function OrderSelectSummary({
            pa-required topic (ECOG ≥ 1 without suggestion) → PA Required.
            Otherwise (ECOG 0) → PA Not required. */}
       {coverageMet && (
-        <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
-          <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">PA Requirement</span>
+        <div className="px-4 py-3 bg-slate-50 space-y-2">
+          <span className="text-xs text-slate-400">PA Requirement</span>
           {paSatisfiedByBiosimilar ? (
             <StatusBadge indicator="info" label="Satisfied" />
           ) : paRequiredStatus ? (
