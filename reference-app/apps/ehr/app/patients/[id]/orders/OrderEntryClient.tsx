@@ -13,42 +13,118 @@ import { fireCdsHook } from "./components/crd-hooks";
 import { ClaimResponseDisplay, type ClaimResponseSummary } from "./components/pa-display";
 import { RegimenSelector } from "./components/regimen-selector";
 
+// ---------------------------------------------------------------------------
+// Step status helpers
+// ---------------------------------------------------------------------------
+
+type StepStatus = "pending" | "active" | "action" | "complete" | "skipped";
+
+function StepHeader({
+  num,
+  service,
+  title,
+  status,
+}: {
+  num: number;
+  service: string;
+  title: string;
+  status: StepStatus;
+}) {
+  const dotClass: Record<StepStatus, string> = {
+    pending: "bg-slate-200",
+    active: "bg-blue-500 animate-pulse",
+    action: "bg-amber-500",
+    complete: "bg-green-500",
+    skipped: "bg-slate-200",
+  };
+  const statusLabel: Record<StepStatus, string> = {
+    pending: "Pending",
+    active: "In progress",
+    action: "Action needed",
+    complete: "Complete",
+    skipped: "Not required",
+  };
+  const statusColor: Record<StepStatus, string> = {
+    pending: "text-slate-400",
+    active: "text-blue-600",
+    action: "text-amber-600",
+    complete: "text-green-600",
+    skipped: "text-slate-400",
+  };
+
+  return (
+    <div className="flex items-center justify-between px-3 py-2 bg-slate-100 border-b border-slate-200">
+      <div className="flex items-center gap-2">
+        <span className={`w-2 h-2 rounded-full ${dotClass[status]}`} />
+        <span className="text-[10px] font-mono font-semibold text-slate-400">{num}</span>
+        <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">{service}</span>
+        <span className="text-xs text-slate-400">·</span>
+        <span className="text-xs text-slate-500">{title}</span>
+      </div>
+      <span className={`text-[10px] font-medium ${statusColor[status]}`}>
+        {statusLabel[status]}
+      </span>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Main component
+// ---------------------------------------------------------------------------
+
 export default function OrderEntryPage({ patientId }: { patientId: string }) {
   const [selected, setSelected] = useState<Regimen | null>(null);
 
-  // Separate card state for each hook phase
+  // CRD state — separate per hook
   const [selectCards, setSelectCards] = useState<CdsCard[]>([]);
   const [signCards, setSignCards] = useState<CdsCard[]>([]);
   const [selectLoading, setSelectLoading] = useState(false);
   const [signLoading, setSignLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Order state
   const [signed, setSigned] = useState(false);
+
+  // PAS state
   const [paSubmitting, setPaSubmitting] = useState(false);
   const [paError, setPaError] = useState<string | null>(null);
   const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
 
+  // Biosimilar suggestion state
   const [suggestionAccepted, setSuggestionAccepted] = useState(false);
   const [suggestionOverridden, setSuggestionOverridden] = useState(false);
   const [modifiedDraftOrders, setModifiedDraftOrders] = useState<object | null>(null);
 
-  // Whether the order-select response contains a biosimilar suggestion
+  // DTR completion tracking
+  const [dtrCompleted, setDtrCompleted] = useState(false);
+
+  // ── Derived state for the workflow steps ──
+
   const hasSuggestion = selectCards.some((c) => c.suggestions && c.suggestions.length > 0);
 
-  // Whether either hook phase indicates PA is required.
-  // At order-select this is "PA Will Be Required" (advisory); at order-sign
-  // it is the final "Prior Authorization Required" determination. The submit
-  // button is shown in both cases so the provider can initiate PA early.
+  // DTR detection: cards with links (SMART launch) at either hook stage
+  const selectDtrCard = selectCards.find((c) => (c.links?.length ?? 0) > 0);
+  const signDtrCard = signCards.find((c) => (c.links?.length ?? 0) > 0);
+  const dtrNeeded = !!selectDtrCard || !!signDtrCard;
+
+  // Coverage status from order-select
+  const coverageMet =
+    selectCards.some((c) => c.indicator === "info" || c.indicator === "success") ||
+    selectCards.some((c) => c.source.topic?.code === "prior-auth-required");
+
+  // PA required at either stage
   const hasPaCard =
     selectCards.some((c) => c.source.topic?.code === "prior-auth-required") ||
     signCards.some((c) => c.source.topic?.code === "prior-auth-required");
 
-  // The regimen as it should be displayed — when the substitution is
-  // accepted, drug names are swapped for the biosimilar alternatives so
-  // the Order Detail panel reflects the current state of the order.
+  // Authorization satisfied at order-sign
+  const authSatisfied = signCards.some((c) => c.indicator === "success");
+
+  // The regimen as displayed — substitution applied if accepted
   const displayRegimen =
     selected && suggestionAccepted ? applyBiosimilarSubstitution(selected) : selected;
 
+  // ── DTR return handler ──
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("dtr-complete") !== "true") return;
@@ -62,16 +138,16 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     setSelected(regimen);
     setSigned(false);
     setSignCards([]);
+    setDtrCompleted(true);
     setSelectLoading(true);
     setError(null);
     fireCdsHook("order-select", patientId, regimen)
-      .then((r) => {
-        setSelectCards(r.cards);
-      })
+      .then((r) => setSelectCards(r.cards))
       .catch((e: unknown) => setError(e instanceof Error ? e.message : "CRD service unavailable"))
       .finally(() => setSelectLoading(false));
   }, [patientId]);
 
+  // ── CRD hook caller ──
   async function callCrdHook(
     hook: "order-select" | "order-sign",
     regimen: Regimen,
@@ -101,6 +177,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     setSuggestionAccepted(false);
     setSuggestionOverridden(false);
     setModifiedDraftOrders(null);
+    setDtrCompleted(false);
     callCrdHook("order-select", regimen, setSelectCards);
   }
 
@@ -203,19 +280,61 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     }
   }
 
+  // ── Determine step statuses ──
+  const selectStatus: StepStatus = !selected
+    ? "pending"
+    : selectLoading
+      ? "active"
+      : selectDtrCard && !dtrCompleted
+        ? "action"
+        : "complete";
+
+  const dtrStatus: StepStatus = !selected
+    ? "pending"
+    : !dtrNeeded
+      ? "skipped"
+      : dtrCompleted && !selectDtrCard
+        ? "complete"
+        : signDtrCard
+          ? "action"
+          : selectDtrCard
+            ? "action"
+            : "skipped";
+
+  const signStatus: StepStatus = !selected
+    ? "pending"
+    : signLoading
+      ? "active"
+      : signed
+        ? "complete"
+        : "pending";
+
+  const pasStatus: StepStatus = !selected
+    ? "pending"
+    : !hasPaCard
+      ? authSatisfied
+        ? "skipped"
+        : "pending"
+      : claimResponse
+        ? "complete"
+        : paSubmitting
+          ? "active"
+          : signed
+            ? "action"
+            : "pending";
+
   return (
     <div className="flex gap-4">
       {/* ════════════════════════════════════════════════════════════════
-          Left column — Order Selection + Order Detail (stacked)
+          Left column — Order Selection + Order Detail
           ════════════════════════════════════════════════════════════════ */}
       <div className="flex-1 min-w-0 space-y-4">
         {/* ── Order Selection ── */}
         <RegimenSelector regimens={REGIMENS} selectedId={selected?.id} onSelect={onSelectRegimen} />
 
-        {/* ── Order Detail (what you will sign) ── */}
+        {/* ── Order Detail ── */}
         {displayRegimen ? (
           <div className="rounded-lg border-2 border-slate-300 overflow-hidden shadow-sm">
-            {/* Header bar — prominent */}
             <div className="bg-slate-700 px-4 py-2.5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="text-[10px] font-semibold text-slate-300 uppercase tracking-wide">
@@ -235,7 +354,6 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
               </span>
             </div>
 
-            {/* Body */}
             <div className="bg-white p-4 space-y-4">
               {/* Intent + treatment line badges */}
               <div className="flex items-center gap-1.5">
@@ -292,7 +410,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
               {/* Substitution status line */}
               {hasSuggestion && !suggestionAccepted && !suggestionOverridden && (
                 <p className="text-[11px] text-slate-500 italic pt-1 border-t border-slate-200">
-                  A biosimilar substitution has been proposed — review in Prior Authorization
+                  A biosimilar substitution has been proposed — review in the CRD guidance panel
                 </p>
               )}
               {suggestionAccepted && (
@@ -306,7 +424,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
                 </p>
               )}
 
-              {/* Sign Order — prominent action button */}
+              {/* Sign Order button */}
               <div className="pt-2 border-t border-slate-200">
                 {signed ? (
                   <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700">
@@ -316,7 +434,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
                   <button
                     type="button"
                     onClick={onSignOrder}
-                    disabled={signLoading}
+                    disabled={signLoading || !selected}
                     className="w-full px-4 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     {signLoading ? "Signing…" : "Sign Order"}
@@ -333,43 +451,37 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
       </div>
 
       {/* ════════════════════════════════════════════════════════════════
-          Right column — Prior Authorization
-          Shows both order-select and order-sign CRD results
+          Right column — Coverage & Authorization workflow
           ════════════════════════════════════════════════════════════════ */}
-      <div className="w-96 flex-shrink-0 space-y-4">
+      <div className="w-[420px] flex-shrink-0 space-y-3">
         <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wide">
-          Prior Authorization
+          Coverage &amp; Authorization
         </h2>
 
         {error && (
           <div className="border border-red-200 bg-red-50 rounded px-4 py-3 text-sm text-red-700">
-            <span className="font-semibold">CRD error:</span> {error}
+            <span className="font-semibold">Error:</span> {error}
           </div>
         )}
 
-        {/* ── Order-select section ── */}
-        <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide border-b border-slate-200 pb-1">
-            Order-select
-          </h3>
+        {/* ── Step 1: CRD · Order Select ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden">
+          <StepHeader num={1} service="CRD" title="Order Select" status={selectStatus} />
+          <div className="bg-white">
+            {selectLoading && (
+              <div className="flex items-center gap-2 text-sm text-slate-500 px-4 py-4">
+                <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+                Consulting CRD service…
+              </div>
+            )}
 
-          {selectLoading && (
-            <div className="flex items-center gap-2 text-sm text-slate-500">
-              <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-              Consulting CRD service…
-            </div>
-          )}
-
-          {!selected && !selectLoading && (
-            <div className="border border-slate-200 rounded-lg px-4 py-8 text-center">
-              <p className="text-sm text-slate-400">
+            {!selected && !selectLoading && (
+              <p className="px-4 py-4 text-sm text-slate-400">
                 Select a regimen to begin coverage discovery.
               </p>
-            </div>
-          )}
+            )}
 
-          {selectCards.length > 0 && (
-            <div className="border border-slate-200 rounded overflow-hidden">
+            {selectCards.length > 0 && !selectLoading && (
               <OrderSelectSummary
                 cards={selectCards}
                 patientId={patientId}
@@ -379,87 +491,182 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
                 suggestionAccepted={suggestionAccepted}
                 suggestionOverridden={suggestionOverridden}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
-        {/* ── Order-sign section ── */}
-        <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide border-b border-slate-200 pb-1">
-            Order-sign
-          </h3>
-
-          {signLoading && (
-            <div className="flex items-center gap-2 text-sm text-slate-500">
-              <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-              Signing order…
-            </div>
-          )}
-
-          {!signed && !signLoading && (
-            <div className="border border-slate-200 rounded-lg px-4 py-8 text-center">
+        {/* ── Step 2: DTR · Documentation ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden">
+          <StepHeader num={2} service="DTR" title="Documentation" status={dtrStatus} />
+          <div className="bg-white px-4 py-3">
+            {dtrStatus === "skipped" && (
               <p className="text-sm text-slate-400">
-                Sign the order to get the final authorization determination.
+                {coverageMet
+                  ? "All required clinical data present — documentation not needed."
+                  : "Not required at this time."}
               </p>
-            </div>
-          )}
+            )}
 
-          {signCards.length > 0 && (
-            <div className="border border-slate-200 rounded overflow-hidden divide-y divide-slate-100">
-              {signCards.map((card, i) => (
-                <CdsCardRow
-                  key={card.uuid ?? i}
-                  card={card}
-                  patientId={patientId}
-                  selectedRegimenId={selected?.id}
-                />
-              ))}
-            </div>
-          )}
+            {dtrStatus === "complete" && (
+              <p className="text-sm text-green-700 font-medium flex items-center gap-2">
+                <span aria-hidden="true">✓</span>
+                Documentation completed — clinical data updated.
+              </p>
+            )}
+
+            {dtrStatus === "action" && (
+              <>
+                {(selectDtrCard ?? signDtrCard)?.detail && (
+                  <p className="text-sm text-slate-600 mb-3 leading-relaxed">
+                    {/* biome-ignore lint/style/noNonNullAssertion: guarded by dtrStatus === action */}
+                    {renderDetailInline((selectDtrCard ?? signDtrCard)!.detail!)}
+                  </p>
+                )}
+                {(selectDtrCard ?? signDtrCard)?.links?.map((link) => {
+                  const dtrCard = selectDtrCard ?? signDtrCard;
+                  const href = buildDtrHref(link, dtrCard, patientId, selected?.id);
+                  return (
+                    <a
+                      key={link.url}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"
+                    >
+                      {link.label}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  );
+                })}
+              </>
+            )}
+
+            {dtrStatus === "pending" && (
+              <p className="text-sm text-slate-400">Awaiting order-select guidance.</p>
+            )}
+          </div>
         </div>
 
-        {/* ── PA Submission ──
-            Visible whenever PA is required (at either order-select or order-sign).
-            Per the Da Vinci CRD/PAS flow, the provider can initiate PA after
-            the CRD service identifies that prior authorization is needed. */}
-        {hasPaCard && (
-          <div className="space-y-2">
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide border-b border-slate-200 pb-1">
-              PA Submission
-            </h3>
-            <div className="border border-slate-200 rounded-lg overflow-hidden">
-              <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200">
+        {/* ── Step 3: CRD · Order Sign ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden">
+          <StepHeader num={3} service="CRD" title="Order Sign" status={signStatus} />
+          <div className="bg-white">
+            {signLoading && (
+              <div className="flex items-center gap-2 text-sm text-slate-500 px-4 py-4">
+                <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+                Signing order…
+              </div>
+            )}
+
+            {!signed && !signLoading && (
+              <p className="px-4 py-4 text-sm text-slate-400">
+                {selected
+                  ? "Sign the order to get the final authorization determination."
+                  : "Select and sign an order to continue."}
+              </p>
+            )}
+
+            {signCards.length > 0 && !signLoading && (
+              <div className="divide-y divide-slate-100">
+                {signCards.map((card, i) => (
+                  <CdsCardRow
+                    key={card.uuid ?? i}
+                    card={card}
+                    patientId={patientId}
+                    selectedRegimenId={selected?.id}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Step 4: PAS · Prior Authorization ── */}
+        <div className="border border-slate-200 rounded-lg overflow-hidden">
+          <StepHeader num={4} service="PAS" title="Prior Authorization" status={pasStatus} />
+          <div className="bg-white px-4 py-3 space-y-3">
+            {pasStatus === "skipped" && (
+              <p className="text-sm text-green-700 font-medium flex items-center gap-2">
+                <span aria-hidden="true">✓</span>
+                Authorization satisfied — PA not required.
+              </p>
+            )}
+
+            {pasStatus === "pending" && (
+              <p className="text-sm text-slate-400">
+                {hasPaCard
+                  ? "Sign the order, then submit a PA request to the payer."
+                  : "Complete prior steps to determine PA requirements."}
+              </p>
+            )}
+
+            {pasStatus === "action" && (
+              <>
                 <p className="text-xs text-slate-500">
                   Submit a prior authorization request to the payer for a coverage determination.
                 </p>
+                <button
+                  type="button"
+                  onClick={submitPa}
+                  disabled={paSubmitting}
+                  className="w-full px-4 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
+                </button>
+              </>
+            )}
+
+            {paError && (
+              <div className="border border-red-200 bg-red-50 rounded px-3 py-2 text-sm text-red-700">
+                {paError}
               </div>
-              <div className="px-4 py-3 space-y-3">
-                {paError && (
-                  <div className="border border-red-200 bg-red-50 rounded px-3 py-2 text-sm text-red-700">
-                    {paError}
-                  </div>
-                )}
-                {claimResponse ? (
-                  <ClaimResponseDisplay
-                    outcome={claimResponse.outcome}
-                    disposition={claimResponse.disposition}
-                    processNote={claimResponse.processNote}
-                  />
-                ) : (
-                  <button
-                    type="button"
-                    onClick={submitPa}
-                    disabled={paSubmitting}
-                    className="w-full px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {paSubmitting ? "Submitting…" : "Submit Prior Authorization"}
-                  </button>
-                )}
-              </div>
-            </div>
+            )}
+
+            {claimResponse && (
+              <ClaimResponseDisplay
+                outcome={claimResponse.outcome}
+                disposition={claimResponse.disposition}
+                processNote={claimResponse.processNote}
+              />
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
+}
+
+// ---------------------------------------------------------------------------
+// Helpers for DTR rendering
+// ---------------------------------------------------------------------------
+
+function renderDetailInline(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      // biome-ignore lint/suspicious/noArrayIndexKey: markdown split has no stable key
+      <strong key={i}>{part.slice(2, -2)}</strong>
+    ) : (
+      // biome-ignore lint/suspicious/noArrayIndexKey: markdown split has no stable key
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
+function buildDtrHref(
+  link: { url: string; appContext?: string; type: string },
+  card: CdsCard | undefined,
+  patientId: string,
+  selectedRegimenId?: string
+): string {
+  if (!card || link.type !== "smart") return link.url;
+  const url = new URL(link.url);
+  url.searchParams.set(
+    "iss",
+    `${process.env.NEXT_PUBLIC_EHR_BASE_URL ?? "http://localhost:4001"}/api/fhir`
+  );
+  url.searchParams.set("launch", `patient/${patientId}`);
+  if (link.appContext) url.searchParams.set("appContext", link.appContext);
+  if (selectedRegimenId) url.searchParams.set("returnRegimen", selectedRegimenId);
+  return url.toString();
 }
