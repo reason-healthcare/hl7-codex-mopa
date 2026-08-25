@@ -9,7 +9,7 @@ export default async function OrderEntryPage({ params }: PageProps) {
   const { id } = await params;
 
   return (
-    <div className="px-5 py-4 space-y-4 max-w-5xl">
+    <div className="px-5 py-4 space-y-4 max-w-7xl">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs text-slate-500">
         <Link href={`/patients/${id}`} className="hover:text-slate-700 transition-colors">

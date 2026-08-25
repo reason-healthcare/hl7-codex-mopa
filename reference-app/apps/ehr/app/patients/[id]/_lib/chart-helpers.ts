@@ -1,4 +1,4 @@
-import type { Condition, Observation, Patient } from "@mopa/fhir-client";
+import type { Condition, Observation } from "@mopa/fhir-client";
 
 const SYS_ICD10 = "http://hl7.org/fhir/sid/icd-10-cm";
 const SYS_SNOMED = "http://snomed.info/sct";
@@ -22,7 +22,7 @@ export function conditionDisplay(cond: Condition): string {
 
 export function obsDisplay(obs: Observation): string {
   const c = pickCoding(obs.code?.coding, SYS_LOINC, SYS_SNOMED);
-  return c?.display ?? obs.code?.text ?? "Unknown";
+  return obs.code?.text ?? c?.display ?? "Unknown";
 }
 
 export function formatObsValue(obs: Observation): string {
@@ -68,11 +68,34 @@ export interface CategorizedObs {
   value: string;
   valueCode?: string;
   date: string;
+  /** For staging observations: the Condition reference from Observation.focus
+   *  (e.g. "Condition/maria-garcia-breast-cancer"). Undefined for non-staging. */
+  conditionRef?: string;
 }
 
-export function categorizeObservations(
-  observations: Observation[]
-): { biomarkers: CategorizedObs[]; staging: CategorizedObs[]; labs: CategorizedObs[] } {
+/** LOINC codes for breast cancer biomarkers (ER, PR, HER2). */
+const BIOMARKER_CODES = ["85337-4", "85339-0", "85319-2"];
+
+/**
+ * Categorize observations using FHIR relationships per mCODE:
+ *
+ * - **Staging**: Observations that have `Observation.focus` pointing to a
+ *   Condition resource. These are clinical assessments (stage group, ECOG,
+ *   Oncotype DX, menopausal status) associated with the cancer diagnosis.
+ *   The `conditionRef` field carries the Condition reference so the UI can
+ *   group staging with its condition.
+ *
+ * - **Biomarkers**: Observations with known biomarker LOINC codes (ER, PR,
+ *   HER2). These are receptor status results, not linked to a specific
+ *   condition via focus.
+ *
+ * - **Labs**: Everything else.
+ */
+export function categorizeObservations(observations: Observation[]): {
+  biomarkers: CategorizedObs[];
+  staging: CategorizedObs[];
+  labs: CategorizedObs[];
+} {
   const biomarkers: CategorizedObs[] = [];
   const staging: CategorizedObs[] = [];
   const labs: CategorizedObs[] = [];
@@ -87,19 +110,24 @@ export function categorizeObservations(
       obs,
       code,
       system,
-      label: coding?.display ?? obs.code?.text ?? "Unknown",
+      label: obs.code?.text ?? coding?.display ?? "Unknown",
       value: formatObsValue(obs),
       valueCode: valCoding?.code,
       date: obs.effectiveDateTime?.slice(0, 10) ?? "—",
     };
 
-    // ER/PR/HER2 → biomarkers
-    if (["85337-4", "85339-0", "85319-2"].includes(code)) {
-      biomarkers.push(entry);
-    }
-    // Stage, OncotypeDX, ECOG, menopausal status → staging/clinical
-    else if (["21908-9", "76761-1", "89247-1"].includes(code) || system === SYS_SNOMED) {
+    // Staging: Observation.focus references a Condition (mCODE pattern).
+    // In FHIR R4, Observation.focus is 0..* (an array of References).
+    const focusArr = (obs as { focus?: Array<{ reference?: string }> | { reference?: string } })
+      .focus;
+    const focusRef = Array.isArray(focusArr) ? focusArr?.[0]?.reference : focusArr?.reference;
+    if (focusRef?.startsWith("Condition/")) {
+      entry.conditionRef = focusRef;
       staging.push(entry);
+    }
+    // Biomarkers: ER/PR/HER2 by LOINC code
+    else if (BIOMARKER_CODES.includes(code)) {
+      biomarkers.push(entry);
     }
     // Everything else → labs
     else {

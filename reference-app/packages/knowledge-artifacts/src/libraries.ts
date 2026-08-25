@@ -135,9 +135,9 @@ export const GUIDELINE_LIBRARY = {
           code: [
             {
               system: SYSTEM.LOINC,
-              code: "76761-1",
+              code: "104119-3",
               display:
-                "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method",
+                "Breast Cancer recurrence risk multigene analysis in Tissue by Molecular genetics method",
             },
           ],
         },
@@ -354,9 +354,9 @@ export const PAYER_POLICY_LIBRARY = {
           code: [
             {
               system: SYSTEM.LOINC,
-              code: "76761-1",
+              code: "104119-3",
               display:
-                "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method",
+                "Breast Cancer recurrence risk multigene analysis in Tissue by Molecular genetics method",
             },
           ],
         },

@@ -1,15 +1,67 @@
 import type { ReactNode } from "react";
 
 // ---------------------------------------------------------------------------
+// BrandMark — EHR-style brand mark (stylized medical cross in a rounded square)
+// ---------------------------------------------------------------------------
+
+function BrandMark() {
+  return (
+    <svg
+      viewBox="0 0 36 36"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      style={{ width: "28px", height: "28px", flexShrink: 0 }}
+    >
+      <rect width="36" height="36" rx="7" fill="#1e3a5f" />
+      <path
+        d="M18 8.5 L23 8.5 L23 15.5 L30 15.5 L30 20.5 L23 20.5 L23 27.5 L18 27.5 L13 27.5 L13 20.5 L6 20.5 L6 15.5 L13 15.5 L13 8.5 Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // MopaNav
 // ---------------------------------------------------------------------------
 
 interface MopaNavProps {
   /** e.g. "Hub", "EHR", "CRD Service" */
   service: string;
+  /** When true, renders a prominent EHR-style brand mark + wordmark at the
+   *  top-left. Only the EHR app opts in. */
+  branded?: boolean;
 }
 
-export function MopaNav({ service }: MopaNavProps) {
+export function MopaNav({ service, branded = false }: MopaNavProps) {
+  if (branded) {
+    return (
+      <nav className="bg-white border-b border-slate-200">
+        <div className="px-6 py-3 flex items-center gap-3">
+          <BrandMark />
+          <div className="flex flex-col leading-none">
+            <span className="text-[15px] font-bold tracking-tight text-slate-800">
+              MOPA
+              <span className="text-slate-400 font-medium">: </span>
+              <span className="text-blue-700">{service}</span>
+            </span>
+            <span className="text-[10px] font-medium text-slate-400 tracking-wide mt-0.5">
+              Oncology Prior Authorization
+            </span>
+          </div>
+          <div className="ml-4 pl-4 border-l border-slate-200">
+            {/* biome-ignore lint/a11y/useImgPresentationRole: decorative brand logo */}
+            <img
+              src="/codex-logo.png"
+              alt="CodeX"
+              style={{ maxWidth: "120px", height: "auto", width: "100%" }}
+            />
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className="bg-white border-b border-slate-200">
       <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
@@ -88,12 +140,15 @@ export function MopaFooter() {
 interface MopaShellProps {
   service: string;
   children: ReactNode;
+  /** When true, renders a prominent EHR-style brand at the top-left.
+   *  Only the EHR app opts in. */
+  branded?: boolean;
 }
 
-export function MopaShell({ service, children }: MopaShellProps) {
+export function MopaShell({ service, children, branded = false }: MopaShellProps) {
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "white" }}>
-      <MopaNav service={service} />
+      <MopaNav service={service} branded={branded} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>{children}</div>
       <MopaFooter />
     </div>

@@ -152,14 +152,16 @@ export const REGIMENS: Regimen[] = [
             title: "Pegfilgrastim 6 mg SC \u2014 day 2 of each 14-day cycle (G-CSF support)",
             rxnorm: "67108",
             display: "pegfilgrastim (Neulasta)",
-            dosageText: "6 mg subcutaneous, day 2 of each 14-day cycle (G-CSF support for dose-dense regimen)",
+            dosageText:
+              "6 mg subcutaneous, day 2 of each 14-day cycle (G-CSF support for dose-dense regimen)",
             period: 14,
             daysOfCycle: [2],
             biosimilars: [
               {
                 rxnorm: "2102692",
                 display: "pegfilgrastim-cbqv (Udenyca)",
-                rationale: "Payer step-therapy policy requires pegfilgrastim-cbqv (Udenyca) unless the patient has received Neulasta in the past 365 days, has a contraindication, or has previously failed Neulasta",
+                rationale:
+                  "Payer step-therapy policy requires pegfilgrastim-cbqv (Udenyca) unless the patient has received Neulasta in the past 365 days, has a contraindication, or has previously failed Neulasta",
               },
             ],
           },
@@ -248,9 +250,7 @@ function daysOfCycleExt(days: number[]) {
 
 function buildTimingTiming(drug: DrugEntry) {
   return {
-    ...(drug.daysOfCycle?.length
-      ? { extension: [daysOfCycleExt(drug.daysOfCycle)] }
-      : {}),
+    ...(drug.daysOfCycle?.length ? { extension: [daysOfCycleExt(drug.daysOfCycle)] } : {}),
     repeat: {
       period: drug.period,
       periodUnit: "d" as const,
@@ -382,7 +382,7 @@ export function buildDraftBundle(patientId: string, regimen: Regimen) {
  */
 export function buildReplacementMedicationRequest(
   patientId: string,
-  drug: DrugEntry,
+  drug: DrugEntry
 ): { resource: object; resourceId: string } | null {
   const bio = drug.biosimilars?.[0];
   if (!bio) return null;
@@ -428,4 +428,38 @@ export function findBiosimilarDrugs(regimen: Regimen): Array<{ phase: Phase; dru
     }
   }
   return result;
+}
+
+// ---------------------------------------------------------------------------
+// Display helper: apply biosimilar substitution to a regimen
+// ---------------------------------------------------------------------------
+
+/**
+ * Return a deep copy of the regimen where every drug that has a biosimilar
+ * alternative is replaced with that alternative's display name and RxNorm
+ * code. The dosage text, timing, and cycle structure are preserved.
+ *
+ * This is a *display-only* helper — it does not modify the original regimen
+ * object. The actual FHIR draft-order modifications happen in the EHR layer
+ * via `buildReplacementMedicationRequest` + the CDS suggestion actions.
+ *
+ * @param regimen  the original regimen template
+ * @returns a new Regimen with biosimilar drugs substituted
+ */
+export function applyBiosimilarSubstitution(regimen: Regimen): Regimen {
+  return {
+    ...regimen,
+    phases: regimen.phases.map((phase) => ({
+      ...phase,
+      drugs: phase.drugs.map((drug) => {
+        const bio = drug.biosimilars?.[0];
+        if (!bio) return drug;
+        return {
+          ...drug,
+          display: bio.display,
+          rxnorm: bio.rxnorm,
+        };
+      }),
+    })),
+  };
 }

@@ -79,8 +79,8 @@
         },
         {
           "name": "Oncotype DX Recurrence Score",
-          "id": "76761-1",
-          "display": "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method",
+          "id": "104119-3",
+          "display": "Breast Cancer recurrence risk multigene analysis in Tissue by Molecular genetics method",
           "accessLevel": "Public",
           "codeSystem": {
             "name": "LOINC"

@@ -20,8 +20,8 @@ code "PR by IHC": '85339-0' from "LOINC"
     display 'Progesterone receptor Ag [Presence] in Breast cancer specimen by Immune stain'
 
 // Genomic risk
-code "Oncotype DX Recurrence Score": '76761-1' from "LOINC"
-    display 'Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method'
+code "Oncotype DX Recurrence Score": '104119-3' from "LOINC"
+    display 'Breast Cancer recurrence risk multigene analysis in Tissue by Molecular genetics method'
 
 // Menopausal status
 code "Postmenopausal State": '428361000124107' from "SNOMED-CT"

@@ -1,7 +1,6 @@
 "use client";
 
 import type { CdsCard, CdsSuggestion } from "@mopa/cds-hooks";
-import type { Regimen } from "@mopa/oncology-policy";
 
 // ---------------------------------------------------------------------------
 // SMART launch URL builder
@@ -88,8 +87,8 @@ const INDICATOR_FALLBACK: IndicatorConfig = {
   badgeText: "text-slate-700",
 };
 
-export { INDICATOR_CONFIG, INDICATOR_FALLBACK };
 export type { IndicatorConfig };
+export { INDICATOR_CONFIG, INDICATOR_FALLBACK };
 
 // ---------------------------------------------------------------------------
 // Status badge
@@ -105,43 +104,6 @@ export function StatusBadge({ indicator, label }: { indicator: string; label: st
       <span aria-hidden="true">{cfg.icon}</span>
       {label}
     </span>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Draft order details
-// ---------------------------------------------------------------------------
-
-/**
- * Renders the selected regimen's drug details as a compact list.
- * Shown in the Coverage Discovery panel so the clinician sees exactly
- * what is being evaluated before signing.
- */
-function DraftOrderDetails({ regimen }: { regimen: Regimen }) {
-  return (
-    <div className="space-y-2">
-      {regimen.phases.map((phase) => (
-        <div key={phase.id}>
-          <p className="text-xs font-medium text-slate-500">{phase.title}</p>
-          <ul className="mt-1 space-y-1">
-            {phase.drugs.map((drug) => (
-              <li key={drug.actionId} className="text-sm text-slate-700">
-                <span className="font-medium">{drug.display}</span>
-                <span className="text-slate-400"> · {drug.dosageText}</span>
-                {drug.biosimilars?.map((bio) => (
-                  <span
-                    key={bio.rxnorm}
-                    className="ml-2 inline-flex items-center gap-0.5 text-xs font-semibold px-1.5 py-0.5 rounded bg-violet-100 text-violet-800"
-                  >
-                    → {bio.display}
-                  </span>
-                ))}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
   );
 }
 
@@ -173,7 +135,9 @@ export function SuggestionPanel({
   return (
     <div className="px-4 py-3 bg-violet-50 border-t border-violet-200">
       <div className="flex items-start gap-3">
-        <span className="mt-0.5 flex-shrink-0 text-violet-600" aria-hidden="true">⬆</span>
+        <span className="mt-0.5 flex-shrink-0 text-violet-600" aria-hidden="true">
+          ⬆
+        </span>
         <div className="flex-1 space-y-3">
           <div>
             <p className="text-sm font-semibold text-violet-900">{card.summary}</p>
@@ -192,31 +156,31 @@ export function SuggestionPanel({
           ) : overridden ? (
             <div className="flex items-start gap-2 text-sm text-amber-700">
               <span aria-hidden="true">⚠</span>
-              <span className="font-medium">Override recorded — the order will not be approved without the substitution. Sign to submit for PA with exception justification.</span>
+              <span className="font-medium">
+                Override recorded — the order will not be approved without the substitution. Sign to
+                submit for PA with exception justification.
+              </span>
             </div>
           ) : (
-            <>
-              <div className="flex flex-wrap gap-2">
-                {suggestions.map((suggestion: CdsSuggestion) => (
-                  <button
-                    key={suggestion.uuid ?? suggestion.label}
-                    type="button"
-                    onClick={onAccept}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-violet-700 text-white rounded hover:bg-violet-800 transition-colors"
-                  >
-                    {suggestion.label}
-                  </button>
-                ))}
+            <div className="flex flex-wrap gap-2">
+              {suggestions.map((suggestion: CdsSuggestion) => (
                 <button
+                  key={suggestion.uuid ?? suggestion.label}
                   type="button"
-                  onClick={onOverride}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 bg-white border border-slate-300 text-slate-600 rounded hover:bg-slate-50 transition-colors"
+                  onClick={onAccept}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-violet-700 text-white rounded hover:bg-violet-800 transition-colors"
                 >
-                  Override
+                  {suggestion.label}
                 </button>
-              </div>
-
-            </>
+              ))}
+              <button
+                type="button"
+                onClick={onOverride}
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 bg-white border border-slate-300 text-slate-600 rounded hover:bg-slate-50 transition-colors"
+              >
+                Override
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -293,19 +257,29 @@ export function CdsCardRow({
 }
 
 // ---------------------------------------------------------------------------
-// Order-select summary
+// Order-select summary — CRD results only (no regimen echo)
 // ---------------------------------------------------------------------------
 
 /**
- * Structured summary for order-select responses.
- * Shows the draft order being evaluated, Coverage Criteria status, and
- * PA Requirement when determinable.
+ * Structured summary for order-select CRD responses.
+ *
+ * Shows **coverage determination results only**: Coverage Criteria status,
+ * PA Requirement, and any biosimilar suggestion cards. The regimen itself
+ * is displayed in the EHR's Order Summary panel — this component does not
+ * re-render the draft order to avoid duplicating the same drug list in
+ * three places.
+ *
+ * PA Requirement logic:
+ *   - When a biosimilar substitution is proposed and not yet accepted → "Required"
+ *   - When the substitution is accepted → "Satisfied" (biosimilar satisfies the PA requirement)
+ *   - When the substitution is overridden → "Required" (original drug still needs PA)
+ *   - When pa-required topic card present (without suggestion) → "Required"
+ *   - Otherwise → "Not required"
  */
 export function OrderSelectSummary({
   cards,
   patientId,
   selectedRegimenId,
-  regimen,
   onAcceptSuggestion,
   onOverrideSuggestion,
   suggestionAccepted,
@@ -314,7 +288,6 @@ export function OrderSelectSummary({
   cards: CdsCard[];
   patientId: string;
   selectedRegimenId?: string;
-  regimen?: Regimen;
   onAcceptSuggestion?: () => void;
   onOverrideSuggestion?: () => void;
   suggestionAccepted?: boolean;
@@ -325,25 +298,23 @@ export function OrderSelectSummary({
   const approvable = cards.some((c) => c.indicator === "info");
   const authSatisfied = cards.some((c) => c.indicator === "success");
   const paRequired = cards.some((c) => c.source.topic?.code === "prior-auth-required");
+  const hasSuggestion = cards.some((c) => c.suggestions && c.suggestions.length > 0);
   const dtrCard = cards.find((c) => (c.links?.length ?? 0) > 0);
   const coverageMet = approvable || authSatisfied || paRequired;
 
+  // Determine PA requirement status based on suggestion state
+  //   - Biosimilar substitution accepted → PA satisfied (biosimilar meets the requirement)
+  //   - Biosimilar proposed but not accepted (or overridden) → PA required
+  //   - pa-required topic card without suggestion → PA required
+  //   - Otherwise → not required
+  const paSatisfiedByBiosimilar = hasSuggestion && suggestionAccepted;
+  const paRequiredStatus =
+    paSatisfiedByBiosimilar ? false :
+    (hasSuggestion || paRequired) ? true :
+    false;
+
   return (
     <div className="divide-y divide-slate-100">
-      {/* Row 0: Selected Order — what is being evaluated */}
-      {regimen && (
-        <div className="px-4 py-3 bg-slate-50">
-          <span className="text-xs text-slate-400 block mb-2">Selected Order</span>
-          <div className="flex items-start gap-2">
-            <span className="text-sm font-semibold text-slate-900">{regimen.shortLabel}</span>
-            <span className="text-xs text-slate-400 mt-0.5">{regimen.description}</span>
-          </div>
-          <div className="mt-2">
-            <DraftOrderDetails regimen={regimen} />
-          </div>
-        </div>
-      )}
-
       {/* Row 1: Coverage Criteria */}
       <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
         <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">Coverage Criteria</span>
@@ -393,12 +364,17 @@ export function OrderSelectSummary({
       </div>
 
       {/* Row 2: PA Requirement — shown when coverage criteria are met.
-           authorization-satisfied (ECOG 0) → PA not required.
-           pa-required (ECOG ≥ 1) → PA must be submitted before fulfillment. */}
+           When a biosimilar substitution is proposed → PA is Required.
+           When the substitution is accepted → PA is Satisfied (biosimilar meets the requirement).
+           When the substitution is overridden → PA remains Required.
+           pa-required topic (ECOG ≥ 1 without suggestion) → PA Required.
+           Otherwise (ECOG 0) → PA Not required. */}
       {coverageMet && (
         <div className="px-4 py-3 flex items-start gap-4 bg-slate-50">
           <span className="text-xs text-slate-400 w-36 flex-shrink-0 pt-0.5">PA Requirement</span>
-          {paRequired ? (
+          {paSatisfiedByBiosimilar ? (
+            <StatusBadge indicator="info" label="Satisfied" />
+          ) : paRequiredStatus ? (
             <StatusBadge indicator="warning" label="Required" />
           ) : (
             <StatusBadge indicator="info" label="Not required" />
@@ -430,13 +406,16 @@ export function OrderSelectSummary({
 /**
  * Panel wrapping all cards returned by one CDS hook call.
  * The header makes provenance explicit: which service responded, and to which hook.
+ *
+ * This panel shows **CRD response information only** — coverage criteria,
+ * PA requirements, and suggestions. It does not echo the draft order; the
+ * EHR's Order Summary panel is the single source of truth for the regimen.
  */
 export function CrdResponsePanel({
   cards,
   hook,
   patientId,
   selectedRegimenId,
-  regimen,
   onAcceptSuggestion,
   onOverrideSuggestion,
   suggestionAccepted,
@@ -446,7 +425,6 @@ export function CrdResponsePanel({
   hook: "order-select" | "order-sign";
   patientId: string;
   selectedRegimenId?: string;
-  regimen?: Regimen;
   onAcceptSuggestion?: () => void;
   onOverrideSuggestion?: () => void;
   suggestionAccepted?: boolean;
@@ -473,7 +451,6 @@ export function CrdResponsePanel({
           cards={cards}
           patientId={patientId}
           selectedRegimenId={selectedRegimenId}
-          regimen={regimen}
           onAcceptSuggestion={onAcceptSuggestion}
           onOverrideSuggestion={onOverrideSuggestion}
           suggestionAccepted={suggestionAccepted}

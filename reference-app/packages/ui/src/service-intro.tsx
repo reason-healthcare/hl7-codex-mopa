@@ -5,13 +5,16 @@ interface ServiceIntroProps {
   description: string;
   apiDocsHref?: string;
   actions?: ReactNode;
+  /** When true, left-aligns the band (no max-width centering) to match
+   *  the branded EHR nav. Only the EHR app opts in. */
+  branded?: boolean;
 }
 
 /** Slate-50 context band between nav and main canvas on every service page. */
-export function ServiceIntro({ title, description, apiDocsHref, actions }: ServiceIntroProps) {
+export function ServiceIntro({ title, description, apiDocsHref, actions, branded = false }: ServiceIntroProps) {
   return (
     <div className="w-full bg-slate-50 border-b border-slate-200">
-      <div className="max-w-5xl mx-auto px-6 py-6 flex items-start justify-between gap-8">
+      <div className={`${branded ? "" : "max-w-5xl mx-auto"} px-6 py-6 flex items-start justify-between gap-8`}>
         <div>
           <h1 className="text-base font-semibold text-slate-900">{title}</h1>
           <p className="text-sm text-slate-500 mt-1 leading-relaxed max-w-[65ch]">{description}</p>

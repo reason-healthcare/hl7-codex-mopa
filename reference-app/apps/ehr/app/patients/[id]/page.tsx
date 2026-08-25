@@ -1,20 +1,19 @@
+import type { Condition, Observation, Patient } from "@mopa/fhir-client";
 import {
-  Client,
-  PatientSchema,
   BundleSchema,
+  Client,
   ConditionSchema,
   ObservationSchema,
+  PatientSchema,
 } from "@mopa/fhir-client";
-import type { Condition, Observation, Patient } from "@mopa/fhir-client";
 import Link from "next/link";
 import {
+  type CategorizedObs,
   categorizeObservations,
   conditionDisplay,
-  obsDisplay,
   formatObsValue,
+  obsDisplay,
   shortSystem,
-  calculateAge,
-  type CategorizedObs,
 } from "./_lib/chart-helpers";
 
 interface PageProps {
@@ -26,7 +25,6 @@ function getFhirClient() {
 }
 
 const SYS_ICD10 = "http://hl7.org/fhir/sid/icd-10-cm";
-const SYS_SNOMED = "http://snomed.info/sct";
 const SYS_LOINC = "http://loinc.org";
 
 function bundleResources<T>(raw: unknown, resourceType: string, parse: (r: unknown) => T): T[] {
@@ -35,6 +33,19 @@ function bundleResources<T>(raw: unknown, resourceType: string, parse: (r: unkno
     .map((e) => e.resource)
     .filter((r): r is NonNullable<typeof r> => r?.resourceType === resourceType)
     .map((r) => parse(r));
+}
+
+/**
+ * Extract Condition.assessment references (Observation IDs) from a Condition.
+ * These are the staging observations associated with the condition per mCODE.
+ */
+function _getConditionAssessmentRefs(cond: Condition): string[] {
+  const stage = (cond as { stage?: Array<{ assessment?: Array<{ reference?: string }> }> }).stage;
+  if (!stage) return [];
+  return stage
+    .flatMap((s) => s.assessment ?? [])
+    .map((a) => a.reference ?? "")
+    .filter(Boolean);
 }
 
 export default async function PatientChartPage({ params }: PageProps) {
@@ -82,7 +93,6 @@ export default async function PatientChartPage({ params }: PageProps) {
   if (!patient) return null;
 
   const { biomarkers, staging, labs } = categorizeObservations(observations);
-  const age = patient.birthDate ? calculateAge(patient.birthDate) : null;
 
   return (
     <div className="px-5 py-4 space-y-5 max-w-5xl">
@@ -97,69 +107,79 @@ export default async function PatientChartPage({ params }: PageProps) {
         </Link>
       </div>
 
+      {/* ── Clinical Narrative ── */}
+      {patient.text?.div && (
+        <details open className="border border-slate-200 rounded-lg overflow-hidden">
+          <summary className="px-4 py-2 bg-slate-50 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-slate-100 transition-colors">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+              Clinical Narrative
+            </span>
+          </summary>
+          <div className="px-4 py-3 text-sm text-slate-600 leading-relaxed">
+            {patient.text.div
+              .replace(/<[^>]+>/g, " ")
+              .replace(/\s{2,}/g, " ")
+              .trim()}
+          </div>
+        </details>
+      )}
+
       {/* ── Clinical Synopsis ── */}
       <div className="border border-slate-200 rounded-lg overflow-hidden">
         <div className="bg-slate-50 px-4 py-2 border-b border-slate-200">
-          <h2 className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Clinical Synopsis</h2>
+          <h2 className="text-xs font-semibold text-slate-600 uppercase tracking-wide">
+            Clinical Synopsis
+          </h2>
         </div>
 
-        {/* Problem List */}
-        <div className="border-b border-slate-100">
-          <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
-            <span className="text-xs font-medium text-slate-500">Problem List</span>
-          </div>
-          {conditions.length === 0 ? (
-            <p className="px-4 py-3 text-sm text-slate-400 italic">No conditions recorded.</p>
-          ) : (
-            <table className="w-full text-sm">
-              <tbody>
-                {conditions.map((cond) => {
-                  const code = cond.code?.coding?.find((c) => c.system === SYS_ICD10) ?? cond.code?.coding?.[0];
-                  return (
-                    <tr key={cond.id} className="border-b border-slate-50 last:border-0">
-                      <td className="px-4 py-2">
+        {/* ── Conditions with associated staging ──
+            Uses Observation.focus → Condition and Condition.stage.assessment → Observation
+            per mCODE to associate staging observations with their condition. */}
+        {conditions.length > 0 && (
+          <div className="border-b border-slate-100">
+            <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
+              <span className="text-xs font-medium text-slate-500">Conditions &amp; Staging</span>
+            </div>
+            <div className="divide-y divide-slate-100">
+              {conditions.map((cond) => {
+                const code =
+                  cond.code?.coding?.find((c) => c.system === SYS_ICD10) ?? cond.code?.coding?.[0];
+
+                // Match staging observations to this condition via Observation.focus
+                const condRef = `Condition/${cond.id}`;
+                const condStaging = staging.filter((s) => s.conditionRef === condRef);
+
+                return (
+                  <div key={cond.id} className="px-4 py-3">
+                    {/* Condition header row */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                         <span className="font-medium text-slate-800">{conditionDisplay(cond)}</span>
                         {code?.code && (
-                          <span className="ml-2 text-xs font-mono text-slate-400">
+                          <span className="text-xs font-mono text-slate-400">
                             {code.code} · {shortSystem(code.system)}
                           </span>
                         )}
-                      </td>
-                      <td className="px-4 py-2 text-right">
-                        <span className="inline-flex items-center gap-1 text-xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                          <span className="text-slate-600 capitalize">{cond.clinicalStatus?.coding?.[0]?.code ?? "—"}</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs text-slate-400">
+                        <span className="capitalize">
+                          {cond.clinicalStatus?.coding?.[0]?.code ?? "—"}
                         </span>
-                      </td>
-                      <td className="px-4 py-2 text-right text-xs text-slate-400 whitespace-nowrap">
-                        {cond.onsetDateTime?.slice(0, 10) ?? "—"}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-        </div>
+                        <span className="whitespace-nowrap">
+                          {cond.onsetDateTime?.slice(0, 10) ?? "—"}
+                        </span>
+                      </div>
+                    </div>
 
-        {/* Biomarker Results */}
-        {biomarkers.length > 0 && (
-          <div className="border-b border-slate-100">
-            <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
-              <span className="text-xs font-medium text-slate-500">Biomarker Results</span>
-            </div>
-            <div className="grid grid-cols-3 divide-x divide-slate-100">
-              {biomarkers.map((b) => {
-                const label = b.label.split(" ")[0];
-                const isPositive = b.valueCode === "10828004" || b.valueCode === "416940007";
-                return (
-                  <div key={b.obs.id} className="px-4 py-3">
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">{label}</p>
-                    <p className={`text-sm font-semibold mt-0.5 ${isPositive ? "text-rose-700" : "text-slate-700"}`}>
-                      {b.value}
-                    </p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 font-mono">{b.code} · {shortSystem(b.system)}</p>
-                    <p className="text-[10px] text-slate-400">{b.date}</p>
+                    {/* Associated staging observations (linked via Observation.focus) */}
+                    {condStaging.length > 0 && (
+                      <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {condStaging.map((s) => (
+                          <StagingCard key={s.obs.id} staging={s} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -167,45 +187,68 @@ export default async function PatientChartPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Staging & Genomic */}
-        {staging.length > 0 && (
+        {/* ── Biomarkers & Labs ── */}
+        {(biomarkers.length > 0 || labs.length > 0) && (
           <div className="border-b border-slate-100">
             <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
-              <span className="text-xs font-medium text-slate-500">Staging &amp; Clinical Assessment</span>
+              <span className="text-xs font-medium text-slate-500">Biomarkers &amp; Labs</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-100">
-              {staging.map((s) => (
-                <div key={s.obs.id} className="px-4 py-3">
-                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">
-                    {s.label.length > 40 ? s.code : s.label}
-                  </p>
-                  <p className="text-sm font-semibold mt-0.5 text-slate-700">{s.value}</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5 font-mono">{s.code} · {shortSystem(s.system)}</p>
-                  <p className="text-[10px] text-slate-400">{s.date}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* Other Labs */}
-        {labs.length > 0 && (
-          <div>
-            <div className="px-4 py-1.5 bg-slate-50/50 border-b border-slate-100">
-              <span className="text-xs font-medium text-slate-500">Other Observations</span>
-            </div>
-            <table className="w-full text-sm">
-              <tbody>
-                {labs.map((l) => (
-                  <tr key={l.obs.id} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-1.5 text-slate-700">{l.label}</td>
-                    <td className="px-4 py-1.5 text-slate-600 font-medium">{l.value}</td>
-                    <td className="px-4 py-1.5 text-xs text-slate-400 font-mono">{l.code} · {shortSystem(l.system)}</td>
-                    <td className="px-4 py-1.5 text-xs text-slate-400 text-right whitespace-nowrap">{l.date}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {/* Biomarker Results */}
+            {biomarkers.length > 0 && (
+              <div className="border-b border-slate-100">
+                <div className="px-4 py-1 bg-slate-50/30">
+                  <span className="text-[10px] font-medium text-slate-400">Biomarker Results</span>
+                </div>
+                <div className="grid grid-cols-3 divide-x divide-slate-100">
+                  {biomarkers.map((b) => {
+                    const label = b.label.split(" ")[0];
+                    const isPositive = b.valueCode === "10828004" || b.valueCode === "416940007";
+                    return (
+                      <div key={b.obs.id} className="px-4 py-3">
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">
+                          {label}
+                        </p>
+                        <p
+                          className={`text-sm font-semibold mt-0.5 ${isPositive ? "text-rose-700" : "text-slate-700"}`}
+                        >
+                          {b.value}
+                        </p>
+                        <p className="text-[10px] text-slate-400 mt-0.5 font-mono">
+                          {b.code} · {shortSystem(b.system)}
+                        </p>
+                        <p className="text-[10px] text-slate-400">{b.date}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Other Labs */}
+            {labs.length > 0 && (
+              <div>
+                <div className="px-4 py-1 bg-slate-50/30">
+                  <span className="text-[10px] font-medium text-slate-400">Other Labs</span>
+                </div>
+                <table className="w-full text-sm">
+                  <tbody>
+                    {labs.map((l) => (
+                      <tr key={l.obs.id} className="border-b border-slate-50 last:border-0">
+                        <td className="px-4 py-1.5 text-slate-700">{l.label}</td>
+                        <td className="px-4 py-1.5 text-slate-600 font-medium">{l.value}</td>
+                        <td className="px-4 py-1.5 text-xs text-slate-400 font-mono">
+                          {l.code} · {shortSystem(l.system)}
+                        </td>
+                        <td className="px-4 py-1.5 text-xs text-slate-400 text-right whitespace-nowrap">
+                          {l.date}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -229,11 +272,14 @@ export default async function PatientChartPage({ params }: PageProps) {
             </thead>
             <tbody>
               {observations.map((obs) => {
-                const coding = obs.code?.coding?.find((c) => c.system === SYS_LOINC) ?? obs.code?.coding?.[0];
+                const coding =
+                  obs.code?.coding?.find((c) => c.system === SYS_LOINC) ?? obs.code?.coding?.[0];
                 return (
                   <tr key={obs.id} className="border-t border-slate-100">
                     <td className="px-3 py-1.5 text-slate-700">{obsDisplay(obs)}</td>
-                    <td className="px-3 py-1.5 text-slate-600 font-medium">{formatObsValue(obs)}</td>
+                    <td className="px-3 py-1.5 text-slate-600 font-medium">
+                      {formatObsValue(obs)}
+                    </td>
                     <td className="px-3 py-1.5 text-xs text-slate-400 font-mono">
                       {coding?.code ?? "—"} · {shortSystem(coding?.system)}
                     </td>
@@ -247,47 +293,26 @@ export default async function PatientChartPage({ params }: PageProps) {
           </table>
         </details>
       )}
+    </div>
+  );
+}
 
-      {/* ── Demographics detail ── */}
-      <details className="border border-slate-200 rounded-lg overflow-hidden">
-        <summary className="px-4 py-2 bg-slate-50 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-slate-100 transition-colors">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Demographics</span>
-        </summary>
-        <dl className="grid grid-cols-2 gap-4 text-sm px-4 py-3">
-          <div>
-            <dt className="text-slate-500 text-xs">Date of Birth</dt>
-            <dd className="font-medium">{patient.birthDate ?? "—"}{age !== null && ` (${age} yrs)`}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500 text-xs">Gender</dt>
-            <dd className="font-medium capitalize">{patient.gender ?? "—"}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-500 text-xs">FHIR ID</dt>
-            <dd className="font-mono text-xs text-slate-500">{patient.id}</dd>
-          </div>
-          {patient.identifier?.map((ident) => (
-            <div key={ident.value ?? ident.system ?? "id"}>
-              <dt className="text-slate-500 text-xs">
-                {ident.type?.coding?.[0]?.code ?? ident.system ?? "Identifier"}
-              </dt>
-              <dd className="font-medium">{ident.value ?? "—"}</dd>
-            </div>
-          ))}
-        </dl>
-      </details>
+// ---------------------------------------------------------------------------
+// StagingCard — renders a single staging observation as a compact card
+// ---------------------------------------------------------------------------
 
-      {/* ── Clinical Narrative ── */}
-      {patient.text?.div && (
-        <details className="border border-slate-200 rounded-lg overflow-hidden">
-          <summary className="px-4 py-2 bg-slate-50 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-slate-100 transition-colors">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Clinical Narrative</span>
-          </summary>
-          <div className="px-4 py-3 text-sm text-slate-600 leading-relaxed">
-            {patient.text.div.replace(/<[^>]+>/g, " ").replace(/\s{2,}/g, " ").trim()}
-          </div>
-        </details>
-      )}
+function StagingCard({ staging }: { staging: CategorizedObs }) {
+  const label = staging.label.length > 40 ? staging.code : staging.label;
+  return (
+    <div className="bg-slate-50 rounded px-3 py-2 border border-slate-100">
+      <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">{label}</p>
+      <p className="text-sm font-semibold mt-0.5 text-slate-700">{staging.value}</p>
+      <div className="flex items-center gap-2 mt-0.5">
+        <p className="text-[10px] text-slate-400 font-mono">
+          {staging.code} · {shortSystem(staging.system)}
+        </p>
+        <p className="text-[10px] text-slate-400">{staging.date}</p>
+      </div>
     </div>
   );
 }

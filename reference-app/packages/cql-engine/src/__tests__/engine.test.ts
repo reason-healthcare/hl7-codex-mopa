@@ -102,7 +102,7 @@ const STAGE_OBS = makeObsWithValue("21908-9", LOINC, "1222766008", SNOMED, "Stag
 const ECOG_OBS = makeObsWithInteger("89247-1", LOINC, 0);
 
 // OncotypeDX observation (recurrence score = 28)
-const ONCOTYPEDX_28 = makeObsWithInteger("76761-1", LOINC, 28);
+const ONCOTYPEDX_28 = makeObsWithInteger("104119-3", LOINC, 28);
 
 // Menopausal status observation (postmenopausal)
 const POSTMENOPAUSAL = makeObsWithValue("428361000124107", SNOMED, "428361000124107", SNOMED, "Postmenopausal state");
@@ -305,7 +305,7 @@ describe("BreastCancerGuideline — CqlExecutionEngine", () => {
   });
 
   it("OncotypeDX below threshold (score 18) → ddACT not eligible", async () => {
-    const lowScore = makeObsWithInteger("76761-1", LOINC, 18);
+    const lowScore = makeObsWithInteger("104119-3", LOINC, 18);
     const results = await engine.evaluate(guidelineElm, PATIENT_ID, [
       PATIENT,
       BREAST_CA_DX,

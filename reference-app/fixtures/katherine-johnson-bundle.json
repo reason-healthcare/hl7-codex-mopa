@@ -31,7 +31,10 @@
           {
             "use": "official",
             "family": "Johnson",
-            "given": ["Katherine", "Mae"]
+            "given": [
+              "Katherine",
+              "Mae"
+            ]
           }
         ],
         "gender": "female",
@@ -92,7 +95,26 @@
           "reference": "Patient/katherine-johnson"
         },
         "onsetDateTime": "2026-01-15",
-        "recordedDate": "2026-01-20"
+        "recordedDate": "2026-01-20",
+        "stage": [
+          {
+            "summary": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "258293006",
+                  "display": "AJCC stage grouping"
+                }
+              ],
+              "text": "Clinical staging"
+            },
+            "assessment": [
+              {
+                "reference": "Observation/katherine-johnson-cancer-stage"
+              }
+            ]
+          }
+        ]
       },
       "request": {
         "method": "PUT",
@@ -275,7 +297,12 @@
             }
           ],
           "text": "Stage IIA (T2 N0 M0)"
-        }
+        },
+        "focus": [
+          {
+            "reference": "Condition/katherine-johnson-breast-cancer"
+          }
+        ]
       },
       "request": {
         "method": "PUT",
@@ -302,8 +329,8 @@
           "coding": [
             {
               "system": "http://loinc.org",
-              "code": "76761-1",
-              "display": "Recurrence score [Oncotype DX] in Breast cancer specimen by Molecular genetics method"
+              "code": "104119-3",
+              "display": "Breast Cancer recurrence risk multigene analysis in Tissue by Molecular genetics method"
             }
           ],
           "text": "Oncotype DX Recurrence Score"

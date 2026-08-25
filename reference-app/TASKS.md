@@ -523,7 +523,7 @@ CodeX Prior Authorization in Medical Oncology proof-of-concept document.
       treated as positive
 - [x] Add `Is ER Positive` (value-based check on LOINC 85337-4)
 - [x] Add `Is Postmenopausal` (SNOMED 428361000124107 presence)
-- [x] Add `OncotypeDX Score High` (LOINC 76761-1, value >= 26 per NCCN/TAILORx)
+- [x] Add `OncotypeDX Score High` (LOINC 104119-3, value >= 26 per NCCN/TAILORx)
 - [x] Refine `ddACT Eligible` to require HER2-negative, ER-positive,
       post-menopausal, and OncotypeDX >= 26 (was: just "not HER2 positive")
 - [x] Recompile ELM with `rh cql compile` (v0.2.8)

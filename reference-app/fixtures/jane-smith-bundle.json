@@ -10,7 +10,7 @@
         "id": "jane-smith",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Jane Smith</b>, 54-year-old female (DOB 1972-04-15). Stage IIIA primary malignant neoplasm of the left breast, diagnosed January 2024. HER2-positive by IHC (3+). ECOG Performance Status 0 \u2014 fully active, no restrictions on activity.</p><p><b>Expected CDS outcome:</b> All required data elements present; ECOG 0 meets pre-authorization criteria. CRD returns pre-authorization \u2014 no prior authorization submission required.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Jane Smith</b>, 54-year-old female (DOB 1972-04-15). Stage IIIA primary malignant neoplasm of the left breast, diagnosed January 2024. HER2-positive by IHC (3+). ECOG Performance Status 0 — fully active, no restrictions on activity.</p><p><b>Expected CDS outcome:</b> All required data elements present; ECOG 0 meets pre-authorization criteria. CRD returns pre-authorization — no prior authorization submission required.</p></div>"
         },
         "identifier": [
           {
@@ -31,7 +31,10 @@
           {
             "use": "official",
             "family": "Smith",
-            "given": ["Jane", "Marie"]
+            "given": [
+              "Jane",
+              "Marie"
+            ]
           }
         ],
         "gender": "female",
@@ -92,7 +95,26 @@
           "reference": "Patient/jane-smith"
         },
         "onsetDateTime": "2024-01-10",
-        "recordedDate": "2024-01-15"
+        "recordedDate": "2024-01-15",
+        "stage": [
+          {
+            "summary": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "258293006",
+                  "display": "AJCC stage grouping"
+                }
+              ],
+              "text": "Clinical staging"
+            },
+            "assessment": [
+              {
+                "reference": "Observation/jane-smith-cancer-stage"
+              }
+            ]
+          }
+        ]
       },
       "request": {
         "method": "PUT",
@@ -183,7 +205,12 @@
             }
           ],
           "text": "Stage IIIA"
-        }
+        },
+        "focus": [
+          {
+            "reference": "Condition/jane-smith-breast-cancer"
+          }
+        ]
       },
       "request": {
         "method": "PUT",

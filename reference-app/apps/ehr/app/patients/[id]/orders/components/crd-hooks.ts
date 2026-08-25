@@ -19,7 +19,7 @@ export async function fireCdsHook(
   hook: "order-select" | "order-sign",
   patientId: string,
   regimen: Regimen,
-  draftOrdersOverride?: object,
+  draftOrdersOverride?: object
 ): Promise<CdsResponse> {
   const draftOrders = draftOrdersOverride ?? buildDraftBundle(patientId, regimen);
 
