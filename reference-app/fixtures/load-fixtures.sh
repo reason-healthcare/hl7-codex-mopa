@@ -54,6 +54,20 @@ load_bundle() {
 
   echo "── $label ($patient_id) ────────────────────"
   echo "Purging existing data..."
+  # First, query for ALL observations for this patient (including DTR-created
+  # ones with server-assigned IDs) and delete them individually.
+  OBS_IDS=$(curl -s "$FHIR_BASE/Observation?patient=${patient_id}&_count=200"     | python3 -c "
+import json, sys
+try:
+    data = json.load(sys.stdin)
+    for entry in data.get('entry', []):
+        res = entry.get('resource', {})
+        print(res.get('id', ''))
+except: pass
+" 2>/dev/null)
+  for obs_id in $OBS_IDS; do
+    [ -n "$obs_id" ] && cond_delete "Observation/${obs_id}"
+  done
   cond_delete "Observation?patient=${patient_id}"
   cond_delete "Condition?patient=${patient_id}"
   cond_delete "QuestionnaireResponse?patient=${patient_id}"
