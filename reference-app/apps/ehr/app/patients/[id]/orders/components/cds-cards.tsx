@@ -308,10 +308,7 @@ export function OrderSelectSummary({
   //   - pa-required topic card without suggestion → PA required
   //   - Otherwise → not required
   const paSatisfiedByBiosimilar = hasSuggestion && suggestionAccepted;
-  const paRequiredStatus =
-    paSatisfiedByBiosimilar ? false :
-    (hasSuggestion || paRequired) ? true :
-    false;
+  const paRequiredStatus = paSatisfiedByBiosimilar ? false : !!(hasSuggestion || paRequired);
 
   return (
     <div className="divide-y divide-slate-100">
@@ -330,34 +327,9 @@ export function OrderSelectSummary({
                   {renderDetail((dtrCard ?? cards[0])!.detail!)}
                 </p>
               )}
-              {(dtrCard?.links ?? []).length > 0 && (
-                <div className="mt-2.5 flex flex-wrap gap-2">
-                  {dtrCard?.links?.map((link) => {
-                    const href =
-                      link.type === "smart"
-                        ? buildSmartLaunchUrl(
-                            link,
-                            patientId,
-                            selectedRegimenId ? { returnRegimen: selectedRegimenId } : undefined
-                          )
-                        : link.url;
-                    return (
-                      <a
-                        key={link.url}
-                        href={href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 bg-white border border-slate-300 rounded text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-colors"
-                      >
-                        {link.label}
-                        <span aria-hidden="true" className="text-slate-400">
-                          ↗
-                        </span>
-                      </a>
-                    );
-                  })}
-                </div>
-              )}
+              <p className="mt-2 text-xs text-amber-600 font-medium">
+                Documentation required — see Step 2.
+              </p>
             </>
           )}
         </div>

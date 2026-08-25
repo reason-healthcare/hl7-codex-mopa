@@ -116,7 +116,7 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   // DTR detection: cards with links (SMART launch) at either hook stage
   const selectDtrCard = selectCards.find((c) => (c.links?.length ?? 0) > 0);
   const signDtrCard = signCards.find((c) => (c.links?.length ?? 0) > 0);
-  const dtrNeeded = !!selectDtrCard || !!signDtrCard;
+  const _dtrNeeded = !!selectDtrCard || !!signDtrCard;
 
   // Coverage status from order-select
   const coverageMet =
@@ -302,15 +302,13 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
   const dtrStatus: StepStatus = !selected
     ? "pending"
-    : !dtrNeeded
+    : !selectDtrCard
       ? "skipped"
-      : dtrCompleted && !selectDtrCard
+      : dtrCompleted
         ? "complete"
         : signed
           ? "skipped"
-          : selectDtrCard
-            ? "action"
-            : "skipped";
+          : "action";
 
   const signStatus: StepStatus = !selected
     ? "pending"
@@ -527,17 +525,15 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
               </p>
             )}
 
-            {dtrStatus === "action" && (
+            {dtrStatus === "action" && selectDtrCard && (
               <>
-                {(selectDtrCard ?? signDtrCard)?.detail && (
+                {selectDtrCard.detail && (
                   <p className="text-sm text-slate-600 mb-3 leading-relaxed">
-                    {/* biome-ignore lint/style/noNonNullAssertion: guarded by dtrStatus === action */}
-                    {renderDetailInline((selectDtrCard ?? signDtrCard)!.detail!)}
+                    {renderDetailInline(selectDtrCard.detail)}
                   </p>
                 )}
-                {(selectDtrCard ?? signDtrCard)?.links?.map((link) => {
-                  const dtrCard = selectDtrCard ?? signDtrCard;
-                  const href = buildDtrHref(link, dtrCard, patientId, selected?.id);
+                {selectDtrCard.links?.map((link) => {
+                  const href = buildDtrHref(link, selectDtrCard, patientId, selected?.id);
                   return (
                     <a
                       key={link.url}
