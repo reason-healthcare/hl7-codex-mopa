@@ -306,8 +306,8 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
       ? "skipped"
       : dtrCompleted && !selectDtrCard
         ? "complete"
-        : signDtrCard
-          ? "action"
+        : signed
+          ? "skipped"
           : selectDtrCard
             ? "action"
             : "skipped";
@@ -317,7 +317,9 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     : signLoading
       ? "active"
       : signed
-        ? "complete"
+        ? signDtrCard
+          ? "action"
+          : "complete"
         : "pending";
 
   const pasStatus: StepStatus = !selected
@@ -579,14 +581,42 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
             {signCards.length > 0 && !signLoading && (
               <div className="divide-y divide-slate-100">
-                {signCards.map((card, i) => (
-                  <CdsCardRow
-                    key={card.uuid ?? i}
-                    card={card}
-                    patientId={patientId}
-                    selectedRegimenId={selected?.id}
-                  />
-                ))}
+                {/* DTR launch link — same prominent UX as step 2 */}
+                {signDtrCard && (
+                  <div className="px-4 py-3 bg-amber-50">
+                    {signDtrCard.detail && (
+                      <p className="text-sm text-slate-600 mb-3 leading-relaxed">
+                        {renderDetailInline(signDtrCard.detail)}
+                      </p>
+                    )}
+                    {signDtrCard.links?.map((link) => {
+                      const href = buildDtrHref(link, signDtrCard, patientId, selected?.id);
+                      return (
+                        <a
+                          key={link.url}
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"
+                        >
+                          {link.label}
+                          <span aria-hidden="true">↗</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
+                {/* Non-DTR sign cards */}
+                {signCards
+                  .filter((c) => !((c.links?.length ?? 0) > 0))
+                  .map((card, i) => (
+                    <CdsCardRow
+                      key={card.uuid ?? i}
+                      card={card}
+                      patientId={patientId}
+                      selectedRegimenId={selected?.id}
+                    />
+                  ))}
               </div>
             )}
           </div>
