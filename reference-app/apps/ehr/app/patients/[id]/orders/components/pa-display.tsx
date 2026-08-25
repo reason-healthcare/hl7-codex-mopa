@@ -39,9 +39,9 @@ export function ClaimResponseDisplay({ outcome, disposition, processNote }: Clai
 
   return (
     <div className={bgClass}>
-      <div className="rounded px-4 py-3 flex items-start gap-3">
+      <div className="rounded px-4 py-3 space-y-2">
         <span
-          className={`mt-0.5 flex-shrink-0 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded ${cfg.badgeBg} ${cfg.badgeText}`}
+          className={`inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded ${cfg.badgeBg} ${cfg.badgeText}`}
           role="img"
           aria-label={cfg.label}
         >
