@@ -80,6 +80,10 @@ echo -e "${BOLD}╚════════════════════�
 if [ "$SKIP_BUILD" = true ]; then
   warn "Skipping build (--skip-build). Using existing ./output."
 else
+  step "Cleaning previous IG build artifacts"
+  (cd "$SCRIPT_DIR" && bash ig-build.sh clean)
+  ok "Previous build artifacts removed."
+
   step "Running full IG build"
   (cd "$SCRIPT_DIR" && bash ig-build.sh)
   ok "Build complete."
