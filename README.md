@@ -1,6 +1,6 @@
 # Medical Oncology Prior Authorization (MOPA) Implementation Guide
 
-Site: **https://reason-healthcare.github.io/hl7-codex-ocpa/**
+Site: **https://reason-healthcare.github.io/hl7-codex-mopa/**
 
 > 💬 **Have feedback?** See the [Feedback Guide](./docs/FEEDBACK.md) for easy ways to submit comments — including options for non-technical reviewers and AI-assisted issue filing.
 
@@ -123,7 +123,7 @@ Generated SVGs are committed so the IG can be built without Node.js by downstrea
 
 ## Publishing to GitHub Pages
 
-The published IG is available at: **https://reason-healthcare.github.io/hl7-codex-ocpa/**
+The published IG is available at: **https://reason-healthcare.github.io/hl7-codex-mopa/**
 
 **`ig-publish.sh`** builds the IG and force-pushes `./output` to the `origin/guide` branch,
 which should be configured as the GitHub Pages source
