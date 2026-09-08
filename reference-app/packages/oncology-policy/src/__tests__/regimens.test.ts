@@ -4,11 +4,12 @@ import {
   buildDraftBundle,
   buildReplacementMedicationRequest,
   findBiosimilarDrugs,
+  isRegimenIntentCategory,
   MOPA_BASE,
   RXNORM,
   TREATMENT_LINE,
-  EXT_INTENT,
-  EXT_LINE,
+  EXT_REQUEST_CATEGORY,
+  REQUEST_GROUP_PROFILE,
   type Regimen,
 } from "../regimens";
 
@@ -27,13 +28,29 @@ describe("REGIMENS", () => {
     expect(ids).toContain("PHD");
   });
 
-  it("every regimen has a canonicalUrl, intent, and treatmentLine", () => {
+  it("every regimen has a canonicalUrl and catalog default categories", () => {
     for (const r of REGIMENS) {
       expect(r.canonicalUrl).toContain(MOPA_BASE);
-      expect(r.intent.code).toBeTruthy();
-      expect(r.intent.display).toBeTruthy();
-      expect(r.treatmentLine.code).toBeTruthy();
+      expect(r.defaultCategories.length).toBeGreaterThanOrEqual(2);
+      expect(r.defaultCategories.every((c) => c.system && c.code && c.display)).toBe(true);
     }
+  });
+
+  it("recognizes only the SNOMED regimen-intent value set as intent", () => {
+    expect(
+      isRegimenIntentCategory({
+        system: "http://snomed.info/sct",
+        code: "373846009",
+        display: "Adjuvant - intent",
+      })
+    ).toBe(true);
+    expect(
+      isRegimenIntentCategory({
+        system: "http://snomed.info/sct",
+        code: "254837009",
+        display: "Malignant neoplasm of breast",
+      })
+    ).toBe(false);
   });
 
   it("every regimen has at least one phase with at least one drug", () => {
@@ -106,13 +123,41 @@ describe("buildDraftBundle", () => {
     expect(mrSubject.reference).toBe("Patient/jane-smith");
   });
 
-  it("carries regimen intent and treatment line extensions on the RequestGroup", () => {
+  it("carries repeated CRD request-category extensions on the RequestGroup", () => {
     const bundle = buildDraftBundle("jane-smith", th);
     const rg = bundle.entry[0]?.resource as Resource;
     const exts = rg.extension as Array<{ url: string }>;
     const urls = exts.map((e) => e.url);
-    expect(urls).toContain(EXT_INTENT);
-    expect(urls).toContain(EXT_LINE);
+    expect(urls).toEqual([EXT_REQUEST_CATEGORY, EXT_REQUEST_CATEGORY]);
+    expect(urls).not.toContain(`${MOPA_BASE}/StructureDefinition/ocpa-regimen-intent`);
+    expect(urls).not.toContain(`${MOPA_BASE}/StructureDefinition/ocpa-regimen-treatment-line`);
+    expect((rg.meta as { profile: string[] }).profile).toContain(REQUEST_GROUP_PROFILE);
+  });
+
+  it("accepts arbitrary zero-to-many patient/order categories", () => {
+    const bundle = buildDraftBundle("jane-smith", th, {
+      categories: [
+        { system: "http://example.org/category", code: "study", display: "Clinical study" },
+      ],
+    });
+    const rg = bundle.entry[0]?.resource as Resource;
+    expect(rg.extension).toEqual([
+      {
+        url: EXT_REQUEST_CATEGORY,
+        valueCodeableConcept: {
+          coding: [
+            { system: "http://example.org/category", code: "study", display: "Clinical study" },
+          ],
+        },
+      },
+    ]);
+  });
+
+  it("sends RequestGroup only at order-select and component requests at order-sign", () => {
+    expect(buildDraftBundle("jane-smith", th, { stage: "order-select" }).entry).toHaveLength(1);
+    expect(
+      buildDraftBundle("jane-smith", th, { stage: "order-sign" }).entry.length
+    ).toBeGreaterThan(1);
   });
 
   it("uses RxNorm for medication codeable concepts", () => {
@@ -190,7 +235,9 @@ describe("buildReplacementMedicationRequest", () => {
     const result = buildReplacementMedicationRequest("jane-smith", pegfilgrastim);
     expect(result).not.toBeNull();
     expect(result!.resourceId).toBe("urn:uuid:mr-pegfilgrastim-ac");
-    const resource = result!.resource as { medicationCodeableConcept: { coding: Array<{ code: string; display: string }> } };
+    const resource = result!.resource as {
+      medicationCodeableConcept: { coding: Array<{ code: string; display: string }> };
+    };
     expect(resource.medicationCodeableConcept.coding[0].code).toBe("2102692");
     expect(resource.medicationCodeableConcept.coding[0].display).toContain("Udenyca");
   });

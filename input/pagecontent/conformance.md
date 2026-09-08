@@ -30,7 +30,7 @@ semantics. Implementers SHALL understand and follow this distinction:
 | Stage | Purpose | Card Semantics |
 |---|---|---|
 | `order-select` | Informational approvability check — fires when the provider selects a regimen, before signing | Cards SHOULD use `indicator: "info"` for approvable regimens (advisory, not binding). `indicator: "warning"` for PA-required or DTR-required. `indicator: "critical"` only for categorical exclusions. |
-| `order-sign` | Final determination — fires when the provider signs the order | Cards carry the binding determination: `indicator: "success"` for Authorization Satisfied, `indicator: "warning"` for PA-required or DTR-required. DTR data collected at `order-select` is **not** assumed to be persisted to the EHR FHIR server. |
+| `order-sign` | Final determination — fires when the provider signs the order | Cards carry the binding determination: `indicator: "success"` for Authorization Satisfied, `indicator: "warning"` for PA-required or DTR-required. Production exchange carries any needed DTR QuestionnaireResponse in `draftOrders`; the reference app's EHR write-back is demo-only. |
 {: .table}
 
 ### Oncology CRD Client
@@ -38,16 +38,19 @@ semantics. Implementers SHALL understand and follow this distinction:
 A conformant **Oncology CRD Client** (EHR or ordering system):
 
 1. **SHALL** include the selected anti-cancer regimen as a `RequestGroup` conforming to
-   `OncologyAntiCancerRegimenRequestGroup` in `context.draftOrders` and `context.selections`.
+   `AntiCancerRegimenRequestGroup` in `context.draftOrders` and `context.selections`.
 2. **SHALL** fire `order-select` when the provider selects a regimen from the order-set,
    before the order is signed. At this stage the `RequestGroup` is present but component
    `MedicationRequest` resources may not yet be finalised.
 3. **SHALL** fire `order-sign` when the provider signs the order, with finalised component
    `MedicationRequest` resources included in `context.draftOrders`.
 4. **SHOULD** populate `RequestGroup.instantiatesCanonical` with the canonical URL of the
-   `OncologyAntiCancerRegimenPlanDefinition` when the definition is known. Many EHR order-sets
+   `AntiCancerRegimenPlanDefinition` when the definition is known. Many EHR order-sets
    do not have a published canonical definition; omitting this field is permitted.
-5. **SHOULD** provide `fhirAuthorization` in the CDS Hooks request to allow the CRD service to
+5. **SHALL** populate repeated Da Vinci CRD `ext-request-category` values on RequestGroup for
+   available patient-specific treatment intent and line-of-therapy context. This requires the
+   proposed CRD RequestGroup extension-context expansion.
+6. **SHOULD** provide `fhirAuthorization` in the CDS Hooks request to allow the CRD service to
    query patient context directly from the EHR FHIR server.
 6. **SHALL** apply accepted CDS Hooks suggestion actions (delete + create) to
    `context.draftOrders` in-session when a Propose Alternate Request card is accepted

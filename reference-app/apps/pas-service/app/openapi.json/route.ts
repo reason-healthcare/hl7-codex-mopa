@@ -4,7 +4,7 @@ const SPEC = {
   openapi: "3.0.3",
   info: {
     title: "MOPA PAS Service",
-    version: "0.1.0",
+    version: "0.1.1-snapshot-080926",
     description:
       "Prior Authorization Service. Receives simplified PA submission requests from the EHR, " +
       "delegates CQL policy evaluation to the Payer Backend, and returns a FHIR ClaimResponse.",

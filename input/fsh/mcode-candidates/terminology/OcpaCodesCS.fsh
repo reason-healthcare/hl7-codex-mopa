@@ -19,11 +19,6 @@ be a permanent artifact of this IG. See the mCODE Gap Proposals page for the ful
 * ^caseSensitive = true
 * ^content = #complete
 
-// ---- Observation codes ----
-* #line-of-therapy
-    "Line of Therapy"
-    "An Observation that documents the ordinal line of systemic anti-cancer therapy a patient is receiving or has received. Migration candidate for LOINC."
-
 // ---- Regimen component role codes ----
 * #anti-cancer
     "Anti-Cancer Component"

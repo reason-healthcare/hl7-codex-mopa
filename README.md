@@ -123,7 +123,7 @@ Generated SVGs are committed so the IG can be built without Node.js by downstrea
 
 ## Publishing to GitHub Pages
 
-The published IG is available at: **https://reason-healthcare.github.io/hl7-codex-mopa/**
+The published IG is available at: **https://reason-healthcare.github.io/hl7-codex-ocpa/**
 
 **`ig-publish.sh`** builds the IG and force-pushes `./output` to the `origin/guide` branch,
 which should be configured as the GitHub Pages source

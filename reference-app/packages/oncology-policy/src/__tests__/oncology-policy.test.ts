@@ -4,6 +4,9 @@ import {
   LOINC,
   BREAST_CANCER_CODE,
   FHIR_QUERIES,
+  REQUEST_CATEGORY_EXTENSION,
+  TREATMENT_LINE_CS,
+  extractRequestCategories,
   MISSING_KEY_LABELS,
   extractResources,
   hasBreastCancer,
@@ -255,6 +258,61 @@ describe("evaluateBreastCancerPolicy", () => {
     expect(result.status).toBe("authorization-satisfied");
   });
 
+  it("consumes repeated intent and line categories on RequestGroup", () => {
+    const result = evaluateBreastCancerPolicy({
+      ...FULL_CONTEXT,
+      requestCategories: [
+        { system: SNOMED, code: "373846009", display: "Adjuvant - intent" },
+        { system: TREATMENT_LINE_CS, code: "1L", display: "First-line" },
+      ],
+    });
+    expect(result.status).toBe("authorization-satisfied");
+    if (result.status === "authorization-satisfied") {
+      expect(result.reason).toContain("Adjuvant - intent");
+    }
+  });
+
+  it("requires PA for a valid subsequent-line category", () => {
+    const result = evaluateBreastCancerPolicy({
+      ...FULL_CONTEXT,
+      requestCategories: [
+        { system: SNOMED, code: "363676003", display: "Palliative intent" },
+        { system: TREATMENT_LINE_CS, code: "2L", display: "Second-line" },
+      ],
+    });
+    expect(result.status).toBe("pa-required");
+    if (result.status === "pa-required") {
+      expect(result.reason).toContain("Palliative intent");
+    }
+  });
+
+  it("extracts repeated CRD categories and rejects malformed values", () => {
+    const result = extractRequestCategories({
+      entry: [
+        {
+          resource: {
+            resourceType: "RequestGroup",
+            extension: [
+              {
+                url: REQUEST_CATEGORY_EXTENSION,
+                valueCodeableConcept: {
+                  coding: [{ system: SNOMED, code: "373846009", display: "Adjuvant - intent" }],
+                },
+              },
+              {
+                url: REQUEST_CATEGORY_EXTENSION,
+                valueCodeableConcept: { coding: [{ system: TREATMENT_LINE_CS, code: "1L" }] },
+              },
+              { url: REQUEST_CATEGORY_EXTENSION, valueString: "not-a-code" },
+            ],
+          },
+        },
+      ],
+    });
+    expect(result.categories).toHaveLength(2);
+    expect(result.invalid).toHaveLength(1);
+  });
+
   it("all data present, ECOG 1 → pa-required", () => {
     const result = evaluateBreastCancerPolicy({
       ...FULL_CONTEXT,
@@ -333,12 +391,7 @@ describe("evaluateBreastCancerPolicy", () => {
       priorTherapy: makeBundle(),
     });
     if (result.status === "dtr-required") {
-      expect(result.missingKeys).toEqual([
-        "breastCancer",
-        "her2",
-        "cancerStage",
-        "ecogPs",
-      ]);
+      expect(result.missingKeys).toEqual(["breastCancer", "her2", "cancerStage", "ecogPs"]);
     }
   });
 });

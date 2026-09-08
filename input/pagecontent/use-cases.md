@@ -64,7 +64,7 @@ The MOPA workflow uses the standard Da Vinci CRD/DTR/PAS sequence with two CDS H
 For the full workflow to operate:
 - The EHR SHALL have access to relevant patient context (mCODE-based Observations, Conditions,
   MedicationRequests)
-- A canonical regimen definition (`OncologyAntiCancerRegimenPlanDefinition`) SHOULD be available
+- A canonical regimen definition (`AntiCancerRegimenPlanDefinition`) SHOULD be available
   for the ordered regimen
 - The EHR SHOULD provide `fhirAuthorization` in the CDS Hooks request so the CRD service can
   query patient context directly

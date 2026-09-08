@@ -17,8 +17,8 @@ extension:
     valueInteger: 0
 
 status: draft
-version: 0.1.0
-releaseLabel: ci-build
+version: 0.1.1-snapshot-080926
+releaseLabel: snapshot-080926
 fhirVersion: 4.0.1
 copyrightYear: 2026+
 FSHOnly: false

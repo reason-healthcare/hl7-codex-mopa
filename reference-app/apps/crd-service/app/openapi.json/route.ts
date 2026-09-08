@@ -4,7 +4,7 @@ const SPEC = {
   openapi: "3.0.3",
   info: {
     title: "MOPA CRD Service",
-    version: "0.1.0",
+    version: "0.1.1-snapshot-080926",
     description:
       "Coverage Requirements Discovery service implementing standard CDS Hooks for " +
       "oncology chemotherapy prior authorization. Queries the EHR FHIR server via " +
@@ -59,7 +59,8 @@ const SPEC = {
                       userId: { type: "string", example: "Practitioner/demo-user" },
                       draftOrders: {
                         type: "object",
-                        description: "FHIR Bundle of draft orders (RequestGroup + MedicationRequests)",
+                        description:
+                          "FHIR Bundle of draft orders (RequestGroup + MedicationRequests)",
                       },
                       selections: { type: "array", items: { type: "string" } },
                     },

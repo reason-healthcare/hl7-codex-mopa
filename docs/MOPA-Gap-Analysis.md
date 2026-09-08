@@ -6,11 +6,11 @@ prior authorization, and frame each as a proposal for upstream adoption. This IG
 becomes informative, anchored by the breast cancer use case.
 
 This analysis is anchored to the actual MOPA artifacts already in the repository.
-The codebase already separates two artifact classes — **data-model artifacts**
-(tagged "mCODE Migration Candidate" in `input/fsh/mcode-candidates/`) and
-**workflow/exchange artifacts** (the CDS Hooks oncology extension keyed
-`org.hl7.davinci-crd.oncology`, plus the data-requirements-driven discovery). That
-separation is the DaVinci-vs-mCODE split.
+The codebase separates two artifact classes — **data-model artifacts** (tagged
+"mCODE Migration Candidate" in `input/fsh/mcode-candidates/`) and
+**workflow/exchange proposals** for CRD, DTR, and PAS. The generic Request Category
+extension remains owned by Da Vinci CRD; MOPA proposes expanding its context to
+`RequestGroup` rather than defining a local replacement.
 
 ## Proposal ID conventions
 
@@ -25,29 +25,7 @@ separation is the DaVinci-vs-mCODE split.
 
 ### CRD
 
-#### MOPA-DV-CRD-001 — Oncology regimen context on CRD hooks
-- **Problem:** CRD `order-select`/`order-sign` are service/medication-oriented;
-  oncology coverage is decided at the regimen level. CRD has no way to carry "this
-  order is a multi-agent regimen instance + its canonical definition."
-- **Proposed solution:** Adopt the `org.hl7.davinci-crd.oncology` extension
-  (`orderedRegimen` → RequestGroup, optional `regimenDefinition` → PlanDefinition)
-  as a CRD-defined oncology profile of the hook request.
-- **Examples:** `RequestGroup/breast-cancer-regimen-001` with `regimenDefinition`
-  canonical; order-select Bundle (`Bundle-ExampleOrderSelectBundle`).
-- **Repo artifact:** `cds-hooks-extension.md`, CdsHooksBundles examples.
-
-#### MOPA-DV-CRD-002 — Data-requirements-driven discovery for CRD
-- **Problem:** CRD discovery (`/cds-services`) advertises `prefetch`, but there is no
-  standard way to tie prefetch + a structured data-requirements artifact to a clinical
-  domain (cancer type), so each payer hand-rolls prefetch.
-- **Proposed solution:** Standardize a two-layer discovery pattern: Layer 1 `prefetch`
-  projection + Layer 2 `dataRequirementsLibraries`/`supportedRegimenProfiles` extension,
-  both derived from one `Library.dataRequirement[]`.
-- **Examples:** Discovery JSON with `primaryCancer`/`biomarkers`/`lineOfTherapy`
-  prefetch keys.
-- **Repo artifact:** `cds-hooks-extension.md` (CDS Service Discovery).
-
-#### MOPA-DV-CRD-003 — Oncology coverage outcome semantics
+#### MOPA-DV-CRD-001 — Oncology coverage outcome semantics
 - **Problem:** CRD coverage-information outcomes don't express oncology branch states
   (guideline-concordant vs. needs-DTR vs. PA-required vs. alternative-required) computably.
 - **Proposed solution:** Define an oncology outcome classification (codes or
@@ -55,25 +33,52 @@ separation is the DaVinci-vs-mCODE split.
 - **Examples:** "Regimen meets policy — no PA"; "Conditionally covered pending HER2
   evidence"; "Alternative regimen required."
 
+#### MOPA-DV-CRD-002 — `RequestGroup` as the PA unit in CRD hooks
+- **Problem:** Oncology authorization applies to the multi-agent regimen, but CRD has no
+  standard guidance for treating `RequestGroup` as the primary order in `draftOrders` and
+  `selections`.
+- **Proposed solution:** Define regimen-level evaluation around a patient-specific
+  `RequestGroup`; component `MedicationRequest` resources remain subordinate orders.
+- **Examples:** `RequestGroup/THRegimenOrder`, `Bundle/ExampleOrderSelectBundle`, and
+  `Bundle/ExampleOrderSignBundle`.
+
+#### MOPA-DV-CRD-003 — CRD order profile and Request Category context for `RequestGroup`
+- **Problem:** CRD 2.2.1 has no RequestGroup order profile, and its
+  `ext-request-category` extension does not permit `RequestGroup` as context.
+- **Proposed solution:** Add a CRD RequestGroup order profile and expand
+  `ext-request-category` to `RequestGroup`, with a repeatable `category 0..* MS` slice.
+  Treatment intent and line of therapy are representative oncology category values.
+- **Examples:** All MOPA RequestGroup examples carry the same CRD extension URL once per
+  category; no local intent, treatment-line, or category extension is defined.
+
+#### MOPA-DV-CRD-004 — `order-select` informational approvability semantics
+- **Problem:** Returning a final-looking coverage determination before an order is signed
+  can mislead users.
+- **Proposed solution:** Treat `order-select` as advisory and `order-sign` as the final
+  determination, while using the same regimen identity and patient categories at both stages.
+- **Examples:** RequestGroup-only draft orders at selection; RequestGroup plus component
+  requests at signing.
+
+#### MOPA-DV-CRD-005 — Partial regimen replacement suggestions
+- **Problem:** A payer may require one component substitution, such as a biosimilar, without
+  replacing the whole regimen.
+- **Proposed solution:** Clarify Propose Alternate Request actions for component resources
+  referenced by a RequestGroup. Delete actions target only resources present in
+  `draftOrders`; create-only suggestions are valid when order-select carries the group alone.
+- **Examples:** Pegfilgrastim to pegfilgrastim-cbqv in the ddAC→T regimen.
+
 ### DTR
 
-#### MOPA-DV-DTR-001 — Shared data-requirements Library drives DTR
-- **Problem:** CRD rules and DTR questionnaires routinely diverge because they are
-  authored from separate logic.
-- **Proposed solution:** Standardize that DTR `$questionnaire-package` selection and
-  prepopulation are driven by the *same* `OncologyDataRequirementsLibrary` CRD used
-  (single source of truth).
-- **Examples:** `data-requirements.md` pattern — one Library → CRD sufficiency check +
-  DTR question generation.
+#### MOPA-DV-DTR-001 — `RequestGroup` as the order subject in DTR
+- **Problem:** DTR guidance does not define how a regimen-level RequestGroup anchors
+  questionnaire selection, prepopulation, and the completed response.
+- **Proposed solution:** Use the selected RequestGroup and its `instantiatesCanonical`
+  PlanDefinition as the order subject while keeping one shared data-requirements Library
+  across CRD and DTR.
+- **Examples:** A TH RequestGroup launches the HER2 documentation module; the resulting
+  QuestionnaireResponse remains associated with that regimen order.
 
-#### MOPA-DV-DTR-002 — Reusable oncology question modules
-- **Problem:** Same clinical evidence (ER/PR/HER2, stage, prior lines) is re-encoded
-  per payer form.
-- **Proposed solution:** Define canonical reusable DTR sub-form modules per evidence
-  domain that payers compose.
-- **Examples:** Shared HER2 IHC/ISH module; prior-lines-of-therapy module.
-
-#### MOPA-DV-DTR-003 — Structured exception / contraindication capture
+#### MOPA-DV-DTR-002 — Structured exception / contraindication capture
 - **Problem:** Medical-necessity exceptions arrive as free text / attachments.
 - **Proposed solution:** Standard DTR structured answer patterns for
   intolerance/contraindication aligned to PA adjudication.
@@ -116,10 +121,10 @@ Each below already exists in the repo under `input/fsh/mcode-candidates/` tagged
 |---|---|---|---|
 | **MOPA-MC-001** | No first-class computable regimen *definition* | Add regimen PlanDefinition profile | `AntiCancerRegimenPlanDefinition` |
 | **MOPA-MC-002** | No patient-specific regimen *instance* | Add regimen RequestGroup profile | `AntiCancerRegimenRequestGroup` |
-| **MOPA-MC-003** | Line of therapy not standardized for sequencing/PA | Add Line of Therapy observation + value set | `LineOfTherapyObservation`, `TreatmentLineCS/VS` |
-| **MOPA-MC-004** | Regimen intent (curative/adjuvant/neoadjuvant/palliative) not explicit | Add regimen intent extension + VS | `RegimenIntentExtension`, `RegimenIntentVS` |
-| **MOPA-MC-005** | Treatment line as a regimen attribute missing | Add regimen treatment-line extension | `RegimenTreatmentLineExtension` |
-| **MOPA-MC-006** | Disease context not bound to regimen | Add regimen disease-context extension | `RegimenDiseaseContextExtension` |
+| **MOPA-MC-003** | Line-of-therapy semantics not standardized for sequencing/PA | Profile the CRD Request Category for line of therapy and bind it to the treatment-line value set | `LineOfTherapyRequestCategory`, `TreatmentLineCS/VS` |
+| **MOPA-MC-004** | Treatment-intent coding guidance needed | Define oncology terminology guidance for CRD request categories | `RegimenIntentVS` |
+| **MOPA-MC-005** | Order-level treatment line needs CRD support | Reuse `ext-request-category`; propose RequestGroup context expansion | Da Vinci CRD proposal |
+| **MOPA-MC-006** | Disease context placement needs clarity | Use PlanDefinition.subject plus RequestGroup.subject and queried Condition | No extension artifact |
 | **MOPA-MC-007** | No oncology PA data-requirements packaging | Add oncology data-requirements Library pattern | `OncologyDataRequirementsLibrary` |
 | **MOPA-MC-008** | Biomarker results not PA-normalized (ER/PR/HER2) | Add normalized biomarker result guidance/profiling | (net-new — see `breast-cancer-pa.md`) |
 

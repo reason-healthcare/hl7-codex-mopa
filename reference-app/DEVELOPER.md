@@ -89,6 +89,10 @@ pnpm --filter @mopa/cql-engine test
 
 Each app has a `.env.local` file. Copy `.env.example` (when present) and adjust.
 
+For the supported external CRD, DTR, and PAS integration points, endpoint
+suffixes, and a Connectathon Docker Compose workflow, see
+[CONNECTATHON.md](./CONNECTATHON.md).
+
 | Variable | Default | Used by |
 |---|---|---|
 | `SMART_AUTH_BYPASS` | `true` | all apps — skip SMART OAuth for local dev |

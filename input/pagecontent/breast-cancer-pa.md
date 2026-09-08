@@ -41,11 +41,11 @@ The breast cancer PA use case targets SNOMED CT code
 | **Biomarkers** | PR status | `mcode-tumor-marker-test` | Strong foundation | Same as ER |
 | **Biomarkers** | HER2 status | `mcode-tumor-marker-test` | Strong foundation | Distinguish IHC vs ISH/FISH; consider HER2-low profile |
 | **Disease status** | Current disease status / progression | `mcode-cancer-disease-status` | Strong foundation | Require evidence date and prior treatment association |
-| **Regimen** | Ordered anti-cancer regimen | `OncologyAntiCancerRegimenRequestGroup` | **New — defined in this IG** | MVP artifact; `instantiatesCanonical` → PlanDefinition |
+| **Regimen** | Ordered anti-cancer regimen | `AntiCancerRegimenRequestGroup` | **New — defined in this IG** | MVP artifact; `instantiatesCanonical` → PlanDefinition |
 | **Performance** | ECOG performance status | `mcode-ecog-performance-status` | Strong | Conditional — add lookback period guidance |
 | **Therapy history** | Prior systemic therapy | mCODE cancer-related medication profiles | Strong for events | Add class-based value sets for HER2-directed, endocrine, CDK4/6, taxane, anthracycline |
-| **Therapy context** | Line of therapy | New profile / extension | **Missing in mCODE** | Define `OncologyLineOfTherapy`; require for metastatic/recurrent settings |
-| **Therapy context** | Treatment setting | Regimen extension | **Weak in mCODE** | Add `regimenIntent` / `treatmentSetting` extension on PlanDefinition |
+| **Therapy context** | Line of therapy | Profiled Da Vinci CRD `ext-request-category` | CRD context expansion proposed; mCODE order semantics need guidance | Carry `lineOfTherapy` on RequestGroup with the required `TreatmentLineVS` binding |
+| **Therapy context** | Treatment setting / intent | Da Vinci CRD `ext-request-category` | CRD context expansion proposed | Carry the patient-specific category on `AntiCancerRegimenRequestGroup` |
 | **Genomics** | BRCA1/2 status | `mcode-genomic-variant`, `mcode-genomics-report` | Partial | Require germline vs somatic distinction; conditional for PARP inhibitor authorization |
 | **Exceptions** | Contraindication / intolerance | `AllergyIntolerance`, `Condition` | Partial | Define exception profile with reference to avoided drug/regimen |
 | **Exceptions** | Exception documentation | DTR `QuestionnaireResponse` | Generic | Drive from DTR when structured evidence is unavailable |
@@ -55,9 +55,9 @@ The breast cancer PA use case targets SNOMED CT code
 
 | Gap | Why High Priority | Proposed Artifact |
 |---|---|---|
-| Regimen as first-class object | Oncology PA is regimen-centered, not drug-order-centered | `OncologyAntiCancerRegimenRequestGroup` (MVP) + `OncologyAntiCancerRegimenPlanDefinition` |
-| Line of therapy | Required for metastatic sequencing and payer policy | `OncologyLineOfTherapy` Observation or regimen extension |
-| Treatment setting | Most breast cancer logic branches by setting | `regimenIntent` / `treatmentSetting` extension on PlanDefinition |
+| Regimen as first-class object | Oncology PA is regimen-centered, not drug-order-centered | `AntiCancerRegimenRequestGroup` (MVP) + `AntiCancerRegimenPlanDefinition` |
+| Line of therapy | Required for metastatic sequencing and payer policy | `RequestGroup.extension:category/lineOfTherapy`, profiled from the CRD Request Category and bound to `TreatmentLineVS` |
+| Treatment setting | Most breast cancer logic branches by setting | Patient-specific CRD `ext-request-category` on RequestGroup |
 | Staging constraints | PA needs clinical vs pathologic stage, T/N/M, AJCC edition | Breast cancer PA staging guidance |
 | Biomarker normalization | ER/PR/HER2 observations need PA-ready normalized values | Breast-specific value sets and result normalization rules |
 | Exception documentation | Needed when guideline-concordant care requires exception | DTR `QuestionnaireResponse` + structured exception/contraindication profile |

@@ -86,7 +86,7 @@ Relevant data categories the CRD service typically queries:
 The EHR fires a standard CRD hook with:
 
 - `context.patientId` — identifies the patient
-- `context.selections` and `context.draftOrders` — includes the `RequestGroup` conforming to `OncologyAntiCancerRegimenRequestGroup`
+- `context.selections` and `context.draftOrders` — includes the `RequestGroup` conforming to `AntiCancerRegimenRequestGroup`
 - `fhirAuthorization` — FHIR access credentials the CRD service uses to query back (when available)
 
 ```json
@@ -96,10 +96,44 @@ The EHR fires a standard CRD hook with:
   "context": {
     "userId": "Practitioner/DrLopez",
     "patientId": "MOPAPatientExample",
-    "selections": ["RequestGroup/THRegimenOrder"],
+    "selections": ["urn:uuid:rg-TH"],
     "draftOrders": {
       "resourceType": "Bundle",
-      "entry": [{ "resource": { "resourceType": "RequestGroup", "id": "THRegimenOrder", "..." } }]
+      "type": "collection",
+      "entry": [
+        {
+          "fullUrl": "urn:uuid:rg-TH",
+          "resource": {
+            "resourceType": "RequestGroup",
+            "id": "rg-TH",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"
+              ]
+            },
+            "status": "draft",
+            "intent": "order",
+            "subject": { "reference": "Patient/MOPAPatientExample" },
+            "instantiatesCanonical": [
+              "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"
+            ],
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category",
+                "valueCodeableConcept": {
+                  "coding": [{ "system": "http://snomed.info/sct", "code": "373846009", "display": "Adjuvant - intent" }]
+                }
+              },
+              {
+                "url": "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category",
+                "valueCodeableConcept": {
+                  "coding": [{ "system": "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs", "code": "1L", "display": "First-line" }]
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   },
   "fhirAuthorization": {
@@ -194,7 +228,7 @@ rationale.
 
 | Actor | Requirement |
 |---|---|
-| **Oncology CRD Client** | **SHALL** include the `RequestGroup` in `context.draftOrders` conforming to `OncologyAntiCancerRegimenRequestGroup` |
+| **Oncology CRD Client** | **SHALL** include the `RequestGroup` in `context.draftOrders` conforming to `AntiCancerRegimenRequestGroup` |
 | **Oncology CRD Client** | **SHALL** fire `order-select` when the provider selects a regimen from the order-set, before signing |
 | **Oncology CRD Client** | **SHALL** fire `order-sign` when the provider signs the order, with finalised component `MedicationRequest` resources |
 | **Oncology CRD Client** | **SHOULD** provide `fhirAuthorization` so the CRD service can query for patient context |

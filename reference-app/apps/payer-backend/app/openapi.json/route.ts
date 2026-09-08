@@ -4,7 +4,7 @@ const SPEC = {
   openapi: "3.0.3",
   info: {
     title: "MOPA Payer Backend",
-    version: "0.1.0",
+    version: "0.1.1-snapshot-080926",
     description:
       "Payer policy evaluation service. Fetches patient clinical data from the EHR FHIR " +
       "proxy, evaluates breast cancer coverage policy via the @mopa/oncology-policy shared " +
@@ -55,7 +55,8 @@ const SPEC = {
                     },
                     reason: {
                       type: "string",
-                      example: "All clinical criteria met per payer policy. Authorization satisfied.",
+                      example:
+                        "All clinical criteria met per payer policy. Authorization satisfied.",
                     },
                   },
                 },

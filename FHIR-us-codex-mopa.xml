@@ -9,9 +9,9 @@
 <artifact id="StructureDefinition/data-requirement-label" key="StructureDefinition-data-requirement-label" name="Data Requirement Label"/>
 <artifact id="Practitioner/MOPAOncologistExample" key="Practitioner-MOPAOncologistExample" name="Example Oncologist: Dr. Maria Lopez"/>
 <artifact id="Patient/MOPAPatientExample" key="Patient-MOPAPatientExample" name="Example Patient: Jane Smith"/>
-<artifact id="PlanDefinition/PHDRegimenDefinition" key="PlanDefinition-PHDRegimenDefinition" name="Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)"/>
-<artifact id="PlanDefinition/THRegimenDefinition" key="PlanDefinition-THRegimenDefinition" name="Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)"/>
-<artifact id="PlanDefinition/DDACTRegimenDefinition" key="PlanDefinition-DDACTRegimenDefinition" name="Example Regimen Definition: ddAC→T (Dose-Dense AC then Paclitaxel)"/>
+<artifact id="PlanDefinition/RegimenPHD" key="PlanDefinition-RegimenPHD" name="Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)"/>
+<artifact id="PlanDefinition/RegimenTH" key="PlanDefinition-RegimenTH" name="Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)"/>
+<artifact id="PlanDefinition/RegimenDdACT" key="PlanDefinition-RegimenDdACT" name="Example Regimen Definition: ddAC→T (Dose-Dense AC then Paclitaxel)"/>
 <artifact id="RequestGroup/PHDRegimenOrder" key="RequestGroup-PHDRegimenOrder" name="Example Regimen Order: PHD (Jane Smith, First-Line Metastatic HER2+)"/>
 <artifact id="RequestGroup/THRegimenOrder" key="RequestGroup-THRegimenOrder" name="Example Regimen Order: TH (Jane Smith, Adjuvant HER2+) — Typical"/>
 <artifact id="RequestGroup/DDACTRegimenOrder" key="RequestGroup-DDACTRegimenOrder" name="Example Regimen Order: ddAC→T (Jane Smith, Adjuvant) — Sequential Phases"/>
@@ -20,25 +20,21 @@
 <artifact id="MedicationRequest/CyclophosphamideMedRequestDDACT" key="MedicationRequest-CyclophosphamideMedRequestDDACT" name="Example: Cyclophosphamide MedicationRequest (ddAC→T regimen, draft)"/>
 <artifact id="MedicationRequest/DocetaxelMedRequestPHD" key="MedicationRequest-DocetaxelMedRequestPHD" name="Example: Docetaxel MedicationRequest (PHD regimen, draft)"/>
 <artifact id="MedicationRequest/DoxorubicinMedRequestDDACT" key="MedicationRequest-DoxorubicinMedRequestDDACT" name="Example: Doxorubicin MedicationRequest (ddAC→T regimen, draft)"/>
-<artifact id="Observation/LineOfTherapyFirstLine" key="Observation-LineOfTherapyFirstLine" name="Example: Line of Therapy — First-Line Adjuvant (Jane Smith)"/>
-<artifact id="Observation/LineOfTherapyMaintenance" key="Observation-LineOfTherapyMaintenance" name="Example: Line of Therapy — Maintenance (Jane Smith, Post-PHD Response)"/>
-<artifact id="Observation/LineOfTherapySecondLine" key="Observation-LineOfTherapySecondLine" name="Example: Line of Therapy — Second-Line Metastatic (Jane Smith)"/>
 <artifact id="Condition/MOPAMetastaticBreastCancerConditionExample" key="Condition-MOPAMetastaticBreastCancerConditionExample" name="Example: Metastatic HER2+ Breast Cancer (Stage IV)"/>
 <artifact id="MedicationRequest/PaclitaxelMedRequestTPHase" key="MedicationRequest-PaclitaxelMedRequestTPHase" name="Example: Paclitaxel MedicationRequest (T phase, ddAC→T regimen, draft)"/>
 <artifact id="MedicationRequest/PaclitaxelMedRequestTH" key="MedicationRequest-PaclitaxelMedRequestTH" name="Example: Paclitaxel MedicationRequest (TH regimen, draft)"/>
+<artifact id="MedicationRequest/PegfilgrastimMedRequestDDACT" key="MedicationRequest-PegfilgrastimMedRequestDDACT" name="Example: Pegfilgrastim MedicationRequest (ddAC→T regimen, draft)"/>
 <artifact id="MedicationRequest/PertuzumabMedRequestPHD" key="MedicationRequest-PertuzumabMedRequestPHD" name="Example: Pertuzumab MedicationRequest (PHD regimen, draft)"/>
 <artifact id="Condition/MOPABreastCancerConditionExample" key="Condition-MOPABreastCancerConditionExample" name="Example: Primary HER2+ Breast Cancer (Stage IIB)"/>
 <artifact id="MedicationRequest/TrastuzumabMedRequestPHD" key="MedicationRequest-TrastuzumabMedRequestPHD" name="Example: Trastuzumab MedicationRequest (PHD regimen, draft)"/>
 <artifact id="MedicationRequest/TrastuzumabMedRequestTH" key="MedicationRequest-TrastuzumabMedRequestTH" name="Example: Trastuzumab MedicationRequest (TH regimen, draft)"/>
-<artifact id="StructureDefinition/line-of-therapy-observation" key="StructureDefinition-line-of-therapy-observation" name="Line of Therapy Observation"/>
+<artifact id="StructureDefinition/line-of-therapy-request-category" key="StructureDefinition-line-of-therapy-request-category" name="Line of Therapy Request Category"/>
 <artifact id="CodeSystem/ocpa-codes" key="CodeSystem-ocpa-codes" name="MOPA Local Code System"/>
 <artifact id="CapabilityStatement/ocpa-crd-client" key="CapabilityStatement-ocpa-crd-client" name="Oncology CRD Client Capability Statement"/>
 <artifact id="CapabilityStatement/ocpa-crd-service" key="CapabilityStatement-ocpa-crd-service" name="Oncology CRD Service Capability Statement"/>
 <artifact id="StructureDefinition/regimen-days-of-cycle" key="StructureDefinition-regimen-days-of-cycle" name="Regimen Days of Cycle"/>
-<artifact id="StructureDefinition/ocpa-regimen-disease-context" key="StructureDefinition-ocpa-regimen-disease-context" name="Regimen Disease Context"/>
-<artifact id="StructureDefinition/ocpa-regimen-intent" key="StructureDefinition-ocpa-regimen-intent" name="Regimen Intent"/>
 <artifact id="ValueSet/regimen-intent-vs" key="ValueSet-regimen-intent-vs" name="Regimen Intent Value Set"/>
-<artifact id="StructureDefinition/ocpa-regimen-treatment-line" key="StructureDefinition-ocpa-regimen-treatment-line" name="Regimen Treatment Line"/>
+<artifact id="StructureDefinition/treatment-intent-request-category" key="StructureDefinition-treatment-intent-request-category" name="Treatment Intent Request Category"/>
 <artifact id="CodeSystem/treatment-line-cs" key="CodeSystem-treatment-line-cs" name="Treatment Line Code System"/>
 <artifact id="ValueSet/treatment-line-vs" key="ValueSet-treatment-line-vs" name="Treatment Line Value Set"/>
 <page key="NA" name="(NA)"/>

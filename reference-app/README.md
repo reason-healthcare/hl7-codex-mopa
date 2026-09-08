@@ -33,6 +33,11 @@ For a fully containerised setup (demos, CI):
 docker compose up   # all apps + HAPI, production builds
 ```
 
+For a Connectathon rehearsal that directs the EHR to partner CRD, DTR, or PAS
+implementations, see [CONNECTATHON.md](./CONNECTATHON.md). It documents the
+supported environment variables, endpoint contracts, and a development-mode
+Docker Compose recipe.
+
 ---
 
 ## Demo patient cases
@@ -112,6 +117,15 @@ All FHIR knowledge artifacts are served by the Hub at `/fhir/PlanDefinition` and
   sequential phase ordering via `relatedAction`
 
 Each artifact links to its raw FHIR JSON via the Hub API.
+
+## Interoperability scope
+
+The bundled DTR and PAS paths are demo integrations, not claims of full production conformance.
+The DTR client writes a `QuestionnaireResponse` and derived Observations back to the demo EHR so
+the local scenario can re-run CRD; production exchange should carry the required
+`QuestionnaireResponse` in the order-sign `draftOrders` context rather than relying on that
+write-back. The PAS service accepts a compact demo payload and returns ClaimResponse-style JSON;
+it is a simplified shim, not a conformant Da Vinci PAS Claim `$submit` implementation.
 
 ---
 

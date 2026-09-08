@@ -24,10 +24,12 @@ export const SYSTEM = {
 
 /** Extension canonical URLs for MOPA regimen profiles. */
 export const EXT = {
-  REGIMEN_INTENT: `${BASE_URL}/StructureDefinition/ocpa-regimen-intent`,
-  REGIMEN_TREATMENT_LINE: `${BASE_URL}/StructureDefinition/ocpa-regimen-treatment-line`,
-  REGIMEN_DISEASE_CTX: `${BASE_URL}/StructureDefinition/ocpa-regimen-disease-context`,
   DAYS_OF_CYCLE: `${BASE_URL}/StructureDefinition/regimen-days-of-cycle`,
+} as const;
+
+export const PROFILES = {
+  ANTI_CANCER_REGIMEN_PLAN_DEFINITION: `${BASE_URL}/StructureDefinition/anticancer-regimen-plandefinition`,
+  ANTI_CANCER_REGIMEN_REQUEST_GROUP: `${BASE_URL}/StructureDefinition/anticancer-regimen-requestgroup`,
 } as const;
 
 /** Treatment line code system (local, mCODE STU5 migration candidate). */

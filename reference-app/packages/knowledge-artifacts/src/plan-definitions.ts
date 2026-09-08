@@ -21,33 +21,16 @@ import {
   MOPA_LAYER,
   layerContext,
   EXT,
-  TREATMENT_LINE_CS,
+  PROFILES,
 } from "./constants";
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Build a regimenIntent extension value. */
-function regimenIntent(snomedCode: string, display: string) {
-  return {
-    url: EXT.REGIMEN_INTENT,
-    valueCodeableConcept: { coding: [{ system: SYSTEM.SNOMED, code: snomedCode, display }] },
-  };
-}
-/** Build a regimenTreatmentLine extension value. */
-function treatmentLine(code: string, display: string) {
-  return {
-    url: EXT.REGIMEN_TREATMENT_LINE,
-    valueCodeableConcept: { coding: [{ system: TREATMENT_LINE_CS, code, display }] },
-  };
-}
-/** Build a regimenDiseaseContext extension value. */
-function diseaseContext(snomedCode: string, display: string) {
-  return {
-    url: EXT.REGIMEN_DISEASE_CTX,
-    valueCodeableConcept: { coding: [{ system: SYSTEM.SNOMED, code: snomedCode, display }] },
-  };
+/** Add the IG profile assertion to every canonical regimen PlanDefinition. */
+function regimenMeta() {
+  return { profile: [PROFILES.ANTI_CANCER_REGIMEN_PLAN_DEFINITION] };
 }
 /** Build a regimen-days-of-cycle extension on a timingTiming. */
 function daysOfCycle(...days: number[]) {
@@ -63,33 +46,28 @@ function daysOfCycle(...days: number[]) {
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-// TH — Paclitaxel + Trastuzumab (weekly, adjuvant HER2+)
+// TH — Paclitaxel + Trastuzumab (weekly, HER2+)
 // ---------------------------------------------------------------------------
 
 export const REGIMEN_TH = {
   resourceType: "PlanDefinition",
   id: "RegimenTH",
   url: `${BASE_URL}/PlanDefinition/RegimenTH`,
-  version: "0.1.0",
+  meta: regimenMeta(),
+  version: "0.1.1-snapshot-080926",
   name: "RegimenTH",
-  title: "TH: Paclitaxel + Trastuzumab (Weekly) \u2014 Adjuvant HER2+ Breast Cancer",
+  title: "TH: Paclitaxel + Trastuzumab (Weekly) \u2014 HER2+ Breast Cancer",
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
   usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
-  description:
-    "Weekly Paclitaxel + Trastuzumab for 12 weeks; standard adjuvant regimen for early HER2+ breast cancer.",
+  description: "Weekly Paclitaxel + Trastuzumab for 12 weeks for HER2+ early breast cancer.",
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254837009", display: "Malignant neoplasm of breast" }],
   },
-  extension: [
-    regimenIntent("373846009", "Adjuvant - intent"),
-    treatmentLine("1L", "First-line"),
-    diseaseContext("254837009", "Malignant neoplasm of breast"),
-  ],
   action: [
     {
-      id: "paclitaxel",
+      id: "paclitaxel-th",
       title: "Paclitaxel 80 mg/m\u00b2 IV \u2014 Day 1 of each 7-day cycle",
       description: "80 mg/m\u00b2 IV over 1 hour, weekly (day 1 of 7-day cycle)",
       type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
@@ -99,7 +77,7 @@ export const REGIMEN_TH = {
       },
     },
     {
-      id: "trastuzumab",
+      id: "trastuzumab-th",
       title: "Trastuzumab 4 mg/kg IV (loading), then 2 mg/kg IV weekly",
       description: "4 mg/kg loading dose week 1, then 2 mg/kg IV weekly (day 1 of 7-day cycle)",
       type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
@@ -112,34 +90,29 @@ export const REGIMEN_TH = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// PHD — Pertuzumab + Trastuzumab + Docetaxel (q21d, first-line metastatic HER2+)
+// PHD — Pertuzumab + Trastuzumab + Docetaxel (q21d, metastatic HER2+)
 // ---------------------------------------------------------------------------
 
 export const REGIMEN_PHD = {
   resourceType: "PlanDefinition",
   id: "RegimenPHD",
   url: `${BASE_URL}/PlanDefinition/RegimenPHD`,
-  version: "0.1.0",
+  meta: regimenMeta(),
+  version: "0.1.1-snapshot-080926",
   name: "RegimenPHD",
-  title:
-    "PHD: Pertuzumab + Trastuzumab + Docetaxel \u2014 First-Line Metastatic HER2+ Breast Cancer",
+  title: "PHD: Pertuzumab + Trastuzumab + Docetaxel \u2014 Metastatic HER2+ Breast Cancer",
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
   usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
-    "PHD every 21 days for first-line HER2+ metastatic breast cancer. Standard of care per CLEOPATRA trial.",
+    "PHD regimen every 21 days for HER2+ metastatic breast cancer. Standard of care per CLEOPATRA trial.",
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254837009", display: "Malignant neoplasm of breast" }],
   },
-  extension: [
-    regimenIntent("363676003", "Palliative intent"),
-    treatmentLine("1L", "First-line"),
-    diseaseContext("254837009", "Malignant neoplasm of breast"),
-  ],
   action: [
     {
-      id: "pertuzumab",
+      id: "pertuzumab-phd",
       title: "Pertuzumab 840 mg IV (cycle 1), then 420 mg IV q21d",
       description: "840 mg IV loading dose cycle 1, then 420 mg IV, day 1 of each 21-day cycle",
       type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
@@ -149,7 +122,7 @@ export const REGIMEN_PHD = {
       },
     },
     {
-      id: "trastuzumab",
+      id: "trastuzumab-phd",
       title: "Trastuzumab 8 mg/kg IV (cycle 1), then 6 mg/kg IV q21d",
       description: "8 mg/kg loading dose cycle 1, then 6 mg/kg IV, day 1 of each 21-day cycle",
       type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
@@ -159,7 +132,7 @@ export const REGIMEN_PHD = {
       },
     },
     {
-      id: "docetaxel",
+      id: "docetaxel-phd",
       title: "Docetaxel 75 mg/m\u00b2 IV \u2014 Day 1 of each 21-day cycle",
       description: "75 mg/m\u00b2 IV, day 1 of each 21-day cycle",
       type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
@@ -172,7 +145,7 @@ export const REGIMEN_PHD = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// ddAC\u2192T — Dose-dense AC then Paclitaxel (sequential phases, adjuvant)
+// ddAC\u2192T — Dose-dense AC then Paclitaxel (sequential phases)
 // relatedAction.relationship = "after-end" per FHIR R4 Clinical Reasoning
 // and the MOPA AntiCancerRegimenPlanDefinition profile.
 // ---------------------------------------------------------------------------
@@ -181,23 +154,20 @@ export const REGIMEN_DDACT = {
   resourceType: "PlanDefinition",
   id: "RegimenDdACT",
   url: `${BASE_URL}/PlanDefinition/RegimenDdACT`,
-  version: "0.1.0",
+  meta: regimenMeta(),
+  version: "0.1.1-snapshot-080926",
   name: "RegimenDdACT",
-  title: "ddAC\u2192T: Dose-Dense AC \u2192 Paclitaxel \u2014 Adjuvant Breast Cancer",
+  title:
+    "ddAC\u2192T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel \u2014 Breast Cancer",
   status: "active",
   experimental: true,
   type: { coding: [{ system: SYSTEM.PLAN_TYPE, code: "order-set", display: "Order Set" }] },
   usageContext: layerContext(MOPA_LAYER.REGIMEN_TEMPLATE, "Regimen Template"),
   description:
-    "Dose-dense AC x4 cycles (q14d) with pegfilgrastim support, then paclitaxel x4 cycles (q14d). Adjuvant regimen for ER-positive, HER2-negative breast cancer when Oncotype DX indicates chemotherapy benefit.",
+    "Dose-dense AC x4 cycles (q14d) with pegfilgrastim support, followed by paclitaxel x4 cycles (q14d) for breast cancer.",
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254837009", display: "Malignant neoplasm of breast" }],
   },
-  extension: [
-    regimenIntent("373846009", "Adjuvant - intent"),
-    treatmentLine("1L", "First-line"),
-    diseaseContext("254837009", "Malignant neoplasm of breast"),
-  ],
   action: [
     {
       id: "ac-phase",
@@ -210,7 +180,7 @@ export const REGIMEN_DDACT = {
       },
       action: [
         {
-          id: "doxorubicin",
+          id: "doxorubicin-ac",
           title: "Doxorubicin 60 mg/m\u00b2 IV \u2014 Day 1 of each 14-day cycle",
           type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
           timingTiming: {
@@ -219,7 +189,7 @@ export const REGIMEN_DDACT = {
           },
         },
         {
-          id: "cyclophosphamide",
+          id: "cyclophosphamide-ac",
           title: "Cyclophosphamide 600 mg/m\u00b2 IV \u2014 Day 1 of each 14-day cycle",
           type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
           timingTiming: {
@@ -228,7 +198,7 @@ export const REGIMEN_DDACT = {
           },
         },
         {
-          id: "pegfilgrastim",
+          id: "pegfilgrastim-ac",
           title: "Pegfilgrastim 6 mg SC \u2014 Day 2 of each 14-day cycle (G-CSF support)",
           type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
           timingTiming: {
@@ -250,7 +220,7 @@ export const REGIMEN_DDACT = {
       },
       action: [
         {
-          id: "paclitaxel",
+          id: "paclitaxel-t",
           title: "Paclitaxel 175 mg/m\u00b2 IV \u2014 Day 1 of each 14-day cycle",
           type: { coding: [{ system: SYSTEM.ACTION_TYPE, code: "create" }] },
           timingTiming: {
@@ -271,7 +241,8 @@ export const REGIMEN_OSIMERTINIB = {
   resourceType: "PlanDefinition",
   id: "RegimenOsimertinib",
   url: `${BASE_URL}/PlanDefinition/RegimenOsimertinib`,
-  version: "0.1.0",
+  meta: regimenMeta(),
+  version: "0.1.1-snapshot-080926",
   name: "RegimenOsimertinib",
   title: "Osimertinib 80 mg PO \u2014 EGFR-Mutated NSCLC",
   status: "draft",
@@ -283,11 +254,6 @@ export const REGIMEN_OSIMERTINIB = {
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254637007", display: "Non-small cell lung cancer" }],
   },
-  extension: [
-    regimenIntent("363676003", "Palliative intent"),
-    treatmentLine("1L", "First-line"),
-    diseaseContext("254637007", "Non-small cell lung cancer"),
-  ],
   action: [
     {
       id: "osimertinib",
@@ -303,7 +269,8 @@ export const REGIMEN_ALECTINIB = {
   resourceType: "PlanDefinition",
   id: "RegimenAlectinib",
   url: `${BASE_URL}/PlanDefinition/RegimenAlectinib`,
-  version: "0.1.0",
+  meta: regimenMeta(),
+  version: "0.1.1-snapshot-080926",
   name: "RegimenAlectinib",
   title: "Alectinib 600 mg PO BID \u2014 ALK-Positive NSCLC",
   status: "draft",
@@ -314,11 +281,6 @@ export const REGIMEN_ALECTINIB = {
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254637007", display: "Non-small cell lung cancer" }],
   },
-  extension: [
-    regimenIntent("363676003", "Palliative intent"),
-    treatmentLine("1L", "First-line"),
-    diseaseContext("254637007", "Non-small cell lung cancer"),
-  ],
   action: [
     {
       id: "alectinib",
@@ -335,7 +297,8 @@ export const REGIMEN_PEMBROLIZUMAB = {
   resourceType: "PlanDefinition",
   id: "RegimenPembrolizumab",
   url: `${BASE_URL}/PlanDefinition/RegimenPembrolizumab`,
-  version: "0.1.0",
+  meta: regimenMeta(),
+  version: "0.1.1-snapshot-080926",
   name: "RegimenPembrolizumab",
   title: "Pembrolizumab 200 mg IV q21d \u2014 PD-L1 \u2265 50% NSCLC",
   status: "draft",
@@ -347,11 +310,6 @@ export const REGIMEN_PEMBROLIZUMAB = {
   subjectCodeableConcept: {
     coding: [{ system: SYSTEM.SNOMED, code: "254637007", display: "Non-small cell lung cancer" }],
   },
-  extension: [
-    regimenIntent("363676003", "Palliative intent"),
-    treatmentLine("1L", "First-line"),
-    diseaseContext("254637007", "Non-small cell lung cancer"),
-  ],
   action: [
     {
       id: "pembrolizumab",
@@ -378,7 +336,7 @@ export const GUIDELINE_PLAN_DEFINITION = {
   resourceType: "PlanDefinition",
   id: "BreastCancerGuidelineCDS",
   url: `${BASE_URL}/PlanDefinition/BreastCancerGuidelineCDS`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "BreastCancerGuidelineCDS",
   title: "Breast Cancer Chemotherapy Guideline CDS",
   status: "active",
@@ -457,7 +415,8 @@ export const GUIDELINE_PLAN_DEFINITION = {
         {
           id: "recommend-ddact",
           title: "ddAC→T — Dose-dense AC → Paclitaxel",
-          description: "HER2-negative, ER-positive, post-menopausal, OncotypeDX >= 26. Adjuvant chemotherapy indicated per NCCN/TAILORx.",
+          description:
+            "HER2-negative, ER-positive, post-menopausal, OncotypeDX >= 26. Adjuvant chemotherapy indicated per NCCN/TAILORx.",
           definitionCanonical: `${BASE_URL}/PlanDefinition/RegimenDdACT`,
           condition: [
             {
@@ -480,7 +439,7 @@ export const PLAN_DEFINITION = {
   resourceType: "PlanDefinition",
   id: "BreastCancerPAWorkflow",
   url: `${BASE_URL}/PlanDefinition/BreastCancerPAWorkflow`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "BreastCancerPAWorkflow",
   title: "Breast Cancer Prior Authorization Workflow",
   status: "active",
@@ -592,7 +551,7 @@ export const NSCLC_GUIDELINE_PLAN_DEFINITION = {
   resourceType: "PlanDefinition",
   id: "NSCLCGuidelineCDS",
   url: `${BASE_URL}/PlanDefinition/NSCLCGuidelineCDS`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "NSCLCGuidelineCDS",
   title: "NSCLC Chemotherapy Guideline CDS",
   status: "draft",
@@ -653,7 +612,7 @@ export const NSCLC_PLAN_DEFINITION = {
   resourceType: "PlanDefinition",
   id: "NSCLCPAWorkflow",
   url: `${BASE_URL}/PlanDefinition/NSCLCPAWorkflow`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "NSCLCPAWorkflow",
   title: "NSCLC Prior Authorization Workflow",
   status: "draft",

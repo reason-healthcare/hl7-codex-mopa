@@ -1,38 +1,37 @@
 // ============================================================
 // AntiCancerRegimenPlanDefinition-examples.fsh
 // 3 canonical regimen definitions covering:
-//   A — TH: Paclitaxel + Trastuzumab (weekly, adjuvant HER2+)
-//   B — ddAC→T: dose-dense AC then Paclitaxel (sequential, adjuvant)
+//   A — TH: Paclitaxel + Trastuzumab (weekly, HER2+)
+//   B — ddAC→T: dose-dense AC then Paclitaxel (sequential)
 //   C — PHD: Pertuzumab + Trastuzumab + Docetaxel (metastatic HER2+)
 //
-// Demonstrates: RegimenIntentExtension,
-//               RegimenDaysOfCycle extension, sequential phase relatedAction
-// NOTE: regimenIntent is carried on RequestGroup only (patient-specific ordering context).
-//       PlanDefinition.subject[x] declares the target cancer population; no clinical context
-//       extensions are placed on the canonical definition.
+// Demonstrates: RegimenDaysOfCycle extension, sequential phase relatedAction
+// NOTE: treatment intent and line of therapy are carried on RequestGroup via the category
+//       extension. PlanDefinition.subject[x] declares the target cancer population; no
+//       patient-specific ordering context extensions are placed on the canonical definition.
 // ============================================================
 
 // ─── A: TH — Paclitaxel + Trastuzumab, weekly x12 (typical case) ──────────
-// Adjuvant HER2+ early breast cancer. Concurrent two-agent weekly regimen.
+// HER2+ breast cancer. Concurrent two-agent weekly regimen.
 // All Must Support elements populated.
-Instance: THRegimenDefinition
+Instance: RegimenTH
 InstanceOf: AntiCancerRegimenPlanDefinition
 Usage: #example
 Title: "Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)"
 Description: """Canonical definition of weekly Paclitaxel (80 mg/m² IV) plus Trastuzumab
-(4 mg/kg loading, then 2 mg/kg IV) for 12 weeks in adjuvant HER2-positive early breast
+(4 mg/kg loading, then 2 mg/kg IV) for 12 weeks in HER2-positive early breast
 cancer. The canonical definition carries protocol structure only — treatment intent and
 line of therapy are patient-context and live on the RequestGroup."""
 
-* url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/THRegimenDefinition"
-* version = "1.0.0"
-* name    = "THRegimenDefinition"
-* title   = "TH: Paclitaxel + Trastuzumab (Weekly) — Adjuvant HER2+ Breast Cancer"
+* url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"
+* version = "0.1.1-snapshot-080926"
+* name    = "RegimenTH"
+* title   = "TH: Paclitaxel + Trastuzumab (Weekly) — HER2+ Breast Cancer"
 * status  = #active
 * experimental = true
 * type    = $PD-TYPE#order-set "Order Set"
 * subjectCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
-* description = "Weekly Paclitaxel + Trastuzumab for 12 weeks; standard adjuvant regimen for early HER2+ breast cancer."
+* description = "Weekly Paclitaxel + Trastuzumab for 12 weeks for HER2+ early breast cancer."
 
 * action[+].id    = "paclitaxel-th"
 * action[=].title = "Paclitaxel 80 mg/m² IV — Day 1 of each 7-day cycle"
@@ -50,28 +49,28 @@ line of therapy are patient-context and live on the RequestGroup."""
 
 
 // ─── B: ddAC→T — Dose-Dense AC then Paclitaxel (sequential phases) ─────────
-// Adjuvant, any subtype. Two sequential phases with relatedAction after-end.
+// Two sequential phases with relatedAction after-end.
 // Demonstrates sequential phase ordering pattern.
-Instance: DDACTRegimenDefinition
+Instance: RegimenDdACT
 InstanceOf: AntiCancerRegimenPlanDefinition
 Usage: #example
 Title: "Example Regimen Definition: ddAC→T (Dose-Dense AC then Paclitaxel)"
 Description: """Canonical definition of dose-dense doxorubicin (60 mg/m²) plus
 cyclophosphamide (600 mg/m²) q14d × 4 cycles (AC phase), followed by paclitaxel
-(175 mg/m²) q14d × 4 cycles (T phase) for adjuvant breast cancer. Demonstrates
+(175 mg/m²) q14d × 4 cycles (T phase) for breast cancer. Demonstrates
 sequential phase ordering using action.relatedAction with relationship = after-end."""
 
-* url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/DDACTRegimenDefinition"
-* version = "1.0.0"
-* name    = "DDACTRegimenDefinition"
-* title   = "ddAC→T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel — Adjuvant Breast Cancer"
+* url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenDdACT"
+* version = "0.1.1-snapshot-080926"
+* name    = "RegimenDdACT"
+* title   = "ddAC→T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel — Breast Cancer"
 * status  = #active
 * experimental = true
 * type    = $PD-TYPE#order-set "Order Set"
 * subjectCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
-* description = "Dose-dense AC x4 cycles (q14d) followed by paclitaxel x4 cycles (q14d). Standard adjuvant regimen."
+* description = "Dose-dense AC x4 cycles (q14d) with pegfilgrastim support, followed by paclitaxel x4 cycles (q14d) for breast cancer."
 
-// Phase 1: ddAC (2 concurrent agents, q14d x4)
+// Phase 1: ddAC (doxorubicin + cyclophosphamide day 1, pegfilgrastim day 2; q14d x4)
 * action[+].id    = "ac-phase"
 * action[=].title = "AC Phase — Doxorubicin + Cyclophosphamide (q14d × 4 cycles)"
 * action[=].timingTiming.repeat.count  = 4
@@ -82,6 +81,13 @@ sequential phase ordering using action.relatedAction with relationship = after-e
 * action[=].action[=].title = "Doxorubicin 60 mg/m² IV — Day 1 of each 14-day cycle"
 * action[=].action[=].timingTiming.repeat.period = 14
 * action[=].action[=].timingTiming.repeat.periodUnit = #d
+
+* action[=].action[+].id    = "pegfilgrastim-ac"
+* action[=].action[=].title = "Pegfilgrastim 6 mg subcutaneous — Day 2 of each 14-day cycle"
+* action[=].action[=].description = "Pegfilgrastim supportive care on day 2 of each ddAC cycle"
+* action[=].action[=].timingTiming.repeat.period = 14
+* action[=].action[=].timingTiming.repeat.periodUnit = #d
+* action[=].action[=].timingTiming.extension[$DaysOfCycle].extension[day][+].valueInteger = 2
 
 * action[=].action[+].id    = "cyclophosphamide-ac"
 * action[=].action[=].title = "Cyclophosphamide 600 mg/m² IV — Day 1 of each 14-day cycle"
@@ -103,26 +109,26 @@ sequential phase ordering using action.relatedAction with relationship = after-e
 * action[=].action[=].timingTiming.repeat.periodUnit = #d
 
 
-// ─── C: PHD — Pertuzumab + Trastuzumab + Docetaxel (first-line metastatic) ─
-// Palliative intent. Three concurrent agents, every 21 days. Minimal example
-// showing palliative / metastatic context.
-Instance: PHDRegimenDefinition
+// ─── C: PHD — Pertuzumab + Trastuzumab + Docetaxel (metastatic HER2+) ───────
+// Three concurrent agents, every 21 days.
+Instance: RegimenPHD
 InstanceOf: AntiCancerRegimenPlanDefinition
 Usage: #example
 Title: "Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)"
 Description: """Canonical definition of pertuzumab (840 mg loading, then 420 mg IV) plus
 trastuzumab (8 mg/kg loading, then 6 mg/kg IV) plus docetaxel (75 mg/m² IV), every 21 days,
-for first-line metastatic HER2-positive breast cancer. Demonstrates palliative intent."""
+for metastatic HER2-positive breast cancer. Treatment intent and line of therapy are
+carried on the RequestGroup via the category extension."""
 
-* url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/PHDRegimenDefinition"
-* version = "1.0.0"
-* name    = "PHDRegimenDefinition"
-* title   = "PHD: Pertuzumab + Trastuzumab + Docetaxel — First-Line Metastatic HER2+ Breast Cancer"
+* url     = "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenPHD"
+* version = "0.1.1-snapshot-080926"
+* name    = "RegimenPHD"
+* title   = "PHD: Pertuzumab + Trastuzumab + Docetaxel — Metastatic HER2+ Breast Cancer"
 * status  = #active
 * experimental = true
 * type    = $PD-TYPE#order-set "Order Set"
 * subjectCodeableConcept = $SCT#254837009 "Malignant neoplasm of breast"
-* description = "PHD regimen every 21 days for first-line HER2+ metastatic breast cancer. Standard of care per CLEOPATRA trial."
+* description = "PHD regimen every 21 days for HER2+ metastatic breast cancer. Standard of care per CLEOPATRA trial."
 
 * action[+].id    = "pertuzumab-phd"
 * action[=].title = "Pertuzumab 840 mg IV (cycle 1), then 420 mg IV q21d"

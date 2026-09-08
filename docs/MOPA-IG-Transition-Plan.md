@@ -36,11 +36,12 @@ Purpose: Reframe this IG as **informative** and move substantive standards work 
 - [ ] `MOPA-DV-CRD-001` (define)
 - [ ] `MOPA-DV-CRD-002` (define)
 - [ ] `MOPA-DV-CRD-003` (define)
+- [ ] `MOPA-DV-CRD-004` (define)
+- [ ] `MOPA-DV-CRD-005` (define)
 
 ### DTR
 - [ ] `MOPA-DV-DTR-001` (define)
 - [ ] `MOPA-DV-DTR-002` (define)
-- [ ] `MOPA-DV-DTR-003` (define)
 
 ### PAS
 - [ ] `MOPA-DV-PAS-001` (define)
@@ -56,6 +57,9 @@ For each proposal above, include Problem/Solution/Examples and destination/dispo
 - [ ] `MOPA-MC-003` (define)
 - [ ] `MOPA-MC-004` (define)
 - [ ] `MOPA-MC-005` (define)
+- [ ] `MOPA-MC-006` (define)
+- [ ] `MOPA-MC-007` (define)
+- [ ] `MOPA-MC-008` (define)
 
 ## Phase 5 — Consistency and publication readiness
 
@@ -70,4 +74,3 @@ For each proposal above, include Problem/Solution/Examples and destination/dispo
 - [ ] Milestone A complete: Informative reframe merged
 - [ ] Milestone B complete: Proposal pages added and wired in menu
 - [ ] Milestone C complete: Initial DaVinci and mCODE proposal sets published
-

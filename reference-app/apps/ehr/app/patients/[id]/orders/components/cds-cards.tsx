@@ -136,7 +136,7 @@ export function SuggestionPanel({
     <div className="px-4 py-3 bg-violet-50 border-t border-violet-200">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 flex-shrink-0 text-violet-600" aria-hidden="true">
-          ⬆
+          ⇄
         </span>
         <div className="flex-1 space-y-3">
           <div>
@@ -276,16 +276,12 @@ export function CdsCardRow({
  */
 export function OrderSelectSummary({
   cards,
-  patientId,
-  selectedRegimenId,
   onAcceptSuggestion,
   onOverrideSuggestion,
   suggestionAccepted,
   suggestionOverridden,
 }: {
   cards: CdsCard[];
-  patientId: string;
-  selectedRegimenId?: string;
   onAcceptSuggestion?: () => void;
   onOverrideSuggestion?: () => void;
   suggestionAccepted?: boolean;
@@ -417,8 +413,6 @@ export function CrdResponsePanel({
       {hook === "order-select" ? (
         <OrderSelectSummary
           cards={cards}
-          patientId={patientId}
-          selectedRegimenId={selectedRegimenId}
           onAcceptSuggestion={onAcceptSuggestion}
           onOverrideSuggestion={onOverrideSuggestion}
           suggestionAccepted={suggestionAccepted}

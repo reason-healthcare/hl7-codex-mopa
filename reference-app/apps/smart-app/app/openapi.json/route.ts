@@ -4,7 +4,7 @@ const SPEC = {
   openapi: "3.0.3",
   info: {
     title: "MOPA CDS SMART App",
-    version: "0.1.0",
+    version: "0.1.1-snapshot-080926",
     description:
       "SMART on FHIR app providing guideline-based gap analysis and evidence-based regimen " +
       "recommendations for breast cancer chemotherapy. Supports MOPA-aware chart-back and read-only what-if modes.",
