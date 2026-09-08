@@ -8,6 +8,7 @@ export {
   MOPA_LAYER,
   layerContext,
   EXT,
+  PROFILES,
   TREATMENT_LINE_CS,
 } from "./constants";
 

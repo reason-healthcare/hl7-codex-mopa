@@ -4,7 +4,7 @@ const SPEC = {
   openapi: "3.0.3",
   info: {
     title: "MOPA DTR Client",
-    version: "0.1.0",
+    version: "0.1.1-snapshot-080926",
     description:
       "Documentation Requirements Tool. Launched via SMART EHR context with an appContext " +
       "identifying missing data elements. Generates a questionnaire, collects answers, " +

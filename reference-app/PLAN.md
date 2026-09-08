@@ -178,7 +178,7 @@ Two separate `Library` resources containing CQL compiled to ELM JSON, hosted on 
 Service.
 
 ### Guideline Library — `BreastCancerGuideline.cql`
-- **Input:** cancer type, stage, biomarkers, ECOG PS, line of therapy, prior therapy
+- **Input:** cancer type, stage, biomarkers, ECOG PS, prior therapy, and RequestGroup categories (treatment intent and line of therapy)
 - **Output:** set of approvable regimens with rationale
 - **Used by:** CDS SMART App (Layer 1 regimen options) and CRD Service (pre-approval)
 
@@ -216,7 +216,7 @@ These CQL Libraries define the rules evaluated over those elements.
 - `fhir-client` package: typed fetch wrapper using `@reasonhealth/fhir-zod/r4`, proxy
   route template (`/api/fhir/[...path]`)
 - Patient fixtures loaded into HAPI: Jane Smith with breast cancer condition, staging,
-  ECOG PS, line of therapy, prior therapy; HER2 intentionally absent
+  ECOG PS, prior therapy, and RequestGroup categories; HER2 intentionally absent
 - EHR app: read-only patient chart (Demographics, Problem List, Observations) confirming
   FHIR proxy works
 - All other apps: placeholder landing page

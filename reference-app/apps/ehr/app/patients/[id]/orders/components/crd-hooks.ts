@@ -14,14 +14,17 @@ import { buildDraftBundle, type Regimen } from "@mopa/oncology-policy";
  * @param draftOrdersOverride - when provided (e.g. after suggestion acceptance),
  *                              sends the modified Bundle instead of rebuilding
  *                              from the regimen template
+ * @param categories          - patient/order-specific RequestGroup categories
  */
 export async function fireCdsHook(
   hook: "order-select" | "order-sign",
   patientId: string,
   regimen: Regimen,
-  draftOrdersOverride?: object
+  draftOrdersOverride?: object,
+  categories?: import("@mopa/oncology-policy").RegimenCategory[]
 ): Promise<CdsResponse> {
-  const draftOrders = draftOrdersOverride ?? buildDraftBundle(patientId, regimen);
+  const draftOrders =
+    draftOrdersOverride ?? buildDraftBundle(patientId, regimen, { stage: hook, categories });
 
   const body = {
     hookInstance: crypto.randomUUID(),

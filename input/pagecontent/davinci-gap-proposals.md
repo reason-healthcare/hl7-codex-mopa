@@ -12,7 +12,7 @@ blocking for a pilot implementation.
 |---|---|---|---|
 | MOPA-DV-CRD-001 | CRD | Oncology coverage outcome semantics | Nice-to-have |
 | MOPA-DV-CRD-002 | CRD | `RequestGroup` as the PA unit in CRD hooks | **Must-have** |
-| MOPA-DV-CRD-003 | CRD | CRD order profile for `RequestGroup` (analogous to MedicationRequest/ServiceRequest profiles) | **Must-have** |
+| MOPA-DV-CRD-003 | CRD | CRD RequestGroup order profile and Request Category context expansion | **Must-have** |
 | MOPA-DV-CRD-004 | CRD | `order-select` informational approvability semantics | Nice-to-have |
 | MOPA-DV-CRD-005 | CRD | Propose Alternate Request for RequestGroup partial replacement (biosimilar substitution) | **Must-have** |
 | MOPA-DV-DTR-001 | DTR | `RequestGroup` as the order subject in DTR | **Must-have** |
@@ -127,6 +127,11 @@ existing profiles for `MedicationRequest` and `ServiceRequest`. The profile shou
 4. **Support both `order-select` and `order-sign`** — the profile should accommodate the
    two-stage pattern where `order-select` carries only the `RequestGroup` (no finalised
    `MedicationRequest` components) and `order-sign` carries the full bundle
+5. **Expand Request Category context** — add `RequestGroup` as an allowed context for
+   `http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category` and define a
+   repeated `category 0..* MS` slice. Treatment intent and line of therapy are representative
+   oncology categories. CRD 2.2.1 currently permits the extension only on DeviceRequest,
+   NutritionOrder, and VisionPrescription.
 
 This proposal is complementary to [MOPA-DV-CRD-002](#mopa-dv-crd-002--requestgroup-as-the-pa-unit-in-crd-hooks),
 which establishes that `RequestGroup` should be the PA unit. This proposal asks CRD to
@@ -374,7 +379,7 @@ Define PAS guidance/profile to reference the regimen `RequestGroup` plus canonic
 Regimen-level submission is demonstrated in the regimen order examples:
 
 - [TH Regimen Order](RequestGroup-THRegimenOrder.html) — Patient-specific regimen with full drug component linkage
-- [Line of Therapy Observation](Observation-LineOfTherapyFirstLine.html) — Supporting evidence for PA adjudication
+- [Line of Therapy Request Category](StructureDefinition-line-of-therapy-request-category.html) — Order-level treatment sequence semantics bound to the treatment-line value set
 
 **Target destination**
 

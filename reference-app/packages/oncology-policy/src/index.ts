@@ -26,6 +26,11 @@ export const HER2_LOINC = "85319-2";
 export const HER2_SNOMED = "431396003";
 export const STAGE_LOINC = "21908-9";
 export const ECOG_LOINC = "89247-1";
+export const TREATMENT_LINE_CS = "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs";
+export const REQUEST_CATEGORY_EXTENSION =
+  "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category";
+
+import { isRegimenIntentCategory, type RegimenCategory } from "./regimens";
 
 // ---------------------------------------------------------------------------
 // FHIR query templates
@@ -41,10 +46,8 @@ export const FHIR_QUERIES: Record<string, (patientId: string) => string> = {
     `Observation?patient=${id}&code=${LOINC}|${HER2_LOINC},${SNOMED}|${HER2_SNOMED}&_sort=-date&_count=5`,
   cancerStage: (id) =>
     `Observation?patient=${id}&code=${LOINC}|${STAGE_LOINC}&_sort=-date&_count=1`,
-  ecogPs: (id) =>
-    `Observation?patient=${id}&code=${LOINC}|${ECOG_LOINC}&_sort=-date&_count=1`,
-  priorTherapy: (id) =>
-    `MedicationRequest?patient=${id}&status=completed,stopped&_count=20`,
+  ecogPs: (id) => `Observation?patient=${id}&code=${LOINC}|${ECOG_LOINC}&_sort=-date&_count=1`,
+  priorTherapy: (id) => `MedicationRequest?patient=${id}&status=completed,stopped&_count=20`,
 };
 
 /** Human-readable labels for missing data elements (used in DTR card). */
@@ -73,7 +76,8 @@ export function hasBreastCancer(conditionsBundle: unknown): boolean {
   const resources = extractResources(conditionsBundle);
   return resources.some((r) => {
     if (r.resourceType !== "Condition") return false;
-    const codings = (r.code as { coding?: Array<{ system?: string; code?: string }> })?.coding ?? [];
+    const codings =
+      (r.code as { coding?: Array<{ system?: string; code?: string }> })?.coding ?? [];
     return codings.some((c) => c.system === SNOMED && c.code === BREAST_CANCER_CODE);
   });
 }
@@ -121,6 +125,39 @@ export interface OncologyContext {
   cancerStage: unknown;
   ecogPs: unknown;
   priorTherapy: unknown;
+  /** Patient/order categories copied from RequestGroup.category extensions. */
+  requestCategories?: RegimenCategory[];
+  /** Structural category errors are fail-closed for policy evaluation. */
+  invalidRequestCategories?: string[];
+}
+
+/** Extract a RequestGroup's repeatable CRD request-category values. */
+export function extractRequestCategories(draftOrders: unknown): {
+  categories: RegimenCategory[];
+  invalid: string[];
+} {
+  const bundle = draftOrders as { entry?: Array<{ resource?: Record<string, unknown> }> } | null;
+  const group = bundle?.entry?.find((e) => e.resource?.resourceType === "RequestGroup")?.resource;
+  const extensions = (group?.extension as Array<Record<string, unknown>> | undefined) ?? [];
+  const categories: RegimenCategory[] = [];
+  const invalid: string[] = [];
+  for (const extension of extensions) {
+    if (extension.url !== REQUEST_CATEGORY_EXTENSION) continue;
+    const cc = extension.valueCodeableConcept as
+      | { coding?: Array<{ system?: unknown; code?: unknown; display?: unknown }> }
+      | undefined;
+    const coding = cc?.coding?.[0];
+    if (typeof coding?.system !== "string" || typeof coding.code !== "string") {
+      invalid.push("RequestGroup.category must contain coding.system and coding.code");
+      continue;
+    }
+    categories.push({
+      system: coding.system,
+      code: coding.code,
+      display: typeof coding.display === "string" ? coding.display : coding.code,
+    });
+  }
+  return { categories, invalid };
 }
 
 /**
@@ -133,6 +170,15 @@ export interface OncologyContext {
  */
 export function evaluateBreastCancerPolicy(ctx: OncologyContext): CheckResult {
   const missingKeys: string[] = [];
+
+  if (ctx.invalidRequestCategories?.length) {
+    return {
+      status: "pa-required",
+      reason:
+        "The RequestGroup contains an invalid request-category value. " +
+        "Correct the order category before coverage can be determined.",
+    };
+  }
 
   if (!hasBreastCancer(ctx.conditions)) missingKeys.push("breastCancer");
   if (!hasObservation(ctx.her2)) missingKeys.push("her2");
@@ -148,13 +194,32 @@ export function evaluateBreastCancerPolicy(ctx: OncologyContext): CheckResult {
   // ECOG ≥ 1 → prior authorization is required before fulfillment.
   const ecogScore = extractEcogScore(ctx.ecogPs);
 
+  // A non-first-line request is intentionally consumed by policy evaluation:
+  // the demo payer requires a formal review for subsequent/maintenance lines,
+  // even when ECOG is otherwise favorable.
+  const lineCategory = ctx.requestCategories?.find((c) => c.system === TREATMENT_LINE_CS);
+  const intentCategory = ctx.requestCategories?.find(isRegimenIntentCategory);
+  const categoryReason = intentCategory
+    ? ` RequestGroup treatment intent: ${intentCategory.display || intentCategory.code}.`
+    : "";
+  if (lineCategory && lineCategory.code !== "1L") {
+    return {
+      status: "pa-required",
+      reason:
+        `RequestGroup category indicates ${lineCategory.display || lineCategory.code} ` +
+        "therapy. Subsequent or maintenance lines require formal prior authorization." +
+        categoryReason,
+    };
+  }
+
   if (ecogScore === 0) {
     return {
       status: "authorization-satisfied",
       reason:
         "All required oncology context present and coverage criteria met. " +
         "ECOG Performance Status is 0 (fully active). Prior authorization " +
-        "conditions have been evaluated and PA can be bypassed.",
+        "conditions have been evaluated and PA can be bypassed." +
+        categoryReason,
     };
   }
 
@@ -163,7 +228,8 @@ export function evaluateBreastCancerPolicy(ctx: OncologyContext): CheckResult {
     reason:
       `All required oncology context is present, but ECOG Performance Status ` +
       `is ${ecogScore ?? "unknown"} (≥ 1). A formal prior authorization ` +
-      `request must be submitted before fulfillment.`,
+      `request must be submitted before fulfillment.` +
+      categoryReason,
   };
 }
 

@@ -25,11 +25,11 @@ MedicationRequest  ← component orders (available at order-sign)
 
 | Resource | Profile | Purpose |
 |---|---|---|
-| `PlanDefinition` | `OncologyAntiCancerRegimenPlanDefinition` | Canonical, versioned regimen protocol; published by guideline authority or institution |
-| `RequestGroup` | `OncologyAntiCancerRegimenRequestGroup` | Patient-specific ordered instance; placed in CDS Hooks `draftOrders`; `instantiatesCanonical` optionally references PlanDefinition when a canonical definition is available |
+| `PlanDefinition` | `AntiCancerRegimenPlanDefinition` | Canonical, versioned regimen protocol; published by guideline authority or institution |
+| `RequestGroup` | `AntiCancerRegimenRequestGroup` | Patient-specific ordered instance; placed in CDS Hooks `draftOrders`; `instantiatesCanonical` optionally references PlanDefinition when a canonical definition is available |
 {: .table }
 
-### OncologyAntiCancerRegimenPlanDefinition
+### AntiCancerRegimenPlanDefinition
 
 The canonical regimen definition carries:
 - `type = order-set` — identifies this as an order set, not a clinical pathway
@@ -37,35 +37,41 @@ The canonical regimen definition carries:
   declaration of what cancer type the regimen is designed for
 - `action[+]` — one action per regimen component (drug or phase)
 
-### OncologyAntiCancerRegimenRequestGroup
+### AntiCancerRegimenRequestGroup
 
 The patient-specific ordered instance carries:
 - `instantiatesCanonical` (Must Support) — canonical URL of the PlanDefinition being ordered, when a published definition exists; **MAY** be omitted when the regimen originates from a local order-set without a canonical definition
-- `extension[regimenIntent]` (Must Support) — clinical intent of this order for this patient
-  (curative, palliative, adjuvant, neoadjuvant). This is an ordering decision made at the
-  time of prescribing and belongs on the RequestGroup, not the canonical PlanDefinition.
+- `extension[category]` (Must Support, 0..*) — repeated Da Vinci CRD
+  [`ext-request-category`](http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category)
+  values for patient-specific ordering categories. The optional `category/treatmentIntent` and
+  `category/lineOfTherapy` reslices constrain that same extension to `CodeableConcept` and require
+  bindings to `RegimenIntentVS` and `TreatmentLineVS`, respectively.
+  CRD 2.2.1 needs a proposed RequestGroup extension-context expansion before this use is
+  available in the base CRD specification.
 - `action[+]` — ordered components with cycle-day timing and phase sequencing
 
-**Line of therapy** is documented via [`LineOfTherapyObservation`](StructureDefinition-line-of-therapy-observation.html)
-in the patient record and supplied to the CRD Service via the `lineOfTherapy` prefetch entry.
-It is not carried as an extension on the RequestGroup; the Observation provides the temporal
-context, performer, and condition focus that an order-level extension cannot.
+**Treatment intent and line of therapy** are patient-specific `CodeableConcept` categories on
+the RequestGroup. Both semantic slices serialize with the CRD extension URL; their constraint
+profiles provide the distinct required terminology bindings. No companion Observation is used.
 
 #### Cycle Day Timing
 
 Each action declares which day(s) of the cycle the drug is administered using the
-`timing-daysOfCycle` extension (`http://hl7.org/fhir/StructureDefinition/timing-daysOfCycle`).
-The `action.timingTiming` carries the machine-computable cycle period.
+local `regimen-days-of-cycle` extension on `action.timingTiming`. This is a temporary local
+semantic pending an official `timing-daysOfCycle` context expansion. The
+`action.timingTiming.repeat` carries the machine-computable cycle period.
 
 ```json
 {
   "id": "paclitaxel-action",
   "title": "Paclitaxel",
-  "timingTiming": { "repeat": { "period": 7, "periodUnit": "d" } },
-  "extension": [{
-    "url": "http://hl7.org/fhir/StructureDefinition/timing-daysOfCycle",
-    "extension": [{ "url": "day", "valueInteger": 1 }]
-  }],
+  "timingTiming": {
+    "repeat": { "period": 7, "periodUnit": "d" },
+    "extension": [{
+      "url": "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle",
+      "extension": [{ "url": "day", "valueInteger": 1 }]
+    }]
+  },
   "resource": { "reference": "MedicationRequest/paclitaxel-order" }
 }
 ```

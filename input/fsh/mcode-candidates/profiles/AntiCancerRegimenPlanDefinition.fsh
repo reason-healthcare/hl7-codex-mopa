@@ -12,8 +12,9 @@ as a FHIR PlanDefinition order set. This resource is NOT patient-specific; it is
 referenced by AntiCancerRegimenRequestGroup instances via RequestGroup.instantiatesCanonical.
 
 A regimen definition describes the protocol — component drugs, timing, cycle structure,
-sequential phase ordering — and carries the clinical context attributes (intent, treatment
-line, disease context) that the CRD service uses when evaluating the ordered regimen.
+and sequential phase ordering. Treatment intent and line of therapy are patient-specific
+ordering categories and are carried on the RequestGroup via the category extension; this
+canonical definition does not carry those attributes.
 
 **mCODE Migration Candidate** — This profile is proposed for inclusion in mCODE STU5.
 It addresses the gap documented in the mCODE gap analysis: mCODE does not currently
@@ -43,10 +44,8 @@ See the mCODE Gap Proposals page in this IG for the full proposal backlog."""
 * title 1..1 MS
 * description MS
 
-// Clinical context extensions — patient-specific ordering context only
-// NOTE: regimenIntent and regimenDiseaseContext belong on the RequestGroup (patient-specific
-// ordered instance), not here. PlanDefinition.subject[x] already declares the target
-// cancer population. Intent and line of therapy are ordering decisions for a specific patient.
+// Patient-specific ordering context is carried on the RequestGroup via the category
+// extension. PlanDefinition.subject[x] declares the target cancer population.
 
 // At least one action (drug or phase)
 * action 1..* MS

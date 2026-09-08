@@ -4,7 +4,7 @@ export function GET() {
     status: "active",
     date: new Date().toISOString().slice(0, 10),
     kind: "instance",
-    software: { name: "MOPA Reference Hub", version: "0.1.0" },
+    software: { name: "MOPA Reference Hub", version: "0.1.1-snapshot-080926" },
     fhirVersion: "4.0.1",
     format: ["application/fhir+json"],
     implementationGuide: ["http://hl7.org/fhir/us/codex-mopa"],

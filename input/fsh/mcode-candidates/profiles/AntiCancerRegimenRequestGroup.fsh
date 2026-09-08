@@ -78,10 +78,25 @@ At order-select this field helps the CRD service identify the regimen protocol f
 approvability evaluation. At order-sign it supports the final coverage determination."""
 
 // Patient-specific ordering context extensions
-// regimenIntent: why THIS patient is receiving this regimen (ordering decision, not protocol property)
-// regimenDiseaseContext: optional convenience — CDS Service reads cancer type from prefetch.primaryCancer
+// The outer category slice fixes the Da Vinci CRD Request Category URL and remains open 0..*.
+// It is resliced by profile to add treatment-intent and line-of-therapy semantics without
+// overlapping sibling slices. Every instance still carries the one CRD extension URL. CRD 2.2.1
+// does not yet declare RequestGroup as an extension context; MOPA-DV-CRD-003 proposes that
+// required context expansion.
+* extension ^slicing.discriminator.type = #value
+* extension ^slicing.discriminator.path = "url"
+* extension ^slicing.discriminator[+].type = #profile
+* extension ^slicing.discriminator[=].path = "$this"
+* extension ^slicing.rules = #open
 * extension contains
-    RegimenIntentExtension named regimenIntent 0..1 MS
+    $RequestCategory named category 0..* MS
+* extension contains
+    TreatmentIntentRequestCategory named category/treatmentIntent 0..1 MS and
+    LineOfTherapyRequestCategory named category/lineOfTherapy 0..1 MS
+* extension[category] ^short = "Patient-specific regimen categories, such as treatment intent and line of therapy"
+* extension[category] ^definition = "Repeated Da Vinci CRD Request Category values that describe this patient's ordered regimen. Treatment intent and line of therapy are distinct categories and are not properties of the canonical PlanDefinition."
+* extension[category][treatmentIntent] ^short = "Treatment intent category, bound to RegimenIntentVS"
+* extension[category][lineOfTherapy] ^short = "Line-of-therapy category, bound to TreatmentLineVS"
 
 // Action constraints
 * action MS

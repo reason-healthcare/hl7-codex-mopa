@@ -15,8 +15,8 @@ Alias: $RQ-INTENT       = http://hl7.org/fhir/request-intent
 Alias: $OBS-CAT         = http://terminology.hl7.org/CodeSystem/observation-category
 
 // Standard HL7 extensions
-Alias: $DaysOfCycleOfficial  = http://hl7.org/fhir/StructureDefinition/timing-daysOfCycle
 Alias: $DaysOfCycle          = http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle
+Alias: $RequestCategory      = http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category
 Alias: $StdStatus       = http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status
 Alias: $FMM             = http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm
 

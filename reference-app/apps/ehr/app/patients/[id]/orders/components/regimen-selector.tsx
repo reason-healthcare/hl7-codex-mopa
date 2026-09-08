@@ -1,6 +1,6 @@
 "use client";
 
-import type { Regimen } from "@mopa/oncology-policy";
+import { findRegimenCategory, isRegimenIntentCategory, type Regimen } from "@mopa/oncology-policy";
 
 /**
  * EHR-style regimen selection table. Renders one row per regimen with its
@@ -36,6 +36,10 @@ export function RegimenSelector({
         <tbody>
           {regimens.map((regimen) => {
             const isSelected = selectedId === regimen.id;
+            const intent = findRegimenCategory(regimen, isRegimenIntentCategory);
+            const line = findRegimenCategory(regimen, (c) =>
+              c.system.endsWith("treatment-line-cs")
+            );
             return (
               <tr
                 key={regimen.id}
@@ -48,10 +52,10 @@ export function RegimenSelector({
                 </td>
                 <td className="px-3 py-2.5 text-xs text-slate-500">{regimen.description}</td>
                 <td className="px-3 py-2.5 text-xs text-slate-500 whitespace-nowrap">
-                  {regimen.intent.display}
+                  {intent?.display ?? "Not specified"}
                 </td>
                 <td className="px-3 py-2.5 text-xs text-slate-500 whitespace-nowrap">
-                  {regimen.treatmentLine.display}
+                  {line?.display ?? "Not specified"}
                 </td>
                 <td className="px-3 py-2.5 text-right">
                   {isSelected ? (

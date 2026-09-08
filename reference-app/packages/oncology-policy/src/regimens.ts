@@ -15,9 +15,30 @@ export const MOPA_BASE = "http://hl7.org/fhir/us/codex-mopa";
 export const RXNORM = "http://www.nlm.nih.gov/research/umls/rxnorm";
 const SNOMED = "http://snomed.info/sct";
 export const TREATMENT_LINE = `${MOPA_BASE}/CodeSystem/treatment-line-cs`;
-export const EXT_INTENT = `${MOPA_BASE}/StructureDefinition/ocpa-regimen-intent`;
-export const EXT_LINE = `${MOPA_BASE}/StructureDefinition/ocpa-regimen-treatment-line`;
+/** Da Vinci CRD's repeatable request-category extension (0..* on RequestGroup). */
+export const EXT_REQUEST_CATEGORY =
+  "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category";
 export const EXT_DAYS = `${MOPA_BASE}/StructureDefinition/regimen-days-of-cycle`;
+export const REQUEST_GROUP_PROFILE = `${MOPA_BASE}/StructureDefinition/anticancer-regimen-requestgroup`;
+
+export interface RegimenCategory {
+  system: string;
+  code: string;
+  display: string;
+}
+
+const REGIMEN_INTENT_CODES = new Set([
+  "373808002", // Curative
+  "363676003", // Palliative
+  "373846009", // Adjuvant
+  "373847000", // Neoadjuvant
+  "399707004", // Supportive
+]);
+
+/** True when a generic request category is one of the IG's regimen-intent codes. */
+export function isRegimenIntentCategory(category: RegimenCategory): boolean {
+  return category.system === SNOMED && REGIMEN_INTENT_CODES.has(category.code);
+}
 
 // ---------------------------------------------------------------------------
 // Regimen data model
@@ -65,10 +86,23 @@ export interface Regimen {
   description: string;
   /** AntiCancerRegimenPlanDefinition canonical URL. */
   canonicalUrl: string;
-  intent: { code: string; display: string; system?: string };
-  treatmentLine: { code: string; display: string };
+  /**
+   * Catalog defaults used by the demo order-entry UI. These are copied into
+   * the patient-specific RequestGroup only when the caller does not provide
+   * explicit categories; they are not protocol properties or PlanDefinition
+   * extensions.
+   */
+  defaultCategories: RegimenCategory[];
   /** Concurrent regimens have one phase; sequential have multiple. */
   phases: Phase[];
+}
+
+/** Read a catalog display category without making it part of protocol data. */
+export function findRegimenCategory(
+  regimen: Regimen,
+  predicate: (category: RegimenCategory) => boolean
+): RegimenCategory | undefined {
+  return regimen.defaultCategories.find(predicate);
 }
 
 // ---------------------------------------------------------------------------
@@ -83,8 +117,10 @@ export const REGIMENS: Regimen[] = [
     description:
       "Weekly paclitaxel with trastuzumab. First-line adjuvant for HER2+ early breast cancer.",
     canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenTH`,
-    intent: { code: "373846009", display: "Adjuvant - intent", system: SNOMED },
-    treatmentLine: { code: "1L", display: "First-line" },
+    defaultCategories: [
+      { system: SNOMED, code: "373846009", display: "Adjuvant - intent" },
+      { system: TREATMENT_LINE, code: "1L", display: "First-line" },
+    ],
     phases: [
       {
         id: "th-phase",
@@ -120,8 +156,10 @@ export const REGIMENS: Regimen[] = [
     description:
       "Dose-dense doxorubicin/cyclophosphamide then paclitaxel, with pegfilgrastim (G-CSF) support. Adjuvant for ER-positive, HER2-negative breast cancer when Oncotype DX indicates chemotherapy benefit.",
     canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenDdACT`,
-    intent: { code: "373846009", display: "Adjuvant - intent", system: SNOMED },
-    treatmentLine: { code: "1L", display: "First-line" },
+    defaultCategories: [
+      { system: SNOMED, code: "373846009", display: "Adjuvant - intent" },
+      { system: TREATMENT_LINE, code: "1L", display: "First-line" },
+    ],
     phases: [
       {
         id: "ac-phase",
@@ -150,7 +188,7 @@ export const REGIMENS: Regimen[] = [
           {
             actionId: "pegfilgrastim-ac",
             title: "Pegfilgrastim 6 mg SC \u2014 day 2 of each 14-day cycle (G-CSF support)",
-            rxnorm: "67108",
+            rxnorm: "338036",
             display: "pegfilgrastim (Neulasta)",
             dosageText:
               "6 mg subcutaneous, day 2 of each 14-day cycle (G-CSF support for dose-dense regimen)",
@@ -194,8 +232,10 @@ export const REGIMENS: Regimen[] = [
     description:
       "Pertuzumab, trastuzumab, and docetaxel q21d. First-line for HER2+ metastatic breast cancer.",
     canonicalUrl: `${MOPA_BASE}/PlanDefinition/RegimenPHD`,
-    intent: { code: "363676003", display: "Palliative intent", system: SNOMED },
-    treatmentLine: { code: "1L", display: "First-line" },
+    defaultCategories: [
+      { system: SNOMED, code: "363676003", display: "Palliative intent" },
+      { system: TREATMENT_LINE, code: "1L", display: "First-line" },
+    ],
     phases: [
       {
         id: "phd-phase",
@@ -278,7 +318,24 @@ function buildMedicationRequest(patientId: string, drug: DrugEntry) {
  * AntiCancerRegimenRequestGroup and its component MedicationRequests
  * for the given regimen and patient.
  */
-export function buildDraftBundle(patientId: string, regimen: Regimen) {
+export type DraftOrderStage = "order-select" | "order-sign";
+
+export interface DraftBundleOptions {
+  /** Categories are patient/order context and may contain any 0..* values. */
+  categories?: RegimenCategory[];
+  /** order-select may carry only the RequestGroup; order-sign carries components. */
+  stage?: DraftOrderStage;
+}
+
+export function buildDraftBundle(
+  patientId: string,
+  regimen: Regimen,
+  options: DraftBundleOptions = {}
+) {
+  const categories = options.categories ?? regimen.defaultCategories;
+  // Keep the historical full bundle as the default for non-hook callers such
+  // as substitution acceptance. Hook callers pass their explicit stage.
+  const stage = options.stage ?? "order-sign";
   // 1. Generate a stable fullUrl for the RequestGroup
   const rgId = `rg-${regimen.id}`;
   const rgFullUrl = `urn:uuid:${rgId}`;
@@ -330,39 +387,21 @@ export function buildDraftBundle(patientId: string, regimen: Regimen) {
     intent: "order",
     subject: { reference: `Patient/${patientId}` },
     instantiatesCanonical: [regimen.canonicalUrl],
-    extension: [
-      {
-        url: EXT_INTENT,
-        valueCodeableConcept: {
-          coding: [
-            {
-              system: regimen.intent.system ?? SNOMED,
-              code: regimen.intent.code,
-              display: regimen.intent.display,
-            },
-          ],
-        },
-      },
-      {
-        url: EXT_LINE,
-        valueCodeableConcept: {
-          coding: [
-            {
-              system: TREATMENT_LINE,
-              code: regimen.treatmentLine.code,
-              display: regimen.treatmentLine.display,
-            },
-          ],
-        },
-      },
-    ],
+    meta: { profile: [REQUEST_GROUP_PROFILE] },
+    extension: categories.map((category) => ({
+      url: EXT_REQUEST_CATEGORY,
+      valueCodeableConcept: { coding: [category] },
+    })),
     action: actions,
   };
 
   return {
     resourceType: "Bundle",
     type: "collection" as const,
-    entry: [{ fullUrl: rgFullUrl, resource: requestGroup }, ...medEntries],
+    entry:
+      stage === "order-select"
+        ? [{ fullUrl: rgFullUrl, resource: requestGroup }]
+        : [{ fullUrl: rgFullUrl, resource: requestGroup }, ...medEntries],
   };
 }
 

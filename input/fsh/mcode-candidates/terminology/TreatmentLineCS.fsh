@@ -4,7 +4,7 @@
 //
 // SNOMED CT has procedure-level codes for first-line (708255002) and
 // second-line (708256001) treatment, but no clean ordinal qualifier-value
-// codes suitable for use as Observation values or regimen attributes.
+// codes suitable for an order-level regimen category.
 // This code system fills that gap.
 // ============================================================
 
@@ -12,8 +12,8 @@ CodeSystem: TreatmentLineCS
 Id: treatment-line-cs
 Title: "Treatment Line Code System"
 Description: """Ordinal codes representing the line of systemic anti-cancer therapy.
-These codes are used in the TreatmentLineVS value set and on the LineOfTherapyObservation
-and regimen profiles.
+These codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint
+profile for the RequestGroup `lineOfTherapy` category slice.
 
 **mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5
 or as a SNOMED CT extension request. Once standard codes are available, this code

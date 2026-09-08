@@ -4,6 +4,8 @@ import type { CdsAction, CdsCard } from "@mopa/cds-hooks";
 import {
   applyBiosimilarSubstitution,
   buildDraftBundle,
+  findRegimenCategory,
+  isRegimenIntentCategory,
   REGIMENS,
   type Regimen,
 } from "@mopa/oncology-policy";
@@ -215,6 +217,12 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   // The regimen as displayed — substitution applied if accepted
   const displayRegimen =
     selected && suggestionAccepted ? applyBiosimilarSubstitution(selected) : selected;
+  const displayIntent = displayRegimen
+    ? findRegimenCategory(displayRegimen, isRegimenIntentCategory)?.display
+    : undefined;
+  const displayLine = displayRegimen
+    ? findRegimenCategory(displayRegimen, (c) => c.system.endsWith("treatment-line-cs"))?.display
+    : undefined;
 
   // ── DTR return handler ──
   // On DTR return, state is pre-initialized from URL params (regimen
@@ -273,7 +281,10 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     if (!selected) return;
     const suggestionCard = selectCards.find((c) => c.suggestions?.length);
     if (!suggestionCard?.suggestions) return;
-    const bundle = buildDraftBundle(patientId, selected) as {
+    // Substitution suggestions operate on component MedicationRequests. The
+    // initial order-select payload is intentionally RequestGroup-only, so
+    // rebuild the full order-sign bundle when applying a suggestion.
+    const bundle = buildDraftBundle(patientId, selected, { stage: "order-sign" }) as {
       resourceType: string;
       type: string;
       entry: Array<{ fullUrl: string; resource: Record<string, unknown> }>;
@@ -282,6 +293,19 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     const deleteIds = new Set(
       allActions.filter((a) => a.type === "delete").map((a) => a.resourceId)
     );
+    // order-select carries only RequestGroup, so its suggestion has create
+    // actions without deletes. Materialize the accepted substitutions while
+    // constructing the full order-sign payload instead of duplicating meds.
+    if (deleteIds.size === 0) {
+      setModifiedDraftOrders(
+        buildDraftBundle(patientId, applyBiosimilarSubstitution(selected), {
+          stage: "order-sign",
+        })
+      );
+      setSuggestionAccepted(true);
+      setSuggestionOverridden(false);
+      return;
+    }
     const entries = bundle.entry.filter((e) => !deleteIds.has(e.fullUrl));
     for (const action of allActions.filter((a) => a.type === "create")) {
       if (!action.resource) continue;
@@ -446,10 +470,10 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
               {/* Intent + treatment line badges */}
               <div className="flex items-center gap-1.5">
                 <span className="text-[10px] font-medium px-2 py-0.5 bg-slate-100 border border-slate-200 rounded text-slate-600">
-                  {displayRegimen.treatmentLine.display}
+                  {displayLine ?? "Line not specified"}
                 </span>
                 <span className="text-[10px] font-medium px-2 py-0.5 bg-slate-100 border border-slate-200 rounded text-slate-600">
-                  {displayRegimen.intent.display}
+                  {displayIntent ?? "Intent not specified"}
                 </span>
               </div>
 
@@ -575,8 +599,6 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
             {selectCards.length > 0 && !selectLoading && (
               <OrderSelectSummary
                 cards={selectCards}
-                patientId={patientId}
-                selectedRegimenId={selected?.id}
                 onAcceptSuggestion={onAcceptSuggestion}
                 onOverrideSuggestion={onOverrideSuggestion}
                 suggestionAccepted={suggestionAccepted}

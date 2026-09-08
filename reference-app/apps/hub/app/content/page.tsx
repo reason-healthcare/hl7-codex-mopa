@@ -133,14 +133,6 @@ function extractDays(
   );
 }
 
-/** Extract a CodeableConcept display from an extension by URL suffix. */
-function extDisplay(pd: AnyPlanDef, urlSuffix: string): string | undefined {
-  const exts = pd.extension as
-    | Array<{ url?: string; valueCodeableConcept?: { coding?: Array<{ display?: string }> } }>
-    | undefined;
-  return exts?.find((e) => (e.url ?? "").endsWith(urlSuffix))?.valueCodeableConcept?.coding?.[0]
-    ?.display;
-}
 function linkedLibraryIds(pd: AnyPlanDef): string[] {
   const libs = pd.library as string[] | undefined;
   return (libs ?? []).map((url) => url.split("/").at(-1) ?? "").filter(Boolean);
@@ -545,9 +537,6 @@ function DetailView({ pd, embedded }: { pd: AnyPlanDef; embedded: boolean }) {
 
   // Regimen-specific extensions (order-sets)
   const isOrderSet = tc === "order-set";
-  const rIntent = isOrderSet ? extDisplay(pd, "ocpa-regimen-intent") : undefined;
-  const rLine = isOrderSet ? extDisplay(pd, "ocpa-regimen-treatment-line") : undefined;
-  const rDisease = isOrderSet ? extDisplay(pd, "ocpa-regimen-disease-context") : undefined;
   const rSubject = (
     pd.subjectCodeableConcept as { coding?: Array<{ display?: string }> } | undefined
   )?.coding?.[0]?.display;
@@ -603,26 +592,11 @@ function DetailView({ pd, embedded }: { pd: AnyPlanDef; embedded: boolean }) {
         )}
 
         {/* Regimen clinical context (order-sets only) */}
-        {isOrderSet && (rSubject ?? rIntent ?? rLine) && (
+        {isOrderSet && rSubject && (
           <div className="flex flex-wrap gap-2 mt-3">
             {rSubject && (
               <span className="text-xs bg-slate-100 border border-slate-200 rounded px-2 py-0.5 text-slate-600">
                 <span className="font-medium text-slate-400">Subject:</span> {rSubject}
-              </span>
-            )}
-            {rIntent && (
-              <span className="text-xs bg-slate-100 border border-slate-200 rounded px-2 py-0.5 text-slate-600">
-                <span className="font-medium text-slate-400">Intent:</span> {rIntent}
-              </span>
-            )}
-            {rLine && (
-              <span className="text-xs bg-slate-100 border border-slate-200 rounded px-2 py-0.5 text-slate-600">
-                <span className="font-medium text-slate-400">Line:</span> {rLine}
-              </span>
-            )}
-            {rDisease && rDisease !== rSubject && (
-              <span className="text-xs bg-slate-100 border border-slate-200 rounded px-2 py-0.5 text-slate-600">
-                <span className="font-medium text-slate-400">Disease context:</span> {rDisease}
               </span>
             )}
           </div>
@@ -651,14 +625,7 @@ function DetailView({ pd, embedded }: { pd: AnyPlanDef; embedded: boolean }) {
             const files = CQL_FILES[libId];
             const cql = files ? readFile(path.join(CQL_DIR, files.cql)) : "";
             const elm = files ? readFile(path.join(ELM_DIR, files.elm)) : "";
-            return (
-              <LibraryPanel
-                key={libId}
-                libId={libId}
-                cqlSource={cql}
-                elmSource={elm}
-              />
-            );
+            return <LibraryPanel key={libId} libId={libId} cqlSource={cql} elmSource={elm} />;
           })}
         </div>
       )}

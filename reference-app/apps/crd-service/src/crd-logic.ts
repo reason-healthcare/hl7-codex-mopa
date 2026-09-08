@@ -21,6 +21,7 @@ import {
   evaluateBreastCancerPolicy,
   findBiosimilarDrugs,
   hasBreastCancer,
+  extractRequestCategories,
   fetchBundle,
   type OncologyContext,
   type Regimen,
@@ -93,7 +94,8 @@ function findSubstitutionDetail(regimenId: string): string | null {
   for (const phase of regimen.phases) {
     for (const drug of phase.drugs) {
       if (drug.biosimilars?.length) {
-        const bio = drug.biosimilars?.[0]; if (!bio) continue;
+        const bio = drug.biosimilars?.[0];
+        if (!bio) continue;
         subs.push(`${drug.display} → ${bio.display}`);
       }
     }
@@ -120,8 +122,8 @@ export function buildAuthorizationSatisfiedCard(detail?: string): CdsCard {
     detail:
       detail ??
       "All required oncology context has been retrieved from the EHR and coverage " +
-      "criteria are met. Prior authorization conditions have been evaluated and " +
-      "prior authorization can be bypassed.",
+        "criteria are met. Prior authorization conditions have been evaluated and " +
+        "prior authorization can be bypassed.",
     indicator: "success",
     source: {
       ...buildCardSource(),
@@ -140,8 +142,8 @@ export function buildPaRequiredCard(detail?: string): CdsCard {
     detail:
       detail ??
       "All required oncology context has been retrieved from the EHR and coverage " +
-      "criteria are met, but prior authorization is required before fulfillment. " +
-      "Submit a PA request to the payer for a coverage determination.",
+        "criteria are met, but prior authorization is required before fulfillment. " +
+        "Submit a PA request to the payer for a coverage determination.",
     indicator: "warning",
     source: {
       ...buildCardSource(),
@@ -165,9 +167,9 @@ export function buildApprovableCard(detail?: string): CdsCard {
     detail:
       detail ??
       "All required oncology context has been retrieved from the EHR and coverage " +
-      "criteria are met. This is an informational check at order selection — " +
-      "the final determination will be returned at order sign. Prior authorization " +
-      "conditions have been evaluated and PA can be bypassed.",
+        "criteria are met. This is an informational check at order selection — " +
+        "the final determination will be returned at order sign. Prior authorization " +
+        "conditions have been evaluated and PA can be bypassed.",
     indicator: "info",
     source: {
       ...buildCardSource(),
@@ -196,7 +198,9 @@ export function buildApprovableCard(detail?: string): CdsCard {
 export function buildSubstitutionSuggestionCard(
   patientId: string,
   regimen: Regimen,
+  options: { includeDeletes?: boolean } = {}
 ): CdsCard | null {
+  const includeDeletes = options.includeDeletes ?? true;
   const biosimilarDrugs = findBiosimilarDrugs(regimen);
   if (biosimilarDrugs.length === 0) return null;
 
@@ -207,14 +211,20 @@ export function buildSubstitutionSuggestionCard(
     const replacement = buildReplacementMedicationRequest(patientId, drug);
     if (!replacement) continue;
 
-    const bio = drug.biosimilars?.[0]; if (!bio) continue;
+    const bio = drug.biosimilars?.[0];
+    if (!bio) continue;
 
-    // Delete the original MedicationRequest from draftOrders
-    actions.push({
-      type: "delete",
-      description: `Remove original ${drug.display} order`,
-      resourceId: replacement.resourceId,
-    });
+    // order-select may intentionally omit component MedicationRequests. Do
+    // not emit delete actions for resources that are not present in that
+    // payload; the EHR reconstructs the full order when the suggestion is
+    // accepted. order-sign includes components and can use delete+create.
+    if (includeDeletes) {
+      actions.push({
+        type: "delete",
+        description: `Remove original ${drug.display} order`,
+        resourceId: replacement.resourceId,
+      });
+    }
 
     // Create the replacement MedicationRequest with the biosimilar
     actions.push({
@@ -268,8 +278,8 @@ export function buildPaWillBeRequiredCard(detail?: string): CdsCard {
     detail:
       detail ??
       "All required oncology context has been retrieved from the EHR and coverage " +
-      "criteria are met, but prior authorization will be required before fulfillment. " +
-      "You may proceed with signing — a PA request will be submitted to the payer.",
+        "criteria are met, but prior authorization will be required before fulfillment. " +
+        "You may proceed with signing — a PA request will be submitted to the payer.",
     indicator: "warning",
     source: {
       ...buildCardSource(),
@@ -321,7 +331,7 @@ export function buildDtrCard(missingKeys: string[]): CdsCard {
  */
 function findUnsubstitutedDrugs(
   draftOrders: { entry?: Array<{ resource?: Record<string, unknown> }> } | undefined,
-  regimen: Regimen | undefined,
+  regimen: Regimen | undefined
 ): string[] {
   if (!draftOrders || !regimen) return [];
 
@@ -329,9 +339,7 @@ function findUnsubstitutedDrugs(
   if (biosimilarDrugs.length === 0) return [];
 
   // Collect RxNorm codes of the original (non-preferred) drugs
-  const nonPreferredCodes = new Set(
-    biosimilarDrugs.map(({ drug }) => drug.rxnorm)
-  );
+  const nonPreferredCodes = new Set(biosimilarDrugs.map(({ drug }) => drug.rxnorm));
 
   // Scan MedicationRequest resources in the draft orders
   const unsubstituted: string[] = [];
@@ -396,6 +404,10 @@ export async function handleOncologyCrd(
     priorTherapy: queryResults.find(([k]) => k === "priorTherapy")?.[1] ?? null,
   };
 
+  const categoryResult = extractRequestCategories(request.context.draftOrders);
+  ctx.requestCategories = categoryResult.categories;
+  ctx.invalidRequestCategories = categoryResult.invalid;
+
   // Check if patient has breast cancer — only breast cancer policy is implemented.
   if (!hasBreastCancer(ctx.conditions)) {
     return {
@@ -430,12 +442,8 @@ export async function handleOncologyCrd(
     const rg = draftOrders?.entry?.find(
       (e) => e.resource?.resourceType === "RequestGroup"
     )?.resource;
-    const canonical = rg
-      ? (rg.instantiatesCanonical as string[] | undefined)?.[0]
-      : undefined;
-    const regimen = canonical
-      ? REGIMENS.find((r) => r.canonicalUrl === canonical)
-      : undefined;
+    const canonical = rg ? (rg.instantiatesCanonical as string[] | undefined)?.[0] : undefined;
+    const regimen = canonical ? REGIMENS.find((r) => r.canonicalUrl === canonical) : undefined;
     const subDetail = regimen ? findSubstitutionDetail(regimen.id) : null;
 
     const detail = subDetail
@@ -450,7 +458,12 @@ export async function handleOncologyCrd(
       const cards: CdsCard[] = [buildApprovableCard(detail)];
 
       if (regimen) {
-        const subCard = buildSubstitutionSuggestionCard(patientId, regimen);
+        const hasMedicationRequests = (draftOrders?.entry ?? []).some(
+          (entry) => entry.resource?.resourceType === "MedicationRequest"
+        );
+        const subCard = buildSubstitutionSuggestionCard(patientId, regimen, {
+          includeDeletes: hasMedicationRequests,
+        });
         if (subCard) cards.push(subCard);
       }
 
@@ -465,7 +478,7 @@ export async function handleOncologyCrd(
         request.context.draftOrders as
           | { entry?: Array<{ resource?: Record<string, unknown> }> }
           | undefined,
-        regimen,
+        regimen
       );
       if (unsubstituted.length > 0) {
         const drugList = unsubstituted.join(", ");
@@ -473,9 +486,9 @@ export async function handleOncologyCrd(
           cards: [
             buildPaRequiredCard(
               `Required substitution not applied: ${drugList}. ` +
-              `The payer will not approve this order without the preferred ` +
-              `product. Accept the substitution or submit a PA with ` +
-              `exception justification.`
+                `The payer will not approve this order without the preferred ` +
+                `product. Accept the substitution or submit a PA with ` +
+                `exception justification.`
             ),
           ],
         };

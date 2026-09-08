@@ -30,8 +30,9 @@ The workflow uses two CDS Hooks stages:
 
 The EHR fires a standard CDS Hooks request containing the ordered `RequestGroup` and — when
 available — `fhirAuthorization` credentials. The CRD service uses those credentials to query
-the EHR FHIR server directly for the oncology patient context it needs. No special extension
-or prefetch configuration is required from the EHR.
+the EHR FHIR server directly for the oncology patient context it needs. The RequestGroup carries
+repeated Da Vinci CRD `ext-request-category` values for order-specific treatment intent and line
+of therapy; CRD 2.2.1 requires the proposed RequestGroup extension-context expansion for this use.
 
 #### API Call Sequence
 
@@ -100,26 +101,18 @@ Content-Type: application/json
             "subject":               { "reference": "Patient/MOPAPatientExample" },
             // instantiatesCanonical links back to the protocol definition.
             // The CDS Service MAY fetch the PlanDefinition for richer evaluation.
-            "instantiatesCanonical": ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/THRegimenDefinition"],
+            "instantiatesCanonical": ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"],
             "extension": [
               {
-                "url": "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/ocpa-regimen-intent",
+                "url": "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category",
                 "valueCodeableConcept": {
                   "coding": [{ "system": "http://snomed.info/sct", "code": "373846009", "display": "Adjuvant - intent" }]
                 }
               },
               {
-                "url": "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/ocpa-regimen-treatment-line",
+                "url": "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category",
                 "valueCodeableConcept": {
                   "coding": [{ "system": "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs", "code": "1L", "display": "First-line" }]
-                }
-              },
-              {
-                // regimenDiseaseContext: OPTIONAL. An EHR MAY populate this
-                // to make the disease context explicit on the RequestGroup.
-                "url": "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/ocpa-regimen-disease-context",
-                "valueCodeableConcept": {
-                  "coding": [{ "system": "http://snomed.info/sct", "code": "254837009", "display": "Malignant neoplasm of breast" }]
                 }
               }
             ],
@@ -169,11 +162,11 @@ GET https://ehr.example.org/fhir/Observation
     &code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-marker-test-vs
 // Response: HER2 IHC 3+ (positive), ER negative, PR negative
 
-// 4. Line of therapy
+// 4. Optional richer longitudinal line-of-therapy history
 GET https://ehr.example.org/fhir/Observation
     ?patient=MOPAPatientExample
     &code:in=http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs
-// Response: First-line
+// Response: First-line (only when policy needs history beyond the RequestGroup category)
 
 // 5. Performance status
 GET https://ehr.example.org/fhir/Observation
@@ -284,12 +277,16 @@ unanswered item is HER2 status.
 Dr. Lopez enters HER2 IHC 3+ (positive). The DTR app captures the result as a
 `QuestionnaireResponse` and signals completion to the EHR.
 
-> **DTR responses are not persisted to the EHR FHIR server.** In most EHR deployments, the
-> DTR `QuestionnaireResponse` is held in the EHR session context (or as an in-progress order
-> attachment) but is **not** written back to the FHIR server as a clinical `Observation`.
-> This means the CRD service cannot rely on finding DTR-collected data when it queries the
-> EHR FHIR server at `order-sign`. The `QuestionnaireResponse` travels with the order
-> submission to PAS, not back to the EHR's clinical data store.
+> **Production exchange must not depend on EHR write-back.** A DTR `QuestionnaireResponse`
+> is commonly held in the EHR session context (or as an in-progress order attachment), not
+> converted into a clinical `Observation` in the EHR data store. The EHR should carry the
+> `QuestionnaireResponse` with the order and include it in `draftOrders` when CRD needs it at
+> `order-sign`.
+>
+> **Reference-app demo deviation:** the bundled DTR client writes its
+> `QuestionnaireResponse` and derived Observations to the demo EHR so the local scenario can
+> re-run CRD after the SMART app returns. That convenience behavior is not the production
+> persistence contract described by this guide.
 
 This DTR exchange is governed by the Da Vinci DTR specification and is not reproduced in
 full here.
@@ -303,12 +300,11 @@ fires `order-sign`. The key differences from `order-select`:
 - All companion `MedicationRequest` resources are now finalised and included in
   `context.draftOrders`.
 - The CRD service returns the **final binding determination** (not informational).
-- The CRD service queries the EHR FHIR server again for oncology context. However, because
-  DTR responses are not persisted to the FHIR server, the CRD service **cannot assume**
-  that data collected via DTR will be present. If the data is still missing, the CRD
-  service returns a DTR-required card again, or the EHR may include the DTR
-  `QuestionnaireResponse` in `context.draftOrders` so the CRD service can read it
-  directly from the hook context rather than relying on a FHIR query.
+- The CRD service queries the EHR FHIR server again for oncology context. A production
+  service **cannot assume** that data collected via DTR was persisted there. If the data is
+  still missing, the service returns a DTR-required card again, or reads the DTR
+  `QuestionnaireResponse` supplied in `context.draftOrders`. In the reference-app demo,
+  the explicit write-back makes the derived Observation available to the repeat query.
 
 ##### Request (abbreviated — changes from order-select highlighted)
 
@@ -368,11 +364,11 @@ Content-Type: application/json
 }
 ```
 
-The CRD service queries the EHR FHIR server using `fhirAuthorization`. In the Response B path,
-the HER2 status collected by DTR is **not** expected to be present on the EHR FHIR server —
-DTR `QuestionnaireResponse` resources are held in the EHR session, not written back as
-clinical `Observation` resources. The CRD service evaluation at `order-sign` therefore
-**cannot assume** that data gaps identified at `order-select` have been filled.
+The CRD service queries the EHR FHIR server using `fhirAuthorization`. In a production
+Response B path, it **cannot assume** that HER2 collected by DTR was written back as a
+clinical `Observation`; the EHR should supply the `QuestionnaireResponse` in the order
+context when CRD needs it. The reference app intentionally writes the derived HER2
+Observation to its demo EHR, so its repeat query does find the completed value.
 
 ##### Response — Authorization Satisfied
 

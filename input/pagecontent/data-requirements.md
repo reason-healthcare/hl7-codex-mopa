@@ -27,8 +27,8 @@ relevant FHIR resource and the primary mCODE-based query pattern.
 | Primary cancer condition | `Condition` | `code:in` mCODE primary cancer ValueSet |
 | Stage / extent of disease | `Observation` | `code:in` mCODE staging ValueSet |
 | Biomarkers | `Observation` | `code:in` mCODE tumor marker ValueSet |
-| Treatment setting | `Observation` / `Condition` | Adjuvant, neoadjuvant, metastatic, recurrent context |
-| Line of therapy | `Observation` | `code:in` MOPA treatment-line ValueSet |
+| Treatment intent / setting | `RequestGroup.extension:category` | Order-specific Da Vinci CRD `ext-request-category` value; no FHIR query needed |
+| Line of therapy | `RequestGroup.extension:category/lineOfTherapy` | Order-specific profiled CRD category, bound to `TreatmentLineVS`; no separate FHIR query is required |
 | Prior therapy | `MedicationRequest` / `Procedure` | Completed anti-cancer treatments |
 | Performance status | `Observation` | `code:in` mCODE ECOG/Karnofsky ValueSet |
 | Ordered regimen | `RequestGroup` | Passed in `context.draftOrders` — no query needed |

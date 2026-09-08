@@ -73,7 +73,6 @@ for format rules and commit discipline.
   - [x] Condition — breast cancer (primary, SNOMED + ICD-10-CM coded)
   - [x] Observation — cancer stage (Stage IIIA, LOINC 21908-9)
   - [x] Observation — ECOG Performance Status (PS 1, LOINC 89247-1)
-  - [x] Observation — line of therapy (first-line, SNOMED)
   - [x] Observation — prior therapy (none, SNOMED)
   - [x] HER2 Observation intentionally omitted
 - [x] Create `reference-app/fixtures/load-fixtures.sh` script to POST bundle to HAPI
@@ -114,7 +113,7 @@ for format rules and commit discipline.
 
 ### apps/crd-service — GET /api/Library/BreastCancerPADataRequirements
 - [x] Return a static FHIR `Library` resource
-- [x] `dataRequirement[]` entries: Patient demographics, primary cancer Condition, HER2 Observation, cancer stage Observation, ECOG PS Observation, line of therapy Observation
+- [x] `dataRequirement[]` entries: Patient demographics, primary cancer Condition, HER2 Observation, cancer stage Observation, and ECOG PS Observation
 - [x] Set canonical URL used in DTR `appContext`
 
 ### apps/crd-service — tests
@@ -247,7 +246,7 @@ for format rules and commit discipline.
 ### apps/smart-app — data fetching
 - [x] Add `@mopa/cql-engine` dependency for guideline evaluation
 - [x] Add `@mopa/cds-hooks` dependency for CRD service URL constants
-- [x] `lib/data-fetching.ts` — fetch Library resource from CRD; parallel DataRequirement FHIR queries (Patient, Conditions, HER2, CancerStage, ECOG PS, LineOfTherapy)
+- [x] `lib/data-fetching.ts` — fetch Library resource from CRD; parallel DataRequirement FHIR queries (Patient, Conditions, HER2, CancerStage, ECOG PS)
 - [x] `lib/guideline.ts` — run `BreastCancerGuideline.elm.json` via `CqlExecutionEngine`; return `{ thEligible, phdEligible, ddactEligible }` and eligible regimen list
 
 ### apps/smart-app — gap analysis UI
@@ -553,7 +552,7 @@ CodeX Prior Authorization in Medical Oncology proof-of-concept document.
 - [x] `registered-workflows.ts` — update layer 1 and layer 2 decision rows
 
 ### Regimen drug policy
-- [x] `oncology-policy/regimens.ts` — add pegfilgrastim (Neulasta, RxNorm 67108)
+- [x] `oncology-policy/regimens.ts` — add pegfilgrastim (Neulasta, RxNorm 338036)
       to ddAC-T AC phase with pegfilgrastim-cbqv (Udenyca, RxNorm 2102692)
       step-therapy alternative
 - [x] `plan-definitions.ts` — add pegfilgrastim action to REGIMEN_DDACT

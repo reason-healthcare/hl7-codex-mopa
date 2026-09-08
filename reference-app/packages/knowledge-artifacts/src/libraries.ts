@@ -26,7 +26,7 @@ export const GUIDELINE_LIBRARY = {
   resourceType: "Library",
   id: "BreastCancerGuideline",
   url: `${BASE_URL}/Library/BreastCancerGuideline`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "BreastCancerGuideline",
   title: "Breast Cancer Chemotherapy Guideline",
   status: "active",
@@ -189,7 +189,7 @@ export const PAYER_POLICY_LIBRARY = {
   resourceType: "Library",
   id: "BreastCancerPayerPolicy",
   url: `${BASE_URL}/Library/BreastCancerPayerPolicy`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "BreastCancerPayerPolicy",
   title: "Breast Cancer Prior Authorization Payer Policy",
   status: "active",
@@ -386,7 +386,7 @@ export const LIBRARY_RESOURCE = {
   resourceType: "Library",
   id: "BreastCancerPADataRequirements",
   url: LIBRARY_CANONICAL,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "BreastCancerPADataRequirements",
   title: "Breast Cancer Prior Authorization Data Requirements",
   status: "active",
@@ -525,28 +525,6 @@ export const LIBRARY_RESOURCE = {
         },
       ],
     },
-    {
-      type: "Observation",
-      mustSupport: ["code", "value[x]", "status", "effectiveDateTime"],
-      codeFilter: [
-        {
-          path: "code",
-          code: [
-            {
-              system: SYSTEM.SNOMED,
-              code: "415068001",
-              display: "Line of therapy (observable entity)",
-            },
-          ],
-        },
-      ],
-      extension: [
-        {
-          url: `${BASE_URL}/StructureDefinition/data-requirement-label`,
-          valueString: "Line of Therapy",
-        },
-      ],
-    },
   ],
 } as const;
 
@@ -558,7 +536,7 @@ export const ONCOLOGY_CRD_CATALOG = {
   resourceType: "Library",
   id: "OncologyCRDCatalog",
   url: CATALOG_URL,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "OncologyCRDCatalog",
   title: "MOPA Oncology CRD Catalog",
   status: "active",
@@ -603,7 +581,7 @@ export const NSCLC_GUIDELINE_LIBRARY = {
   resourceType: "Library",
   id: "LungCancerGuideline",
   url: `${BASE_URL}/Library/LungCancerGuideline`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "LungCancerGuideline",
   title: "NSCLC Chemotherapy Guideline",
   status: "draft",
@@ -717,7 +695,7 @@ export const NSCLC_PAYER_POLICY_LIBRARY = {
   resourceType: "Library",
   id: "LungCancerPayerPolicy",
   url: `${BASE_URL}/Library/LungCancerPayerPolicy`,
-  version: "0.1.0",
+  version: "0.1.1-snapshot-080926",
   name: "LungCancerPayerPolicy",
   title: "NSCLC Prior Authorization Payer Policy",
   status: "draft",

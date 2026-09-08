@@ -4,7 +4,7 @@ const SPEC = {
   openapi: "3.0.3",
   info: {
     title: "MOPA EHR",
-    version: "0.1.0",
+    version: "0.1.1-snapshot-080926",
     description:
       "Reference EHR exposing a FHIR R4 proxy, SMART on FHIR authorization endpoints, " +
       "and a prior-authorization submission gateway.",

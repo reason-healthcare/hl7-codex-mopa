@@ -430,7 +430,9 @@ describe("buildSubstitutionSuggestionCard", () => {
     const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
     const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
 
-    const deleteAction = card!.suggestions![0].actions!.find((a: { type: string }) => a.type === "delete");
+    const deleteAction = card!.suggestions![0].actions!.find(
+      (a: { type: string }) => a.type === "delete"
+    );
     expect(deleteAction!.resourceId).toBe("urn:uuid:mr-pegfilgrastim-ac");
   });
 
@@ -438,8 +440,13 @@ describe("buildSubstitutionSuggestionCard", () => {
     const ddact = REGIMENS.find((r) => r.id === "ddAC-T")!;
     const card = buildSubstitutionSuggestionCard("jane-smith", ddact);
 
-    const createAction = card!.suggestions![0].actions!.find((a: { type: string }) => a.type === "create");
-    const resource = createAction!.resource as { resourceType: string; medicationCodeableConcept: { coding: Array<{ code: string; display: string }> } };
+    const createAction = card!.suggestions![0].actions!.find(
+      (a: { type: string }) => a.type === "create"
+    );
+    const resource = createAction!.resource as {
+      resourceType: string;
+      medicationCodeableConcept: { coding: Array<{ code: string; display: string }> };
+    };
     expect(resource.resourceType).toBe("MedicationRequest");
     expect(resource.medicationCodeableConcept.coding[0].code).toBe("2102692");
     expect(resource.medicationCodeableConcept.coding[0].display).toContain("Udenyca");
@@ -480,7 +487,13 @@ describe("handleOncologyCrd — step-therapy substitution", () => {
           intent: "order",
           subject: { reference: "Patient/jane-smith" },
           medicationCodeableConcept: {
-            coding: [{ system: "http://www.nlm.nih.gov/research/umls/rxnorm", code: "67108", display: "pegfilgrastim (Neulasta)" }],
+            coding: [
+              {
+                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                code: "338036",
+                display: "pegfilgrastim (Neulasta)",
+              },
+            ],
           },
         },
       },
@@ -500,7 +513,13 @@ describe("handleOncologyCrd — step-therapy substitution", () => {
           intent: "order",
           subject: { reference: "Patient/jane-smith" },
           medicationCodeableConcept: {
-            coding: [{ system: "http://www.nlm.nih.gov/research/umls/rxnorm", code: "2102692", display: "pegfilgrastim-cbqv (Udenyca)" }],
+            coding: [
+              {
+                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                code: "2102692",
+                display: "pegfilgrastim-cbqv (Udenyca)",
+              },
+            ],
           },
         },
       },
@@ -538,7 +557,9 @@ describe("handleOncologyCrd — step-therapy substitution", () => {
       context: {
         userId: "Practitioner/p1",
         patientId: "jane-smith",
-        draftOrders: ddactDraftOrders,
+        // order-select permits the RequestGroup without finalized component
+        // MedicationRequests; substitution actions must therefore be create-only.
+        draftOrders: { ...ddactDraftOrders, entry: [ddactDraftOrders.entry[0]] },
         selections: ["urn:uuid:rg-ddAC-T"],
       },
       fhirServer: "http://localhost:8080/fhir",
@@ -549,6 +570,9 @@ describe("handleOncologyCrd — step-therapy substitution", () => {
     expect(response.cards[0]?.summary).toContain("Approvable");
     expect(response.cards[1]?.suggestions).toBeDefined();
     expect(response.cards[1]?.source.topic?.code).toBe("therapy-alternatives-req");
+    expect(response.cards[1]?.suggestions?.[0]?.actions?.every((a) => a.type === "create")).toBe(
+      true
+    );
   });
 
   it("order-sign without substitution returns PA required (not approved)", async () => {
