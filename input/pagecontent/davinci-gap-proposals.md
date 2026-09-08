@@ -379,7 +379,7 @@ Define PAS guidance/profile to reference the regimen `RequestGroup` plus canonic
 Regimen-level submission is demonstrated in the regimen order examples:
 
 - [TH Regimen Order](RequestGroup-THRegimenOrder.html) — Patient-specific regimen with full drug component linkage
-- [Line of Therapy Observation](Observation-LineOfTherapyFirstLine.html) — Supporting evidence for PA adjudication
+- [Line of Therapy Request Category](StructureDefinition-line-of-therapy-request-category.html) — Order-level treatment sequence semantics bound to the treatment-line value set
 
 **Target destination**
 
