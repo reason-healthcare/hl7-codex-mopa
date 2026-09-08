@@ -188,7 +188,7 @@ export const REGIMENS: Regimen[] = [
           {
             actionId: "pegfilgrastim-ac",
             title: "Pegfilgrastim 6 mg SC \u2014 day 2 of each 14-day cycle (G-CSF support)",
-            rxnorm: "67108",
+            rxnorm: "338036",
             display: "pegfilgrastim (Neulasta)",
             dosageText:
               "6 mg subcutaneous, day 2 of each 14-day cycle (G-CSF support for dose-dense regimen)",

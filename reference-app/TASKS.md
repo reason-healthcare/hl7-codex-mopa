@@ -552,7 +552,7 @@ CodeX Prior Authorization in Medical Oncology proof-of-concept document.
 - [x] `registered-workflows.ts` — update layer 1 and layer 2 decision rows
 
 ### Regimen drug policy
-- [x] `oncology-policy/regimens.ts` — add pegfilgrastim (Neulasta, RxNorm 67108)
+- [x] `oncology-policy/regimens.ts` — add pegfilgrastim (Neulasta, RxNorm 338036)
       to ddAC-T AC phase with pegfilgrastim-cbqv (Udenyca, RxNorm 2102692)
       step-therapy alternative
 - [x] `plan-definitions.ts` — add pegfilgrastim action to REGIMEN_DDACT

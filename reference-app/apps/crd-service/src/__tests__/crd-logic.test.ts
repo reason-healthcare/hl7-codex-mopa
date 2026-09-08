@@ -490,7 +490,7 @@ describe("handleOncologyCrd — step-therapy substitution", () => {
             coding: [
               {
                 system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                code: "67108",
+                code: "338036",
                 display: "pegfilgrastim (Neulasta)",
               },
             ],

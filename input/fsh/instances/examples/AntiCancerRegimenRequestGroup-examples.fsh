@@ -15,7 +15,7 @@
 // from RequestGroup.action.resource (available at order-sign).
 // RxNorm codes verified via NLM RxNav API 2026-05-04:
 //   paclitaxel=56946, trastuzumab=224905, doxorubicin=3639,
-//   cyclophosphamide=3002, pegfilgrastim=67108, pertuzumab=1298944, docetaxel=72962
+//   cyclophosphamide=3002, pegfilgrastim=338036, pertuzumab=1298944, docetaxel=72962
 // ============================================================
 
 // ─── Companion MedicationRequests (draft, for action.resource refs) ──────────
@@ -82,7 +82,7 @@ Description: "Draft MedicationRequest for pegfilgrastim 6 mg subcutaneous on day
 * subject = Reference(MOPAPatientExample)
 * requester = Reference(MOPAOncologistExample)
 * reasonReference = Reference(MOPABreastCancerConditionExample)
-* medicationCodeableConcept = $RxNorm#67108 "pegfilgrastim"
+* medicationCodeableConcept = $RxNorm#338036 "pegfilgrastim"
 * dosageInstruction[+].text = "6 mg subcutaneous day 2 of each 14-day cycle"
 
 Instance: PaclitaxelMedRequestTPHase
