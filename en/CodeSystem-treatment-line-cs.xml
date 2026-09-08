@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="treatment-line-cs"/>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: CodeSystem treatment-line-cs</b></p><a name="treatment-line-cs"> </a><a name="hctreatment-line-cs"> </a><p>This case-sensitive code system <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">1L<a name="treatment-line-cs-1L"> </a></td><td>First-line</td><td>The first line of systemic anti-cancer therapy for this indication.</td></tr><tr><td style="white-space:nowrap">2L<a name="treatment-line-cs-2L"> </a></td><td>Second-line</td><td>The second line of systemic anti-cancer therapy; administered after first-line therapy failure, progression, or intolerance.</td></tr><tr><td style="white-space:nowrap">3L-plus<a name="treatment-line-cs-3L-plus"> </a></td><td>Third-line or later</td><td>The third or any subsequent line of systemic anti-cancer therapy.</td></tr><tr><td style="white-space:nowrap">maintenance<a name="treatment-line-cs-maintenance"> </a></td><td>Maintenance</td><td>Maintenance therapy administered to prolong response after induction or consolidation treatment.</td></tr></table></div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-wg">
+    <valueCode value="cic"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="informative">
+      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom">
+        <valueCanonical value="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/>
+      </extension>
+    </valueCode>
+  </extension>
+  <url value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="TreatmentLineCS"/>
+  <title value="Treatment Line Code System"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Ordinal codes representing the line of systemic anti-cancer therapy.&#xA;These codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint&#xA;profile for the RequestGroup `lineOfTherapy` category slice.&#xA;&#xA;**mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5&#xA;or as a SNOMED CT extension request. Once standard codes are available, this code&#xA;system should be deprecated."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <purpose value="mCODE Migration Candidate — proposed for adoption in mCODE STU5 or as a SNOMED CT&#xA;extension request. Once standard codes are available this code system will be deprecated.&#xA;It is NOT intended to be a permanent artifact of this IG. See the mCODE Gap Proposals page&#xA;for the migration plan."/>
+  <caseSensitive value="true"/>
+  <content value="complete"/>
+  <count value="4"/>
+  <concept>
+    <code value="1L"/>
+    <display value="First-line"/>
+    <definition value="The first line of systemic anti-cancer therapy for this indication."/>
+  </concept>
+  <concept>
+    <code value="2L"/>
+    <display value="Second-line"/>
+    <definition value="The second line of systemic anti-cancer therapy; administered after first-line therapy failure, progression, or intolerance."/>
+  </concept>
+  <concept>
+    <code value="3L-plus"/>
+    <display value="Third-line or later"/>
+    <definition value="The third or any subsequent line of systemic anti-cancer therapy."/>
+  </concept>
+  <concept>
+    <code value="maintenance"/>
+    <display value="Maintenance"/>
+    <definition value="Maintenance therapy administered to prolong response after induction or consolidation treatment."/>
+  </concept>
+</CodeSystem>

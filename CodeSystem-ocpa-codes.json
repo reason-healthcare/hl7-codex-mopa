@@ -1,0 +1,68 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "ocpa-codes",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem ocpa-codes</b></p><a name=\"ocpa-codes\"> </a><a name=\"hcocpa-codes\"> </a><p>This case-sensitive code system <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">anti-cancer<a name=\"ocpa-codes-anti-cancer\"> </a></td><td>Anti-Cancer Component</td><td>A regimen component that is an anti-cancer therapeutic agent (e.g., cytotoxic, targeted, immunotherapy).</td></tr><tr><td style=\"white-space:nowrap\">supportive<a name=\"ocpa-codes-supportive\"> </a></td><td>Supportive Care Component</td><td>A regimen component that is supportive (e.g., antiemetic, growth factor, steroid not used as anti-cancer therapy).</td></tr><tr><td style=\"white-space:nowrap\">premedication<a name=\"ocpa-codes-premedication\"> </a></td><td>Premedication Component</td><td>A regimen component administered as premedication prior to the primary agent.</td></tr></table></div>"
+  },
+  "extension" : [{
+    "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+    "valueCode" : "cic"
+  },
+  {
+    "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+    "valueCode" : "informative",
+    "_valueCode" : {
+      "extension" : [{
+        "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+        "valueCanonical" : "http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"
+      }]
+    }
+  }],
+  "url" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "OcpaCodesCS",
+  "title" : "MOPA Local Code System",
+  "status" : "draft",
+  "experimental" : true,
+  "date" : "2026-09-08T18:17:28-04:00",
+  "publisher" : "HL7 International / Clinical Interoperability Council",
+  "contact" : [{
+    "name" : "HL7 International / Clinical Interoperability Council",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://www.hl7.org/Special/committees/cic"
+    },
+    {
+      "system" : "email",
+      "value" : "ciclist@lists.HL7.org"
+    }]
+  }],
+  "description" : "Local codes defined by the MOPA IG for concepts that do not yet have\nan established representation in LOINC, SNOMED CT, or mCODE. These codes are migration\ncandidates and should be retired in favor of standard codes as they become available.",
+  "jurisdiction" : [{
+    "coding" : [{
+      "system" : "urn:iso:std:iso:3166",
+      "code" : "US",
+      "display" : "United States of America"
+    }]
+  }],
+  "purpose" : "mCODE Migration Candidate — individual codes submitted to LOINC and SNOMED CT.\nThis code system will be retired once standard codes are assigned. It is NOT intended to\nbe a permanent artifact of this IG. See the mCODE Gap Proposals page for the full proposal backlog.",
+  "caseSensitive" : true,
+  "content" : "complete",
+  "count" : 3,
+  "concept" : [{
+    "code" : "anti-cancer",
+    "display" : "Anti-Cancer Component",
+    "definition" : "A regimen component that is an anti-cancer therapeutic agent (e.g., cytotoxic, targeted, immunotherapy)."
+  },
+  {
+    "code" : "supportive",
+    "display" : "Supportive Care Component",
+    "definition" : "A regimen component that is supportive (e.g., antiemetic, growth factor, steroid not used as anti-cancer therapy)."
+  },
+  {
+    "code" : "premedication",
+    "display" : "Premedication Component",
+    "definition" : "A regimen component administered as premedication prior to the primary agent."
+  }]
+}

@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Home - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <link href="assets/css/project.css" rel="stylesheet"/>
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/hl7.css" rel="stylesheet"/>
+    <link href="assets/css/fhir-ig.css" rel="stylesheet"/>
+    <link href="css/mopa.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+    <script type="text/javascript" src="assets/js/direction-management.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script type="text/javascript" src="assets/js/prism.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-fhirpath.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-cql.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"1"}
+    h3,h4,h5,h6{--heading-prefix:"1"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+        <div id="hl7-nav">
+          <a id="hl7-logo" data-no-external="true" href="http://hl7.org">
+            <img height="50" alt="Visit the HL7 website" src="assets/images/hl7-logo-header.png"/>
+          </a>
+        </div>
+        <div id="family-nav">
+          <a id="family-logo" data-no-external="true" href="http://hl7.org/fhir"><img height="50" alt="Visit the FHIR website" src="assets/images/fhir-logo-www.png"/> </a>
+        </div>
+        <div id="hl7-search">
+          <a id="hl7-search-lnk" data-no-external="true" href="searchform.html"><img alt="Search FHIR" src="assets/images/search.png"/></a>
+        </div>
+
+
+        <div id="ig-status" data-fhir="generated">
+          <p><span style="font-size:12pt;font-weight:bold">MOPA — Medical Oncology Prior Authorization</span>
+            <br/>
+            <span style="display:inline-block;">0.1.1-snapshot-080926 - snapshot-080926
+
+
+
+  <img alt="United States of America flag" src="../assets/images/usa.svg" height="16" title="United States of America"/>
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment" data-fhir="generated">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="background.html">Background</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Use Cases
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="use-cases.html">Use Cases and Actors</a>
+      </li>
+      <li>
+        <a href="breast-cancer-pa.html">Use Case 1 - Breast Cancer PA</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Specification
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="regimen-model.html">1-Regimen Modeling</a>
+      </li>
+      <li>
+        <a href="cds-workflow.html">2-CRD Workflow</a>
+      </li>
+      <li>
+        <a href="data-requirements.html">3-Data Requirements</a>
+      </li>
+      <li>
+        <a href="walkthrough.html">Workflow Walkthrough</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Gaps in Specs
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a>
+      </li>
+      <li>
+        <a href="mcode-gap-proposals.html">mCODE Gap Proposals</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="conformance.html">Conformance</a>
+  </li>
+  <li>
+    <a href="artifacts.html">Artifacts</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+</ul>
+            </div>  <!-- /.nav-collapse -->
+
+              
+
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment" data-fhir="generated">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>Home</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">MOPA — Medical Oncology Prior Authorization - Local Development build (v0.1.1-snapshot-080926) built by the FHIR (HL7® FHIR® Standard) Build Tools. See the <a href='http://hl7.org/fhir/us/codex-mopa/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  <h2>Home</h2>
+  
+
+
+
+
+  <table class="colsd" data-fhir="generated">
+
+    <tr>
+      <td colspan="4"><i>Official URL</i>: <span class="copy-text">http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa<button title="Click to copy URL" class="btn-copy" data-clipboard-text="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/></span>
+      </td>
+      <td><i>Version</i>:
+      <span class="copy-text">0.1.1-snapshot-080926<button title="Click to copy versioned URL" class="btn-copy" data-clipboard-text="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa|0.1.1-snapshot-080926"/></span>
+      </td>
+      <td style="text-align: right;border-left-style: hidden" title="Enable this to see changes since the last official release">
+        <span id="toggle-change-display"><label style="margin:0;font-weight:normal" for="showChanges">Highlight text changes?</label>
+  
+        <input style="margin:0" type="checkbox" id="showChanges" onchange="toggleChanges()"/>
+  
+      </span>
+      </td>
+    </tr>
+
+    <tr>
+
+
+
+
+
+
+
+      <td colspan="4">
+        
+          <i>
+            
+              IG
+            
+            Standards status:
+          </i> <a href="http://hl7.org/fhir/R4/versions.html#std-process" title="Standards Status">Draft</a>
+          
+          
+        
+      </td>
+
+      <td>
+        <a href="http://hl7.org/fhir/versions.html#maturity">Maturity Level</a>: 0
+        
+      </td>
+
+
+
+      <td><i>Computable Name</i>: <span style="font-family: monospace;">MOPAIG</span></td>
+    </tr>
+
+
+
+
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+
+    <p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc">
+<ul id="markdown-toc">
+  <li><a href="#the-problem" id="markdown-toc-the-problem">The Problem</a></li>
+  <li><a href="#the-framework" id="markdown-toc-the-framework">The Framework</a></li>
+  <li><a href="#scope" id="markdown-toc-scope">Scope</a></li>
+  <li><a href="#stakeholders" id="markdown-toc-stakeholders">Stakeholders</a></li>
+  <li><a href="#dependencies" id="markdown-toc-dependencies">Dependencies</a></li>
+  <li><a href="#how-to-read-this-guide" id="markdown-toc-how-to-read-this-guide">How to Read This Guide</a></li>
+</ul>
+
+</div>
+
+<p>This implementation guide defines the <strong>Medical Oncology Prior Authorization (MOPA)</strong> framework.
+It is intentionally <strong>informative</strong>: it documents the oncology PA workflow, the gaps in Da Vinci
+CRD/DTR/PAS and mCODE, and the upstream proposals needed to close those gaps.</p>
+
+<div class="mopa-logo-bar">
+<img src="codex-logo.png" alt="HL7 CodeX FHIR Accelerator" />
+<div class="mopa-logo-tagline">A FHIR Accelerator Program implementation guide<br />extending Da Vinci CRD / DTR / PAS for oncology prior authorization</div>
+</div>
+
+<h3 id="the-problem">The Problem</h3>
+
+<p>Getting cancer treatment approved takes too long. For patients with breast cancer and other
+oncology diagnoses, prior authorization is fragmented, slow, and disconnected from the clinical
+evidence that guided the treatment decision. There is no shared, standards-based language for
+oncology treatment decisions and no common way to move the right clinical data from the point of
+care to the authorization system at the right moment.</p>
+
+<p><strong>The regulatory pressure is now direct.</strong> CMS-0062-P (April 2026) extends prior authorization
+requirements to prescription drugs — including chemotherapeutics and anti-cancer agents.</p>
+
+<h3 id="the-framework">The Framework</h3>
+
+<p>This IG defines a structured authorization exchange using the standard Da Vinci CRD workflow
+where the payer CRD service uses FHIR authorization (when provided) to query the EHR for
+required oncology patient context (diagnosis, staging, biomarkers, line of therapy) directly.</p>
+
+<p>The workflow uses two CDS Hooks stages:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">order-select</code> (informational)</strong> — the CRD service evaluates approvability and returns
+advisory cards before the provider signs the order</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">order-sign</code> (final determination)</strong> — the CRD service returns the binding coverage
+determination</li>
+</ul>
+
+<p>For the upstream standards work items, see:</p>
+
+<ul>
+  <li><a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a></li>
+  <li><a href="mcode-gap-proposals.html">mCODE Gap Proposals</a></li>
+</ul>
+
+<div style="border:2px solid #555; border-radius:6px; padding:16px; margin:1.2em 0; font-family:inherit; max-width:800px;">
+<div style="text-align:center; font-weight:bold; font-size:1.1em; margin-bottom:14px;">The MOPA Framework</div>
+<div style="display:flex; gap:12px; margin-bottom:10px;">
+<div style="flex:1; border:2px solid #70ad47; border-radius:4px; padding:10px;">
+<div style="font-weight:bold; text-align:center; margin-bottom:8px;">Structured Auth Exchange</div>
+<div style="display:flex; gap:8px; justify-content:center;">
+<div style="border:1px solid #70ad47; border-radius:3px; padding:4px 14px; background:#e2efda;"><a href="https://hl7.org/fhir/us/davinci-crd/" target="_blank" rel="noopener noreferrer">CRD</a></div>
+<div style="border:1px solid #70ad47; border-radius:3px; padding:4px 14px; background:#e2efda;"><a href="https://hl7.org/fhir/us/davinci-dtr/" target="_blank" rel="noopener noreferrer">DTR</a></div>
+<div style="border:1px solid #70ad47; border-radius:3px; padding:4px 14px; background:#e2efda;"><a href="https://hl7.org/fhir/us/davinci-pas/" target="_blank" rel="noopener noreferrer">PAS</a></div>
+</div>
+</div>
+</div>
+<div style="border:2px solid #c0392b; border-radius:4px; padding:10px; margin-bottom:10px;">
+<div style="font-weight:bold; text-align:center; margin-bottom:8px; color:#c0392b;">Domain Models</div>
+<div style="display:flex; gap:12px;">
+<div style="flex:1; border:1px solid #c0392b; border-radius:3px; padding:6px; text-align:center; background:#fdf0ee; font-weight:bold;"><a href="https://hl7.org/fhir/us/mcode/" target="_blank" rel="noopener noreferrer">mCODE</a></div>
+<div style="flex:1; border:1px solid #c0392b; border-radius:3px; padding:6px; text-align:center; background:#fdf0ee; font-weight:bold;"><a href="https://hl7.org/fhir/us/core/" target="_blank" rel="noopener noreferrer">US Core</a></div>
+</div>
+</div>
+<div style="border:2px solid #e67e22; border-radius:4px; padding:10px;">
+<div style="font-weight:bold; text-align:center; margin-bottom:8px; color:#e67e22;">Enablers</div>
+<div style="display:flex; gap:12px;">
+<div style="flex:1; border:1px solid #e67e22; border-radius:3px; padding:6px; text-align:center; background:#fef5ec; font-weight:bold;"><a href="https://cds-hooks.hl7.org/" target="_blank" rel="noopener noreferrer">CDS Hooks</a></div>
+</div>
+</div>
+</div>
+
+<h3 id="scope">Scope</h3>
+
+<p><strong>In scope:</strong></p>
+<ul>
+  <li>All oncology cancer types (solid tumors and hematologic malignancies)</li>
+  <li>Anti-cancer regimen representation as a first-class FHIR artifact</li>
+  <li>Standard Da Vinci CRD workflow for oncology — payer queries EHR FHIR API for required context</li>
+  <li>Patient context data categories for oncology PA evaluation</li>
+  <li><strong>Use Case 1: Breast cancer prior authorization</strong> — the first concrete data requirements
+implementation, serving as the template for other cancer types</li>
+</ul>
+
+<p><strong>Out of scope (this version):</strong></p>
+<ul>
+  <li><strong>Coverage adjudication and benefit determination</strong> — whether a treatment is covered is a payer decision; this IG delivers the structured request, not the decision logic</li>
+  <li><strong>Post-denial workflows</strong> — appeals, grievances, and peer-to-peer review processes</li>
+  <li><strong>Regimen clinical equivalence and preference ranking</strong> — comparative effectiveness of treatment options is a clinical decision support concern outside authorization exchange</li>
+  <li><strong>Dose calculation and modification rules</strong> — weight-based dosing, renal/hepatic adjustments, and toxicity-driven modifications are out of scope</li>
+  <li><strong>Pharmacy benefit management (PBM) integration</strong> — specialty pharmacy routing, formulary lookups, and drug pricing are not addressed</li>
+  <li><strong>Radiation therapy and surgical procedure authorization</strong> — this version covers anti-cancer drug regimens only</li>
+  <li><strong>X12 transaction details</strong> — EDI mapping is delegated to Da Vinci PAS</li>
+  <li><strong>Clinical trial eligibility matching</strong> — protocol screening and trial enrollment are outside the authorization workflow modeled here</li>
+</ul>
+
+<h3 id="stakeholders">Stakeholders</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Stakeholder</th>
+      <th>Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Oncology Practice / Clinician</strong></td>
+      <td>Clinical guideline-aligned recommendations surface at the moment of ordering — structuring the treatment decision in a way that moves through authorization without friction</td>
+    </tr>
+    <tr>
+      <td><strong>Cancer Patient</strong></td>
+      <td>Clinical guideline-appropriate treatment is authorized faster because the clinical evidence supporting the decision arrives at the payer in a structured, computable form</td>
+    </tr>
+    <tr>
+      <td><strong>Health Plan / Payer</strong></td>
+      <td>Authorization requests carry the structured clinical evidence — diagnosis, staging, biomarkers, line of therapy — that coverage policy requires, enabling consistent, evidence-grounded determinations</td>
+    </tr>
+    <tr>
+      <td><strong>EHR / Ordering System</strong></td>
+      <td>A single conformant integration delivers clinical guideline-aligned CDS and structured authorization requests across all payers and cancer types, replacing fragmented per-payer builds</td>
+    </tr>
+    <tr>
+      <td><strong>Clinical Guideline Authority</strong></td>
+      <td>Computable regimen definitions flow directly from publication into clinical decision support and payer coverage evaluation — creating a traceable path from evidence to real-world treatment authorization</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="max-width: 400px;">
+<img src="mopa-stakeholders.svg" alt="MOPA Stakeholder Diagram" style="width:100%;" />
+</div>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Implementation Guide</th>
+      <th>Version</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="http://hl7.org/fhir/us/core">US Core</a></td>
+      <td>7.0.0</td>
+      <td>Base US patient, practitioner, and clinical data profiles</td>
+    </tr>
+    <tr>
+      <td><a href="http://hl7.org/fhir/us/mcode">mCODE</a></td>
+      <td>4.0.0</td>
+      <td>Oncology clinical data foundation</td>
+    </tr>
+    <tr>
+      <td><a href="http://hl7.org/fhir/us/davinci-crd">Da Vinci CRD</a></td>
+      <td>2.2.1</td>
+      <td>Coverage Requirements Discovery workflow backbone</td>
+    </tr>
+    <tr>
+      <td><a href="http://hl7.org/fhir/us/davinci-dtr">Da Vinci DTR</a></td>
+      <td>2.2.0</td>
+      <td>Documentation Templates and Rules</td>
+    </tr>
+    <tr>
+      <td><a href="http://hl7.org/fhir/us/davinci-pas">Da Vinci PAS</a></td>
+      <td>2.2.1</td>
+      <td>Prior Authorization Support</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="how-to-read-this-guide">How to Read This Guide</h3>
+
+<ul>
+  <li><a href="background.html">Background</a> — Clinical problem, regulatory context, and gaps in existing standards</li>
+  <li><a href="use-cases.html">Use Cases and Actors</a> — The workflow, system actors, and actor responsibilities</li>
+  <li><a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a> — CRD, DTR, and PAS proposals derived from the gap analysis</li>
+  <li><a href="mcode-gap-proposals.html">mCODE Gap Proposals</a> — Data model proposals derived from the gap analysis</li>
+  <li><strong>Specification:</strong>
+    <ul>
+      <li><a href="regimen-model.html">Regimen Modeling</a> — How anti-cancer regimens are represented as FHIR <code class="language-plaintext highlighter-rouge">PlanDefinition</code> and <code class="language-plaintext highlighter-rouge">RequestGroup</code></li>
+      <li><a href="cds-workflow.html">CRD Workflow</a> — How the payer CRD service queries the EHR FHIR API for oncology context</li>
+      <li><a href="data-requirements.html">Data Requirements</a> — The oncology data categories queried during CRD evaluation</li>
+      <li><a href="breast-cancer-pa.html">Breast Cancer PA</a> — Breast cancer-specific data requirements and gap analysis</li>
+    </ul>
+  </li>
+  <li><a href="conformance.html">Conformance</a> — Requirements for claiming conformance to this IG</li>
+  <li><a href="artifacts.html">Artifacts</a> — All profiles, extensions, value sets, and examples</li>
+</ul>
+
+<p>This publication includes IP covered under the following statements.</p>
+<ul>
+<li>ISO maintains the copyright on the country codes, and controls its use carefully. For further details see the ISO 3166 web page: <a href="https://www.iso.org/iso-3166-country-codes.html">https://www.iso.org/iso-3166-country-codes.html</a><div data-fhir="generated" id="ipp_1" onclick="if (document.getElementById('ipp2_1').innerHTML != '') {document.getElementById('ipp_1').innerHTML = document.getElementById('ipp2_1').innerHTML; document.getElementById('ipp2_1').innerHTML = ''}"> <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show Usage</span></div><div id="ipp2_1" style="display: none">
+<ul>
+<li><a href="http://terminology.hl7.org/6.5.0/CodeSystem-ISO3166Part1.html">ISO 3166-1 Codes for the representation of names of countries and their subdivisions — Part 1: Country code</a>: <a href="StructureDefinition-anticancer-regimen-plandefinition.html">AntiCancerRegimenPlanDefinition</a>, <a href="StructureDefinition-anticancer-regimen-requestgroup.html">AntiCancerRegimenRequestGroup</a><span id="ips_1" onclick="document.getElementById('ips_1').innerHTML = document.getElementById('ips2_1').innerHTML">... <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show 14 more</span></span><span id="ips2_1" style="display: none">, <a href="StructureDefinition-data-requirement-label.html">DataRequirementLabel</a>, <a href="StructureDefinition-line-of-therapy-request-category.html">LineOfTherapyRequestCategory</a>, <a href="index.html">MOPAIG</a>, <a href="CodeSystem-ocpa-codes.html">OcpaCodesCS</a>, <a href="CapabilityStatement-ocpa-crd-client.html">OcpaCrdClientCapabilityStatement</a>, <a href="CapabilityStatement-ocpa-crd-service.html">OcpaCrdServiceCapabilityStatement</a>, <a href="StructureDefinition-regimen-days-of-cycle.html">RegimenDaysOfCycle</a>, <a href="PlanDefinition-RegimenDdACT.html">RegimenDdACT</a>, <a href="ValueSet-regimen-intent-vs.html">RegimenIntentVS</a>, <a href="PlanDefinition-RegimenPHD.html">RegimenPHD</a>, <a href="PlanDefinition-RegimenTH.html">RegimenTH</a>, <a href="StructureDefinition-treatment-intent-request-category.html">TreatmentIntentRequestCategory</a>, <a href="CodeSystem-treatment-line-cs.html">TreatmentLineCS</a> and <a href="ValueSet-treatment-line-vs.html">TreatmentLineVS</a></span></li>
+</ul>
+</div></li>
+<li>This material contains content that is copyright of SNOMED International. Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact <a href="https://www.snomed.org/get-snomed">https://www.snomed.org/get-snomed</a> or <a href="mailto:info@snomed.org">info@snomed.org</a>.<div data-fhir="generated" id="ipp_2" onclick="if (document.getElementById('ipp2_2').innerHTML != '') {document.getElementById('ipp_2').innerHTML = document.getElementById('ipp2_2').innerHTML; document.getElementById('ipp2_2').innerHTML = ''}"> <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show Usage</span></div><div id="ipp2_2" style="display: none">
+<ul>
+<li><a href="http://hl7.org/fhir/R4/codesystem-snomedct.html">SNOMED Clinical Terms&amp;reg; (SNOMED CT&amp;reg;)</a>: <a href="Bundle-ExampleOrderSelectBundle.html">Bundle/ExampleOrderSelectBundle</a>, <a href="Bundle-ExampleOrderSignBundle.html">Bundle/ExampleOrderSignBundle</a><span id="ips_2" onclick="document.getElementById('ips_2').innerHTML = document.getElementById('ips2_2').innerHTML">... <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show 10 more</span></span><span id="ips2_2" style="display: none">, <a href="Condition-MOPABreastCancerConditionExample.html">Condition/MOPABreastCancerConditionExample</a>, <a href="Condition-MOPAMetastaticBreastCancerConditionExample.html">Condition/MOPAMetastaticBreastCancerConditionExample</a>, <a href="PlanDefinition-RegimenDdACT.html">RegimenDdACT</a>, <a href="ValueSet-regimen-intent-vs.html">RegimenIntentVS</a>, <a href="PlanDefinition-RegimenPHD.html">RegimenPHD</a>, <a href="PlanDefinition-RegimenTH.html">RegimenTH</a>, <a href="RequestGroup-DDACTRegimenOrder.html">RequestGroup/DDACTRegimenOrder</a>, <a href="RequestGroup-PHDRegimenOrder.html">RequestGroup/PHDRegimenOrder</a>, <a href="RequestGroup-THRegimenOrder.html">RequestGroup/THRegimenOrder</a> and <a href="StructureDefinition-treatment-intent-request-category.html">TreatmentIntentRequestCategory</a></span></li>
+</ul>
+</div></li>
+<li>This material derives from the HL7 Terminology (THO). THO is copyright &copy;1989+ Health Level Seven International and is made available under the CC0 designation. For more licensing information see: <a href="https://terminology.hl7.org/license.html">https://terminology.hl7.org/license.html</a><div data-fhir="generated" id="ipp_3" onclick="if (document.getElementById('ipp2_3').innerHTML != '') {document.getElementById('ipp_3').innerHTML = document.getElementById('ipp2_3').innerHTML; document.getElementById('ipp2_3').innerHTML = ''}"> <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show Usage</span></div><div id="ipp2_3" style="display: none">
+<ul>
+<li><a href="http://terminology.hl7.org/7.3.0/CodeSystem-condition-category.html">Condition Category Codes</a>: <a href="Condition-MOPABreastCancerConditionExample.html">Condition/MOPABreastCancerConditionExample</a> and <a href="Condition-MOPAMetastaticBreastCancerConditionExample.html">Condition/MOPAMetastaticBreastCancerConditionExample</a></li>
+<li><a href="http://terminology.hl7.org/7.3.0/CodeSystem-condition-clinical.html">Condition Clinical Status Codes</a>: <a href="Condition-MOPABreastCancerConditionExample.html">Condition/MOPABreastCancerConditionExample</a> and <a href="Condition-MOPAMetastaticBreastCancerConditionExample.html">Condition/MOPAMetastaticBreastCancerConditionExample</a></li>
+<li><a href="http://terminology.hl7.org/7.3.0/CodeSystem-condition-ver-status.html">ConditionVerificationStatus</a>: <a href="Condition-MOPABreastCancerConditionExample.html">Condition/MOPABreastCancerConditionExample</a> and <a href="Condition-MOPAMetastaticBreastCancerConditionExample.html">Condition/MOPAMetastaticBreastCancerConditionExample</a></li>
+<li><a href="http://terminology.hl7.org/7.3.0/CodeSystem-plan-definition-type.html">PlanDefinitionType</a>: <a href="StructureDefinition-anticancer-regimen-plandefinition.html">AntiCancerRegimenPlanDefinition</a>, <a href="PlanDefinition-RegimenDdACT.html">RegimenDdACT</a>, <a href="PlanDefinition-RegimenPHD.html">RegimenPHD</a> and <a href="PlanDefinition-RegimenTH.html">RegimenTH</a></li>
+</ul>
+</div></li>
+<li>Using RxNorm codes of type SAB=RXNORM as this specification describes does not require  a UMLS license. Access to the full set of RxNorm definitions, and/or additional use of other RxNorm structures and information requires a UMLS license. The use of RxNorm in this specification is pursuant to HL7's status as a licensee of the NLM UMLS. HL7's license does not convey the right to use RxNorm to any users of this specification; implementers must acquire a license to use RxNorm in their own right.<div data-fhir="generated" id="ipp_4" onclick="if (document.getElementById('ipp2_4').innerHTML != '') {document.getElementById('ipp_4').innerHTML = document.getElementById('ipp2_4').innerHTML; document.getElementById('ipp2_4').innerHTML = ''}"> <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show Usage</span></div><div id="ipp2_4" style="display: none">
+<ul>
+<li><a href="http://terminology.hl7.org/6.5.0/CodeSystem-v3-rxNorm.html">RxNorm</a>: <a href="Bundle-ExampleOrderSignBundle.html">Bundle/ExampleOrderSignBundle</a>, <a href="MedicationRequest-CyclophosphamideMedRequestDDACT.html">MedicationRequest/CyclophosphamideMedRequestDDACT</a><span id="ips_7" onclick="document.getElementById('ips_7').innerHTML = document.getElementById('ips2_7').innerHTML">... <span style="cursor: pointer; border: 1px grey solid; background-color: #fcdcb3; padding-left: 3px; padding-right: 3px; color: black">Show 8 more</span></span><span id="ips2_7" style="display: none">, <a href="MedicationRequest-DocetaxelMedRequestPHD.html">MedicationRequest/DocetaxelMedRequestPHD</a>, <a href="MedicationRequest-DoxorubicinMedRequestDDACT.html">MedicationRequest/DoxorubicinMedRequestDDACT</a>, <a href="MedicationRequest-PaclitaxelMedRequestTH.html">MedicationRequest/PaclitaxelMedRequestTH</a>, <a href="MedicationRequest-PaclitaxelMedRequestTPHase.html">MedicationRequest/PaclitaxelMedRequestTPHase</a>, <a href="MedicationRequest-PegfilgrastimMedRequestDDACT.html">MedicationRequest/PegfilgrastimMedRequestDDACT</a>, <a href="MedicationRequest-PertuzumabMedRequestPHD.html">MedicationRequest/PertuzumabMedRequestPHD</a>, <a href="MedicationRequest-TrastuzumabMedRequestPHD.html">MedicationRequest/TrastuzumabMedRequestPHD</a> and <a href="MedicationRequest-TrastuzumabMedRequestTH.html">MedicationRequest/TrastuzumabMedRequestTH</a></span></li>
+</ul>
+</div></li>
+</ul>
+<!--$$1$$-->
+
+
+
+
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+  <script type="text/javascript" src="assets/js/flags.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <script type="text/javascript" src="assets/js/togglechanges.js"> </script>
+  <script type="text/javascript" src="assets/js/requirements-table.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container" data-fhir="generated">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+
+
+
+          IG © 2026+ <a style="color:var(--footer-hyperlink-text-color)" href="http://www.hl7.org/Special/committees/cic">HL7 International / Clinical Interoperability Council</a>.  
+          Package hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>.
+          Generated 
+  <span title="2026-09-08 18:17:00 -0400">
+    2026-09-08
+  </span>
+
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="../qa.html">QA Report</a>
+                 
+                
+                 | <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir/us/codex-mopa/history.html">Version History</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" rel="license" href="http://hl7.org/fhir/R4/license.html"><img style="border-style: none;" alt="CC0" src="cc0.png"/></a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir-issues">Propose a change</a>
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+

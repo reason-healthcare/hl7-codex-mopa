@@ -1,0 +1,1872 @@
+{
+  "date" : "Tue, 08 Sep, 2026 18:17:28 -0400",
+  "doco" : "For each file: start is seconds after start activity occurred. Length = milliseconds activity took",
+  "files" : [{
+    "name" : "/fsh-generated/resources/ImplementationGuide-hl7.fhir.us.codex-mopa.json",
+    "size" : 24426,
+    "processes" : [{
+      "activity" : "load",
+      "start" : 190,
+      "length" : 26
+    },
+    {
+      "activity" : "checkR4R4B",
+      "start" : 191,
+      "length" : 7
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 191,
+      "length" : 78
+    },
+    {
+      "activity" : "validate",
+      "start" : 203,
+      "length" : 13310
+    },
+    {
+      "activity" : "scanForUsageStats",
+      "start" : 223,
+      "length" : 1
+    },
+    {
+      "activity" : "generate1",
+      "start" : 248,
+      "length" : 219
+    },
+    {
+      "activity" : "generate2",
+      "start" : 254,
+      "length" : 385
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 305,
+      "length" : 4
+    },
+    {
+      "activity" : "scanExamplesForR5",
+      "start" : 334,
+      "length" : 2
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/Bundle-ExampleOrderSelectBundle.json",
+    "size" : 3617,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 4
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 8
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 5
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load-configure",
+      "start" : 191,
+      "length" : 3
+    },
+    {
+      "activity" : "checkR4R4B",
+      "start" : 191,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 192,
+      "length" : 1911
+    },
+    {
+      "activity" : "validate",
+      "start" : 223,
+      "length" : 3859
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 40
+    },
+    {
+      "activity" : "generate2",
+      "start" : 254,
+      "length" : 61
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/Bundle-ExampleOrderSignBundle.json",
+    "size" : 5893,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 193,
+      "length" : 8
+    },
+    {
+      "activity" : "validate",
+      "start" : 227,
+      "length" : 17256
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 54
+    },
+    {
+      "activity" : "generate2",
+      "start" : 254,
+      "length" : 97
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/CapabilityStatement-ocpa-crd-client.json",
+    "size" : 4357,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 4
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 193,
+      "length" : 29
+    },
+    {
+      "activity" : "validate",
+      "start" : 203,
+      "length" : 41
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 57
+    },
+    {
+      "activity" : "generate2",
+      "start" : 254,
+      "length" : 62
+    },
+    {
+      "activity" : "makeDependencies",
+      "start" : 279,
+      "length" : 1
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/CapabilityStatement-ocpa-crd-service.json",
+    "size" : 4043,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "checkR4R4B",
+      "start" : 191,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 193,
+      "length" : 5
+    },
+    {
+      "activity" : "validate",
+      "start" : 203,
+      "length" : 13
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 57
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 44
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/CodeSystem-ocpa-codes.json",
+    "size" : 1490,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 8
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 193,
+      "length" : 12
+    },
+    {
+      "activity" : "validate",
+      "start" : 195,
+      "length" : 1218
+    },
+    {
+      "activity" : "checkConformanceResources",
+      "start" : 222,
+      "length" : 1
+    },
+    {
+      "activity" : "scanForUsageStats",
+      "start" : 223,
+      "length" : 1
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 27
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 99
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/CodeSystem-treatment-line-cs.json",
+    "size" : 1815,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 193,
+      "length" : 2
+    },
+    {
+      "activity" : "validate",
+      "start" : 196,
+      "length" : 43
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 35
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 74
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/Condition-MOPABreastCancerConditionExample.json",
+    "size" : 1242,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load-configure",
+      "start" : 191,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 193,
+      "length" : 33
+    },
+    {
+      "activity" : "validate",
+      "start" : 244,
+      "length" : 1034
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 24
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 24
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/Condition-MOPAMetastaticBreastCancerConditionExample.json",
+    "size" : 1035,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 245,
+      "length" : 9
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 21
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 25
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-CyclophosphamideMedRequestDDACT.json",
+    "size" : 812,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 245,
+      "length" : 238
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 21
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 37
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-DocetaxelMedRequestPHD.json",
+    "size" : 806,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 2
+    },
+    {
+      "activity" : "validate",
+      "start" : 245,
+      "length" : 234
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 22
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 32
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-DoxorubicinMedRequestDDACT.json",
+    "size" : 801,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 233
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 20
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 30
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-PaclitaxelMedRequestTH.json",
+    "size" : 790,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 8
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 19
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 31
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-PaclitaxelMedRequestTPHase.json",
+    "size" : 816,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 9
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 17
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 30
+    },
+    {
+      "activity" : "generateExampleZip",
+      "start" : 305,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-PegfilgrastimMedRequestDDACT.json",
+    "size" : 812,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 235
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 21
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 35
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-PertuzumabMedRequestPHD.json",
+    "size" : 809,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "checkR4R4B",
+      "start" : 191,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 228
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 19
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 33
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-TrastuzumabMedRequestPHD.json",
+    "size" : 812,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 9
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 19
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 36
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/MedicationRequest-TrastuzumabMedRequestTH.json",
+    "size" : 815,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 9
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 22
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 52
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/Patient-MOPAPatientExample.json",
+    "size" : 623,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 246,
+      "length" : 602
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 26
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 23
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/PlanDefinition-RegimenDdACT.json",
+    "size" : 3217,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 19
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 80
+    },
+    {
+      "activity" : "validate",
+      "start" : 216,
+      "length" : 5453
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 53
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 44
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/PlanDefinition-RegimenPHD.json",
+    "size" : 1683,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 4
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 22
+    },
+    {
+      "activity" : "validate",
+      "start" : 222,
+      "length" : 28
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 28
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 34
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/PlanDefinition-RegimenTH.json",
+    "size" : 1680,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 4
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 7
+    },
+    {
+      "activity" : "validate",
+      "start" : 222,
+      "length" : 25
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 29
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 22
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/Practitioner-MOPAOncologistExample.json",
+    "size" : 461,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1
+    },
+    {
+      "activity" : "validate",
+      "start" : 247,
+      "length" : 11
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 20
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 13
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/RequestGroup-DDACTRegimenOrder.json",
+    "size" : 4584,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "checkR4R4B",
+      "start" : 191,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 7
+    },
+    {
+      "activity" : "validate",
+      "start" : 247,
+      "length" : 121
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 30
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 232
+    },
+    {
+      "activity" : "generateExampleZip",
+      "start" : 305,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/RequestGroup-PHDRegimenOrder.json",
+    "size" : 2909,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 2
+    },
+    {
+      "activity" : "validate",
+      "start" : 247,
+      "length" : 770
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 24
+    },
+    {
+      "activity" : "generate2",
+      "start" : 255,
+      "length" : 95
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/RequestGroup-THRegimenOrder.json",
+    "size" : 2748,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 2
+    },
+    {
+      "activity" : "validate",
+      "start" : 248,
+      "length" : 284
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 24
+    },
+    {
+      "activity" : "generate2",
+      "start" : 256,
+      "length" : 58
+    },
+    {
+      "activity" : "scanExamplesForR5",
+      "start" : 334,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/StructureDefinition-anticancer-regimen-plandefinition.json",
+    "size" : 8028,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 4
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 9
+    },
+    {
+      "activity" : "generateSnapshots",
+      "start" : 190,
+      "length" : 54
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 170
+    },
+    {
+      "activity" : "validate",
+      "start" : 197,
+      "length" : 1682
+    },
+    {
+      "activity" : "checkConformanceResources2",
+      "start" : 222,
+      "length" : 935
+    },
+    {
+      "activity" : "scanForUsageStats",
+      "start" : 223,
+      "length" : 4
+    },
+    {
+      "activity" : "generate1",
+      "start" : 249,
+      "length" : 698
+    },
+    {
+      "activity" : "generate2",
+      "start" : 256,
+      "length" : 3399
+    },
+    {
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 3299
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 10
+    },
+    {
+      "activity" : "scanExamplesForR5",
+      "start" : 334,
+      "length" : 2
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/StructureDefinition-anticancer-regimen-requestgroup.json",
+    "size" : 10588,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 10
+    },
+    {
+      "activity" : "generateSnapshots",
+      "start" : 190,
+      "length" : 74
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 33
+    },
+    {
+      "activity" : "validate",
+      "start" : 199,
+      "length" : 1068
+    },
+    {
+      "activity" : "scanForUsageStats",
+      "start" : 223,
+      "length" : 4
+    },
+    {
+      "activity" : "generate1",
+      "start" : 250,
+      "length" : 480
+    },
+    {
+      "activity" : "generate2",
+      "start" : 259,
+      "length" : 1946
+    },
+    {
+      "activity" : "generate2",
+      "start" : 268,
+      "length" : 422
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 8
+    },
+    {
+      "activity" : "scanExamplesForR5",
+      "start" : 334,
+      "length" : 4
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/StructureDefinition-data-requirement-label.json",
+    "size" : 3442,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 5
+    },
+    {
+      "activity" : "generateSnapshots",
+      "start" : 190,
+      "length" : 13
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 7
+    },
+    {
+      "activity" : "validate",
+      "start" : 200,
+      "length" : 2627
+    },
+    {
+      "activity" : "generate1",
+      "start" : 251,
+      "length" : 82
+    },
+    {
+      "activity" : "generate2",
+      "start" : 261,
+      "length" : 663
+    },
+    {
+      "activity" : "generate2",
+      "start" : 268,
+      "length" : 43
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 3
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/StructureDefinition-line-of-therapy-request-category.json",
+    "size" : 2584,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 5
+    },
+    {
+      "activity" : "generateSnapshots",
+      "start" : 190,
+      "length" : 7
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 7
+    },
+    {
+      "activity" : "validate",
+      "start" : 202,
+      "length" : 200
+    },
+    {
+      "activity" : "checkConformanceResources",
+      "start" : 222,
+      "length" : 1
+    },
+    {
+      "activity" : "scanForUsageStats",
+      "start" : 223,
+      "length" : 1
+    },
+    {
+      "activity" : "generate1",
+      "start" : 251,
+      "length" : 99
+    },
+    {
+      "activity" : "generate2",
+      "start" : 262,
+      "length" : 608
+    },
+    {
+      "activity" : "generate2",
+      "start" : 268,
+      "length" : 148
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 2
+    },
+    {
+      "activity" : "scanExamplesForR5",
+      "start" : 334,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/StructureDefinition-regimen-days-of-cycle.json",
+    "size" : 4171,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 5
+    },
+    {
+      "activity" : "generateSnapshots",
+      "start" : 190,
+      "length" : 10
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 11
+    },
+    {
+      "activity" : "validate",
+      "start" : 203,
+      "length" : 142
+    },
+    {
+      "activity" : "generate1",
+      "start" : 251,
+      "length" : 108
+    },
+    {
+      "activity" : "generate2",
+      "start" : 262,
+      "length" : 652
+    },
+    {
+      "activity" : "generate2",
+      "start" : 268,
+      "length" : 69
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/StructureDefinition-treatment-intent-request-category.json",
+    "size" : 2546,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "generateSnapshots",
+      "start" : 190,
+      "length" : 42
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 7
+    },
+    {
+      "activity" : "validate",
+      "start" : 203,
+      "length" : 118
+    },
+    {
+      "activity" : "scanForUsageStats",
+      "start" : 223,
+      "length" : 1
+    },
+    {
+      "activity" : "generate1",
+      "start" : 251,
+      "length" : 195
+    },
+    {
+      "activity" : "generate2",
+      "start" : 263,
+      "length" : 603
+    },
+    {
+      "activity" : "generate2",
+      "start" : 268,
+      "length" : 174
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 2
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/ValueSet-regimen-intent-vs.json",
+    "size" : 1464,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 1
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 4
+    },
+    {
+      "activity" : "checkR4R4B",
+      "start" : 191,
+      "length" : 1
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 194,
+      "length" : 1133
+    },
+    {
+      "activity" : "validate",
+      "start" : 196,
+      "length" : 677
+    },
+    {
+      "activity" : "generate1",
+      "start" : 251,
+      "length" : 38
+    },
+    {
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 764
+    },
+    {
+      "activity" : "generateValidationPack",
+      "start" : 306,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "fsh-generated/resources/ValueSet-treatment-line-vs.json",
+    "size" : 895,
+    "processes" : [{
+      "activity" : "loadResources",
+      "start" : 190,
+      "length" : 2
+    },
+    {
+      "activity" : "load",
+      "start" : 190,
+      "length" : 3
+    },
+    {
+      "activity" : "generateNarratives",
+      "start" : 195,
+      "length" : 3
+    },
+    {
+      "activity" : "validate",
+      "start" : 197,
+      "length" : 44
+    },
+    {
+      "activity" : "generate1",
+      "start" : 251,
+      "length" : 21
+    },
+    {
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 86
+    }]
+  },
+  {
+    "name" : "/input/includes/_append.fragment-css.html",
+    "size" : 133,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/includes/fragment-css.html",
+    "size" : 270,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/fsh-generated/includes/fsh-link-references.md",
+    "size" : 2259
+  },
+  {
+    "name" : "/fsh-generated/includes/menu.xml",
+    "size" : 2475,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/intro-notes/StructureDefinition-anticancer-regimen-plandefinition-intro.md",
+    "size" : 669
+  },
+  {
+    "name" : "/input/intro-notes/StructureDefinition-anticancer-regimen-requestgroup-intro.md",
+    "size" : 667
+  },
+  {
+    "name" : "/input/intro-notes/CodeSystem-ocpa-codes-intro.md",
+    "size" : 649,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/intro-notes/ValueSet-treatment-line-vs-intro.md",
+    "size" : 651
+  },
+  {
+    "name" : "/input/intro-notes/StructureDefinition-regimen-days-of-cycle-intro.md",
+    "size" : 658
+  },
+  {
+    "name" : "/input/intro-notes/CodeSystem-treatment-line-cs-intro.md",
+    "size" : 653
+  },
+  {
+    "name" : "/input/intro-notes/ValueSet-regimen-intent-vs-intro.md",
+    "size" : 651
+  },
+  {
+    "name" : "/input/intro-notes/StructureDefinition-data-requirement-label-intro.md",
+    "size" : 925,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/mcode-gap-proposals.md",
+    "size" : 11297,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/data-requirements.md",
+    "size" : 2775,
+    "processes" : [{
+      "activity" : "checkConformanceResources2",
+      "start" : 223,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/conformance.md",
+    "size" : 5193,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/history.md",
+    "size" : 1769
+  },
+  {
+    "name" : "/input/pagecontent/davinci-gap-proposals.md",
+    "size" : 19149,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/index.md",
+    "size" : 8859,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/cds-workflow.md",
+    "size" : 13174,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/walkthrough.md",
+    "size" : 21637,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 2
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/breast-cancer-pa.md",
+    "size" : 5702
+  },
+  {
+    "name" : "/input/pagecontent/regimen-model.md",
+    "size" : 4999,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/pagecontent/background.md",
+    "size" : 5397
+  },
+  {
+    "name" : "/input/pagecontent/downloads.md",
+    "size" : 572
+  },
+  {
+    "name" : "/input/pagecontent/use-cases.md",
+    "size" : 4009,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/template/config",
+    "size" : 0
+  },
+  {
+    "name" : "/template/config/_config.yml",
+    "size" : 140,
+    "processes" : [{
+      "activity" : "load-configure",
+      "start" : 191,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/assets",
+    "size" : 0
+  },
+  {
+    "name" : "/input/assets/css",
+    "size" : 0
+  },
+  {
+    "name" : "/input/assets/css/mopa.css",
+    "size" : 6006
+  },
+  {
+    "name" : "/input/images",
+    "size" : 0
+  },
+  {
+    "name" : "/input/images/mopa-cds-hooks.svg",
+    "size" : 34377,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/images/codex-logo.png",
+    "size" : 94653
+  },
+  {
+    "name" : "/input/images/ogca-cds-hooks.mermaid",
+    "size" : 1450
+  },
+  {
+    "name" : "/input/images/ogca-stakeholders.mermaid",
+    "size" : 320
+  },
+  {
+    "name" : "/input/images/ogca-stakeholders.svg",
+    "size" : 100824
+  },
+  {
+    "name" : "/input/images/ogca-cds-hooks.svg",
+    "size" : 34377,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/images/mopa-workflow.svg",
+    "size" : 51092
+  },
+  {
+    "name" : "/input/images/ogca-workflow.svg",
+    "size" : 51092,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/images/ogca-workflow.mermaid",
+    "size" : 2891,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/images/mopa-stakeholders.svg",
+    "size" : 100827,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/input/images/mermaid.config.json",
+    "size" : 187,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  },
+  {
+    "name" : "/temp/pages/_includes/artifacts.xml",
+    "size" : 30875,
+    "processes" : [{
+      "activity" : "generate2",
+      "start" : 264,
+      "length" : 1
+    }]
+  }]
+}

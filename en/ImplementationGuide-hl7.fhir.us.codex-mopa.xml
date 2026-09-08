@@ -1,0 +1,1115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ImplementationGuide xmlns="http://hl7.org/fhir">
+  <id value="hl7.fhir.us.codex-mopa"/>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><p class="res-header-id"><b>Generated Narrative: ImplementationGuide hl7.fhir.us.codex-mopa</b></p><a name="hl7.fhir.us.codex-mopa"> </a><a name="hchl7.fhir.us.codex-mopa"> </a><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Language: en</p></div><h2>MOPAIG</h2><p>The official URL for this implementation guide is: </p><pre>http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa</pre><div><p>Informative Medical Oncology Prior Authorization (MOPA) framework covering all cancer types and documenting upstream proposal gaps for Da Vinci CRD/DTR/PAS and mCODE. The guide uses breast cancer prior authorization as the first concrete use case and data requirements implementation.</p>
+</div></div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="draft"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-wg">
+    <valueCode value="cic"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="0"/>
+  </extension>
+  <url value="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="MOPAIG"/>
+  <title value="MOPA — Medical Oncology Prior Authorization"/>
+  <status value="draft"/>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Informative Medical Oncology Prior Authorization (MOPA) framework covering all cancer types and documenting upstream proposal gaps for Da Vinci CRD/DTR/PAS and mCODE. The guide uses breast cancer prior authorization as the first concrete use case and data requirements implementation."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <packageId value="hl7.fhir.us.codex-mopa"/>
+  <license value="CC0-1.0"/>
+  <fhirVersion value="4.0.1"/>
+  <dependsOn id="hl7tx">
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/implementationguide-dependency-comment">
+      <valueMarkdown value="Automatically added as a dependency - all IGs depend on HL7 Terminology"/>
+    </extension>
+    <uri value="http://terminology.hl7.org/ImplementationGuide/hl7.terminology"/>
+    <packageId value="hl7.terminology.r4"/>
+    <version value="7.3.0"/>
+  </dependsOn>
+  <dependsOn id="hl7_fhir_uv_extensions_r4">
+    <uri value="http://hl7.org/fhir/extensions/ImplementationGuide/hl7.fhir.uv.extensions"/>
+    <packageId value="hl7.fhir.uv.extensions.r4"/>
+    <version value="5.2.0"/>
+  </dependsOn>
+  <dependsOn id="hl7fhiruscore">
+    <uri value="http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core"/>
+    <packageId value="hl7.fhir.us.core"/>
+    <version value="7.0.0"/>
+  </dependsOn>
+  <dependsOn id="fhirmcode">
+    <uri value="http://hl7.org/fhir/us/mcode/ImplementationGuide/hl7.fhir.us.mcode"/>
+    <packageId value="hl7.fhir.us.mcode"/>
+    <version value="4.0.0"/>
+  </dependsOn>
+  <dependsOn id="davinciCRD">
+    <uri value="http://hl7.org/fhir/us/davinci-crd/ImplementationGuide/hl7.fhir.us.davinci-crd"/>
+    <packageId value="hl7.fhir.us.davinci-crd"/>
+    <version value="2.2.1"/>
+  </dependsOn>
+  <dependsOn id="davinciDTR">
+    <uri value="http://hl7.org/fhir/us/davinci-dtr/ImplementationGuide/hl7.fhir.us.davinci-dtr"/>
+    <packageId value="hl7.fhir.us.davinci-dtr"/>
+    <version value="2.2.0"/>
+  </dependsOn>
+  <dependsOn id="davinciPAS">
+    <uri value="http://hl7.org/fhir/us/davinci-pas/ImplementationGuide/hl7.fhir.us.davinci-pas"/>
+    <packageId value="hl7.fhir.us.davinci-pas"/>
+    <version value="2.2.1"/>
+  </dependsOn>
+  <definition>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="copyrightyear"/>
+      </extension>
+      <extension url="value">
+        <valueString value="2026+"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="releaselabel"/>
+      </extension>
+      <extension url="value">
+        <valueString value="snapshot-080926"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="show-inherited-invariants"/>
+      </extension>
+      <extension url="value">
+        <valueString value="false"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-history"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/us/codex-mopa/history.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="autoload-resources"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-qa"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/qa"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-temp"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/pages"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-output"/>
+      </extension>
+      <extension url="value">
+        <valueString value="output"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-suppressed-warnings"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/ignoreWarnings.txt"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="template-html"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="template-md"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page-md.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-contact"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-context"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-copyright"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-jurisdiction"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-license"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-publisher"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-version"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-wg"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="active-tables"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="fmm-definition"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/versions.html#maturity"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="propagate-status"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="excludelogbinaryformat"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="tabbed-snapshots"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="i18n-default-lang"/>
+      </extension>
+      <extension url="value">
+        <valueString value="en"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-internal-dependency">
+      <valueCode value="hl7.fhir.uv.tools.r4#1.1.2"/>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="copyrightyear"/>
+      </extension>
+      <extension url="value">
+        <valueString value="2026+"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="releaselabel"/>
+      </extension>
+      <extension url="value">
+        <valueString value="snapshot-080926"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="show-inherited-invariants"/>
+      </extension>
+      <extension url="value">
+        <valueString value="false"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-history"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/us/codex-mopa/history.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="autoload-resources"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-qa"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/qa"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-temp"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/pages"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-output"/>
+      </extension>
+      <extension url="value">
+        <valueString value="output"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-suppressed-warnings"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/ignoreWarnings.txt"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="template-html"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="template-md"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page-md.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-contact"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-context"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-copyright"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-jurisdiction"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-license"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-publisher"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-version"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-wg"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="active-tables"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="fmm-definition"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/versions.html#maturity"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="propagate-status"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="excludelogbinaryformat"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="tabbed-snapshots"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="i18n-default-lang"/>
+      </extension>
+      <extension url="value">
+        <valueString value="en"/>
+      </extension>
+    </extension>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:resource"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/anticancer-regimen-plandefinition"/>
+      </reference>
+      <name value="Anti-Cancer Regimen PlanDefinition"/>
+      <description value="A canonical, reusable anti-cancer therapy regimen definition represented&#xA;as a FHIR PlanDefinition order set. This resource is NOT patient-specific; it is&#xA;referenced by AntiCancerRegimenRequestGroup instances via RequestGroup.instantiatesCanonical.&#xA;&#xA;A regimen definition describes the protocol — component drugs, timing, cycle structure,&#xA;and sequential phase ordering. Treatment intent and line of therapy are patient-specific&#xA;ordering categories and are carried on the RequestGroup via the category extension; this&#xA;canonical definition does not carry those attributes.&#xA;&#xA;**mCODE Migration Candidate** — This profile is proposed for inclusion in mCODE STU5.&#xA;It addresses the gap documented in the mCODE gap analysis: mCODE does not currently&#xA;represent anti-cancer regimens as first-class, computable entities."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:resource"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/anticancer-regimen-requestgroup"/>
+      </reference>
+      <name value="Anti-Cancer Regimen RequestGroup"/>
+      <description value="A patient-specific ordered anti-cancer therapy regimen instance.&#xA;This resource is included in the CDS Hooks draftOrders Bundle and referenced in&#xA;context.selections at order-select and order-sign.&#xA;&#xA;**CDS Hooks Context.** This profile is designed for use in the Da Vinci CRD workflow.&#xA;The `RequestGroup` is the primary prior-authorization subject — the unit of evaluation&#xA;for coverage policy — not the individual `MedicationRequest` components within it.&#xA;&#xA;**Two-Stage Hook Pattern.** The MOPA workflow uses `order-select` and `order-sign`&#xA;as distinct stages:&#xA;&#xA;- **`order-select`** (informational): The `RequestGroup` is present in `context.draftOrders`&#xA;  but component `MedicationRequest` resources may not yet be finalised. The CRD service&#xA;  returns informational cards indicating approvability. This is advisory — the order is&#xA;  not yet committed.&#xA;- **`order-sign`** (final determination): The `RequestGroup` is accompanied by finalised&#xA;  component `MedicationRequest` resources. The CRD service returns the final coverage&#xA;  determination (Authorization Satisfied, PA required, or DTR required).&#xA;&#xA;**CRD Order Profile Proposal.** This profile serves as the domain-specific layer for&#xA;oncology regimens. A complementary CRD order profile for `RequestGroup` is proposed&#xA;(MOPA-DV-CRD-003) to formalize `RequestGroup` as a standard order type in the Da Vinci&#xA;CRD IG, analogous to existing CRD profiles for `MedicationRequest` and `ServiceRequest`.&#xA;&#xA;RequestGroup.instantiatesCanonical SHALL be populated with the canonical URL of the&#xA;AntiCancerRegimenPlanDefinition when the canonical regimen definition is known.&#xA;&#xA;Two scheduling patterns are supported in regimen actions:&#xA;&#xA;1. **Cycle-day timing** — Each action (or action.action for phased regimens) uses the&#xA;   local extension `http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle`&#xA;   on action.timingTiming to declare which days of the cycle the drug is administered.&#xA;   The action.timingTiming.repeat carries the machine-computable cycle period.&#xA;&#xA;2. **Sequential phase ordering** — For multi-phase regimens (e.g., AC→T),&#xA;   top-level action groups represent phases and action.relatedAction with&#xA;   relationship = after-end declares that the second phase begins after the first.&#xA;&#xA;**mCODE Migration Candidate** — This profile is proposed for inclusion in mCODE STU5.&#xA;It is the MVP artifact for oncology prior authorization: the selected clinical unit&#xA;passed to the CRD service."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/data-requirement-label"/>
+      </reference>
+      <name value="Data Requirement Label"/>
+      <description value="A human-readable label that identifies a DataRequirement entry within an&#xA;OncologyDataRequirementsLibrary. Used by tools such as DTR questionnaire generators and CRD&#xA;content viewers to display requirement names without parsing profile URLs.&#xA;&#xA;The first DataRequirement entry in every condition-specific Library (the primary cancer&#xA;condition) SHALL carry a label of the canonical form '[Cancer Type] Diagnosis'&#xA;(e.g., 'Breast Cancer Diagnosis') to make the diagnostic prerequisite explicit and&#xA;machine-discoverable.&#xA;&#xA;**mCODE Migration Candidate** — Proposed for inclusion in mCODE STU5."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Practitioner"/>
+      </extension>
+      <reference>
+        <reference value="Practitioner/MOPAOncologistExample"/>
+      </reference>
+      <name value="Example Oncologist: Dr. Maria Lopez"/>
+      <description value="Fictional medical oncologist used across MOPA IG examples."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Patient"/>
+      </extension>
+      <reference>
+        <reference value="Patient/MOPAPatientExample"/>
+      </reference>
+      <name value="Example Patient: Jane Smith"/>
+      <description value="Fictional 57-year-old female patient used consistently across all MOPA&#xA;IG examples. DO NOT use real patient data."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="PlanDefinition"/>
+      </extension>
+      <reference>
+        <reference value="PlanDefinition/RegimenDdACT"/>
+      </reference>
+      <name value="Example Regimen Definition: ddAC→T (Dose-Dense AC then Paclitaxel)"/>
+      <description value="Canonical definition of dose-dense doxorubicin (60 mg/m²) plus&#xA;cyclophosphamide (600 mg/m²) q14d × 4 cycles (AC phase), followed by paclitaxel&#xA;(175 mg/m²) q14d × 4 cycles (T phase) for breast cancer. Demonstrates&#xA;sequential phase ordering using action.relatedAction with relationship = after-end."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="PlanDefinition"/>
+      </extension>
+      <reference>
+        <reference value="PlanDefinition/RegimenPHD"/>
+      </reference>
+      <name value="Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)"/>
+      <description value="Canonical definition of pertuzumab (840 mg loading, then 420 mg IV) plus&#xA;trastuzumab (8 mg/kg loading, then 6 mg/kg IV) plus docetaxel (75 mg/m² IV), every 21 days,&#xA;for metastatic HER2-positive breast cancer. Treatment intent and line of therapy are&#xA;carried on the RequestGroup via the category extension."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="PlanDefinition"/>
+      </extension>
+      <reference>
+        <reference value="PlanDefinition/RegimenTH"/>
+      </reference>
+      <name value="Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)"/>
+      <description value="Canonical definition of weekly Paclitaxel (80 mg/m² IV) plus Trastuzumab&#xA;(4 mg/kg loading, then 2 mg/kg IV) for 12 weeks in HER2-positive early breast&#xA;cancer. The canonical definition carries protocol structure only — treatment intent and&#xA;line of therapy are patient-context and live on the RequestGroup."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="RequestGroup"/>
+      </extension>
+      <reference>
+        <reference value="RequestGroup/DDACTRegimenOrder"/>
+      </reference>
+      <name value="Example Regimen Order: ddAC→T (Jane Smith, Adjuvant) — Sequential Phases"/>
+      <description value="Patient-specific draft ddAC→T order for Jane Smith. AC phase (doxorubicin +&#xA;cyclophosphamide q14d x4) followed by T phase (paclitaxel q14d x4). Demonstrates sequential&#xA;phase ordering with action.relatedAction relationship = after-end."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="RequestGroup"/>
+      </extension>
+      <reference>
+        <reference value="RequestGroup/PHDRegimenOrder"/>
+      </reference>
+      <name value="Example Regimen Order: PHD (Jane Smith, First-Line Metastatic HER2+)"/>
+      <description value="Patient-specific draft PHD regimen order for Jane Smith, first-line&#xA;metastatic HER2+ breast cancer. Pertuzumab + Trastuzumab + Docetaxel q21d.&#xA;Demonstrates palliative intent and first-line metastatic treatment setting."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="RequestGroup"/>
+      </extension>
+      <reference>
+        <reference value="RequestGroup/THRegimenOrder"/>
+      </reference>
+      <name value="Example Regimen Order: TH (Jane Smith, Adjuvant HER2+) — Typical"/>
+      <description value="Patient-specific draft ordered TH regimen for Jane Smith at order-select.&#xA;instantiatesCanonical references RegimenTH. All Must Support elements populated.&#xA;Demonstrates regimen-days-of-cycle (days 1, 8, 15 of a 21-day cycle) and is the primary&#xA;reference example for AntiCancerRegimenRequestGroup."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Bundle"/>
+      </extension>
+      <reference>
+        <reference value="Bundle/ExampleOrderSelectBundle"/>
+      </reference>
+      <name value="Example: CDS Hooks order-select draftOrders Bundle (TH regimen)"/>
+      <description value="Collection Bundle placed in context.draftOrders of an&#xA;order-select CDS Hooks request.  At order-select the RequestGroup is present&#xA;but individual MedicationRequests are still draft and are not required."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Bundle"/>
+      </extension>
+      <reference>
+        <reference value="Bundle/ExampleOrderSignBundle"/>
+      </reference>
+      <name value="Example: CDS Hooks order-sign draftOrders Bundle (TH regimen)"/>
+      <description value="Collection Bundle placed in context.draftOrders of an&#xA;order-sign CDS Hooks request.  At order-sign the RequestGroup plus all&#xA;companion MedicationRequests are present."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/CyclophosphamideMedRequestDDACT"/>
+      </reference>
+      <name value="Example: Cyclophosphamide MedicationRequest (ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for cyclophosphamide 600 mg/m² IV in ddAC phase."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/DocetaxelMedRequestPHD"/>
+      </reference>
+      <name value="Example: Docetaxel MedicationRequest (PHD regimen, draft)"/>
+      <description value="Draft MedicationRequest for docetaxel 75 mg/m² IV q21d in PHD regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/DoxorubicinMedRequestDDACT"/>
+      </reference>
+      <name value="Example: Doxorubicin MedicationRequest (ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for doxorubicin 60 mg/m² IV in ddAC phase."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Condition"/>
+      </extension>
+      <reference>
+        <reference value="Condition/MOPAMetastaticBreastCancerConditionExample"/>
+      </reference>
+      <name value="Example: Metastatic HER2+ Breast Cancer (Stage IV)"/>
+      <description value="Metastatic HER2-positive breast cancer with liver and bone involvement,&#xA;newly diagnosed Stage IV (de novo). Used in PHD regimen examples."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PaclitaxelMedRequestTPHase"/>
+      </reference>
+      <name value="Example: Paclitaxel MedicationRequest (T phase, ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for paclitaxel 175 mg/m² IV q14d in T phase."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PaclitaxelMedRequestTH"/>
+      </reference>
+      <name value="Example: Paclitaxel MedicationRequest (TH regimen, draft)"/>
+      <description value="Draft MedicationRequest for paclitaxel 80 mg/m² IV weekly in TH regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PegfilgrastimMedRequestDDACT"/>
+      </reference>
+      <name value="Example: Pegfilgrastim MedicationRequest (ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for pegfilgrastim 6 mg subcutaneous on day 2 of each ddAC cycle."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PertuzumabMedRequestPHD"/>
+      </reference>
+      <name value="Example: Pertuzumab MedicationRequest (PHD regimen, draft)"/>
+      <description value="Draft MedicationRequest for pertuzumab IV q21d in PHD regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Condition"/>
+      </extension>
+      <reference>
+        <reference value="Condition/MOPABreastCancerConditionExample"/>
+      </reference>
+      <name value="Example: Primary HER2+ Breast Cancer (Stage IIB)"/>
+      <description value="Invasive ductal carcinoma of right breast, HER2-positive,&#xA;Stage IIB (T2 N1 M0), diagnosed November 2025. Referenced by all MOPA examples&#xA;depicting Jane Smith's adjuvant treatment course."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/TrastuzumabMedRequestPHD"/>
+      </reference>
+      <name value="Example: Trastuzumab MedicationRequest (PHD regimen, draft)"/>
+      <description value="Draft MedicationRequest for trastuzumab IV q21d in PHD regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/TrastuzumabMedRequestTH"/>
+      </reference>
+      <name value="Example: Trastuzumab MedicationRequest (TH regimen, draft)"/>
+      <description value="Draft MedicationRequest for trastuzumab IV weekly in TH regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/line-of-therapy-request-category"/>
+      </reference>
+      <name value="Line of Therapy Request Category"/>
+      <description value="Constrains the Da Vinci CRD Request Category extension for a&#xA;patient-specific anti-cancer regimen line-of-therapy category. The instance extension URL&#xA;remains `http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category`; this&#xA;profile adds oncology terminology semantics only. Its use on RequestGroup requires the proposed&#xA;CRD RequestGroup extension-context expansion.&#xA;&#xA;**mCODE Migration Candidate** — This constraint profile and its terminology semantics are&#xA;proposed for inclusion in mCODE STU5; the underlying extension remains owned by Da Vinci CRD."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CodeSystem"/>
+      </extension>
+      <reference>
+        <reference value="CodeSystem/ocpa-codes"/>
+      </reference>
+      <name value="MOPA Local Code System"/>
+      <description value="Local codes defined by the MOPA IG for concepts that do not yet have&#xA;an established representation in LOINC, SNOMED CT, or mCODE. These codes are migration&#xA;candidates and should be retired in favor of standard codes as they become available."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CapabilityStatement"/>
+      </extension>
+      <reference>
+        <reference value="CapabilityStatement/ocpa-crd-client"/>
+      </reference>
+      <name value="Oncology CRD Client Capability Statement"/>
+      <description value="Capability Statement for systems acting as an **Oncology CRD Client**&#xA;(e.g., an EHR or oncology ordering system).  A conformant client claims support for&#xA;the Da Vinci CRD oncology profile defined in this IG by meeting the requirements below."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CapabilityStatement"/>
+      </extension>
+      <reference>
+        <reference value="CapabilityStatement/ocpa-crd-service"/>
+      </reference>
+      <name value="Oncology CRD Service Capability Statement"/>
+      <description value="Capability Statement for systems acting as an **Oncology CRD Service**&#xA;(e.g., a payer or prior-authorization platform).  A conformant service claims support for&#xA;the Da Vinci CRD oncology profile defined in this IG by meeting the requirements below."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/regimen-days-of-cycle"/>
+      </reference>
+      <name value="Regimen Days of Cycle"/>
+      <description value="Specifies the days within a repeating treatment cycle on which a&#xA;regimen action is to be performed. Semantically identical to the HL7 core extension&#xA;[timing-daysOfCycle](http://hl7.org/fhir/StructureDefinition/timing-daysOfCycle),&#xA;but with context broadened to `Timing` so it can be applied to nested&#xA;`RequestGroup.action.action` elements used in phased multi-agent regimens.&#xA;&#xA;The cycle length is expressed via `Timing.repeat.period` / `Timing.repeat.periodUnit`&#xA;on the same element. Day numbering starts at 1 (day 1 = first day of cycle 1).&#xA;&#xA;This extension is a migration candidate for inclusion in the HL7 FHIR Extensions&#xA;pack with an expanded context. See [regimen-model.html](regimen-model.html)."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ValueSet"/>
+      </extension>
+      <reference>
+        <reference value="ValueSet/regimen-intent-vs"/>
+      </reference>
+      <name value="Regimen Intent Value Set"/>
+      <description value="The clinical intent of an anti-cancer regimen. All codes are drawn from&#xA;the SNOMED CT \&quot;Intents (nature of procedure values)\&quot; hierarchy (363675004).&#xA;&#xA;**mCODE Migration Candidate** — Proposed for mCODE STU5."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/treatment-intent-request-category"/>
+      </reference>
+      <name value="Treatment Intent Request Category"/>
+      <description value="Constrains the Da Vinci CRD Request Category extension for a&#xA;patient-specific anti-cancer regimen treatment-intent category. The instance extension URL&#xA;remains `http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category`; this&#xA;profile adds oncology terminology semantics only. Its use on RequestGroup requires the proposed&#xA;CRD RequestGroup extension-context expansion.&#xA;&#xA;**mCODE Migration Candidate** — This constraint profile and its terminology semantics are&#xA;proposed for inclusion in mCODE STU5; the underlying extension remains owned by Da Vinci CRD."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CodeSystem"/>
+      </extension>
+      <reference>
+        <reference value="CodeSystem/treatment-line-cs"/>
+      </reference>
+      <name value="Treatment Line Code System"/>
+      <description value="Ordinal codes representing the line of systemic anti-cancer therapy.&#xA;These codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint&#xA;profile for the RequestGroup `lineOfTherapy` category slice.&#xA;&#xA;**mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5&#xA;or as a SNOMED CT extension request. Once standard codes are available, this code&#xA;system should be deprecated."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ValueSet"/>
+      </extension>
+      <reference>
+        <reference value="ValueSet/treatment-line-vs"/>
+      </reference>
+      <name value="Treatment Line Value Set"/>
+      <description value="Codes representing the ordinal line of systemic anti-cancer therapy.&#xA;Used by LineOfTherapyRequestCategory for the patient-specific RequestGroup category.&#xA;&#xA;**mCODE Migration Candidate** — Proposed for mCODE STU5."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <page>
+      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+        <valueCode value="informative"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+        <valueUrl value="toc.html"/>
+      </extension>
+      <nameUrl value="toc.html"/>
+      <title value="Table of Contents"/>
+      <generation value="html"/>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="index.html"/>
+        </extension>
+        <nameUrl value="index.html"/>
+        <title value="Home"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="background.html"/>
+        </extension>
+        <nameUrl value="background.html"/>
+        <title value="Background"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="use-cases.html"/>
+        </extension>
+        <nameUrl value="use-cases.html"/>
+        <title value="Use Cases and Actors"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="regimen-model.html"/>
+        </extension>
+        <nameUrl value="regimen-model.html"/>
+        <title value="Regimen Modeling"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="cds-workflow.html"/>
+        </extension>
+        <nameUrl value="cds-workflow.html"/>
+        <title value="CRD Workflow"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="walkthrough.html"/>
+        </extension>
+        <nameUrl value="walkthrough.html"/>
+        <title value="Workflow Walkthrough (Layers 1 &amp; 2)"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="data-requirements.html"/>
+        </extension>
+        <nameUrl value="data-requirements.html"/>
+        <title value="Data Requirements"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="breast-cancer-pa.html"/>
+        </extension>
+        <nameUrl value="breast-cancer-pa.html"/>
+        <title value="Use Case 1: Breast Cancer PA"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="davinci-gap-proposals.html"/>
+        </extension>
+        <nameUrl value="davinci-gap-proposals.html"/>
+        <title value="Da Vinci Gap Proposals"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="mcode-gap-proposals.html"/>
+        </extension>
+        <nameUrl value="mcode-gap-proposals.html"/>
+        <title value="mCODE Gap Proposals"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="conformance.html"/>
+        </extension>
+        <nameUrl value="conformance.html"/>
+        <title value="Conformance"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="artifacts.html"/>
+        </extension>
+        <nameUrl value="artifacts.html"/>
+        <title value="Artifacts Summary"/>
+        <generation value="html"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="downloads.html"/>
+        </extension>
+        <nameUrl value="downloads.html"/>
+        <title value="Downloads"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="history.html"/>
+        </extension>
+        <nameUrl value="history.html"/>
+        <title value="Change Log"/>
+        <generation value="markdown"/>
+      </page>
+    </page>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/capabilities"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/examples"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/extensions"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/models"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/operations"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/profiles"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/resources"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/vocabulary"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/maps"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/testing"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/history"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="fsh-generated/resources"/>
+    </parameter>
+    <parameter>
+      <code value="path-pages"/>
+      <value value="template/config"/>
+    </parameter>
+    <parameter>
+      <code value="path-pages"/>
+      <value value="input/assets"/>
+    </parameter>
+    <parameter>
+      <code value="path-pages"/>
+      <value value="input/images"/>
+    </parameter>
+    <parameter>
+      <code value="path-tx-cache"/>
+      <value value="input-cache/txcache"/>
+    </parameter>
+  </definition>
+</ImplementationGuide>

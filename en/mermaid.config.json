@@ -1,0 +1,12 @@
+{
+  "theme": "default",
+  "flowchart": {
+    "useMaxWidth": true,
+    "htmlLabels": true,
+    "curve": "basis"
+  },
+  "sequence": {
+    "useMaxWidth": true,
+    "htmlLabels": false
+  }
+}

@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Artifacts Summary - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <link href="assets/css/project.css" rel="stylesheet"/>
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/hl7.css" rel="stylesheet"/>
+    <link href="assets/css/fhir-ig.css" rel="stylesheet"/>
+    <link href="css/mopa.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+    <script type="text/javascript" src="assets/js/direction-management.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script type="text/javascript" src="assets/js/prism.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-fhirpath.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-cql.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"12"}
+    h3,h4,h5,h6{--heading-prefix:"12.0"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+        <div id="hl7-nav">
+          <a id="hl7-logo" data-no-external="true" href="http://hl7.org">
+            <img height="50" alt="Visit the HL7 website" src="assets/images/hl7-logo-header.png"/>
+          </a>
+        </div>
+        <div id="family-nav">
+          <a id="family-logo" data-no-external="true" href="http://hl7.org/fhir"><img height="50" alt="Visit the FHIR website" src="assets/images/fhir-logo-www.png"/> </a>
+        </div>
+        <div id="hl7-search">
+          <a id="hl7-search-lnk" data-no-external="true" href="searchform.html"><img alt="Search FHIR" src="assets/images/search.png"/></a>
+        </div>
+
+
+        <div id="ig-status" data-fhir="generated">
+          <p><span style="font-size:12pt;font-weight:bold">MOPA — Medical Oncology Prior Authorization</span>
+            <br/>
+            <span style="display:inline-block;">0.1.1-snapshot-080926 - snapshot-080926
+
+
+
+  <img alt="United States of America flag" src="../assets/images/usa.svg" height="16" title="United States of America"/>
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment" data-fhir="generated">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="background.html">Background</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Use Cases
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="use-cases.html">Use Cases and Actors</a>
+      </li>
+      <li>
+        <a href="breast-cancer-pa.html">Use Case 1 - Breast Cancer PA</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Specification
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="regimen-model.html">1-Regimen Modeling</a>
+      </li>
+      <li>
+        <a href="cds-workflow.html">2-CRD Workflow</a>
+      </li>
+      <li>
+        <a href="data-requirements.html">3-Data Requirements</a>
+      </li>
+      <li>
+        <a href="walkthrough.html">Workflow Walkthrough</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Gaps in Specs
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a>
+      </li>
+      <li>
+        <a href="mcode-gap-proposals.html">mCODE Gap Proposals</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="conformance.html">Conformance</a>
+  </li>
+  <li>
+    <a href="artifacts.html">Artifacts</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+</ul>
+            </div>  <!-- /.nav-collapse -->
+
+              
+
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment" data-fhir="generated">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>Artifacts Summary</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">MOPA — Medical Oncology Prior Authorization - Local Development build (v0.1.1-snapshot-080926) built by the FHIR (HL7® FHIR® Standard) Build Tools. See the <a href='http://hl7.org/fhir/us/codex-mopa/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  <h2>Artifacts Summary</h2>
+  
+  
+  
+  <table class="colsi" data-fhir="generated">
+    <tr>
+  
+      <td>
+        <i>Page standards status:</i> <a href="http://hl7.org/fhir/R4/versions.html#std-process" title="Standards Status">Informative</a>
+        
+      </td>
+  
+  
+      <td id="toggle-change-display" style="text-align: right;border-left-style: hidden" title="Enable this to see changes since the last official release">
+        <label style="margin:0;font-weight:normal" for="showChanges">Highlight text changes?</label>
+  
+        <input style="margin:0" type="checkbox" id="showChanges" onchange="toggleChanges()"/>
+  
+      </td>
+    </tr>
+  </table>
+
+  
+  <!--DO NOT EDIT THIS FILE - It is generated by https://github.com/HL7/ig-template-base/blob/master/scripts/createArtifactSummary.xslt and any changes made will be overwritten--><div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://hl7.org/fhir"
+     xmlns:html="http://www.w3.org/1999/xhtml"
+     class="markdown-toc"
+     data-fhir="generated">
+   <p>Contents:</p>
+   <ul>
+      <li>
+         <a href="#1">Behavior: Capability Statements</a>
+      </li>
+      <li>
+         <a href="#2">Structures: Resource Profiles</a>
+      </li>
+      <li>
+         <a href="#3">Structures: Extension Definitions</a>
+      </li>
+      <li>
+         <a href="#4">Terminology: Value Sets</a>
+      </li>
+      <li>
+         <a href="#5">Terminology: Code Systems</a>
+      </li>
+      <li>
+         <a href="#6">Example: Example Instances</a>
+      </li>
+   </ul>
+</div>
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://hl7.org/fhir"
+     xmlns:html="http://www.w3.org/1999/xhtml"
+     data-fhir="generated">
+   <p>This page provides a list of the FHIR artifacts defined as part of this implementation guide.</p>
+   <a name="1"> </a>
+   <h3>Behavior: Capability Statements </h3>
+    <p>The following artifacts define the specific capabilities that different types of systems are expected to have in order to comply with this implementation guide.  Systems conforming to this implementation guide are expected to declare conformance to one or more of the following capability statements.</p>
+<table class="grid">
+      <col style="width:20%"/>
+      <tbody>
+         <tr>
+            <td style="column-width:30%">
+               <a href="CapabilityStatement-ocpa-crd-client.html"
+                  title="CapabilityStatement/ocpa-crd-client">
+                  <span title="CapabilityStatement/ocpa-crd-client">Oncology CRD Client Capability Statement
+</span>
+               </a>
+            </td>
+            <td>
+<p>Capability Statement for systems acting as an <strong>Oncology CRD Client</strong>
+(e.g., an EHR or oncology ordering system).  A conformant client claims support for
+the Da Vinci CRD oncology profile defined in this IG by meeting the requirements below.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="CapabilityStatement-ocpa-crd-service.html"
+                  title="CapabilityStatement/ocpa-crd-service">
+                  <span title="CapabilityStatement/ocpa-crd-service">Oncology CRD Service Capability Statement
+</span>
+               </a>
+            </td>
+            <td>
+<p>Capability Statement for systems acting as an <strong>Oncology CRD Service</strong>
+(e.g., a payer or prior-authorization platform).  A conformant service claims support for
+the Da Vinci CRD oncology profile defined in this IG by meeting the requirements below.</p>
+</td>
+         </tr>
+      </tbody>
+   </table>
+   <a name="2"> </a>
+   <h3>Structures: Resource Profiles </h3>
+    <p>These define constraints on FHIR resources for systems conforming to this implementation guide.</p>
+<table class="grid">
+      <col style="width:20%"/>
+      <tbody>
+         <tr>
+            <td style="column-width:30%">
+               <a href="StructureDefinition-anticancer-regimen-plandefinition.html"
+                  title="StructureDefinition/anticancer-regimen-plandefinition">
+                  <span title="StructureDefinition/anticancer-regimen-plandefinition">Anti-Cancer Regimen PlanDefinition
+</span>
+               </a>
+            </td>
+            <td>
+<p>A canonical, reusable anti-cancer therapy regimen definition represented
+as a FHIR PlanDefinition order set. This resource is NOT patient-specific; it is
+referenced by AntiCancerRegimenRequestGroup instances via RequestGroup.instantiatesCanonical.</p>
+
+<p>A regimen definition describes the protocol — component drugs, timing, cycle structure,
+and sequential phase ordering. Treatment intent and line of therapy are patient-specific
+ordering categories and are carried on the RequestGroup via the category extension; this
+canonical definition does not carry those attributes.</p>
+
+<p><strong>mCODE Migration Candidate</strong> — This profile is proposed for inclusion in mCODE STU5.
+It addresses the gap documented in the mCODE gap analysis: mCODE does not currently
+represent anti-cancer regimens as first-class, computable entities.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="StructureDefinition-anticancer-regimen-requestgroup.html"
+                  title="StructureDefinition/anticancer-regimen-requestgroup">
+                  <span title="StructureDefinition/anticancer-regimen-requestgroup">Anti-Cancer Regimen RequestGroup
+</span>
+               </a>
+            </td>
+            <td>
+<p>A patient-specific ordered anti-cancer therapy regimen instance.
+This resource is included in the CDS Hooks draftOrders Bundle and referenced in
+context.selections at order-select and order-sign.</p>
+
+<p><strong>CDS Hooks Context.</strong> This profile is designed for use in the Da Vinci CRD workflow.
+The <code class="language-plaintext highlighter-rouge">RequestGroup</code> is the primary prior-authorization subject — the unit of evaluation
+for coverage policy — not the individual <code class="language-plaintext highlighter-rouge">MedicationRequest</code> components within it.</p>
+
+<p><strong>Two-Stage Hook Pattern.</strong> The MOPA workflow uses <code class="language-plaintext highlighter-rouge">order-select</code> and <code class="language-plaintext highlighter-rouge">order-sign</code>
+as distinct stages:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">order-select</code></strong> (informational): The <code class="language-plaintext highlighter-rouge">RequestGroup</code> is present in <code class="language-plaintext highlighter-rouge">context.draftOrders</code>
+but component <code class="language-plaintext highlighter-rouge">MedicationRequest</code> resources may not yet be finalised. The CRD service
+returns informational cards indicating approvability. This is advisory — the order is
+not yet committed.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">order-sign</code></strong> (final determination): The <code class="language-plaintext highlighter-rouge">RequestGroup</code> is accompanied by finalised
+component <code class="language-plaintext highlighter-rouge">MedicationRequest</code> resources. The CRD service returns the final coverage
+determination (Authorization Satisfied, PA required, or DTR required).</li>
+</ul>
+
+<p><strong>CRD Order Profile Proposal.</strong> This profile serves as the domain-specific layer for
+oncology regimens. A complementary CRD order profile for <code class="language-plaintext highlighter-rouge">RequestGroup</code> is proposed
+(MOPA-DV-CRD-003) to formalize <code class="language-plaintext highlighter-rouge">RequestGroup</code> as a standard order type in the Da Vinci
+CRD IG, analogous to existing CRD profiles for <code class="language-plaintext highlighter-rouge">MedicationRequest</code> and <code class="language-plaintext highlighter-rouge">ServiceRequest</code>.</p>
+
+<p>RequestGroup.instantiatesCanonical SHALL be populated with the canonical URL of the
+AntiCancerRegimenPlanDefinition when the canonical regimen definition is known.</p>
+
+<p>Two scheduling patterns are supported in regimen actions:</p>
+
+<ol>
+  <li>
+    <p><strong>Cycle-day timing</strong> — Each action (or action.action for phased regimens) uses the
+local extension <code class="language-plaintext highlighter-rouge">http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle</code>
+on action.timingTiming to declare which days of the cycle the drug is administered.
+The action.timingTiming.repeat carries the machine-computable cycle period.</p>
+  </li>
+  <li>
+    <p><strong>Sequential phase ordering</strong> — For multi-phase regimens (e.g., AC→T),
+top-level action groups represent phases and action.relatedAction with
+relationship = after-end declares that the second phase begins after the first.</p>
+  </li>
+</ol>
+
+<p><strong>mCODE Migration Candidate</strong> — This profile is proposed for inclusion in mCODE STU5.
+It is the MVP artifact for oncology prior authorization: the selected clinical unit
+passed to the CRD service.</p>
+</td>
+         </tr>
+      </tbody>
+   </table>
+   <a name="3"> </a>
+   <h3>Structures: Extension Definitions </h3>
+    <p>These define constraints on FHIR data types for systems conforming to this implementation guide.</p>
+<table class="grid">
+      <col style="width:20%"/>
+      <tbody>
+         <tr>
+            <td style="column-width:30%">
+               <a href="StructureDefinition-data-requirement-label.html"
+                  title="StructureDefinition/data-requirement-label">
+                  <span title="StructureDefinition/data-requirement-label">Data Requirement Label
+</span>
+               </a>
+            </td>
+            <td>
+<p>A human-readable label that identifies a DataRequirement entry within an
+OncologyDataRequirementsLibrary. Used by tools such as DTR questionnaire generators and CRD
+content viewers to display requirement names without parsing profile URLs.</p>
+
+<p>The first DataRequirement entry in every condition-specific Library (the primary cancer
+condition) SHALL carry a label of the canonical form '[Cancer Type] Diagnosis'
+(e.g., 'Breast Cancer Diagnosis') to make the diagnostic prerequisite explicit and
+machine-discoverable.</p>
+
+<p><strong>mCODE Migration Candidate</strong> — Proposed for inclusion in mCODE STU5.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="StructureDefinition-line-of-therapy-request-category.html"
+                  title="StructureDefinition/line-of-therapy-request-category">
+                  <span title="StructureDefinition/line-of-therapy-request-category">Line of Therapy Request Category
+</span>
+               </a>
+            </td>
+            <td>
+<p>Constrains the Da Vinci CRD Request Category extension for a
+patient-specific anti-cancer regimen line-of-therapy category. The instance extension URL
+remains <code class="language-plaintext highlighter-rouge">http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category</code>; this
+profile adds oncology terminology semantics only. Its use on RequestGroup requires the proposed
+CRD RequestGroup extension-context expansion.</p>
+
+<p><strong>mCODE Migration Candidate</strong> — This constraint profile and its terminology semantics are
+proposed for inclusion in mCODE STU5; the underlying extension remains owned by Da Vinci CRD.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="StructureDefinition-regimen-days-of-cycle.html"
+                  title="StructureDefinition/regimen-days-of-cycle">
+                  <span title="StructureDefinition/regimen-days-of-cycle">Regimen Days of Cycle
+</span>
+               </a>
+            </td>
+            <td>
+<p>Specifies the days within a repeating treatment cycle on which a
+regimen action is to be performed. Semantically identical to the HL7 core extension
+<a href="http://hl7.org/fhir/StructureDefinition/timing-daysOfCycle">timing-daysOfCycle</a>,
+but with context broadened to <code class="language-plaintext highlighter-rouge">Timing</code> so it can be applied to nested
+<code class="language-plaintext highlighter-rouge">RequestGroup.action.action</code> elements used in phased multi-agent regimens.</p>
+
+<p>The cycle length is expressed via <code class="language-plaintext highlighter-rouge">Timing.repeat.period</code> / <code class="language-plaintext highlighter-rouge">Timing.repeat.periodUnit</code>
+on the same element. Day numbering starts at 1 (day 1 = first day of cycle 1).</p>
+
+<p>This extension is a migration candidate for inclusion in the HL7 FHIR Extensions
+pack with an expanded context. See <a href="regimen-model.html">regimen-model.html</a>.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="StructureDefinition-treatment-intent-request-category.html"
+                  title="StructureDefinition/treatment-intent-request-category">
+                  <span title="StructureDefinition/treatment-intent-request-category">Treatment Intent Request Category
+</span>
+               </a>
+            </td>
+            <td>
+<p>Constrains the Da Vinci CRD Request Category extension for a
+patient-specific anti-cancer regimen treatment-intent category. The instance extension URL
+remains <code class="language-plaintext highlighter-rouge">http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category</code>; this
+profile adds oncology terminology semantics only. Its use on RequestGroup requires the proposed
+CRD RequestGroup extension-context expansion.</p>
+
+<p><strong>mCODE Migration Candidate</strong> — This constraint profile and its terminology semantics are
+proposed for inclusion in mCODE STU5; the underlying extension remains owned by Da Vinci CRD.</p>
+</td>
+         </tr>
+      </tbody>
+   </table>
+   <a name="4"> </a>
+   <h3>Terminology: Value Sets </h3>
+    <p>These define sets of codes used by systems conforming to this implementation guide.</p>
+<table class="grid">
+      <col style="width:20%"/>
+      <tbody>
+         <tr>
+            <td style="column-width:30%">
+               <a href="ValueSet-regimen-intent-vs.html"
+                  title="ValueSet/regimen-intent-vs">
+                  <span title="ValueSet/regimen-intent-vs">Regimen Intent Value Set
+</span>
+               </a>
+            </td>
+            <td>
+<p>The clinical intent of an anti-cancer regimen. All codes are drawn from
+the SNOMED CT "Intents (nature of procedure values)" hierarchy (363675004).</p>
+
+<p><strong>mCODE Migration Candidate</strong> — Proposed for mCODE STU5.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="ValueSet-treatment-line-vs.html"
+                  title="ValueSet/treatment-line-vs">
+                  <span title="ValueSet/treatment-line-vs">Treatment Line Value Set
+</span>
+               </a>
+            </td>
+            <td>
+<p>Codes representing the ordinal line of systemic anti-cancer therapy.
+Used by LineOfTherapyRequestCategory for the patient-specific RequestGroup category.</p>
+
+<p><strong>mCODE Migration Candidate</strong> — Proposed for mCODE STU5.</p>
+</td>
+         </tr>
+      </tbody>
+   </table>
+   <a name="5"> </a>
+   <h3>Terminology: Code Systems </h3>
+    <p>These define new code systems used by systems conforming to this implementation guide.</p>
+<table class="grid">
+      <col style="width:20%"/>
+      <tbody>
+         <tr>
+            <td style="column-width:30%">
+               <a href="CodeSystem-ocpa-codes.html" title="CodeSystem/ocpa-codes">
+                  <span title="CodeSystem/ocpa-codes">MOPA Local Code System
+</span>
+               </a>
+            </td>
+            <td>
+<p>Local codes defined by the MOPA IG for concepts that do not yet have
+an established representation in LOINC, SNOMED CT, or mCODE. These codes are migration
+candidates and should be retired in favor of standard codes as they become available.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="CodeSystem-treatment-line-cs.html"
+                  title="CodeSystem/treatment-line-cs">
+                  <span title="CodeSystem/treatment-line-cs">Treatment Line Code System
+</span>
+               </a>
+            </td>
+            <td>
+<p>Ordinal codes representing the line of systemic anti-cancer therapy.
+These codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint
+profile for the RequestGroup <code class="language-plaintext highlighter-rouge">lineOfTherapy</code> category slice.</p>
+
+<p><strong>mCODE Migration Candidate</strong> — These codes are proposed for adoption in mCODE STU5
+or as a SNOMED CT extension request. Once standard codes are available, this code
+system should be deprecated.</p>
+</td>
+         </tr>
+      </tbody>
+   </table>
+   <a name="6"> </a>
+   <h3>Example: Example Instances </h3>
+    <p>These are example instances that show what data produced and consumed by systems conforming with this implementation guide might look like.</p>
+<table class="grid">
+      <col style="width:20%"/>
+      <tbody>
+         <tr>
+            <td style="column-width:30%">
+               <a href="Practitioner-MOPAOncologistExample.html"
+                  title="Practitioner/MOPAOncologistExample">
+                  <span title="Practitioner/MOPAOncologistExample">Example Oncologist: Dr. Maria Lopez
+</span>
+               </a>
+            </td>
+            <td>
+<p>Fictional medical oncologist used across MOPA IG examples.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="Patient-MOPAPatientExample.html"
+                  title="Patient/MOPAPatientExample">
+                  <span title="Patient/MOPAPatientExample">Example Patient: Jane Smith
+</span>
+               </a>
+            </td>
+            <td>
+<p>Fictional 57-year-old female patient used consistently across all MOPA
+IG examples. DO NOT use real patient data.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="PlanDefinition-RegimenPHD.html" title="PlanDefinition/RegimenPHD">
+                  <span title="PlanDefinition/RegimenPHD">Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Canonical definition of pertuzumab (840 mg loading, then 420 mg IV) plus
+trastuzumab (8 mg/kg loading, then 6 mg/kg IV) plus docetaxel (75 mg/m² IV), every 21 days,
+for metastatic HER2-positive breast cancer. Treatment intent and line of therapy are
+carried on the RequestGroup via the category extension.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="PlanDefinition-RegimenTH.html" title="PlanDefinition/RegimenTH">
+                  <span title="PlanDefinition/RegimenTH">Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Canonical definition of weekly Paclitaxel (80 mg/m² IV) plus Trastuzumab
+(4 mg/kg loading, then 2 mg/kg IV) for 12 weeks in HER2-positive early breast
+cancer. The canonical definition carries protocol structure only — treatment intent and
+line of therapy are patient-context and live on the RequestGroup.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="PlanDefinition-RegimenDdACT.html"
+                  title="PlanDefinition/RegimenDdACT">
+                  <span title="PlanDefinition/RegimenDdACT">Example Regimen Definition: ddAC→T (Dose-Dense AC then Paclitaxel)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Canonical definition of dose-dense doxorubicin (60 mg/m²) plus
+cyclophosphamide (600 mg/m²) q14d × 4 cycles (AC phase), followed by paclitaxel
+(175 mg/m²) q14d × 4 cycles (T phase) for breast cancer. Demonstrates
+sequential phase ordering using action.relatedAction with relationship = after-end.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="RequestGroup-PHDRegimenOrder.html"
+                  title="RequestGroup/PHDRegimenOrder">
+                  <span title="RequestGroup/PHDRegimenOrder">Example Regimen Order: PHD (Jane Smith, First-Line Metastatic HER2+)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Patient-specific draft PHD regimen order for Jane Smith, first-line
+metastatic HER2+ breast cancer. Pertuzumab + Trastuzumab + Docetaxel q21d.
+Demonstrates palliative intent and first-line metastatic treatment setting.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="RequestGroup-THRegimenOrder.html"
+                  title="RequestGroup/THRegimenOrder">
+                  <span title="RequestGroup/THRegimenOrder">Example Regimen Order: TH (Jane Smith, Adjuvant HER2+) — Typical
+</span>
+               </a>
+            </td>
+            <td>
+<p>Patient-specific draft ordered TH regimen for Jane Smith at order-select.
+instantiatesCanonical references RegimenTH. All Must Support elements populated.
+Demonstrates regimen-days-of-cycle (days 1, 8, 15 of a 21-day cycle) and is the primary
+reference example for AntiCancerRegimenRequestGroup.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="RequestGroup-DDACTRegimenOrder.html"
+                  title="RequestGroup/DDACTRegimenOrder">
+                  <span title="RequestGroup/DDACTRegimenOrder">Example Regimen Order: ddAC→T (Jane Smith, Adjuvant) — Sequential Phases
+</span>
+               </a>
+            </td>
+            <td>
+<p>Patient-specific draft ddAC→T order for Jane Smith. AC phase (doxorubicin +
+cyclophosphamide q14d x4) followed by T phase (paclitaxel q14d x4). Demonstrates sequential
+phase ordering with action.relatedAction relationship = after-end.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="Bundle-ExampleOrderSelectBundle.html"
+                  title="Bundle/ExampleOrderSelectBundle">
+                  <span title="Bundle/ExampleOrderSelectBundle">Example: CDS Hooks order-select draftOrders Bundle (TH regimen)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Collection Bundle placed in context.draftOrders of an
+order-select CDS Hooks request.  At order-select the RequestGroup is present
+but individual MedicationRequests are still draft and are not required.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="Bundle-ExampleOrderSignBundle.html"
+                  title="Bundle/ExampleOrderSignBundle">
+                  <span title="Bundle/ExampleOrderSignBundle">Example: CDS Hooks order-sign draftOrders Bundle (TH regimen)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Collection Bundle placed in context.draftOrders of an
+order-sign CDS Hooks request.  At order-sign the RequestGroup plus all
+companion MedicationRequests are present.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-CyclophosphamideMedRequestDDACT.html"
+                  title="MedicationRequest/CyclophosphamideMedRequestDDACT">
+                  <span title="MedicationRequest/CyclophosphamideMedRequestDDACT">Example: Cyclophosphamide MedicationRequest (ddAC→T regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for cyclophosphamide 600 mg/m² IV in ddAC phase.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-DocetaxelMedRequestPHD.html"
+                  title="MedicationRequest/DocetaxelMedRequestPHD">
+                  <span title="MedicationRequest/DocetaxelMedRequestPHD">Example: Docetaxel MedicationRequest (PHD regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for docetaxel 75 mg/m² IV q21d in PHD regimen.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-DoxorubicinMedRequestDDACT.html"
+                  title="MedicationRequest/DoxorubicinMedRequestDDACT">
+                  <span title="MedicationRequest/DoxorubicinMedRequestDDACT">Example: Doxorubicin MedicationRequest (ddAC→T regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for doxorubicin 60 mg/m² IV in ddAC phase.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="Condition-MOPAMetastaticBreastCancerConditionExample.html"
+                  title="Condition/MOPAMetastaticBreastCancerConditionExample">
+                  <span title="Condition/MOPAMetastaticBreastCancerConditionExample">Example: Metastatic HER2+ Breast Cancer (Stage IV)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Metastatic HER2-positive breast cancer with liver and bone involvement,
+newly diagnosed Stage IV (de novo). Used in PHD regimen examples.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-PaclitaxelMedRequestTPHase.html"
+                  title="MedicationRequest/PaclitaxelMedRequestTPHase">
+                  <span title="MedicationRequest/PaclitaxelMedRequestTPHase">Example: Paclitaxel MedicationRequest (T phase, ddAC→T regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for paclitaxel 175 mg/m² IV q14d in T phase.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-PaclitaxelMedRequestTH.html"
+                  title="MedicationRequest/PaclitaxelMedRequestTH">
+                  <span title="MedicationRequest/PaclitaxelMedRequestTH">Example: Paclitaxel MedicationRequest (TH regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for paclitaxel 80 mg/m² IV weekly in TH regimen.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-PegfilgrastimMedRequestDDACT.html"
+                  title="MedicationRequest/PegfilgrastimMedRequestDDACT">
+                  <span title="MedicationRequest/PegfilgrastimMedRequestDDACT">Example: Pegfilgrastim MedicationRequest (ddAC→T regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for pegfilgrastim 6 mg subcutaneous on day 2 of each ddAC cycle.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-PertuzumabMedRequestPHD.html"
+                  title="MedicationRequest/PertuzumabMedRequestPHD">
+                  <span title="MedicationRequest/PertuzumabMedRequestPHD">Example: Pertuzumab MedicationRequest (PHD regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for pertuzumab IV q21d in PHD regimen.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="Condition-MOPABreastCancerConditionExample.html"
+                  title="Condition/MOPABreastCancerConditionExample">
+                  <span title="Condition/MOPABreastCancerConditionExample">Example: Primary HER2+ Breast Cancer (Stage IIB)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Invasive ductal carcinoma of right breast, HER2-positive,
+Stage IIB (T2 N1 M0), diagnosed November 2025. Referenced by all MOPA examples
+depicting Jane Smith's adjuvant treatment course.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-TrastuzumabMedRequestPHD.html"
+                  title="MedicationRequest/TrastuzumabMedRequestPHD">
+                  <span title="MedicationRequest/TrastuzumabMedRequestPHD">Example: Trastuzumab MedicationRequest (PHD regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for trastuzumab IV q21d in PHD regimen.</p>
+</td>
+         </tr>
+         <tr>
+            <td style="column-width:30%">
+               <a href="MedicationRequest-TrastuzumabMedRequestTH.html"
+                  title="MedicationRequest/TrastuzumabMedRequestTH">
+                  <span title="MedicationRequest/TrastuzumabMedRequestTH">Example: Trastuzumab MedicationRequest (TH regimen, draft)
+</span>
+               </a>
+            </td>
+            <td>
+<p>Draft MedicationRequest for trastuzumab IV weekly in TH regimen.</p>
+</td>
+         </tr>
+      </tbody>
+   </table>
+</div>
+
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+  <script type="text/javascript" src="assets/js/flags.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <script type="text/javascript" src="assets/js/togglechanges.js"> </script>
+  <script type="text/javascript" src="assets/js/requirements-table.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container" data-fhir="generated">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+
+
+
+          IG © 2026+ <a style="color:var(--footer-hyperlink-text-color)" href="http://www.hl7.org/Special/committees/cic">HL7 International / Clinical Interoperability Council</a>.  
+          Package hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>.
+          Generated 
+  <span title="2026-09-08 18:17:00 -0400">
+    2026-09-08
+  </span>
+
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="../qa.html">QA Report</a>
+                 
+                
+                 | <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir/us/codex-mopa/history.html">Version History</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" rel="license" href="http://hl7.org/fhir/R4/license.html"><img style="border-style: none;" alt="CC0" src="cc0.png"/></a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir-issues">Propose a change</a>
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+

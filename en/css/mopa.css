@@ -1,0 +1,273 @@
+/* =============================================================================
+   MOPA IG — Custom styles
+   Brand: HL7 Codex (brandguide.hl7.org/2025/07/27/codex/)
+   Loaded after project.css via input/includes/_append.fragment-css.html
+   ============================================================================= */
+
+/* --- Brand palette ----------------------------------------------------------- */
+
+:root {
+  --codex-navy:  #040037;
+  --codex-blue:  #043260;
+  --codex-mid:   #005a8a;
+  --codex-red:   #ec2227;
+
+  /* Override IG Publisher template variables */
+  --navbar-bg-color:            var(--codex-navy);
+  --footer-bg-color:            #2a2a2a;
+  --footer-container-bg-color:  var(--codex-blue);
+  --stripe-bg-color:            var(--codex-red);
+  --ig-status-text-color:       var(--codex-blue);
+  --btn-hover-color:            #0a4a80;
+  --btn-active-color:           var(--codex-red);
+  --btn-text-color:             #f0f0f0;
+  --btn-gradient-start-color:   var(--codex-mid);
+  --btn-gradient-end-color:     var(--codex-blue);
+  --link-color:                 var(--codex-mid);
+  --link-hover-color:           var(--codex-blue);
+}
+
+/* --- Typography -------------------------------------------------------------- */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #1a1a2e;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--codex-blue);
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+/* suppress counter prefix on h1 (IG Publisher inserts page title as h1) */
+h1::before { content: none !important; }
+
+h2 {
+  font-size: 1.45em;
+  border-bottom: 2px solid var(--codex-red);
+  padding-bottom: 0.25em;
+}
+
+h3 {
+  font-size: 1.18em;
+  border-bottom: 1px solid #dde3ea;
+  padding-bottom: 0.2em;
+}
+
+h4 { font-size: 1.05em; }
+
+/* soften auto-counter color */
+h2::before, h3::before, h4::before, h5::before, h6::before {
+  color: #aab4c0 !important;
+  font-weight: 400;
+  font-size: 0.85em;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 0.9em;
+}
+li {
+  font-size: 14px;
+}
+
+a {
+  color: var(--codex-mid);
+  text-decoration: none;
+}
+a:hover, a:focus {
+  color: var(--codex-blue);
+  text-decoration: underline;
+}
+
+/* --- Tables ------------------------------------------------------------------ */
+
+.table {
+  font-size: 0.92em;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1.2em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.table th {
+  background-color: var(--codex-blue);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 9px 14px;
+  text-align: left;
+  border: none;
+  letter-spacing: 0.02em;
+  font-size: 0.9em;
+}
+
+.table td {
+  padding: 8px 14px;
+  border: none;
+  border-bottom: 1px solid #d0d7e0;
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+tr td {
+  border-bottom: 1px solid #d0d7e0;
+}
+
+.table tbody tr:nth-child(even) td {
+  background-color: #f5f7fa;
+}
+
+.table tbody tr:hover td {
+  background-color: #edf2f7;
+}
+
+.table th.inverted {
+  background-color: var(--codex-navy);
+}
+
+/* --- Code -------------------------------------------------------------------- */
+
+pre {
+  background: #f4f6f9;
+  border: 1px solid #dde3ea;
+  border-left: 3px solid var(--codex-mid);
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-x: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-size: 12.5px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+code {
+  background: #f0f2f5;
+  border: 1px solid #dde3ea;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.88em;
+  color: #c0392b;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* --- Blockquotes (SHALL / SHOULD conformance callouts) ----------------------- */
+
+blockquote {
+  border-left: 4px solid var(--codex-mid);
+  background: #f0f5fa;
+  margin: 1em 0;
+  padding: 10px 16px;
+  color: #2c3e50;
+  border-radius: 0 4px 4px 0;
+}
+
+blockquote p { margin: 0; max-width: 100%; }
+
+/* --- Navbar ------------------------------------------------------------------ */
+
+.navbar-inverse {
+  border-bottom: 3px solid var(--codex-red);
+}
+
+/* --- Header stripe ----------------------------------------------------------- */
+
+#stripe { height: 5px; }
+
+/* --- Publish / ci-build banner ----------------------------------------------- */
+
+#publish-box {
+  background-color: #fff8e1;
+  border: 1px solid #f0c040;
+  border-left: 4px solid #e0a020;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 0.88em;
+  margin-bottom: 1.2em;
+}
+
+/* --- TOC box ----------------------------------------------------------------- */
+
+ul.markdown-toc, div.markdown-toc {
+  background-color: #f0f5fa;
+  border: 1px solid #c8d8e8;
+  border-radius: 4px;
+  font-size: 0.88em;
+  padding: 10px 16px;
+  margin: 0 0 1.4em 1.8em;
+}
+
+/* --- Page spacing ------------------------------------------------------------ */
+
+#content > .inner-wrapper,
+.container > .row > .inner-wrapper {
+  margin-top: 20px;
+  margin-bottom: 32px;
+}
+
+#segment-footer {
+  margin-top: 48px;
+}
+
+/* --- Images ------------------------------------------------------------------ */
+
+img {
+  display: block;
+}
+
+/* restore inline for icons and logo-bar images that live inside flex/inline contexts */
+.mopa-logo-bar img,
+.navbar img,
+#segment-header img,
+#segment-footer img,
+td img {
+  display: inline-block;
+}
+
+/* --- Codex logo bar (index page) --------------------------------------------- */
+
+.mopa-logo-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 0 18px 0;
+  border-bottom: 1px solid #dde3ea;
+  margin-bottom: 1.4em;
+}
+
+.mopa-logo-bar img {
+  height: 52px;
+  width: auto;
+}
+
+.mopa-logo-bar .mopa-logo-tagline {
+  font-size: 0.88em;
+  color: #5a6a7a;
+  line-height: 1.4;
+}
+
+#da-vinci-gap-proposals ~ .markdown-toc,
+#mcode-gap-proposals ~ .markdown-toc,
+#use-cases-and-actors ~ .markdown-toc { display: none; }
+
+

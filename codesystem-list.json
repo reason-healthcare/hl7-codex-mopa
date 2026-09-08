@@ -1,0 +1,18 @@
+{
+  "codeSystems" : [{
+    "url" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes",
+    "version" : "0.1.1-snapshot-080926",
+    "status" : "draft",
+    "name" : "OcpaCodesCS",
+    "title" : "MOPA Local Code System",
+    "description" : "Local codes defined by the MOPA IG for concepts that do not yet have\nan established representation in LOINC, SNOMED CT, or mCODE. These codes are migration\ncandidates and should be retired in favor of standard codes as they become available."
+  },
+  {
+    "url" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs",
+    "version" : "0.1.1-snapshot-080926",
+    "status" : "draft",
+    "name" : "TreatmentLineCS",
+    "title" : "Treatment Line Code System",
+    "description" : "Ordinal codes representing the line of systemic anti-cancer therapy.\nThese codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint\nprofile for the RequestGroup `lineOfTherapy` category slice.\n\n**mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5\nor as a SNOMED CT extension request. Once standard codes are available, this code\nsystem should be deprecated."
+  }]
+}

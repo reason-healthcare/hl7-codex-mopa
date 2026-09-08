@@ -1,0 +1,20 @@
+{
+  "codeSystems" : [{
+    "url" : "http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs",
+    "version" : "0.1.1-snapshot-080926",
+    "status" : "draft",
+    "name" : "RegimenIntentVS",
+    "title" : "Regimen Intent Value Set",
+    "description" : "The clinical intent of an anti-cancer regimen. All codes are drawn from\nthe SNOMED CT \\\"Intents (nature of procedure values)\\\" hierarchy (363675004).\n\n**mCODE Migration Candidate** — Proposed for mCODE STU5.",
+    "systems" : ["http://snomed.info/sct"]
+  },
+  {
+    "url" : "http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs",
+    "version" : "0.1.1-snapshot-080926",
+    "status" : "draft",
+    "name" : "TreatmentLineVS",
+    "title" : "Treatment Line Value Set",
+    "description" : "Codes representing the ordinal line of systemic anti-cancer therapy.\nUsed by LineOfTherapyRequestCategory for the patient-specific RequestGroup category.\n\n**mCODE Migration Candidate** — Proposed for mCODE STU5.",
+    "systems" : ["http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"]
+  }]
+}

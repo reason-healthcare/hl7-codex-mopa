@@ -1,0 +1,75 @@
+# hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926: MOPA — Medical Oncology Prior Authorization(en)
+
+## Pages
+
+* [Home](en/index.md)
+* [Artifacts Summary](en/artifacts.md)
+* [CRD Workflow](en/cds-workflow.md)
+* [Conformance](en/conformance.md)
+* [Da Vinci Gap Proposals](en/davinci-gap-proposals.md)
+* [Use Case 1: Breast Cancer PA](en/breast-cancer-pa.md)
+* [Workflow Walkthrough (Layers 1 & 2)](en/walkthrough.md)
+* [Downloads](en/downloads.md)
+* [mCODE Gap Proposals](en/mcode-gap-proposals.md)
+* [Change Log](en/history.md)
+* [Data Requirements](en/data-requirements.md)
+* [Background](en/background.md)
+* [Use Cases and Actors](en/use-cases.md)
+* [Regimen Modeling](en/regimen-model.md)
+
+## Resources
+
+### CodeSystems
+
+* [MOPA Local Code System](en/CodeSystem-ocpa-codes.md)
+* [Treatment Line Code System](en/CodeSystem-treatment-line-cs.md)
+
+### ValueSets
+
+* [Regimen Intent Value Set](en/ValueSet-regimen-intent-vs.md)
+* [Treatment Line Value Set](en/ValueSet-treatment-line-vs.md)
+
+### Resource Profiles
+
+* [Anti-Cancer Regimen PlanDefinition](en/StructureDefinition-anticancer-regimen-plandefinition.md)
+* [Anti-Cancer Regimen RequestGroup](en/StructureDefinition-anticancer-regimen-requestgroup.md)
+
+### Extensions
+
+* [Data Requirement Label](en/StructureDefinition-data-requirement-label.md)
+* [Line of Therapy Request Category](en/StructureDefinition-line-of-therapy-request-category.md)
+* [Regimen Days of Cycle](en/StructureDefinition-regimen-days-of-cycle.md)
+* [Treatment Intent Request Category](en/StructureDefinition-treatment-intent-request-category.md)
+
+### CapabilityStatements
+
+* [Oncology CRD Client Capability Statement](en/CapabilityStatement-ocpa-crd-client.md)
+* [Oncology CRD Service Capability Statement](en/CapabilityStatement-ocpa-crd-service.md)
+
+### ImplementationGuides
+
+* [MOPA — Medical Oncology Prior Authorization](en/ImplementationGuide-hl7.fhir.us.codex-mopa.md)
+
+### Examples
+
+* [ExampleOrderSelectBundle (Bundle)](en/Bundle-ExampleOrderSelectBundle.md)
+* [ExampleOrderSignBundle (Bundle)](en/Bundle-ExampleOrderSignBundle.md)
+* [MOPABreastCancerConditionExample (Condition)](en/Condition-MOPABreastCancerConditionExample.md)
+* [MOPAMetastaticBreastCancerConditionExample (Condition)](en/Condition-MOPAMetastaticBreastCancerConditionExample.md)
+* [CyclophosphamideMedRequestDDACT (MedicationRequest)](en/MedicationRequest-CyclophosphamideMedRequestDDACT.md)
+* [DocetaxelMedRequestPHD (MedicationRequest)](en/MedicationRequest-DocetaxelMedRequestPHD.md)
+* [DoxorubicinMedRequestDDACT (MedicationRequest)](en/MedicationRequest-DoxorubicinMedRequestDDACT.md)
+* [PaclitaxelMedRequestTH (MedicationRequest)](en/MedicationRequest-PaclitaxelMedRequestTH.md)
+* [PaclitaxelMedRequestTPHase (MedicationRequest)](en/MedicationRequest-PaclitaxelMedRequestTPHase.md)
+* [PegfilgrastimMedRequestDDACT (MedicationRequest)](en/MedicationRequest-PegfilgrastimMedRequestDDACT.md)
+* [PertuzumabMedRequestPHD (MedicationRequest)](en/MedicationRequest-PertuzumabMedRequestPHD.md)
+* [TrastuzumabMedRequestPHD (MedicationRequest)](en/MedicationRequest-TrastuzumabMedRequestPHD.md)
+* [TrastuzumabMedRequestTH (MedicationRequest)](en/MedicationRequest-TrastuzumabMedRequestTH.md)
+* [MOPAPatientExample (Patient)](en/Patient-MOPAPatientExample.md)
+* [ddAC→T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel — Breast Cancer (PlanDefinition)](en/PlanDefinition-RegimenDdACT.md)
+* [PHD: Pertuzumab + Trastuzumab + Docetaxel — Metastatic HER2+ Breast Cancer (PlanDefinition)](en/PlanDefinition-RegimenPHD.md)
+* [TH: Paclitaxel + Trastuzumab (Weekly) — HER2+ Breast Cancer (PlanDefinition)](en/PlanDefinition-RegimenTH.md)
+* [MOPAOncologistExample (Practitioner)](en/Practitioner-MOPAOncologistExample.md)
+* [DDACTRegimenOrder (RequestGroup)](en/RequestGroup-DDACTRegimenOrder.md)
+* [PHDRegimenOrder (RequestGroup)](en/RequestGroup-PHDRegimenOrder.md)
+* [THRegimenOrder (RequestGroup)](en/RequestGroup-THRegimenOrder.md)

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PlanDefinition xmlns="http://hl7.org/fhir">
+  <id value="RegimenTH"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+  </meta>
+  <text>
+    <status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml">
+  <table class="narrative-table">
+    <tbody>
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">Metadata</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">TH: Paclitaxel + Trastuzumab (Weekly) — HER2+ Breast Cancer</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Version</th>
+
+
+
+<td class="content-container">0.1.1-snapshot-080926</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Experimental</th>
+
+
+
+<td class="content-container">true</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Subject Type</th>
+
+
+
+<td class="content-container">
+    Malignant neoplasm of breast
+
+
+</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Jurisdiction</th>
+
+
+
+<td class="content-container">
+    United States of America
+
+
+</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Steward (Publisher)</th>
+
+
+
+<td class="content-container">HL7 International / Clinical Interoperability Council</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Steward Contact</th>
+
+
+
+<td class="content-container">HL7 International / Clinical Interoperability Council</td>
+
+
+</tr>
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Description</th>
+
+
+
+<td class="content-container"><div><p>Weekly Paclitaxel + Trastuzumab for 12 weeks for HER2+ early breast cancer.</p>
+</div></td>
+
+
+</tr>
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Type</th>
+
+
+
+<td class="content-container">
+    Order Set
+
+
+</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">paclitaxel-th</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Paclitaxel 80 mg/m² IV — Day 1 of each 7-day cycle</td>
+
+
+</tr>
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Description</th>
+
+
+
+<td class="content-container">Paclitaxel 80 mg/m² IV over 1 hour, weekly (day 1 of 7-day cycle) x12 doses</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Count 12  times, Once per 7 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">trastuzumab-th</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Trastuzumab 4 mg/kg (loading) then 2 mg/kg IV weekly</td>
+
+
+</tr>
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Description</th>
+
+
+
+<td class="content-container">Trastuzumab 4 mg/kg IV loading dose week 1, then 2 mg/kg IV weekly (day 1 of 7-day cycle) x11 doses</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Count 12  times, Once per 7 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+  <th colspan="2" scope="row" class="row-header">Generated using version 0.5.4 of the sample-content-ig Liquid templates</th>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+  </text>
+  <url value="http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="RegimenTH"/>
+  <title value="TH: Paclitaxel + Trastuzumab (Weekly) — HER2+ Breast Cancer"/>
+  <type>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/plan-definition-type"/>
+      <code value="order-set"/>
+      <display value="Order Set"/>
+    </coding>
+  </type>
+  <status value="active"/>
+  <experimental value="true"/>
+  <subjectCodeableConcept>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="254837009"/>
+      <display value="Malignant neoplasm of breast"/>
+    </coding>
+  </subjectCodeableConcept>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Weekly Paclitaxel + Trastuzumab for 12 weeks for HER2+ early breast cancer."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <action id="paclitaxel-th">
+    <title value="Paclitaxel 80 mg/m² IV — Day 1 of each 7-day cycle"/>
+    <description value="Paclitaxel 80 mg/m² IV over 1 hour, weekly (day 1 of 7-day cycle) x12 doses"/>
+    <timingTiming>
+      <repeat>
+        <count value="12"/>
+        <period value="7"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timingTiming>
+  </action>
+  <action id="trastuzumab-th">
+    <title value="Trastuzumab 4 mg/kg (loading) then 2 mg/kg IV weekly"/>
+    <description value="Trastuzumab 4 mg/kg IV loading dose week 1, then 2 mg/kg IV weekly (day 1 of 7-day cycle) x11 doses"/>
+    <timingTiming>
+      <repeat>
+        <count value="12"/>
+        <period value="7"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timingTiming>
+  </action>
+</PlanDefinition>

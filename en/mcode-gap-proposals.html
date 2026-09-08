@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>mCODE Gap Proposals - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <link href="assets/css/project.css" rel="stylesheet"/>
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/hl7.css" rel="stylesheet"/>
+    <link href="assets/css/fhir-ig.css" rel="stylesheet"/>
+    <link href="css/mopa.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+    <script type="text/javascript" src="assets/js/direction-management.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script type="text/javascript" src="assets/js/prism.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-fhirpath.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-cql.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"10"}
+    h3,h4,h5,h6{--heading-prefix:"10"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+        <div id="hl7-nav">
+          <a id="hl7-logo" data-no-external="true" href="http://hl7.org">
+            <img height="50" alt="Visit the HL7 website" src="assets/images/hl7-logo-header.png"/>
+          </a>
+        </div>
+        <div id="family-nav">
+          <a id="family-logo" data-no-external="true" href="http://hl7.org/fhir"><img height="50" alt="Visit the FHIR website" src="assets/images/fhir-logo-www.png"/> </a>
+        </div>
+        <div id="hl7-search">
+          <a id="hl7-search-lnk" data-no-external="true" href="searchform.html"><img alt="Search FHIR" src="assets/images/search.png"/></a>
+        </div>
+
+
+        <div id="ig-status" data-fhir="generated">
+          <p><span style="font-size:12pt;font-weight:bold">MOPA — Medical Oncology Prior Authorization</span>
+            <br/>
+            <span style="display:inline-block;">0.1.1-snapshot-080926 - snapshot-080926
+
+
+
+  <img alt="United States of America flag" src="../assets/images/usa.svg" height="16" title="United States of America"/>
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment" data-fhir="generated">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="background.html">Background</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Use Cases
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="use-cases.html">Use Cases and Actors</a>
+      </li>
+      <li>
+        <a href="breast-cancer-pa.html">Use Case 1 - Breast Cancer PA</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Specification
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="regimen-model.html">1-Regimen Modeling</a>
+      </li>
+      <li>
+        <a href="cds-workflow.html">2-CRD Workflow</a>
+      </li>
+      <li>
+        <a href="data-requirements.html">3-Data Requirements</a>
+      </li>
+      <li>
+        <a href="walkthrough.html">Workflow Walkthrough</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Gaps in Specs
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a>
+      </li>
+      <li>
+        <a href="mcode-gap-proposals.html">mCODE Gap Proposals</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="conformance.html">Conformance</a>
+  </li>
+  <li>
+    <a href="artifacts.html">Artifacts</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+</ul>
+            </div>  <!-- /.nav-collapse -->
+
+              
+
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment" data-fhir="generated">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>mCODE Gap Proposals</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">MOPA — Medical Oncology Prior Authorization - Local Development build (v0.1.1-snapshot-080926) built by the FHIR (HL7® FHIR® Standard) Build Tools. See the <a href='http://hl7.org/fhir/us/codex-mopa/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  <h2>mCODE Gap Proposals</h2>
+  
+
+
+
+  <table class="colsi" data-fhir="generated">
+    <tr>
+  
+      <td>
+        <i>Page standards status:</i> <a href="http://hl7.org/fhir/R4/versions.html#std-process" title="Standards Status">Informative</a>
+        
+      </td>
+  
+  
+      <td id="toggle-change-display" style="text-align: right;border-left-style: hidden" title="Enable this to see changes since the last official release">
+        <label style="margin:0;font-weight:normal" for="showChanges">Highlight text changes?</label>
+  
+        <input style="margin:0" type="checkbox" id="showChanges" onchange="toggleChanges()"/>
+  
+      </td>
+    </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+    <p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc">
+<ul id="markdown-toc">
+  <li><a href="#mcode-gap-proposals" id="markdown-toc-mcode-gap-proposals">mCODE Gap Proposals</a></li>
+  <li><a href="#mopa-mc-001--regimen-definition" id="markdown-toc-mopa-mc-001--regimen-definition">MOPA-MC-001 — Regimen definition</a></li>
+  <li><a href="#mopa-mc-002--regimen-instance" id="markdown-toc-mopa-mc-002--regimen-instance">MOPA-MC-002 — Regimen instance</a></li>
+  <li><a href="#mopa-mc-003--line-of-therapy" id="markdown-toc-mopa-mc-003--line-of-therapy">MOPA-MC-003 — Line of therapy</a></li>
+  <li><a href="#mopa-mc-004--regimen-intent" id="markdown-toc-mopa-mc-004--regimen-intent">MOPA-MC-004 — Regimen intent</a></li>
+  <li><a href="#mopa-mc-005--treatment-line-extension" id="markdown-toc-mopa-mc-005--treatment-line-extension">MOPA-MC-005 — Treatment line extension</a></li>
+  <li><a href="#mopa-mc-006--disease-context-placement" id="markdown-toc-mopa-mc-006--disease-context-placement">MOPA-MC-006 — Disease context placement</a></li>
+  <li><a href="#mopa-mc-007--oncology-pa-data-categories-pattern" id="markdown-toc-mopa-mc-007--oncology-pa-data-categories-pattern">MOPA-MC-007 — Oncology PA data categories pattern</a></li>
+  <li><a href="#mopa-mc-008--biomarker-normalization" id="markdown-toc-mopa-mc-008--biomarker-normalization">MOPA-MC-008 — Biomarker normalization</a></li>
+  <li><a href="#note-on-regimendaysofcycle" id="markdown-toc-note-on-regimendaysofcycle">Note on RegimenDaysOfCycle</a></li>
+  <li><a href="#see-also" id="markdown-toc-see-also">See Also</a></li>
+</ul>
+
+</div>
+<h3 id="mcode-gap-proposals">mCODE Gap Proposals</h3>
+
+<p>This page captures the data-model gaps identified in the MOPA analysis. Each item is written as an
+upstream proposal for mCODE STU5 consideration, with breast cancer PA used as the anchor use case.</p>
+
+<p><strong>Summary</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Problem</th>
+      <th>Proposed solution</th>
+      <th>Repo artifact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MOPA-MC-001</td>
+      <td>No first-class computable regimen definition</td>
+      <td>Add regimen PlanDefinition profile</td>
+      <td><code class="language-plaintext highlighter-rouge">AntiCancerRegimenPlanDefinition</code></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-002</td>
+      <td>No patient-specific regimen instance</td>
+      <td>Add regimen RequestGroup profile</td>
+      <td><code class="language-plaintext highlighter-rouge">AntiCancerRegimenRequestGroup</code></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-003</td>
+      <td>Line-of-therapy semantics not standardized for sequencing/PA</td>
+      <td>Profile the CRD Request Category and require the treatment-line value set</td>
+      <td><code class="language-plaintext highlighter-rouge">LineOfTherapyRequestCategory</code>, <code class="language-plaintext highlighter-rouge">TreatmentLineCS/VS</code></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-004</td>
+      <td>Treatment-intent semantics and coding guidance needed</td>
+      <td>Profile the CRD Request Category and require the regimen-intent value set</td>
+      <td><code class="language-plaintext highlighter-rouge">TreatmentIntentRequestCategory</code>, <code class="language-plaintext highlighter-rouge">RegimenIntentVS</code></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-005</td>
+      <td>Order-level oncology categories need CRD support</td>
+      <td>Reuse CRD <code class="language-plaintext highlighter-rouge">ext-request-category</code>; propose RequestGroup context</td>
+      <td><em>(Da Vinci CRD proposal)</em></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-006</td>
+      <td>Disease context placement needs clarity</td>
+      <td>Use PlanDefinition.subject plus RequestGroup.subject and queried Condition</td>
+      <td><em>(no extension artifact)</em></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-007</td>
+      <td>No oncology PA data categories pattern</td>
+      <td>Add oncology data categories pattern for cancer-type PA evaluation</td>
+      <td><em>(no repo artifact — see <a href="data-requirements.html">Data Requirements</a>)</em></td>
+    </tr>
+    <tr>
+      <td>MOPA-MC-008</td>
+      <td>Biomarker results not PA-normalized</td>
+      <td>Add normalized biomarker result guidance / profiling</td>
+      <td>Breast cancer PA guidance</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="mopa-mc-001--regimen-definition">MOPA-MC-001 — Regimen definition</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>mCODE has no first-class computable regimen definition.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Add a regimen <code class="language-plaintext highlighter-rouge">PlanDefinition</code> profile. This profile would represent anti-cancer treatment plans as computable clinical guidelines that can be used for prior authorization evaluation and order-select decision support.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Canonical regimen definitions from this IG:</p>
+
+<ul>
+  <li><a href="PlanDefinition-RegimenTH.html">TH Regimen Definition</a> — Paclitaxel + Trastuzumab (HER2+ breast cancer)</li>
+  <li><a href="PlanDefinition-RegimenDdACT.html">ddAC→T Regimen Definition</a> — Dose-dense AC then Paclitaxel</li>
+  <li><a href="PlanDefinition-RegimenPHD.html">PHD Regimen Definition</a> — Pertuzumab + Trastuzumab + Docetaxel (HER2+ metastatic breast cancer)</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>mCODE STU5 regimen <code class="language-plaintext highlighter-rouge">PlanDefinition</code> profile in the mCODE Implementation Guide.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE work group proposal and ballot-ready profile design for STU5.</p>
+
+<h3 id="mopa-mc-002--regimen-instance">MOPA-MC-002 — Regimen instance</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>mCODE has no patient-specific regimen instance representation.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Add a regimen <code class="language-plaintext highlighter-rouge">RequestGroup</code> profile that carries the instantiated regimen definition for a specific patient, including the ordered components and lifecycle state.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Patient-specific regimen orders from this IG (CRD order-select context):</p>
+
+<ul>
+  <li><a href="RequestGroup-THRegimenOrder.html">TH Regimen Order</a> — Patient instance: Jane Smith, adjuvant HER2+ breast cancer</li>
+  <li><a href="RequestGroup-DDACTRegimenOrder.html">ddAC→T Regimen Order</a> — Sequential phase ordering pattern</li>
+  <li><a href="RequestGroup-PHDRegimenOrder.html">PHD Regimen Order</a> — Metastatic HER2+ with three-agent regimen</li>
+</ul>
+
+<p>Also see: <a href="Bundle-ExampleOrderSelectBundle.html">CDS Hooks order-select Bundle</a> — Full oncology context payload</p>
+
+<p><strong>Target destination</strong></p>
+
+<p>mCODE STU5 regimen <code class="language-plaintext highlighter-rouge">RequestGroup</code> profile.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE work group proposal and instance-model review for STU5 ballot.</p>
+
+<h3 id="mopa-mc-003--line-of-therapy">MOPA-MC-003 — Line of therapy</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>Line of therapy is not standardized for sequencing or prior authorization workflows.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">LineOfTherapyRequestCategory</code>, a constraint profile on the Da Vinci CRD
+<code class="language-plaintext highlighter-rouge">ext-request-category</code>. It requires a <code class="language-plaintext highlighter-rouge">CodeableConcept</code> bound to <code class="language-plaintext highlighter-rouge">TreatmentLineVS</code> and is exposed
+as the optional <code class="language-plaintext highlighter-rouge">RequestGroup.extension:category/lineOfTherapy</code> reslice. This keeps the treatment sequence
+semantics on the patient-specific order without creating a companion Observation. CRD 2.2.1
+needs a RequestGroup extension-context expansion for this use.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Line of therapy is demonstrated on the patient-specific RequestGroup examples:</p>
+
+<ul>
+  <li><a href="RequestGroup-THRegimenOrder.html">TH Regimen Order</a> — first-line adjuvant treatment</li>
+  <li><a href="RequestGroup-DDACTRegimenOrder.html">ddAC→T Regimen Order</a> — first-line adjuvant treatment</li>
+  <li><a href="RequestGroup-PHDRegimenOrder.html">PHD Regimen Order</a> — first-line metastatic treatment</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>mCODE STU5 <code class="language-plaintext highlighter-rouge">LineOfTherapyRequestCategory</code> semantics and <code class="language-plaintext highlighter-rouge">TreatmentLineCS/VS</code>. The underlying
+extension URL and RequestGroup context expansion belong to Da Vinci CRD.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE terminology and profile coordination for sequencing semantics.</p>
+
+<h3 id="mopa-mc-004--regimen-intent">MOPA-MC-004 — Regimen intent</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>Regimen intent is not explicit in mCODE, creating ambiguity about treatment goals. Intent is a
+patient-specific ordering decision and does not belong on the canonical regimen definition.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">TreatmentIntentRequestCategory</code>, a constraint profile on the Da Vinci CRD
+<code class="language-plaintext highlighter-rouge">ext-request-category</code>. It requires a <code class="language-plaintext highlighter-rouge">CodeableConcept</code> bound to <code class="language-plaintext highlighter-rouge">RegimenIntentVS</code> and is exposed
+as the optional <code class="language-plaintext highlighter-rouge">RequestGroup.extension:category/treatmentIntent</code> reslice. The open <code class="language-plaintext highlighter-rouge">category 0..* MS</code>
+slice still permits other request categories. CRD must add RequestGroup to the extension's
+context; mCODE does not own a replacement extension.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Regimen intent is demonstrated on the patient-specific RequestGroup examples in this IG:</p>
+
+<ul>
+  <li><a href="RequestGroup-THRegimenOrder.html">TH Regimen Order</a> — adjuvant intent</li>
+  <li><a href="RequestGroup-DDACTRegimenOrder.html">ddAC→T Regimen Order</a> — adjuvant intent</li>
+  <li><a href="RequestGroup-PHDRegimenOrder.html">PHD Regimen Order</a> — palliative intent</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>mCODE STU5 <code class="language-plaintext highlighter-rouge">TreatmentIntentRequestCategory</code> semantics and terminology guidance; the RequestGroup
+extension context expansion is a Da Vinci CRD proposal.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE terminology and clinical-semantics review, coordinated with Da Vinci CRD.</p>
+
+<h3 id="mopa-mc-005--treatment-line-extension">MOPA-MC-005 — Treatment line extension</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>Treatment line as a regimen attribute is missing from mCODE profile design. The ordering context
+belongs on the patient-specific <code class="language-plaintext highlighter-rouge">RequestGroup</code>, not on the canonical <code class="language-plaintext highlighter-rouge">PlanDefinition</code>.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Carry treatment intent and line of therapy as coded categories on the patient-specific
+<code class="language-plaintext highlighter-rouge">RequestGroup</code> using the profiled <code class="language-plaintext highlighter-rouge">treatmentIntent</code> and <code class="language-plaintext highlighter-rouge">lineOfTherapy</code> slices. Both serialize as
+Da Vinci CRD <code class="language-plaintext highlighter-rouge">ext-request-category</code> values, while the open <code class="language-plaintext highlighter-rouge">category 0..* MS</code> slice permits other
+categories. CRD 2.2.1 needs the proposed RequestGroup context expansion.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Treatment line is captured on patient-specific RequestGroup examples:</p>
+
+<ul>
+  <li><a href="RequestGroup-PHDRegimenOrder.html">PHD Regimen Order</a> — patient-specific first-line instance</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>Da Vinci CRD Request Category extension context expansion; mCODE retains the oncology semantics
+and terminology bindings supplied by the two constraint profiles.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>Da Vinci CRD extension-context proposal plus mCODE sequencing-semantics discussion with guideline
+authorities.</p>
+
+<h3 id="mopa-mc-006--disease-context-placement">MOPA-MC-006 — Disease context placement</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>Disease context must remain distinct from order categories and must not introduce a duplicate
+regimen extension.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">PlanDefinition.subject[x]</code> to declare the protocol's target cancer population. Use
+<code class="language-plaintext highlighter-rouge">RequestGroup.subject</code> to identify the patient and query the relevant <code class="language-plaintext highlighter-rouge">Condition</code> through CRD
+FHIR access for patient-specific disease context. Do not define a regimen disease-context extension.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Disease context examples across the protocol and patient context:</p>
+
+<ul>
+  <li><a href="PlanDefinition-RegimenTH.html">TH Regimen Definition</a> — target breast cancer population</li>
+  <li><a href="PlanDefinition-RegimenPHD.html">PHD Regimen Definition</a> — target HER2+ metastatic breast cancer population</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>PlanDefinition and RequestGroup/Condition implementation guidance; no new mCODE extension.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE context-modeling review for oncology domain.</p>
+
+<h3 id="mopa-mc-007--oncology-pa-data-categories-pattern">MOPA-MC-007 — Oncology PA data categories pattern</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>mCODE has no standard pattern for declaring which specific observations and conditions are
+required for a given cancer type's prior authorization evaluation. Implementers building
+oncology CRD services have no mCODE-grounded way to enumerate the clinical data categories
+(staging, biomarkers, line of therapy, etc.) relevant to a specific cancer PA decision.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Add an oncology data categories pattern to mCODE — as structured canonical guidance
+that declares per-cancer-type clinical data elements needed for PA evaluation. This would
+give CRD service implementers a standards-grounded reference for what to query when
+evaluating a given cancer type. MOPA documents the categories in this IG's
+<a href="data-requirements.html">Data Requirements</a> page; mCODE STU5 would formalize them.</p>
+
+<p><strong>Examples</strong></p>
+
+<ul>
+  <li><a href="breast-cancer-pa.html">Breast Cancer PA</a> — Data categories for breast cancer PA: diagnosis, staging, ER/PR/HER2, line of therapy, performance status, prior therapy</li>
+  <li><a href="data-requirements.html">Data Requirements</a> — MOPA's current data categories table</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>mCODE STU5 — oncology data categories pattern for PA evaluation.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE clinical informatics review; coordinate with Da Vinci CRD/DTR work groups.</p>
+
+<h3 id="mopa-mc-008--biomarker-normalization">MOPA-MC-008 — Biomarker normalization</h3>
+
+<p><strong>Problem</strong></p>
+
+<p>ER/PR/HER2 biomarker results are not PA-normalized across laboratories and assays in mCODE.</p>
+
+<p><strong>Proposed solution</strong></p>
+
+<p>Add normalized biomarker result guidance and profiling to standardize biomarker terminology and thresholds for prior authorization.</p>
+
+<p><strong>Examples</strong></p>
+
+<p>Biomarker normalization context is demonstrated in the breast cancer PA examples. See:</p>
+
+<ul>
+  <li><a href="RequestGroup-THRegimenOrder.html">TH Regimen Order</a> — HER2+ patient context with biomarker references</li>
+  <li><a href="breast-cancer-pa.html">Breast Cancer PA</a> — Biomarker data categories for PA evaluation</li>
+</ul>
+
+<p><strong>Target destination</strong></p>
+
+<p>mCODE STU5 plus breast cancer PA guidance and biomarker normalization library.</p>
+
+<p><strong>Disposition path</strong></p>
+
+<p>mCODE and MOPA breast cancer work stream; this item is net-new guidance pending mCODE STU5 ballot.</p>
+
+<h3 id="note-on-regimendaysofcycle">Note on RegimenDaysOfCycle</h3>
+
+<p><code class="language-plaintext highlighter-rouge">RegimenDaysOfCycle</code> is not a MOPA-MC item. Its real destination is a context-expansion request
+against <code class="language-plaintext highlighter-rouge">timing-daysOfCycle</code> in the HL7 FHIR Extensions pack. Track it with that destination flag
+rather than as an mCODE migration candidate.</p>
+
+<h3 id="see-also">See Also</h3>
+
+<ul>
+  <li><a href="breast-cancer-pa.html">Breast Cancer PA</a> — Detailed breast cancer prior authorization implementation</li>
+  <li><a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a> — CRD/DTR/PAS workflow and exchange proposals</li>
+  <li><a href="use-cases.html">Use Cases and Actors</a> — Two-layer workflow framework for oncology PA</li>
+  <li><a href="regimen-model.html">Regimen Modeling</a> — Anti-cancer regimen as <code class="language-plaintext highlighter-rouge">PlanDefinition</code> and <code class="language-plaintext highlighter-rouge">RequestGroup</code></li>
+  <li><a href="cds-workflow.html">CRD Workflow</a> — How the CRD service queries the EHR for oncology context</li>
+  <li><a href="data-requirements.html">Data Requirements</a> — Oncology data categories queried during CRD evaluation</li>
+</ul>
+
+
+
+
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+  <script type="text/javascript" src="assets/js/flags.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <script type="text/javascript" src="assets/js/togglechanges.js"> </script>
+  <script type="text/javascript" src="assets/js/requirements-table.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container" data-fhir="generated">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+
+
+
+          IG © 2026+ <a style="color:var(--footer-hyperlink-text-color)" href="http://www.hl7.org/Special/committees/cic">HL7 International / Clinical Interoperability Council</a>.  
+          Package hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>.
+          Generated 
+  <span title="2026-09-08 18:17:00 -0400">
+    2026-09-08
+  </span>
+
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="../qa.html">QA Report</a>
+                 
+                
+                 | <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir/us/codex-mopa/history.html">Version History</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" rel="license" href="http://hl7.org/fhir/R4/license.html"><img style="border-style: none;" alt="CC0" src="cc0.png"/></a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir-issues">Propose a change</a>
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+

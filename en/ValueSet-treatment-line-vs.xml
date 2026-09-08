@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ValueSet xmlns="http://hl7.org/fhir">
+  <id value="treatment-line-vs"/>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: ValueSet treatment-line-vs</b></p><a name="treatment-line-vs"> </a><a name="hctreatment-line-vs"> </a><ul><li>Include all codes defined in <a href="CodeSystem-treatment-line-cs.html"><code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code></a><span title="Version is not explicitly stated, which means it is fixed to the version provided in this specification"> version &#x1F4E6;0.1.1-snapshot-080926</span></li></ul></div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-wg">
+    <valueCode value="cic"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="informative">
+      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom">
+        <valueCanonical value="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/>
+      </extension>
+    </valueCode>
+  </extension>
+  <url value="http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="TreatmentLineVS"/>
+  <title value="Treatment Line Value Set"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Codes representing the ordinal line of systemic anti-cancer therapy.&#xA;Used by LineOfTherapyRequestCategory for the patient-specific RequestGroup category.&#xA;&#xA;**mCODE Migration Candidate** — Proposed for mCODE STU5."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <purpose value="mCODE Migration Candidate — proposed for mCODE STU5. Will bind to SNOMED CT or&#xA;successor codes once TreatmentLineCS migrates. It is NOT intended to be a permanent&#xA;artifact of this IG. See the mCODE Gap Proposals page for the full proposal backlog."/>
+  <compose>
+    <include>
+      <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+    </include>
+  </compose>
+</ValueSet>

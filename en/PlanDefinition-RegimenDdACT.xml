@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PlanDefinition xmlns="http://hl7.org/fhir">
+  <id value="RegimenDdACT"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+  </meta>
+  <language value="en"/>
+  <text>
+    <status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml">
+  <table class="narrative-table">
+    <tbody>
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">Metadata</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">ddAC→T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel — Breast Cancer</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Version</th>
+
+
+
+<td class="content-container">0.1.1-snapshot-080926</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Experimental</th>
+
+
+
+<td class="content-container">true</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Subject Type</th>
+
+
+
+<td class="content-container">
+    Malignant neoplasm of breast
+
+
+</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Jurisdiction</th>
+
+
+
+<td class="content-container">
+    United States of America
+
+
+</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Steward (Publisher)</th>
+
+
+
+<td class="content-container">HL7 International / Clinical Interoperability Council</td>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Steward Contact</th>
+
+
+
+<td class="content-container">HL7 International / Clinical Interoperability Council</td>
+
+
+</tr>
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Description</th>
+
+
+
+<td class="content-container"><div><p>Dose-dense AC x4 cycles (q14d) with pegfilgrastim support, followed by paclitaxel x4 cycles (q14d) for breast cancer.</p>
+</div></td>
+
+
+</tr>
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Type</th>
+
+
+
+<td class="content-container">
+    Order Set
+
+
+</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">ac-phase</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">AC Phase — Doxorubicin + Cyclophosphamide (q14d × 4 cycles)</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Count 4  times, Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action (Parent Action ID: ac-phase)</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">doxorubicin-ac</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Doxorubicin 60 mg/m² IV — Day 1 of each 14-day cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">doxorubicin-ac</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Doxorubicin 60 mg/m² IV — Day 1 of each 14-day cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+    
+      
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action (Parent Action ID: ac-phase)</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">pegfilgrastim-ac</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Pegfilgrastim 6 mg subcutaneous — Day 2 of each 14-day cycle</td>
+
+
+</tr>
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Description</th>
+
+
+
+<td class="content-container">Pegfilgrastim supportive care on day 2 of each ddAC cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">pegfilgrastim-ac</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Pegfilgrastim 6 mg subcutaneous — Day 2 of each 14-day cycle</td>
+
+
+</tr>
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Description</th>
+
+
+
+<td class="content-container">Pegfilgrastim supportive care on day 2 of each ddAC cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+    
+      
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action (Parent Action ID: ac-phase)</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">cyclophosphamide-ac</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Cyclophosphamide 600 mg/m² IV — Day 1 of each 14-day cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">cyclophosphamide-ac</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Cyclophosphamide 600 mg/m² IV — Day 1 of each 14-day cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">t-phase</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">T Phase — Paclitaxel (q14d × 4 cycles)</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Count 4  times, Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action (Parent Action ID: t-phase)</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">paclitaxel-t</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Paclitaxel 175 mg/m² IV — Day 1 of each 14-day cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+      
+<tr>
+
+
+<th colspan="2" scope="row" class="row-header">PlanDefinition Sub-Action</th>
+
+
+</tr>
+
+<tr>
+
+
+<th scope="row" class="row-header">Id</th>
+
+
+
+<td class="content-container">paclitaxel-t</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Title</th>
+
+
+
+<td class="content-container">Paclitaxel 175 mg/m² IV — Day 1 of each 14-day cycle</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+
+
+<th scope="row" class="row-header">Timing</th>
+
+
+
+<td class="content-container">Once per 14 days</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+
+
+
+
+
+<tr>
+  <th colspan="2" scope="row" class="row-header">Generated using version 0.5.4 of the sample-content-ig Liquid templates</th>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+  </text>
+  <url value="http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenDdACT"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="RegimenDdACT"/>
+  <title value="ddAC→T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel — Breast Cancer"/>
+  <type>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/plan-definition-type"/>
+      <code value="order-set"/>
+      <display value="Order Set"/>
+    </coding>
+  </type>
+  <status value="active"/>
+  <experimental value="true"/>
+  <subjectCodeableConcept>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="254837009"/>
+      <display value="Malignant neoplasm of breast"/>
+    </coding>
+  </subjectCodeableConcept>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Dose-dense AC x4 cycles (q14d) with pegfilgrastim support, followed by paclitaxel x4 cycles (q14d) for breast cancer."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <action id="ac-phase">
+    <title value="AC Phase — Doxorubicin + Cyclophosphamide (q14d × 4 cycles)"/>
+    <timingTiming>
+      <repeat>
+        <count value="4"/>
+        <period value="14"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timingTiming>
+    <action id="doxorubicin-ac">
+      <title value="Doxorubicin 60 mg/m² IV — Day 1 of each 14-day cycle"/>
+      <timingTiming>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+    </action>
+    <action id="pegfilgrastim-ac">
+      <title value="Pegfilgrastim 6 mg subcutaneous — Day 2 of each 14-day cycle"/>
+      <description value="Pegfilgrastim supportive care on day 2 of each ddAC cycle"/>
+      <timingTiming>
+        <extension url="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle">
+          <extension url="day">
+            <valueInteger value="2"/>
+          </extension>
+        </extension>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+    </action>
+    <action id="cyclophosphamide-ac">
+      <title value="Cyclophosphamide 600 mg/m² IV — Day 1 of each 14-day cycle"/>
+      <timingTiming>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+    </action>
+  </action>
+  <action id="t-phase">
+    <title value="T Phase — Paclitaxel (q14d × 4 cycles)"/>
+    <relatedAction>
+      <actionId value="ac-phase"/>
+      <relationship value="after-end"/>
+    </relatedAction>
+    <timingTiming>
+      <repeat>
+        <count value="4"/>
+        <period value="14"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timingTiming>
+    <action id="paclitaxel-t">
+      <title value="Paclitaxel 175 mg/m² IV — Day 1 of each 14-day cycle"/>
+      <timingTiming>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+    </action>
+  </action>
+</PlanDefinition>

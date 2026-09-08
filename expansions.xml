@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="95381d1a-b57d-4df3-a28d-68066cda2115"/>
+  <meta>
+    <lastUpdated value="2026-09-08T18:17:28.300-04:00"/>
+  </meta>
+  <type value="collection"/>
+  <entry>
+    <fullUrl value="http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs"/>
+    <resource>
+      <ValueSet>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml" data-fhir="generated">
+            <p class="res-header-id"/>
+            <p style="border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px">Expansion from tx.fhir.org based on SNOMED CT International edition 01-Feb 2025
+              <span class="copy-text-inline">
+                <button data-clipboard-text="http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20250201" title="Click to Copy URL" class="btn-copy"> </button>
+              </span>
+            </p>
+            <p>This value set contains 5 concepts</p>
+            <table class="codes" data-fhir="generated">
+              <tr>
+                <td>
+                  <b>System</b>
+                </td>
+                <td style="white-space:nowrap">
+                  <b>Code</b>
+                </td>
+                <td>
+                  <b>Display (en)</b>
+                </td>
+                <td>
+                  <b>JSON</b>
+                </td>
+                <td>
+                  <b>XML</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-373808002"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/373808002">373808002</a>
+                </td>
+                <td>Curative - procedure intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;373808002&quot;, &quot;display&quot;: &quot;Curative - procedure intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;373808002&quot;&gt;&lt;display value=&quot;Curative - procedure intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-363676003"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/363676003">363676003</a>
+                </td>
+                <td>Palliative intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;363676003&quot;, &quot;display&quot;: &quot;Palliative intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;363676003&quot;&gt;&lt;display value=&quot;Palliative intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-373846009"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/373846009">373846009</a>
+                </td>
+                <td>Adjuvant - intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;373846009&quot;, &quot;display&quot;: &quot;Adjuvant - intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;373846009&quot;&gt;&lt;display value=&quot;Adjuvant - intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-373847000"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/373847000">373847000</a>
+                </td>
+                <td>Neoadjuvant intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;373847000&quot;, &quot;display&quot;: &quot;Neoadjuvant intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;373847000&quot;&gt;&lt;display value=&quot;Neoadjuvant intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-399707004"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/399707004">399707004</a>
+                </td>
+                <td>Supportive - procedure intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;399707004&quot;, &quot;display&quot;: &quot;Supportive - procedure intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;399707004&quot;&gt;&lt;display value=&quot;Supportive - procedure intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </text>
+        <url value="http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs"/>
+        <version value="0.1.1-snapshot-080926"/>
+        <name value="RegimenIntentVS"/>
+        <title value="Regimen Intent Value Set"/>
+        <status value="draft"/>
+        <experimental value="true"/>
+        <date value="2026-09-08T18:17:28-04:00"/>
+        <jurisdiction>
+          <coding>
+            <system value="urn:iso:std:iso:3166"/>
+            <code value="US"/>
+            <display value="United States of America"/>
+          </coding>
+        </jurisdiction>
+        <expansion>
+          <identifier value="urn:uuid:755f0376-61e5-457c-ad2a-c6dc5f50d7e8"/>
+          <timestamp value="2026-09-08T18:21:52-04:00"/>
+          <total value="5"/>
+          <offset value="0"/>
+          <parameter>
+            <name value="displayLanguage"/>
+            <valueCode value="en"/>
+          </parameter>
+          <parameter>
+            <name value="count"/>
+            <valueInteger value="1000"/>
+          </parameter>
+          <parameter>
+            <name value="offset"/>
+            <valueInteger value="0"/>
+          </parameter>
+          <parameter>
+            <name value="excludeNested"/>
+            <valueBoolean value="false"/>
+          </parameter>
+          <parameter>
+            <name value="used-valueset"/>
+            <valueUri value="null"/>
+          </parameter>
+          <parameter>
+            <name value="includeDefinition"/>
+            <valueBoolean value="false"/>
+          </parameter>
+          <parameter>
+            <name value="used-codesystem"/>
+            <valueUri value="http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20250201"/>
+          </parameter>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="373808002"/>
+            <display value="Curative - procedure intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="363676003"/>
+            <display value="Palliative intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="373846009"/>
+            <display value="Adjuvant - intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="373847000"/>
+            <display value="Neoadjuvant intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="399707004"/>
+            <display value="Supportive - procedure intent"/>
+          </contains>
+        </expansion>
+      </ValueSet>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs"/>
+    <resource>
+      <ValueSet>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml" data-fhir="generated">
+            <p class="res-header-id"/>
+            <p style="border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px">Expansion from tx.fhir.org based on SNOMED CT International edition 01-Feb 2025
+              <span class="copy-text-inline">
+                <button data-clipboard-text="http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20250201" title="Click to Copy URL" class="btn-copy"> </button>
+              </span>
+            </p>
+            <p>This value set contains 5 concepts</p>
+            <table class="codes" data-fhir="generated">
+              <tr>
+                <td>
+                  <b>System</b>
+                </td>
+                <td style="white-space:nowrap">
+                  <b>Code</b>
+                </td>
+                <td>
+                  <b>Display (en)</b>
+                </td>
+                <td>
+                  <b>JSON</b>
+                </td>
+                <td>
+                  <b>XML</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-373808002"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/373808002">373808002</a>
+                </td>
+                <td>Curative - procedure intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;373808002&quot;, &quot;display&quot;: &quot;Curative - procedure intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;373808002&quot;&gt;&lt;display value=&quot;Curative - procedure intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-363676003"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/363676003">363676003</a>
+                </td>
+                <td>Palliative intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;363676003&quot;, &quot;display&quot;: &quot;Palliative intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;363676003&quot;&gt;&lt;display value=&quot;Palliative intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-373846009"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/373846009">373846009</a>
+                </td>
+                <td>Adjuvant - intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;373846009&quot;, &quot;display&quot;: &quot;Adjuvant - intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;373846009&quot;&gt;&lt;display value=&quot;Adjuvant - intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-373847000"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/373847000">373847000</a>
+                </td>
+                <td>Neoadjuvant intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;373847000&quot;, &quot;display&quot;: &quot;Neoadjuvant intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;373847000&quot;&gt;&lt;display value=&quot;Neoadjuvant intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://snomed.info/sct-399707004"> </a>
+                  <code>http://snomed.info/sct</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="http://snomed.info/id/399707004">399707004</a>
+                </td>
+                <td>Supportive - procedure intent</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://snomed.info/sct&quot;, &quot;version&quot;: &quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;, &quot;code&quot;: &quot;399707004&quot;, &quot;display&quot;: &quot;Supportive - procedure intent&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://snomed.info/sct&quot;&gt;&lt;version value=&quot;http://snomed.info/sct/900000000000207008/version/20250201&quot;&gt;&lt;code value=&quot;399707004&quot;&gt;&lt;display value=&quot;Supportive - procedure intent&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </text>
+        <url value="http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs"/>
+        <version value="0.1.1-snapshot-080926"/>
+        <name value="RegimenIntentVS"/>
+        <title value="Regimen Intent Value Set"/>
+        <status value="draft"/>
+        <experimental value="true"/>
+        <date value="2026-09-08T18:17:28-04:00"/>
+        <jurisdiction>
+          <coding>
+            <system value="urn:iso:std:iso:3166"/>
+            <code value="US"/>
+            <display value="United States of America"/>
+          </coding>
+        </jurisdiction>
+        <expansion>
+          <identifier value="urn:uuid:755f0376-61e5-457c-ad2a-c6dc5f50d7e8"/>
+          <timestamp value="2026-09-08T18:21:52-04:00"/>
+          <total value="5"/>
+          <offset value="0"/>
+          <parameter>
+            <name value="displayLanguage"/>
+            <valueCode value="en"/>
+          </parameter>
+          <parameter>
+            <name value="count"/>
+            <valueInteger value="1000"/>
+          </parameter>
+          <parameter>
+            <name value="offset"/>
+            <valueInteger value="0"/>
+          </parameter>
+          <parameter>
+            <name value="excludeNested"/>
+            <valueBoolean value="false"/>
+          </parameter>
+          <parameter>
+            <name value="used-valueset"/>
+            <valueUri value="null"/>
+          </parameter>
+          <parameter>
+            <name value="includeDefinition"/>
+            <valueBoolean value="false"/>
+          </parameter>
+          <parameter>
+            <name value="used-codesystem"/>
+            <valueUri value="http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20250201"/>
+          </parameter>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="373808002"/>
+            <display value="Curative - procedure intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="363676003"/>
+            <display value="Palliative intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="373846009"/>
+            <display value="Adjuvant - intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="373847000"/>
+            <display value="Neoadjuvant intent"/>
+          </contains>
+          <contains>
+            <system value="http://snomed.info/sct"/>
+            <code value="399707004"/>
+            <display value="Supportive - procedure intent"/>
+          </contains>
+        </expansion>
+      </ValueSet>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs"/>
+    <resource>
+      <ValueSet>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml" data-fhir="generated">
+            <p class="res-header-id"/>
+            <p style="border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px">Expansion performed internally based on 
+              <a href="CodeSystem-treatment-line-cs.html">codesystem Treatment Line Code System v0.1.1-snapshot-080926 (CodeSystem)</a>
+              <span class="copy-text-inline">
+                <button data-clipboard-text="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs|0.1.1-snapshot-080926" title="Click to Copy URL" class="btn-copy"> </button>
+              </span>
+            </p>
+            <p>This value set contains 4 concepts</p>
+            <table class="codes" data-fhir="generated">
+              <tr>
+                <td>
+                  <b>System</b>
+                </td>
+                <td style="white-space:nowrap">
+                  <b>Code</b>
+                </td>
+                <td>
+                  <b>Display (en)</b>
+                </td>
+                <td>
+                  <b>Definition</b>
+                </td>
+                <td>
+                  <b>JSON</b>
+                </td>
+                <td>
+                  <b>XML</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-1L"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-1L">1L</a>
+                </td>
+                <td>First-line</td>
+                <td>The first line of systemic anti-cancer therapy for this indication.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;1L&quot;, &quot;display&quot;: &quot;First-line&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;1L&quot;&gt;&lt;display value=&quot;First-line&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-2L"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-2L">2L</a>
+                </td>
+                <td>Second-line</td>
+                <td>The second line of systemic anti-cancer therapy; administered after first-line therapy failure, progression, or intolerance.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;2L&quot;, &quot;display&quot;: &quot;Second-line&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;2L&quot;&gt;&lt;display value=&quot;Second-line&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-3L-plus"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-3L-plus">3L-plus</a>
+                </td>
+                <td>Third-line or later</td>
+                <td>The third or any subsequent line of systemic anti-cancer therapy.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;3L-plus&quot;, &quot;display&quot;: &quot;Third-line or later&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;3L-plus&quot;&gt;&lt;display value=&quot;Third-line or later&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-maintenance"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-maintenance">maintenance</a>
+                </td>
+                <td>Maintenance</td>
+                <td>Maintenance therapy administered to prolong response after induction or consolidation treatment.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;maintenance&quot;, &quot;display&quot;: &quot;Maintenance&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;maintenance&quot;&gt;&lt;display value=&quot;Maintenance&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </text>
+        <url value="http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs"/>
+        <version value="0.1.1-snapshot-080926"/>
+        <name value="TreatmentLineVS"/>
+        <title value="Treatment Line Value Set"/>
+        <status value="draft"/>
+        <experimental value="true"/>
+        <date value="2026-09-08T18:17:28-04:00"/>
+        <jurisdiction>
+          <coding>
+            <system value="urn:iso:std:iso:3166"/>
+            <code value="US"/>
+            <display value="United States of America"/>
+          </coding>
+        </jurisdiction>
+        <expansion>
+          <identifier value="urn:uuid:583a5877-2710-4964-97b6-57f1f3921cae"/>
+          <timestamp value="2026-09-08T18:21:53-04:00"/>
+          <total value="4"/>
+          <offset value="0"/>
+          <parameter>
+            <name value="displayLanguage"/>
+            <valueCode value="en"/>
+          </parameter>
+          <parameter>
+            <name value="count"/>
+            <valueInteger value="1000"/>
+          </parameter>
+          <parameter>
+            <name value="offset"/>
+            <valueInteger value="0"/>
+          </parameter>
+          <parameter>
+            <name value="excludeNested"/>
+            <valueBoolean value="false"/>
+          </parameter>
+          <parameter>
+            <name value="used-codesystem"/>
+            <valueUri value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs|0.1.1-snapshot-080926"/>
+          </parameter>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="1L"/>
+            <display value="First-line"/>
+          </contains>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="2L"/>
+            <display value="Second-line"/>
+          </contains>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="3L-plus"/>
+            <display value="Third-line or later"/>
+          </contains>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="maintenance"/>
+            <display value="Maintenance"/>
+          </contains>
+        </expansion>
+      </ValueSet>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs"/>
+    <resource>
+      <ValueSet>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml" data-fhir="generated">
+            <p class="res-header-id"/>
+            <p style="border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px">Expansion performed internally based on 
+              <a href="CodeSystem-treatment-line-cs.html">codesystem Treatment Line Code System v0.1.1-snapshot-080926 (CodeSystem)</a>
+              <span class="copy-text-inline">
+                <button data-clipboard-text="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs|0.1.1-snapshot-080926" title="Click to Copy URL" class="btn-copy"> </button>
+              </span>
+            </p>
+            <p>This value set contains 4 concepts</p>
+            <table class="codes" data-fhir="generated">
+              <tr>
+                <td>
+                  <b>System</b>
+                </td>
+                <td style="white-space:nowrap">
+                  <b>Code</b>
+                </td>
+                <td>
+                  <b>Display (en)</b>
+                </td>
+                <td>
+                  <b>Definition</b>
+                </td>
+                <td>
+                  <b>JSON</b>
+                </td>
+                <td>
+                  <b>XML</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-1L"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-1L">1L</a>
+                </td>
+                <td>First-line</td>
+                <td>The first line of systemic anti-cancer therapy for this indication.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;1L&quot;, &quot;display&quot;: &quot;First-line&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;1L&quot;&gt;&lt;display value=&quot;First-line&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-2L"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-2L">2L</a>
+                </td>
+                <td>Second-line</td>
+                <td>The second line of systemic anti-cancer therapy; administered after first-line therapy failure, progression, or intolerance.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;2L&quot;, &quot;display&quot;: &quot;Second-line&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;2L&quot;&gt;&lt;display value=&quot;Second-line&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-3L-plus"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-3L-plus">3L-plus</a>
+                </td>
+                <td>Third-line or later</td>
+                <td>The third or any subsequent line of systemic anti-cancer therapy.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;3L-plus&quot;, &quot;display&quot;: &quot;Third-line or later&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;3L-plus&quot;&gt;&lt;display value=&quot;Third-line or later&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a name="x-http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs-maintenance"> </a>
+                  <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code>
+                </td>
+                <td style="white-space:nowrap">  
+                  <a href="CodeSystem-treatment-line-cs.html#treatment-line-cs-maintenance">maintenance</a>
+                </td>
+                <td>Maintenance</td>
+                <td>Maintenance therapy administered to prolong response after induction or consolidation treatment.</td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="{&quot;system&quot;: &quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;, &quot;version&quot;: &quot;0.1.1-snapshot-080926&quot;, &quot;code&quot;: &quot;maintenance&quot;, &quot;display&quot;: &quot;Maintenance&quot;}" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="copy-text-inline">
+                    <button data-clipboard-text="&lt;coding&gt;&lt;system value=&quot;http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs&quot;&gt;&lt;version value=&quot;0.1.1-snapshot-080926&quot;&gt;&lt;code value=&quot;maintenance&quot;&gt;&lt;display value=&quot;Maintenance&quot;&gt;&lt;/coding&gt;" title="Click to Copy as Coding" class="btn-copy"> </button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </text>
+        <url value="http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs"/>
+        <version value="0.1.1-snapshot-080926"/>
+        <name value="TreatmentLineVS"/>
+        <title value="Treatment Line Value Set"/>
+        <status value="draft"/>
+        <experimental value="true"/>
+        <date value="2026-09-08T18:17:28-04:00"/>
+        <jurisdiction>
+          <coding>
+            <system value="urn:iso:std:iso:3166"/>
+            <code value="US"/>
+            <display value="United States of America"/>
+          </coding>
+        </jurisdiction>
+        <expansion>
+          <identifier value="urn:uuid:583a5877-2710-4964-97b6-57f1f3921cae"/>
+          <timestamp value="2026-09-08T18:21:53-04:00"/>
+          <total value="4"/>
+          <offset value="0"/>
+          <parameter>
+            <name value="displayLanguage"/>
+            <valueCode value="en"/>
+          </parameter>
+          <parameter>
+            <name value="count"/>
+            <valueInteger value="1000"/>
+          </parameter>
+          <parameter>
+            <name value="offset"/>
+            <valueInteger value="0"/>
+          </parameter>
+          <parameter>
+            <name value="excludeNested"/>
+            <valueBoolean value="false"/>
+          </parameter>
+          <parameter>
+            <name value="used-codesystem"/>
+            <valueUri value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs|0.1.1-snapshot-080926"/>
+          </parameter>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="1L"/>
+            <display value="First-line"/>
+          </contains>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="2L"/>
+            <display value="Second-line"/>
+          </contains>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="3L-plus"/>
+            <display value="Third-line or later"/>
+          </contains>
+          <contains>
+            <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+            <code value="maintenance"/>
+            <display value="Maintenance"/>
+          </contains>
+        </expansion>
+      </ValueSet>
+    </resource>
+  </entry>
+</Bundle>

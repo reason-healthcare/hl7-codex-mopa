@@ -1,0 +1,98 @@
+{
+  "resourceType" : "RequestGroup",
+  "id" : "PHDRegimenOrder",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"]
+  },
+  "language" : "en",
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: RequestGroup PHDRegimenOrder</b></p><a name=\"PHDRegimenOrder\"> </a><a name=\"hcPHDRegimenOrder\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-anticancer-regimen-requestgroup.html\">Anti-Cancer Regimen RequestGroup</a></p></div><p><b>Request Category</b>: <span title=\"Codes:{http://snomed.info/sct 363676003}\">Palliative intent</span></p><p><b>Request Category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs 1L}\">First-line</span></p><p><b>instantiatesCanonical</b>: <a href=\"PlanDefinition-RegimenPHD.html\">PHD: Pertuzumab + Trastuzumab + Docetaxel — Metastatic HER2+ Breast Cancer</a></p><p><b>status</b>: Draft</p><p><b>intent</b>: Order</p><p><b>subject</b>: <a href=\"Patient-MOPAPatientExample.html\">Jane Smith (official) Female, DoB: 1968-04-15 ( http://hospital.example.org/patients#MRN-78432)</a></p><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>pertuzumab-phd-action</blockquote><p><b>title</b>: Pertuzumab IV day 1 q21d</p><p><b>timing</b>: Once per 21 days</p><p><b>resource</b>: <a href=\"MedicationRequest-PertuzumabMedRequestPHD.html\">MedicationRequest: status = draft; intent = order; medication[x] = pertuzumab</a></p></blockquote><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>trastuzumab-phd-action</blockquote><p><b>title</b>: Trastuzumab IV day 1 q21d</p><p><b>timing</b>: Once per 21 days</p><p><b>resource</b>: <a href=\"MedicationRequest-TrastuzumabMedRequestPHD.html\">MedicationRequest: status = draft; intent = order; medication[x] = trastuzumab</a></p></blockquote><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>docetaxel-phd-action</blockquote><p><b>title</b>: Docetaxel 75 mg/m² IV day 1 q21d</p><p><b>timing</b>: Once per 21 days</p><p><b>resource</b>: <a href=\"MedicationRequest-DocetaxelMedRequestPHD.html\">MedicationRequest: status = draft; intent = order; medication[x] = docetaxel</a></p></blockquote></div>"
+  },
+  "extension" : [{
+    "url" : "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category",
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "363676003",
+        "display" : "Palliative intent"
+      }]
+    }
+  },
+  {
+    "url" : "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category",
+    "valueCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs",
+        "code" : "1L",
+        "display" : "First-line"
+      }]
+    }
+  }],
+  "instantiatesCanonical" : ["http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenPHD"],
+  "status" : "draft",
+  "intent" : "order",
+  "subject" : {
+    "reference" : "Patient/MOPAPatientExample"
+  },
+  "action" : [{
+    "id" : "pertuzumab-phd-action",
+    "title" : "Pertuzumab IV day 1 q21d",
+    "timingTiming" : {
+      "extension" : [{
+        "extension" : [{
+          "url" : "day",
+          "valueInteger" : 1
+        }],
+        "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle"
+      }],
+      "repeat" : {
+        "period" : 21,
+        "periodUnit" : "d"
+      }
+    },
+    "resource" : {
+      "reference" : "MedicationRequest/PertuzumabMedRequestPHD"
+    }
+  },
+  {
+    "id" : "trastuzumab-phd-action",
+    "title" : "Trastuzumab IV day 1 q21d",
+    "timingTiming" : {
+      "extension" : [{
+        "extension" : [{
+          "url" : "day",
+          "valueInteger" : 1
+        }],
+        "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle"
+      }],
+      "repeat" : {
+        "period" : 21,
+        "periodUnit" : "d"
+      }
+    },
+    "resource" : {
+      "reference" : "MedicationRequest/TrastuzumabMedRequestPHD"
+    }
+  },
+  {
+    "id" : "docetaxel-phd-action",
+    "title" : "Docetaxel 75 mg/m² IV day 1 q21d",
+    "timingTiming" : {
+      "extension" : [{
+        "extension" : [{
+          "url" : "day",
+          "valueInteger" : 1
+        }],
+        "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle"
+      }],
+      "repeat" : {
+        "period" : 21,
+        "periodUnit" : "d"
+      }
+    },
+    "resource" : {
+      "reference" : "MedicationRequest/DocetaxelMedRequestPHD"
+    }
+  }]
+}

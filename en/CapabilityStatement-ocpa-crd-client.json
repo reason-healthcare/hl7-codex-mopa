@@ -1,0 +1,109 @@
+{
+  "resourceType" : "CapabilityStatement",
+  "id" : "ocpa-crd-client",
+  "language" : "en",
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CapabilityStatement ocpa-crd-client</b></p><a name=\"ocpa-crd-client\"> </a><a name=\"hcocpa-crd-client\"> </a><h2 id=\"title\">Oncology CRD Client Capability Statement</h2><ul><li>Implementation Guide Version: 0.1.1-snapshot-080926 </li><li>FHIR Version: 4.0.1 </li><li>Supported Formats: <code>json</code>, <code>xml</code></li><li>Published on: 2026-05-04 </li><li>Published by: HL7 International / Clinical Interoperability Council </li></ul><blockquote class=\"impl-note\"><p><strong>Note to Implementers: FHIR Capabilities</strong></p><p>Any FHIR capability may be 'allowed' by the system unless explicitly marked as 'SHALL NOT'. A few items are marked as MAY in the Implementation Guide to highlight their potential relevance to the use case.</p></blockquote><h3 id=\"shallIGs\">SHALL Support the Following Implementation Guides</h3><ul><li><a href=\"index.html\">http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa</a></li><li><a href=\"http://hl7.org/fhir/us/davinci-crd/2.2.1/index.html\">http://hl7.org/fhir/us/davinci-crd/ImplementationGuide/hl7.fhir.us.davinci-crd</a></li></ul><h2 id=\"rest\">FHIR RESTful Capabilities</h2><div class=\"panel panel-default\"><div class=\"panel-heading\"><h3 id=\"mode1\" class=\"panel-title\">Mode: <code>client</code></h3></div><div class=\"panel-body\"><div><p>A conformant Oncology CRD Client SHALL:</p>\n<ol>\n<li>Include the selected anti-cancer regimen as a <code>RequestGroup</code> conforming to\n<code>AntiCancerRegimenRequestGroup</code> in <code>context.draftOrders</code> and <code>context.selections</code>.</li>\n<li>Fire <code>order-select</code> when the provider selects a regimen from the order-set, before signing.\nAt this stage the <code>RequestGroup</code> is present but component MedicationRequests may not yet\nbe finalised.</li>\n<li>Fire <code>order-sign</code> when the provider signs the order, with finalised component\nMedicationRequest resources included in context.draftOrders.</li>\n<li>Populate <code>RequestGroup.instantiatesCanonical</code> with the canonical URL of the\n<code>AntiCancerRegimenPlanDefinition</code> when the definition is known.</li>\n<li>Populate <code>RequestGroup.extension:category/treatmentIntent</code> and\n<code>RequestGroup.extension:category/lineOfTherapy</code> when known at ordering time. Both reslices use\nthe Da Vinci CRD <code>ext-request-category</code> URL and\ntheir required oncology value sets. This use requires the proposed CRD 2.2.1 RequestGroup\nextension-context expansion.</li>\n<li>Provide <code>fhirAuthorization</code> in the CDS Hooks request when available, to allow the CRD\nservice to query patient context directly from the EHR FHIR server.</li>\n</ol>\n</div></div></div><h3 id=\"resourcesCap1\">Capabilities by Resource/Profile</h3><h4 id=\"resourcesSummary1\">Summary</h4><p>The summary table lists the resources that are part of this configuration, and for each resource it lists:</p><ul><li>The relevant profiles (if any)</li><li>The interactions supported by each resource (<b><span class=\"bg-info\">R</span></b>ead, <b><span class=\"bg-info\">S</span></b>earch, <b><span class=\"bg-info\">U</span></b>pdate, and <b><span class=\"bg-info\">C</span></b>reate, are always shown, while <b><span class=\"bg-info\">VR</span></b>ead, <b><span class=\"bg-info\">P</span></b>atch, <b><span class=\"bg-info\">D</span></b>elete, <b><span class=\"bg-info\">H</span></b>istory on <b><span class=\"bg-info\">I</span></b>nstance, or <b><span class=\"bg-info\">H</span></b>istory on <b><span class=\"bg-info\">T</span></b>ype are only present if at least one of the resources has support for them.</li><li><span>The required, recommended, and some optional search parameters (if any). </span></li><li>The linked resources enabled for <code>_include</code></li><li>The other resources enabled for <code>_revinclude</code></li><li>The operations on the resource (if any)</li></ul><div class=\"table-responsive\"><table class=\"table table-condensed table-hover\"><thead><tr><th><b>Resource Type</b></th><th><b>Profile</b></th><th class=\"text-center\"><b title=\"GET a resource (read interaction)\">R</b></th><th class=\"text-center\"><b title=\"GET all set of resources of the type (search interaction)\">S</b></th><th class=\"text-center\"><b title=\"PUT a new resource version (update interaction)\">U</b></th><th class=\"text-center\"><b title=\"POST a new resource (create interaction)\">C</b></th><th><b title=\"Required and recommended search parameters\">Searches</b></th><th><code><b>_include</b></code></th><th><code><b>_revinclude</b></code></th><th><b>Operations</b></th></tr></thead><tbody><tr><td><a href=\"#RequestGroup1-1\">RequestGroup</a></td><td>Supported Profiles<br/>\u00a0\u00a0<a href=\"StructureDefinition-anticancer-regimen-requestgroup.html\">Anti-Cancer Regimen RequestGroup</a></td><td class=\"text-center\">y</td><td class=\"text-center\"/><td class=\"text-center\"/><td class=\"text-center\">y</td><td/><td/><td/><td/></tr><tr><td><a href=\"#PlanDefinition1-2\">PlanDefinition</a></td><td>Supported Profiles<br/>\u00a0\u00a0<a href=\"StructureDefinition-anticancer-regimen-plandefinition.html\">Anti-Cancer Regimen PlanDefinition</a></td><td class=\"text-center\">y</td><td class=\"text-center\"/><td class=\"text-center\"/><td class=\"text-center\"/><td/><td/><td/><td/></tr><tr><td><a href=\"#Condition1-3\">Condition</a></td><td>\u00a0</td><td class=\"text-center\">y</td><td class=\"text-center\">y</td><td class=\"text-center\"/><td class=\"text-center\"/><td/><td/><td/><td/></tr><tr><td><a href=\"#Observation1-4\">Observation</a></td><td>\u00a0</td><td class=\"text-center\">y</td><td class=\"text-center\">y</td><td class=\"text-center\"/><td class=\"text-center\"/><td/><td/><td/><td/></tr><tr><td><a href=\"#MedicationRequest1-5\">MedicationRequest</a></td><td>\u00a0</td><td class=\"text-center\">y</td><td class=\"text-center\">y</td><td class=\"text-center\"/><td class=\"text-center\"/><td/><td/><td/><td/></tr></tbody></table></div><hr/><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 id=\"RequestGroup1-1\" class=\"panel-title\"><span style=\"float: right;\">Resource Conformance: unspecified </span>RequestGroup</h4></div><div class=\"panel-body\"><div class=\"container\"><div class=\"row\"><div class=\"col-lg-4\"><span class=\"lead\">Core FHIR Resource</span><br/><a href=\"http://hl7.org/fhir/R4/requestgroup.html\">RequestGroup</a></div><div class=\"col-lg-4\"><span class=\"lead\">Reference Policy</span><br/></div><div class=\"col-lg-4\"><span class=\"lead\">Interaction summary</span><br/><ul><li>Supports <code>read</code>, <code>create</code>.</li></ul></div></div><p/><div class=\"row\"><div class=\"col-6\"><span class=\"lead\">Supported Profiles</span><p><a href=\"StructureDefinition-anticancer-regimen-requestgroup.html\">Anti-Cancer Regimen RequestGroup</a></p></div></div><p/><div class=\"row\"><div class=\"col-12\"><span class=\"lead\">Documentation</span><blockquote><div><p>SHALL include a conformant RequestGroup in context.draftOrders at order-select and order-sign, including the profile-sliced Da Vinci CRD ext-request-category values for available treatment intent and line-of-therapy context.</p>\n</div></blockquote></div></div></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 id=\"PlanDefinition1-2\" class=\"panel-title\"><span style=\"float: right;\">Resource Conformance: unspecified </span>PlanDefinition</h4></div><div class=\"panel-body\"><div class=\"container\"><div class=\"row\"><div class=\"col-lg-4\"><span class=\"lead\">Core FHIR Resource</span><br/><a href=\"http://hl7.org/fhir/R4/plandefinition.html\">PlanDefinition</a></div><div class=\"col-lg-4\"><span class=\"lead\">Reference Policy</span><br/></div><div class=\"col-lg-4\"><span class=\"lead\">Interaction summary</span><br/><ul><li>Supports <code>read</code>.</li></ul></div></div><p/><div class=\"row\"><div class=\"col-6\"><span class=\"lead\">Supported Profiles</span><p><a href=\"StructureDefinition-anticancer-regimen-plandefinition.html\">Anti-Cancer Regimen PlanDefinition</a></p></div></div><p/><div class=\"row\"><div class=\"col-12\"><span class=\"lead\">Documentation</span><blockquote><div><p>SHOULD support read of the PlanDefinition referenced by RequestGroup.instantiatesCanonical.</p>\n</div></blockquote></div></div></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 id=\"Condition1-3\" class=\"panel-title\"><span style=\"float: right;\">Resource Conformance: unspecified </span>Condition</h4></div><div class=\"panel-body\"><div class=\"container\"><div class=\"row\"><div class=\"col-lg-4\"><span class=\"lead\">Core FHIR Resource</span><br/><a href=\"http://hl7.org/fhir/R4/condition.html\">Condition</a></div><div class=\"col-lg-4\"><span class=\"lead\">Reference Policy</span><br/></div><div class=\"col-lg-4\"><span class=\"lead\">Interaction summary</span><br/><ul><li>Supports <code>read</code>, <code>search-type</code>.</li></ul></div></div><p/><p/><div class=\"row\"><div class=\"col-12\"><span class=\"lead\">Documentation</span><blockquote><div><p>SHALL expose Condition resources (mCODE primary cancer) for CRD service queries.</p>\n</div></blockquote></div></div></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 id=\"Observation1-4\" class=\"panel-title\"><span style=\"float: right;\">Resource Conformance: unspecified </span>Observation</h4></div><div class=\"panel-body\"><div class=\"container\"><div class=\"row\"><div class=\"col-lg-4\"><span class=\"lead\">Core FHIR Resource</span><br/><a href=\"http://hl7.org/fhir/R4/observation.html\">Observation</a></div><div class=\"col-lg-4\"><span class=\"lead\">Reference Policy</span><br/></div><div class=\"col-lg-4\"><span class=\"lead\">Interaction summary</span><br/><ul><li>Supports <code>read</code>, <code>search-type</code>.</li></ul></div></div><p/><p/><div class=\"row\"><div class=\"col-12\"><span class=\"lead\">Documentation</span><blockquote><div><p>SHOULD expose Observation resources for staging, biomarkers, and performance status when a CRD service requires them. Treatment intent and line of therapy are carried only as RequestGroup ext-request-category values.</p>\n</div></blockquote></div></div></div></div></div><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 id=\"MedicationRequest1-5\" class=\"panel-title\"><span style=\"float: right;\">Resource Conformance: unspecified </span>MedicationRequest</h4></div><div class=\"panel-body\"><div class=\"container\"><div class=\"row\"><div class=\"col-lg-4\"><span class=\"lead\">Core FHIR Resource</span><br/><a href=\"http://hl7.org/fhir/R4/medicationrequest.html\">MedicationRequest</a></div><div class=\"col-lg-4\"><span class=\"lead\">Reference Policy</span><br/></div><div class=\"col-lg-4\"><span class=\"lead\">Interaction summary</span><br/><ul><li>Supports <code>read</code>, <code>search-type</code>.</li></ul></div></div><p/><p/><div class=\"row\"><div class=\"col-12\"><span class=\"lead\">Documentation</span><blockquote><div><p>SHOULD expose MedicationRequest resources (prior therapy) for CRD service queries.</p>\n</div></blockquote></div></div></div></div></div></div>"
+  },
+  "extension" : [{
+    "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+    "valueCode" : "cic"
+  },
+  {
+    "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+    "valueCode" : "informative",
+    "_valueCode" : {
+      "extension" : [{
+        "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+        "valueCanonical" : "http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"
+      }]
+    }
+  }],
+  "url" : "http://hl7.org/fhir/us/codex-mopa/CapabilityStatement/ocpa-crd-client",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "OcpaCrdClientCapabilityStatement",
+  "title" : "Oncology CRD Client Capability Statement",
+  "status" : "draft",
+  "experimental" : true,
+  "date" : "2026-05-04",
+  "publisher" : "HL7 International / Clinical Interoperability Council",
+  "contact" : [{
+    "name" : "HL7 International / Clinical Interoperability Council",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://www.hl7.org/Special/committees/cic"
+    },
+    {
+      "system" : "email",
+      "value" : "ciclist@lists.HL7.org"
+    }]
+  }],
+  "description" : "Capability Statement for systems acting as an **Oncology CRD Client**\n(e.g., an EHR or oncology ordering system).  A conformant client claims support for\nthe Da Vinci CRD oncology profile defined in this IG by meeting the requirements below.",
+  "jurisdiction" : [{
+    "coding" : [{
+      "system" : "urn:iso:std:iso:3166",
+      "code" : "US",
+      "display" : "United States of America"
+    }]
+  }],
+  "kind" : "requirements",
+  "fhirVersion" : "4.0.1",
+  "format" : ["json",
+  "xml"],
+  "implementationGuide" : ["http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa",
+  "http://hl7.org/fhir/us/davinci-crd/ImplementationGuide/hl7.fhir.us.davinci-crd"],
+  "rest" : [{
+    "mode" : "client",
+    "documentation" : "A conformant Oncology CRD Client SHALL:\n\n1. Include the selected anti-cancer regimen as a `RequestGroup` conforming to\n   `AntiCancerRegimenRequestGroup` in `context.draftOrders` and `context.selections`.\n2. Fire `order-select` when the provider selects a regimen from the order-set, before signing.\n   At this stage the `RequestGroup` is present but component MedicationRequests may not yet\n   be finalised.\n3. Fire `order-sign` when the provider signs the order, with finalised component\n   MedicationRequest resources included in context.draftOrders.\n4. Populate `RequestGroup.instantiatesCanonical` with the canonical URL of the\n   `AntiCancerRegimenPlanDefinition` when the definition is known.\n5. Populate `RequestGroup.extension:category/treatmentIntent` and\n   `RequestGroup.extension:category/lineOfTherapy` when known at ordering time. Both reslices use\n   the Da Vinci CRD `ext-request-category` URL and\n   their required oncology value sets. This use requires the proposed CRD 2.2.1 RequestGroup\n   extension-context expansion.\n6. Provide `fhirAuthorization` in the CDS Hooks request when available, to allow the CRD\n   service to query patient context directly from the EHR FHIR server.",
+    "resource" : [{
+      "type" : "RequestGroup",
+      "supportedProfile" : ["http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"],
+      "documentation" : "SHALL include a conformant RequestGroup in context.draftOrders at order-select and order-sign, including the profile-sliced Da Vinci CRD ext-request-category values for available treatment intent and line-of-therapy context.",
+      "interaction" : [{
+        "code" : "read"
+      },
+      {
+        "code" : "create"
+      }]
+    },
+    {
+      "type" : "PlanDefinition",
+      "supportedProfile" : ["http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"],
+      "documentation" : "SHOULD support read of the PlanDefinition referenced by RequestGroup.instantiatesCanonical.",
+      "interaction" : [{
+        "code" : "read"
+      }]
+    },
+    {
+      "type" : "Condition",
+      "documentation" : "SHALL expose Condition resources (mCODE primary cancer) for CRD service queries.",
+      "interaction" : [{
+        "code" : "read"
+      },
+      {
+        "code" : "search-type"
+      }]
+    },
+    {
+      "type" : "Observation",
+      "documentation" : "SHOULD expose Observation resources for staging, biomarkers, and performance status when a CRD service requires them. Treatment intent and line of therapy are carried only as RequestGroup ext-request-category values.",
+      "interaction" : [{
+        "code" : "read"
+      },
+      {
+        "code" : "search-type"
+      }]
+    },
+    {
+      "type" : "MedicationRequest",
+      "documentation" : "SHOULD expose MedicationRequest resources (prior therapy) for CRD service queries.",
+      "interaction" : [{
+        "code" : "read"
+      },
+      {
+        "code" : "search-type"
+      }]
+    }]
+  }]
+}

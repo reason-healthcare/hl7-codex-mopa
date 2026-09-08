@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="ocpa-codes"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: CodeSystem ocpa-codes</b></p><a name="ocpa-codes"> </a><a name="hcocpa-codes"> </a><p>This case-sensitive code system <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">anti-cancer<a name="ocpa-codes-anti-cancer"> </a></td><td>Anti-Cancer Component</td><td>A regimen component that is an anti-cancer therapeutic agent (e.g., cytotoxic, targeted, immunotherapy).</td></tr><tr><td style="white-space:nowrap">supportive<a name="ocpa-codes-supportive"> </a></td><td>Supportive Care Component</td><td>A regimen component that is supportive (e.g., antiemetic, growth factor, steroid not used as anti-cancer therapy).</td></tr><tr><td style="white-space:nowrap">premedication<a name="ocpa-codes-premedication"> </a></td><td>Premedication Component</td><td>A regimen component administered as premedication prior to the primary agent.</td></tr></table></div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-wg">
+    <valueCode value="cic"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="informative">
+      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom">
+        <valueCanonical value="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/>
+      </extension>
+    </valueCode>
+  </extension>
+  <url value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="OcpaCodesCS"/>
+  <title value="MOPA Local Code System"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Local codes defined by the MOPA IG for concepts that do not yet have&#xA;an established representation in LOINC, SNOMED CT, or mCODE. These codes are migration&#xA;candidates and should be retired in favor of standard codes as they become available."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <purpose value="mCODE Migration Candidate — individual codes submitted to LOINC and SNOMED CT.&#xA;This code system will be retired once standard codes are assigned. It is NOT intended to&#xA;be a permanent artifact of this IG. See the mCODE Gap Proposals page for the full proposal backlog."/>
+  <caseSensitive value="true"/>
+  <content value="complete"/>
+  <count value="3"/>
+  <concept>
+    <code value="anti-cancer"/>
+    <display value="Anti-Cancer Component"/>
+    <definition value="A regimen component that is an anti-cancer therapeutic agent (e.g., cytotoxic, targeted, immunotherapy)."/>
+  </concept>
+  <concept>
+    <code value="supportive"/>
+    <display value="Supportive Care Component"/>
+    <definition value="A regimen component that is supportive (e.g., antiemetic, growth factor, steroid not used as anti-cancer therapy)."/>
+  </concept>
+  <concept>
+    <code value="premedication"/>
+    <display value="Premedication Component"/>
+    <definition value="A regimen component administered as premedication prior to the primary agent."/>
+  </concept>
+</CodeSystem>

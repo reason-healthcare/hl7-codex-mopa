@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Workflow Walkthrough (Layers 1 &amp; 2) - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <link href="assets/css/project.css" rel="stylesheet"/>
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/hl7.css" rel="stylesheet"/>
+    <link href="assets/css/fhir-ig.css" rel="stylesheet"/>
+    <link href="css/mopa.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+    <script type="text/javascript" src="assets/js/direction-management.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script type="text/javascript" src="assets/js/prism.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-fhirpath.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-cql.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"6"}
+    h3,h4,h5,h6{--heading-prefix:"6"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+        <div id="hl7-nav">
+          <a id="hl7-logo" data-no-external="true" href="http://hl7.org">
+            <img height="50" alt="Visit the HL7 website" src="assets/images/hl7-logo-header.png"/>
+          </a>
+        </div>
+        <div id="family-nav">
+          <a id="family-logo" data-no-external="true" href="http://hl7.org/fhir"><img height="50" alt="Visit the FHIR website" src="assets/images/fhir-logo-www.png"/> </a>
+        </div>
+        <div id="hl7-search">
+          <a id="hl7-search-lnk" data-no-external="true" href="searchform.html"><img alt="Search FHIR" src="assets/images/search.png"/></a>
+        </div>
+
+
+        <div id="ig-status" data-fhir="generated">
+          <p><span style="font-size:12pt;font-weight:bold">MOPA — Medical Oncology Prior Authorization</span>
+            <br/>
+            <span style="display:inline-block;">0.1.1-snapshot-080926 - snapshot-080926
+
+
+
+  <img alt="United States of America flag" src="../assets/images/usa.svg" height="16" title="United States of America"/>
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment" data-fhir="generated">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="background.html">Background</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Use Cases
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="use-cases.html">Use Cases and Actors</a>
+      </li>
+      <li>
+        <a href="breast-cancer-pa.html">Use Case 1 - Breast Cancer PA</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Specification
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="regimen-model.html">1-Regimen Modeling</a>
+      </li>
+      <li>
+        <a href="cds-workflow.html">2-CRD Workflow</a>
+      </li>
+      <li>
+        <a href="data-requirements.html">3-Data Requirements</a>
+      </li>
+      <li>
+        <a href="walkthrough.html">Workflow Walkthrough</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Gaps in Specs
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a>
+      </li>
+      <li>
+        <a href="mcode-gap-proposals.html">mCODE Gap Proposals</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="conformance.html">Conformance</a>
+  </li>
+  <li>
+    <a href="artifacts.html">Artifacts</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+</ul>
+            </div>  <!-- /.nav-collapse -->
+
+              
+
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment" data-fhir="generated">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>Workflow Walkthrough (Layers 1 &amp; 2)</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">MOPA — Medical Oncology Prior Authorization - Local Development build (v0.1.1-snapshot-080926) built by the FHIR (HL7® FHIR® Standard) Build Tools. See the <a href='http://hl7.org/fhir/us/codex-mopa/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  <h2>Workflow Walkthrough (Layers 1 &amp; 2)</h2>
+  
+
+
+
+  <table class="colsi" data-fhir="generated">
+    <tr>
+  
+      <td>
+        <i>Page standards status:</i> <a href="http://hl7.org/fhir/R4/versions.html#std-process" title="Standards Status">Informative</a>
+        
+      </td>
+  
+  
+      <td id="toggle-change-display" style="text-align: right;border-left-style: hidden" title="Enable this to see changes since the last official release">
+        <label style="margin:0;font-weight:normal" for="showChanges">Highlight text changes?</label>
+  
+        <input style="margin:0" type="checkbox" id="showChanges" onchange="toggleChanges()"/>
+  
+      </td>
+    </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+    <p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc no_toc">
+<ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#clinical-scenario" id="markdown-toc-clinical-scenario">Clinical Scenario</a></li>
+  <li><a href="#cds-hooks-workflow" id="markdown-toc-cds-hooks-workflow">CDS Hooks Workflow</a></li>
+  <li><a href="#biosimilar-substitution--propose-alternate-request" id="markdown-toc-biosimilar-substitution--propose-alternate-request">Biosimilar Substitution — Propose Alternate Request</a></li>
+</ul>
+
+</div>
+
+<h3 id="overview">Overview</h3>
+
+<p>This page traces the concrete API calls involved in the MOPA workflow for a single clinical
+scenario, using the Da Vinci CRD → DTR → PAS pipeline.</p>
+
+<p>The workflow uses two CDS Hooks stages:</p>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">order-select</code> (informational)</strong> — fires when the provider selects a regimen from the
+order-set, before signing. The CRD service evaluates approvability and returns informational
+cards so the provider can see whether the regimen will be approvable, whether PA will be
+required, or whether documentation is missing. This is advisory — the order has not been
+committed.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">order-sign</code> (final determination)</strong> — fires when the provider clicks Sign. The CRD
+service returns the final coverage determination: Authorization Satisfied (PA bypassed),
+PA required, or DTR still needed.</p>
+  </li>
+</ol>
+
+<h3 id="clinical-scenario">Clinical Scenario</h3>
+
+<p><strong>Patient:</strong> Jane Smith (DOB 1968-04-15, MRN-78432)<br />
+<strong>Clinician:</strong> Dr. Maria Lopez, medical oncologist<br />
+<strong>Diagnosis:</strong> Invasive ductal carcinoma, right breast — HER2+, ER−, PR−, Stage IIB (T2 N1 M0), diagnosed November 2025<br />
+<strong>Order:</strong> Adjuvant TH regimen (paclitaxel 80 mg/m² IV weekly + trastuzumab), 12-week course</p>
+
+<hr />
+
+<h3 id="cds-hooks-workflow">CDS Hooks Workflow</h3>
+
+<p>The EHR fires a standard CDS Hooks request containing the ordered <code class="language-plaintext highlighter-rouge">RequestGroup</code> and — when
+available — <code class="language-plaintext highlighter-rouge">fhirAuthorization</code> credentials. The CRD service uses those credentials to query
+the EHR FHIR server directly for the oncology patient context it needs. The RequestGroup carries
+repeated Da Vinci CRD <code class="language-plaintext highlighter-rouge">ext-request-category</code> values for order-specific treatment intent and line
+of therapy; CRD 2.2.1 requires the proposed RequestGroup extension-context expansion for this use.</p>
+
+<h4 id="api-call-sequence">API Call Sequence</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Step 1  POST /cds-services/oncology-crd  ← order-select fires (informational)
+          ↳ 1a: CRD service reads RequestGroup from draftOrders
+          ↳ 1b: CRD service queries EHR FHIR server (using fhirAuthorization)
+          ↳ 1c: Response A — Approvable (info indicator, PA can be bypassed)
+          ↳ 1c: Response B — DTR required (warning, HER2 status missing from EHR)
+Step 2  DTR questionnaire launched (Response B path only)
+Step 3  POST /cds-services/oncology-crd  ← order-sign fires (final determination)
+          ↳ 3a: CRD service queries EHR FHIR server (DTR responses may NOT be persisted)
+          ↳ 3b: Response A — Authorization Satisfied (success indicator)
+          ↳ 3b: Response B — DTR still required (warning, data still missing)
+</code></pre></div></div>
+
+<h4 id="step-1--order-select-informational-approvability-check">Step 1 — order-select (Informational Approvability Check)</h4>
+
+<p>Dr. Lopez selects the <strong>TH regimen</strong> from the oncology order-set. The EHR creates a draft
+<code class="language-plaintext highlighter-rouge">RequestGroup</code> and fires <code class="language-plaintext highlighter-rouge">order-select</code> — this is an <strong>informational</strong> call that happens
+<strong>before the order is signed</strong>. The CRD service evaluates the regimen's approvability and
+returns advisory cards so Dr. Lopez can see whether the order will be approvable before
+committing to it. The order is still a draft at this stage.</p>
+
+<h5 id="step-1b--order-select-hook-request">Step 1b — order-select Hook Request</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST https://cds.example.org/cds-services/oncology-crd
+Content-Type: application/json
+</code></pre></div></div>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"hook"</span><span class="p">:</span><span class="w">         </span><span class="s2">"order-select"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"hookInstance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a8f3c2e1-7b4d-4e9a-bc21-3f8d6a901c77"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fhirServer"</span><span class="p">:</span><span class="w">   </span><span class="s2">"https://ehr.example.org/fhir"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fhirAuthorization"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;bearer-token&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"token_type"</span><span class="p">:</span><span class="w">   </span><span class="s2">"Bearer"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"expires_in"</span><span class="p">:</span><span class="w">   </span><span class="mi">300</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"scope"</span><span class="p">:</span><span class="w">        </span><span class="s2">"patient/Condition.read patient/Observation.read patient/MedicationRequest.read patient/RequestGroup.read"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"subject"</span><span class="p">:</span><span class="w">      </span><span class="s2">"oncology-crd-service"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+
+  </span><span class="c1">// ── Standard CDS Hooks context ────────────────────────────────────────────</span><span class="w">
+  </span><span class="nl">"context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w">      </span><span class="s2">"Practitioner/MOPAOncologistExample"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"patientId"</span><span class="p">:</span><span class="w">   </span><span class="s2">"MOPAPatientExample"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"encounterId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encounter-20260515-001"</span><span class="p">,</span><span class="w">
+
+    </span><span class="c1">// At order-select only the RequestGroup is in selections; MedicationRequests</span><span class="w">
+    </span><span class="c1">// are still being authored and are not yet finalised.</span><span class="w">
+    </span><span class="nl">"selections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"RequestGroup/THRegimenOrder"</span><span class="p">],</span><span class="w">
+
+    </span><span class="nl">"draftOrders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bundle"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"collection"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"entry"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"fullUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://ehr.example.org/fhir/RequestGroup/THRegimenOrder"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w">          </span><span class="s2">"RequestGroup"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w">                    </span><span class="s2">"THRegimenOrder"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"status"</span><span class="p">:</span><span class="w">                </span><span class="s2">"draft"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"intent"</span><span class="p">:</span><span class="w">                </span><span class="s2">"order"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"subject"</span><span class="p">:</span><span class="w">               </span><span class="p">{</span><span class="w"> </span><span class="nl">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Patient/MOPAPatientExample"</span><span class="w"> </span><span class="p">},</span><span class="w">
+            </span><span class="c1">// instantiatesCanonical links back to the protocol definition.</span><span class="w">
+            </span><span class="c1">// The CDS Service MAY fetch the PlanDefinition for richer evaluation.</span><span class="w">
+            </span><span class="nl">"instantiatesCanonical"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH"</span><span class="p">],</span><span class="w">
+            </span><span class="nl">"extension"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"valueCodeableConcept"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                  </span><span class="nl">"coding"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nl">"system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://snomed.info/sct"</span><span class="p">,</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"373846009"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Adjuvant - intent"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+              </span><span class="p">},</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"valueCodeableConcept"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                  </span><span class="nl">"coding"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nl">"system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"</span><span class="p">,</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1L"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"First-line"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"title"</span><span class="p">:</span><span class="w">    </span><span class="s2">"Paclitaxel 80 mg/m² IV — days 1, 8, 15 of 21-day cycle"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MedicationRequest/PaclitaxelMedRequestTH"</span><span class="w"> </span><span class="p">}</span><span class="w">
+              </span><span class="p">},</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"title"</span><span class="p">:</span><span class="w">    </span><span class="s2">"Trastuzumab IV — days 1, 8, 15 of 21-day cycle"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MedicationRequest/TrastuzumabMedRequestTH"</span><span class="w"> </span><span class="p">}</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h5 id="step-1b--crd-service-queries-ehr-fhir-server">Step 1b — CRD Service Queries EHR FHIR Server</h5>
+
+<p>Upon receiving the hook, the CRD service uses the <code class="language-plaintext highlighter-rouge">fhirAuthorization</code> access token to query
+the EHR directly for required oncology context:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 1. Primary cancer condition
+GET https://ehr.example.org/fhir/Condition
+    ?patient=MOPAPatientExample
+    &amp;code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-primary-cancer-disorder-vs
+    &amp;clinical-status=active
+Authorization: Bearer &lt;bearer-token&gt;
+// Response: breast cancer (SNOMED 254837009), active, confirmed
+
+// 2. Cancer stage
+GET https://ehr.example.org/fhir/Observation
+    ?patient=MOPAPatientExample
+    &amp;code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-observation-codes-vs
+    &amp;_sort=-date&amp;_count=1
+// Response: Stage IIB (T2 N1 M0)
+
+// 3. Biomarkers
+GET https://ehr.example.org/fhir/Observation
+    ?patient=MOPAPatientExample
+    &amp;code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-marker-test-vs
+// Response: HER2 IHC 3+ (positive), ER negative, PR negative
+
+// 4. Optional richer longitudinal line-of-therapy history
+GET https://ehr.example.org/fhir/Observation
+    ?patient=MOPAPatientExample
+    &amp;code:in=http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs
+// Response: First-line (only when policy needs history beyond the RequestGroup category)
+
+// 5. Performance status
+GET https://ehr.example.org/fhir/Observation
+    ?patient=MOPAPatientExample
+    &amp;code:in=http://hl7.org/fhir/us/mcode/ValueSet/mcode-ecog-performance-status-vs
+    &amp;_sort=-date&amp;_count=1
+// Response: ECOG PS 1
+
+// 6. Prior therapy
+GET https://ehr.example.org/fhir/MedicationRequest
+    ?patient=MOPAPatientExample
+    &amp;status=completed,stopped
+// Response: empty — no prior systemic therapy
+</code></pre></div></div>
+
+<h5 id="step-1c--cds-service-evaluation-logic">Step 1c — CDS Service Evaluation Logic</h5>
+
+<p>On receipt of the query results, the CDS Service evaluates:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Identify cancer type from Condition query:
+   → code=254837009 "Malignant neoplasm of breast" → breast cancer evaluation
+
+2. Evaluate coverage criteria against retrieved context:
+   → Diagnosis confirmed (mcode-primary-cancer-condition): ✓
+   → Stage IIB (T2 N1 M0) present: ✓
+   → HER2 positive by IHC: ✓  ← key criterion for trastuzumab authorization
+   → ER−/PR− confirmed: ✓
+   → ECOG PS 1: ✓
+   → No prior HER2-directed therapy: ✓ (prior therapy empty)
+   → Line of therapy: first-line adjuvant: ✓
+
+3. All criteria satisfied → evaluate coverage rules
+   → TH adjuvant for HER2+ Stage IIB breast cancer: covered per Guideline Authority
+   → Authorization Satisfied
+</code></pre></div></div>
+
+<h5 id="step-1c-response-a--approvable-informational">Step 1c Response A — Approvable (Informational)</h5>
+
+<p>All required oncology context was retrieved from the EHR FHIR server and all PA criteria
+were met. At <code class="language-plaintext highlighter-rouge">order-select</code> the CRD service returns an <strong>informational</strong> card (indicator: <code class="language-plaintext highlighter-rouge">info</code>)
+indicating that the regimen is approvable and PA can be bypassed. This is advisory — the
+provider has not yet signed the order. The final binding determination comes at <code class="language-plaintext highlighter-rouge">order-sign</code>.</p>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// HTTP/1.1 200 OK</span><span class="w">
+</span><span class="c1">// Content-Type: application/json</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"cards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w">      </span><span class="s2">"card-e7f1a2b3-4c5d-6e7f-8a9b-0c1d2e3f4a5b"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"summary"</span><span class="p">:</span><span class="w">   </span><span class="s2">"TH Regimen: Approvable — PA Can Be Bypassed"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"info"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"detail"</span><span class="p">:</span><span class="w">    </span><span class="s2">"Adjuvant TH (paclitaxel + trastuzumab) for HER2-positive Stage IIB breast cancer: prior authorization conditions have been evaluated and PA can be bypassed. This is an informational check at order selection — the final determination will be returned at order sign. HER2 IHC positivity confirmed, Stage IIB, first-line adjuvant."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOPA Coverage Decision Support"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"url"</span><span class="p">:</span><span class="w">   </span><span class="s2">"https://cds.example.org"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"icon"</span><span class="p">:</span><span class="w">  </span><span class="s2">"https://cds.example.org/logo.png"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h5 id="step-1c-response-b--dtr-required-her2-status-missing">Step 1c Response B — DTR Required (HER2 Status Missing)</h5>
+
+<p>In this alternate scenario, the CRD service queried the EHR FHIR server for biomarkers
+but found no HER2 Observation — the pathology report has not yet been filed. The service
+cannot confirm HER2 positivity and returns a DTR launch card.</p>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// HTTP/1.1 200 OK</span><span class="w">
+</span><span class="c1">// Content-Type: application/json</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"cards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w">      </span><span class="s2">"card-b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"summary"</span><span class="p">:</span><span class="w">   </span><span class="s2">"Documentation Required: HER2 Status Needed for Trastuzumab Coverage"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"detail"</span><span class="p">:</span><span class="w">    </span><span class="s2">"HER2 receptor status is required to evaluate trastuzumab coverage. No HER2 result was found in the patient record. Please provide HER2 test results via the prior authorization documentation form."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOPA Coverage Decision Support"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"url"</span><span class="p">:</span><span class="w">   </span><span class="s2">"https://cds.example.org"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Complete Prior Authorization Documentation (DTR)"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"url"</span><span class="p">:</span><span class="w">   </span><span class="s2">"https://dtr.example.org/launch?iss=https%3A%2F%2Fehr.example.org%2Ffhir&amp;launch=&lt;launch-token&gt;"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w">  </span><span class="s2">"smart"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"appContext"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{</span><span class="se">\"</span><span class="s2">regimen</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">RequestGroup/THRegimenOrder</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">missingData</span><span class="se">\"</span><span class="s2">:[</span><span class="se">\"</span><span class="s2">mcode-tumor-marker-test (HER2)</span><span class="se">\"</span><span class="s2">]}"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h4 id="step-2--dtr-questionnaire-response-b-path-only">Step 2 — DTR Questionnaire (Response B Path Only)</h4>
+
+<p>Dr. Lopez clicks "Complete Prior Authorization Documentation." The DTR SMART app launches
+within the EHR and pre-populates all answers derivable from the patient record. The only
+unanswered item is HER2 status.</p>
+
+<p>Dr. Lopez enters HER2 IHC 3+ (positive). The DTR app captures the result as a
+<code class="language-plaintext highlighter-rouge">QuestionnaireResponse</code> and signals completion to the EHR.</p>
+
+<blockquote>
+  <p><strong>Production exchange must not depend on EHR write-back.</strong> A DTR <code class="language-plaintext highlighter-rouge">QuestionnaireResponse</code>
+is commonly held in the EHR session context (or as an in-progress order attachment), not
+converted into a clinical <code class="language-plaintext highlighter-rouge">Observation</code> in the EHR data store. The EHR should carry the
+<code class="language-plaintext highlighter-rouge">QuestionnaireResponse</code> with the order and include it in <code class="language-plaintext highlighter-rouge">draftOrders</code> when CRD needs it at
+<code class="language-plaintext highlighter-rouge">order-sign</code>.</p>
+
+  <p><strong>Reference-app demo deviation:</strong> the bundled DTR client writes its
+<code class="language-plaintext highlighter-rouge">QuestionnaireResponse</code> and derived Observations to the demo EHR so the local scenario can
+re-run CRD after the SMART app returns. That convenience behavior is not the production
+persistence contract described by this guide.</p>
+</blockquote>
+
+<p>This DTR exchange is governed by the Da Vinci DTR specification and is not reproduced in
+full here.</p>
+
+<hr />
+
+<h4 id="step-3--order-sign-final-determination">Step 3 — order-sign: Final Determination</h4>
+
+<p>Dr. Lopez reviews the informational card from <code class="language-plaintext highlighter-rouge">order-select</code> and clicks <strong>Sign</strong>. The EHR
+fires <code class="language-plaintext highlighter-rouge">order-sign</code>. The key differences from <code class="language-plaintext highlighter-rouge">order-select</code>:</p>
+<ul>
+  <li>All companion <code class="language-plaintext highlighter-rouge">MedicationRequest</code> resources are now finalised and included in
+<code class="language-plaintext highlighter-rouge">context.draftOrders</code>.</li>
+  <li>The CRD service returns the <strong>final binding determination</strong> (not informational).</li>
+  <li>The CRD service queries the EHR FHIR server again for oncology context. A production
+service <strong>cannot assume</strong> that data collected via DTR was persisted there. If the data is
+still missing, the service returns a DTR-required card again, or reads the DTR
+<code class="language-plaintext highlighter-rouge">QuestionnaireResponse</code> supplied in <code class="language-plaintext highlighter-rouge">context.draftOrders</code>. In the reference-app demo,
+the explicit write-back makes the derived Observation available to the repeat query.</li>
+</ul>
+
+<h5 id="request-abbreviated--changes-from-order-select-highlighted">Request (abbreviated — changes from order-select highlighted)</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST https://cds.example.org/cds-services/oncology-crd
+Content-Type: application/json
+</code></pre></div></div>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"hook"</span><span class="p">:</span><span class="w">         </span><span class="s2">"order-sign"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"hookInstance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f2e1d0c9-8b7a-6f5e-4d3c-2b1a0f9e8d7c"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fhirServer"</span><span class="p">:</span><span class="w">   </span><span class="s2">"https://ehr.example.org/fhir"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fhirAuthorization"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"..."</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w"> </span><span class="p">},</span><span class="w">
+
+  </span><span class="nl">"context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w">    </span><span class="s2">"Practitioner/MOPAOncologistExample"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"patientId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOPAPatientExample"</span><span class="p">,</span><span class="w">
+
+    </span><span class="nl">"draftOrders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bundle"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"collection"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"entry"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="c1">// RequestGroup — same as order-select</span><span class="w">
+        </span><span class="p">{</span><span class="w"> </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RequestGroup"</span><span class="p">,</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"THRegimenOrder"</span><span class="p">,</span><span class="w"> </span><span class="nl">"..."</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span><span class="w">
+
+        </span><span class="c1">// MedicationRequests — now present and finalised</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MedicationRequest"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w">           </span><span class="s2">"PaclitaxelMedRequestTH"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"status"</span><span class="p">:</span><span class="w">       </span><span class="s2">"draft"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"intent"</span><span class="p">:</span><span class="w">       </span><span class="s2">"order"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"subject"</span><span class="p">:</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nl">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Patient/MOPAPatientExample"</span><span class="w"> </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"medicationCodeableConcept"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="nl">"coding"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nl">"system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.nlm.nih.gov/research/umls/rxnorm"</span><span class="p">,</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56946"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"paclitaxel"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"dosageInstruction"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80 mg/m² IV over 1 hour, weekly (days 1, 8, 15 of 21-day cycle)"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MedicationRequest"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w">           </span><span class="s2">"TrastuzumabMedRequestTH"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"status"</span><span class="p">:</span><span class="w">       </span><span class="s2">"draft"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"intent"</span><span class="p">:</span><span class="w">       </span><span class="s2">"order"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"subject"</span><span class="p">:</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nl">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Patient/MOPAPatientExample"</span><span class="w"> </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"medicationCodeableConcept"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="nl">"coding"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nl">"system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.nlm.nih.gov/research/umls/rxnorm"</span><span class="p">,</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"224905"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trastuzumab"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"dosageInstruction"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4 mg/kg IV loading dose week 1, then 2 mg/kg IV weekly"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The CRD service queries the EHR FHIR server using <code class="language-plaintext highlighter-rouge">fhirAuthorization</code>. In a production
+Response B path, it <strong>cannot assume</strong> that HER2 collected by DTR was written back as a
+clinical <code class="language-plaintext highlighter-rouge">Observation</code>; the EHR should supply the <code class="language-plaintext highlighter-rouge">QuestionnaireResponse</code> in the order
+context when CRD needs it. The reference app intentionally writes the derived HER2
+Observation to its demo EHR, so its repeat query does find the completed value.</p>
+
+<h5 id="response--authorization-satisfied">Response — Authorization Satisfied</h5>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// HTTP/1.1 200 OK</span><span class="w">
+</span><span class="c1">// Content-Type: application/json</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"cards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w">      </span><span class="s2">"card-9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"summary"</span><span class="p">:</span><span class="w">   </span><span class="s2">"TH Regimen: Authorization Satisfied"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"detail"</span><span class="p">:</span><span class="w">    </span><span class="s2">"Adjuvant TH (paclitaxel + trastuzumab) for HER2-positive (IHC 3+) Stage IIB breast cancer: while prior authorization would typically be required, the prior authorization conditions have been evaluated and prior authorization can be bypassed. Confirmed HER2 positivity (IHC 3+), Stage IIB disease, ECOG PS 1, no prior HER2-directed therapy, first-line adjuvant intent."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOPA Coverage Decision Support"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"url"</span><span class="p">:</span><span class="w">   </span><span class="s2">"https://cds.example.org"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"systemActions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w">        </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Record authorization satisfied"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Coverage"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w">       </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"subscriber"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="nl">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Patient/MOPAPatientExample"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"payor"</span><span class="p">:</span><span class="w">        </span><span class="p">[{</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example Health Plan"</span><span class="w"> </span><span class="p">}]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h4 id="what-changes-for-a-different-cancer-type">What Changes for a Different Cancer Type</h4>
+
+<p>If Dr. Lopez had instead been ordering a lung cancer regimen (e.g., carboplatin + pemetrexed
+for NSCLC), the only differences in the CDS Hooks flow would be:</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Breast cancer</th>
+      <th>Lung cancer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Primary cancer Condition code</td>
+      <td>SNOMED 254837009</td>
+      <td>SNOMED 363358000</td>
+    </tr>
+    <tr>
+      <td>Oncology queries issued</td>
+      <td>ER/PR/HER2, TNM breast staging</td>
+      <td>EGFR/ALK/PD-L1, TNM lung staging</td>
+    </tr>
+    <tr>
+      <td>DTR questionnaire (if needed)</td>
+      <td>Breast cancer PA form</td>
+      <td>Lung cancer PA form</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The hook request, the service endpoint, and the <code class="language-plaintext highlighter-rouge">fhirAuthorization</code> mechanism are identical.
+The CRD service determines the applicable cancer type from its Condition query and selects
+the appropriate coverage evaluation logic internally. The EHR requires no cancer-type-specific
+configuration.</p>
+
+<hr />
+
+<h3 id="biosimilar-substitution--propose-alternate-request">Biosimilar Substitution — Propose Alternate Request</h3>
+
+<p>When the payer policy requires a biosimilar substitution (e.g., trastuzumab → trastuzumab-dttb),
+the CRD service returns a <strong>second card</strong> at <code class="language-plaintext highlighter-rouge">order-select</code> alongside the approvable card. This
+card uses the CDS Hooks suggestion mechanism (the Da Vinci CRD "Propose Alternate Request"
+pattern) to propose replacing the original <code class="language-plaintext highlighter-rouge">MedicationRequest</code> with a biosimilar alternative.</p>
+
+<h4 id="card-structure">Card structure</h4>
+
+<p>The substitution suggestion card contains:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">indicator: "info"</code> — the regimen is approvable; the card proposes a modification</li>
+  <li><code class="language-plaintext highlighter-rouge">source.topic.code: "therapy-alternatives-req"</code> — CRD response type</li>
+  <li><code class="language-plaintext highlighter-rouge">suggestions[0]</code> with <code class="language-plaintext highlighter-rouge">actions</code>:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">delete</code> — targets the original trastuzumab <code class="language-plaintext highlighter-rouge">MedicationRequest</code> by <code class="language-plaintext highlighter-rouge">resourceId</code>
+(matching its <code class="language-plaintext highlighter-rouge">fullUrl</code> in <code class="language-plaintext highlighter-rouge">context.draftOrders</code>)</li>
+      <li><code class="language-plaintext highlighter-rouge">create</code> — contains the replacement <code class="language-plaintext highlighter-rouge">MedicationRequest</code> with
+trastuzumab-dttb (RxNorm 1992624) and a <code class="language-plaintext highlighter-rouge">substitution</code> element
+indicating formulary policy</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">selectionBehavior: "at-most-one"</code> — accept the substitution or proceed as-is</li>
+  <li><code class="language-plaintext highlighter-rouge">overrideReasons</code> — clinical contraindication, patient preference, formulary exception</li>
+</ul>
+
+<h4 id="provider-interaction">Provider interaction</h4>
+
+<p>The EHR renders the suggestion as Accept/Override buttons in the Coverage Discovery panel.
+When the provider <strong>accepts</strong>:</p>
+
+<ol>
+  <li>The EHR applies the delete + create actions to <code class="language-plaintext highlighter-rouge">context.draftOrders</code> in-session</li>
+  <li><code class="language-plaintext highlighter-rouge">RequestGroup.action[].resource</code> references are updated to point to the replacement</li>
+  <li>The modified Bundle is sent to <code class="language-plaintext highlighter-rouge">order-sign</code></li>
+  <li>The CRD service returns <strong>Authorization Satisfied</strong> because the order now reflects
+the payer-approved regimen</li>
+</ol>
+
+<p>When the provider <strong>overrides</strong>, the original order proceeds to <code class="language-plaintext highlighter-rouge">order-sign</code> unchanged.
+The CRD service notes the override and may require PA submission for the non-substituted regimen.</p>
+
+<h4 id="example-response-order-select-with-biosimilar-substitution">Example response (order-select with biosimilar substitution)</h4>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"cards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card-approvable-..."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approvable — PA Can Be Bypassed"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"info"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"All required oncology context has been retrieved... Payer modification required: trastuzumab → trastuzumab-dttb (Ontrudy)."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOPA CRD Service"</span><span class="p">,</span><span class="w"> </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coverage-information"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card-suggestion-..."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payer Modification Required — Biosimilar Substitution"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"info"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MOPA CRD Service"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp"</span><span class="p">,</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"therapy-alternatives-req"</span><span class="w"> </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"suggestions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Accept Substitution (trastuzumab → trastuzumab-dttb)"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"suggestion-..."</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"isRecommended"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span><span class="w"> </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Remove original trastuzumab order"</span><span class="p">,</span><span class="w"> </span><span class="nl">"resourceId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:uuid:mr-trastuzumab-th"</span><span class="w"> </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w"> </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w"> </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Substitute trastuzumab-dttb (Ontrudy) for trastuzumab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MedicationRequest"</span><span class="p">,</span><span class="w"> </span><span class="s2">"..."</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+          </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nl">"selectionBehavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"at-most-one"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"overrideReasons"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"clinical-contraindication"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Clinical contraindication to biosimilar"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"patient-preference"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Patient already established on reference product"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w"> </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"formulary-exception"</span><span class="p">,</span><span class="w"> </span><span class="nl">"display"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Formulary exception approved"</span><span class="w"> </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>See <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a> — MOPA-DV-CRD-005</strong> for the
+upstream proposal to formalize this pattern in the CRD IG.</p>
+</blockquote>
+
+<hr />
+
+<h4 id="see-also">See Also</h4>
+
+<ul>
+  <li><a href="cds-workflow.html">CRD Workflow</a> — how the CRD service queries back and conformance requirements</li>
+  <li><a href="data-requirements.html">Data Requirements</a> — oncology data categories queried during CRD evaluation</li>
+  <li><a href="breast-cancer-pa.html">Use Case 1: Breast Cancer PA</a> — clinical data requirements for this scenario</li>
+</ul>
+
+
+
+
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+  <script type="text/javascript" src="assets/js/flags.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <script type="text/javascript" src="assets/js/togglechanges.js"> </script>
+  <script type="text/javascript" src="assets/js/requirements-table.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container" data-fhir="generated">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+
+
+
+          IG © 2026+ <a style="color:var(--footer-hyperlink-text-color)" href="http://www.hl7.org/Special/committees/cic">HL7 International / Clinical Interoperability Council</a>.  
+          Package hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>.
+          Generated 
+  <span title="2026-09-08 18:17:00 -0400">
+    2026-09-08
+  </span>
+
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="../qa.html">QA Report</a>
+                 
+                
+                 | <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir/us/codex-mopa/history.html">Version History</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" rel="license" href="http://hl7.org/fhir/R4/license.html"><img style="border-style: none;" alt="CC0" src="cc0.png"/></a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir-issues">Propose a change</a>
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+

@@ -1,0 +1,99 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "treatment-line-cs"] ;
+  fhir:Resource.language [ fhir:value "en"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem treatment-line-cs</b></p><a name=\"treatment-line-cs\"> </a><a name=\"hctreatment-line-cs\"> </a><p>This case-sensitive code system <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">1L<a name=\"treatment-line-cs-1L\"> </a></td><td>First-line</td><td>The first line of systemic anti-cancer therapy for this indication.</td></tr><tr><td style=\"white-space:nowrap\">2L<a name=\"treatment-line-cs-2L\"> </a></td><td>Second-line</td><td>The second line of systemic anti-cancer therapy; administered after first-line therapy failure, progression, or intolerance.</td></tr><tr><td style=\"white-space:nowrap\">3L-plus<a name=\"treatment-line-cs-3L-plus\"> </a></td><td>Third-line or later</td><td>The third or any subsequent line of systemic anti-cancer therapy.</td></tr><tr><td style=\"white-space:nowrap\">maintenance<a name=\"treatment-line-cs-maintenance\"> </a></td><td>Maintenance</td><td>Maintenance therapy administered to prolong response after induction or consolidation treatment.</td></tr></table></div>"
+  ] ;
+  fhir:DomainResource.extension [
+     fhir:index -1 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg" ] ;
+     fhir:Extension.valueCode [ fhir:value "cic" ]
+  ], [
+     fhir:index -1 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status" ] ;
+     fhir:Extension.valueCode [
+       fhir:value "informative" ;
+       fhir:Element.extension [
+         fhir:index -1 ;
+         fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom" ] ;
+         fhir:Extension.valueCanonical [
+           fhir:value "http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa" ;
+           fhir:link <http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa>
+         ]
+       ]
+     ]
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"] ;
+  fhir:CodeSystem.version [ fhir:value "0.1.1-snapshot-080926"] ;
+  fhir:CodeSystem.name [ fhir:value "TreatmentLineCS"] ;
+  fhir:CodeSystem.title [ fhir:value "Treatment Line Code System"] ;
+  fhir:CodeSystem.status [ fhir:value "draft"] ;
+  fhir:CodeSystem.experimental [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-09-08T18:17:28-04:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "HL7 International / Clinical Interoperability Council"] ;
+  fhir:CodeSystem.contact [
+     fhir:index -1 ;
+     fhir:ContactDetail.name [ fhir:value "HL7 International / Clinical Interoperability Council" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index -1 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://www.hl7.org/Special/committees/cic" ]
+     ], [
+       fhir:index -1 ;
+       fhir:ContactPoint.system [ fhir:value "email" ] ;
+       fhir:ContactPoint.value [ fhir:value "ciclist@lists.HL7.org" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "Ordinal codes representing the line of systemic anti-cancer therapy.\nThese codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint\nprofile for the RequestGroup `lineOfTherapy` category slice.\n\n**mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5\nor as a SNOMED CT extension request. Once standard codes are available, this code\nsystem should be deprecated."] ;
+  fhir:CodeSystem.jurisdiction [
+     fhir:index -1 ;
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "urn:iso:std:iso:3166" ] ;
+       fhir:Coding.code [ fhir:value "US" ] ;
+       fhir:Coding.display [ fhir:value "United States of America" ]
+     ]
+  ] ;
+  fhir:CodeSystem.purpose [ fhir:value "mCODE Migration Candidate — proposed for adoption in mCODE STU5 or as a SNOMED CT\nextension request. Once standard codes are available this code system will be deprecated.\nIt is NOT intended to be a permanent artifact of this IG. See the mCODE Gap Proposals page\nfor the migration plan."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "1L" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "First-line" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The first line of systemic anti-cancer therapy for this indication." ]
+  ], [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "2L" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Second-line" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The second line of systemic anti-cancer therapy; administered after first-line therapy failure, progression, or intolerance." ]
+  ], [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "3L-plus" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Third-line or later" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The third or any subsequent line of systemic anti-cancer therapy." ]
+  ], [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "maintenance" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Maintenance" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Maintenance therapy administered to prolong response after induction or consolidation treatment." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/CodeSystem/treatment-line-cs.ttl> .
+
+# -------------------------------------------------------------------------------------
+

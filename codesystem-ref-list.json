@@ -1,0 +1,25 @@
+{
+  "codeSystems" : [{
+    "url" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs",
+    "version" : "0.1.1-snapshot-080926",
+    "status" : "draft",
+    "name" : "TreatmentLineCS",
+    "title" : "Treatment Line Code System",
+    "description" : "Ordinal codes representing the line of systemic anti-cancer therapy.\nThese codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint\nprofile for the RequestGroup `lineOfTherapy` category slice.\n\n**mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5\nor as a SNOMED CT extension request. Once standard codes are available, this code\nsystem should be deprecated.",
+    "uses" : {
+    },
+    "ValueSet-treatment-line-vs.html" : "Treatment Line Value Set"
+  },
+  {
+    "url" : "http://snomed.info/sct",
+    "version" : null,
+    "status" : "active",
+    "name" : "SNOMED_CT",
+    "title" : "SNOMED CT (all versions)",
+    "description" : "SNOMED CT is the most comprehensive and precise clinical health terminology product in the world, owned and distributed around the world by The International Health Terminology Standards Development Organisation (IHTSDO).",
+    "oids" : ["2.16.840.1.113883.6.96"],
+    "uses" : {
+    },
+    "ValueSet-regimen-intent-vs.html" : "Regimen Intent Value Set"
+  }]
+}

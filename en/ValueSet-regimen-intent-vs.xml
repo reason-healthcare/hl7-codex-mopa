@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ValueSet xmlns="http://hl7.org/fhir">
+  <id value="regimen-intent-vs"/>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: ValueSet regimen-intent-vs</b></p><a name="regimen-intent-vs"> </a><a name="hcregimen-intent-vs"> </a><ul><li>Include these codes as defined in <a href="http://www.snomed.org/"><code>http://snomed.info/sct</code></a><span title="Version is not explicitly stated. No matching Code System found"> version Not Stated (use latest from terminology server)</span><table class="none"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href="http://snomed.info/id/373808002">373808002</a></td><td>Curative - procedure intent</td></tr><tr><td><a href="http://snomed.info/id/363676003">363676003</a></td><td>Palliative intent</td></tr><tr><td><a href="http://snomed.info/id/373846009">373846009</a></td><td>Adjuvant - intent</td></tr><tr><td><a href="http://snomed.info/id/373847000">373847000</a></td><td>Neoadjuvant intent</td></tr><tr><td><a href="http://snomed.info/id/399707004">399707004</a></td><td>Supportive - procedure intent</td></tr></table></li></ul></div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-wg">
+    <valueCode value="cic"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="informative">
+      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom">
+        <valueCanonical value="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/>
+      </extension>
+    </valueCode>
+  </extension>
+  <url value="http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="RegimenIntentVS"/>
+  <title value="Regimen Intent Value Set"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2026-09-08T18:17:28-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="The clinical intent of an anti-cancer regimen. All codes are drawn from&#xA;the SNOMED CT \&quot;Intents (nature of procedure values)\&quot; hierarchy (363675004).&#xA;&#xA;**mCODE Migration Candidate** — Proposed for mCODE STU5."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <purpose value="mCODE Migration Candidate — proposed for mCODE STU5. All codes are sourced from&#xA;SNOMED CT (no local codes required). This value set will reference the mCODE canonical URL&#xA;once adopted. It is NOT intended to be a permanent artifact of this IG. See the mCODE&#xA;Candidates page for the migration plan."/>
+  <compose>
+    <include>
+      <system value="http://snomed.info/sct"/>
+      <concept>
+        <code value="373808002"/>
+        <display value="Curative - procedure intent"/>
+      </concept>
+      <concept>
+        <code value="363676003"/>
+        <display value="Palliative intent"/>
+      </concept>
+      <concept>
+        <code value="373846009"/>
+        <display value="Adjuvant - intent"/>
+      </concept>
+      <concept>
+        <code value="373847000"/>
+        <display value="Neoadjuvant intent"/>
+      </concept>
+      <concept>
+        <code value="399707004"/>
+        <display value="Supportive - procedure intent"/>
+      </concept>
+    </include>
+  </compose>
+</ValueSet>

@@ -1,0 +1,7 @@
+{
+  "version" : "0.1.1-snapshot-080926",
+  "fhirVersion" : ["4.0.1"],
+  "date" : "20260908181728",
+  "name" : "hl7.fhir.us.codex-mopa",
+  "jurisdiction" : "urn:iso:std:iso:3166#US"
+}

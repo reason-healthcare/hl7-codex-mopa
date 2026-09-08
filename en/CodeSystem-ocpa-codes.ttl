@@ -1,0 +1,94 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "ocpa-codes"] ;
+  fhir:Resource.language [ fhir:value "en"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem ocpa-codes</b></p><a name=\"ocpa-codes\"> </a><a name=\"hcocpa-codes\"> </a><p>This case-sensitive code system <code>http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">anti-cancer<a name=\"ocpa-codes-anti-cancer\"> </a></td><td>Anti-Cancer Component</td><td>A regimen component that is an anti-cancer therapeutic agent (e.g., cytotoxic, targeted, immunotherapy).</td></tr><tr><td style=\"white-space:nowrap\">supportive<a name=\"ocpa-codes-supportive\"> </a></td><td>Supportive Care Component</td><td>A regimen component that is supportive (e.g., antiemetic, growth factor, steroid not used as anti-cancer therapy).</td></tr><tr><td style=\"white-space:nowrap\">premedication<a name=\"ocpa-codes-premedication\"> </a></td><td>Premedication Component</td><td>A regimen component administered as premedication prior to the primary agent.</td></tr></table></div>"
+  ] ;
+  fhir:DomainResource.extension [
+     fhir:index -1 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg" ] ;
+     fhir:Extension.valueCode [ fhir:value "cic" ]
+  ], [
+     fhir:index -1 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status" ] ;
+     fhir:Extension.valueCode [
+       fhir:value "informative" ;
+       fhir:Element.extension [
+         fhir:index -1 ;
+         fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom" ] ;
+         fhir:Extension.valueCanonical [
+           fhir:value "http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa" ;
+           fhir:link <http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa>
+         ]
+       ]
+     ]
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes"] ;
+  fhir:CodeSystem.version [ fhir:value "0.1.1-snapshot-080926"] ;
+  fhir:CodeSystem.name [ fhir:value "OcpaCodesCS"] ;
+  fhir:CodeSystem.title [ fhir:value "MOPA Local Code System"] ;
+  fhir:CodeSystem.status [ fhir:value "draft"] ;
+  fhir:CodeSystem.experimental [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-09-08T18:17:28-04:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "HL7 International / Clinical Interoperability Council"] ;
+  fhir:CodeSystem.contact [
+     fhir:index -1 ;
+     fhir:ContactDetail.name [ fhir:value "HL7 International / Clinical Interoperability Council" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index -1 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://www.hl7.org/Special/committees/cic" ]
+     ], [
+       fhir:index -1 ;
+       fhir:ContactPoint.system [ fhir:value "email" ] ;
+       fhir:ContactPoint.value [ fhir:value "ciclist@lists.HL7.org" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "Local codes defined by the MOPA IG for concepts that do not yet have\nan established representation in LOINC, SNOMED CT, or mCODE. These codes are migration\ncandidates and should be retired in favor of standard codes as they become available."] ;
+  fhir:CodeSystem.jurisdiction [
+     fhir:index -1 ;
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "urn:iso:std:iso:3166" ] ;
+       fhir:Coding.code [ fhir:value "US" ] ;
+       fhir:Coding.display [ fhir:value "United States of America" ]
+     ]
+  ] ;
+  fhir:CodeSystem.purpose [ fhir:value "mCODE Migration Candidate — individual codes submitted to LOINC and SNOMED CT.\nThis code system will be retired once standard codes are assigned. It is NOT intended to\nbe a permanent artifact of this IG. See the mCODE Gap Proposals page for the full proposal backlog."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "3"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "anti-cancer" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Anti-Cancer Component" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A regimen component that is an anti-cancer therapeutic agent (e.g., cytotoxic, targeted, immunotherapy)." ]
+  ], [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "supportive" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Supportive Care Component" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A regimen component that is supportive (e.g., antiemetic, growth factor, steroid not used as anti-cancer therapy)." ]
+  ], [
+     fhir:index -1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "premedication" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Premedication Component" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A regimen component administered as premedication prior to the primary agent." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/CodeSystem/ocpa-codes.ttl> .
+
+# -------------------------------------------------------------------------------------
+
