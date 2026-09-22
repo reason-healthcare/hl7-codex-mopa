@@ -5,6 +5,7 @@ dist
 *.log
 .env.local
 .env*.local
+connectathon.env
 # Per-app lockfiles — the monorepo root pnpm-lock.yaml is canonical
 apps/*/pnpm-lock.yaml
 apps/*/pnpm-workspace.yaml

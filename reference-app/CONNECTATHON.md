@@ -4,9 +4,10 @@ This guide runs the reference EHR and FHIR server while directing the workflow t
 partner CRD, DTR, and PAS implementations. It is intended for an integration
 rehearsal, not a production deployment.
 
-The reference EHR makes two outbound calls. Its bundled DTR write-back and compact PAS request
-are demo-only interoperability shims: the DTR path is not a production persistence contract, and
-the PAS path is not a conformant Da Vinci PAS Claim `$submit` package.
+The reference EHR exposes three configurable integration paths. Its bundled DTR
+write-back and compact PAS request are demo-only interoperability shims: the DTR
+path is not a production persistence contract, and the PAS path is not a
+conformant Da Vinci PAS Claim `$submit` package.
 
 | Integration | Configuration | Request made by the EHR | Required partner behavior |
 | --- | --- | --- | --- |
@@ -16,6 +17,48 @@ the PAS path is not a conformant Da Vinci PAS Claim `$submit` package.
 
 The values above are base URLs. Do not include the path suffixes that the EHR
 adds itself.
+
+Use [`connectathon.env.example`](./connectathon.env.example) as the generic
+starting point. Copy it to `connectathon.env`, keep that copy private, and
+change only the values needed for the selected profile. The template contains
+no credentials or real partner endpoints.
+
+### Local services
+
+Leave the `CRD_PARTNER_*` variables empty or unset. The EHR uses the bundled
+services at `4003` (CRD), `4004` (DTR), and `4005` (PAS), with HAPI FHIR at
+`8080`. Keep `LOG_HUB_URL=http://localhost:4000/api/log` so service events
+appear in the Hub Activity tab.
+
+For a native Node run, load the environment before starting every workspace
+task and use Turbo's loose environment mode so undeclared Connectathon
+variables reach the child apps:
+
+```bash
+cd reference-app
+test -f connectathon.env || cp connectathon.env.example connectathon.env
+set -a; source connectathon.env; set +a
+pnpm install --frozen-lockfile
+pnpm exec turbo run dev --env-mode=loose
+```
+
+For a partner CRD/DTR run, set `CRD_PARTNER_BASE_URL`,
+`CRD_PARTNER_TOKEN_URL`, `CRD_PARTNER_CLIENT_ID`, and
+`CRD_PARTNER_CLIENT_SECRET` from the partner's private onboarding material.
+Set `DTR_PARTNER_BASE_URL` only when DTR uses a different base; otherwise leave
+it unset so it falls back to `CRD_PARTNER_BASE_URL`. Keep client credentials
+server-side and never use `NEXT_PUBLIC_` names for them. `CRD_PARTNER_PREFETCH`
+defaults to `true`, which sends local FHIR prefetch so the partner does not
+need to reach a localhost `fhirServer`.
+
+The current PAS route supports the compact `POST /api/fhir/$submit` contract
+documented below. Set `PAS_SERVICE_URL` to a third-party base only when that
+partner accepts this exact contract. If it requires a different operation,
+authentication scheme, or FHIR Bundle shape, place a private adapter at that
+boundary; there is no generic credential or request-transformation setting in
+this reference app. The profiles can be mixed per integration: unset partner
+variables continue to use local services, while a configured partner CRD takes
+precedence over the bundled CRD.
 
 When `CRD_PARTNER_BASE_URL` is set, the EHR obtains and caches a bearer token
 using the client-credentials variables below and calls the partner's standard
@@ -36,6 +79,7 @@ observations, and prior medication requests.
 | `CRD_PARTNER_PREFETCH` | `true` | EHR server route | Include local FHIR prefetch in partner CRD requests so the partner need not reach a localhost `fhirServer`. |
 | `DTR_PARTNER_BASE_URL` | `CRD_PARTNER_BASE_URL` | EHR server route | Optional separate DTR base. The EHR appends `/Questionnaire/$questionnaire-package`; it uses the same client-credentials configuration as CRD. |
 | `PAS_SERVICE_URL` | `http://localhost:4005` | EHR server route | PAS base URL. The EHR appends `/api/fhir/$submit`. |
+| `LOG_HUB_URL` | unset | All reference services | Hub ingest URL for the Activity tab. Set it to the Hub's `/api/log` route. |
 | `DTR_CLIENT_URL` | `http://localhost:4004` | Local CRD service only | Base URL used only when the bundled CRD service builds its own DTR link, appending `/launch`. It has no effect when using a partner CRD. |
 | `NEXT_PUBLIC_DTR_CLIENT_URL` | `http://localhost:4004` | Local DTR client | Public callback base used by the bundled DTR client. It is not a way to configure a partner DTR. |
 | `NEXT_PUBLIC_EHR_BASE_URL` | `http://localhost:4001` | EHR server and browser code; local DTR | Public EHR base. It determines the `fhirServer`/`iss` URL sent to CRD and DTR. |
@@ -187,6 +231,7 @@ services:
       - .:/source:ro
     environment:
       FHIR_BASE_URL: http://hapi:8080/fhir
+      LOG_HUB_URL: http://hub:4000/api/log
       SMART_AUTH_BYPASS: "true"
       NEXT_PUBLIC_EHR_BASE_URL: ${EHR_PUBLIC_BASE_URL:-http://localhost:4001}
       NEXT_PUBLIC_CRD_SERVICE_URL: ${CRD_SERVICE_URL:-http://localhost:4003}
@@ -196,6 +241,13 @@ services:
       EHR_FHIR_BASE_URL: ${EHR_FHIR_BASE_URL:-http://localhost:4001/api/fhir}
       EHR_BASE_URL: ${EHR_PUBLIC_BASE_URL:-http://localhost:4001}
       PAYER_BACKEND_URL: ${PAYER_BACKEND_URL:-http://localhost:4006}
+      CRD_PARTNER_BASE_URL: ${CRD_PARTNER_BASE_URL:-}
+      CRD_PARTNER_TOKEN_URL: ${CRD_PARTNER_TOKEN_URL:-}
+      CRD_PARTNER_CLIENT_ID: ${CRD_PARTNER_CLIENT_ID:-}
+      CRD_PARTNER_CLIENT_SECRET: ${CRD_PARTNER_CLIENT_SECRET:-}
+      CRD_PARTNER_SCOPE: ${CRD_PARTNER_SCOPE:-crd dtr pas}
+      CRD_PARTNER_PREFETCH: ${CRD_PARTNER_PREFETCH:-true}
+      DTR_PARTNER_BASE_URL: ${DTR_PARTNER_BASE_URL:-${CRD_PARTNER_BASE_URL:-}}
     depends_on:
       hapi:
         condition: service_healthy
@@ -216,9 +268,11 @@ volumes:
   hapi-data: {}
 ```
 
-Create a local `connectathon.env` beside it. This file is intentionally not a
-place for production credentials; the reference app has no credential variables
-for its CRD or PAS outbound calls.
+Copy `connectathon.env.example` to `connectathon.env` beside the Compose file
+if it does not already exist.
+This file is intentionally private. Never commit it or place client secrets in
+the repository. The Compose recipe passes partner variables to the server-side
+EHR process only; it does not expose them as `NEXT_PUBLIC_` browser variables.
 
 `CRD_SERVICE_URL`, `EHR_PUBLIC_BASE_URL`, and `DTR_PUBLIC_BASE_URL` in this file
 are Compose substitution aliases, not additional application environment
@@ -229,23 +283,11 @@ The following values are examples, not live partner endpoints. The recipe does
 not create DNS records, TLS certificates, or an HTTPS ingress. Configure a
 reachable HTTPS ingress separately before using a non-local public EHR URL.
 
-```dotenv
-# Partner base URLs; do not include the EHR's fixed suffixes.
-CRD_SERVICE_URL=https://crd.connectathon.example
-PAS_SERVICE_URL=https://pas-adapter.connectathon.example
-
-# Must be reachable by the browser, partner CRD, and partner DTR.
-EHR_PUBLIC_BASE_URL=https://ehr.connectathon.example
-
-# Needed only when exercising the bundled local CRD/DTR/payer components.
-DTR_CLIENT_URL=http://localhost:4004
-DTR_PUBLIC_BASE_URL=http://localhost:4004
-EHR_FHIR_BASE_URL=http://localhost:4001/api/fhir
-PAYER_BACKEND_URL=http://localhost:4006
-```
-
-For a completely local rehearsal, create an empty `connectathon.env` (or comment
-out the three partner/public URL lines). Compose then uses the localhost defaults.
+For a completely local rehearsal, keep the values from
+`connectathon.env.example`. For a partner rehearsal, replace the generic
+partner variables with values supplied privately by that partner. The public
+EHR URL must be reachable by the browser and any partner that receives the
+FHIR issuer; use an HTTPS ingress when the partner cannot reach localhost.
 
 Start the stack and load the reference fixtures:
 
@@ -312,13 +354,14 @@ not filter environment variables:
 ```bash
 cd reference-app
 export FHIR_BASE_URL=http://localhost:8080/fhir
-# Use the externally reachable EHR URL when the CRD or DTR is remote.
-export NEXT_PUBLIC_EHR_BASE_URL=https://ehr.connectathon.example
-export NEXT_PUBLIC_CRD_SERVICE_URL=https://crd.connectathon.example
-export PAS_SERVICE_URL=https://pas-adapter.connectathon.example
-export SMART_AUTH_BYPASS=true
+test -f connectathon.env || cp connectathon.env.example connectathon.env
+set -a; source connectathon.env; set +a
 pnpm install --frozen-lockfile
-pnpm --filter @mopa/ehr dev
+# Start the full local/mixed profile:
+pnpm exec turbo run dev --env-mode=loose
+
+# If every integration except the EHR is remote, the EHR alone is sufficient:
+# pnpm exec turbo run dev --filter=@mopa/ehr --env-mode=loose
 ```
 
 The native workflow requires a supported Node.js version and pnpm. Replace the
@@ -332,14 +375,12 @@ for the strict-mode behavior.
 
 ## Verification scope
 
-The application routes and the repository's existing Compose configuration were
-inspected. The Compose example's configuration parsed with the documented
-substitutions, its read-only source mount and endpoint values were asserted, and
-its startup shell script passed `sh -n`. The all-local defaults also rendered as
-CRD `4003`, PAS `4005`, EHR `4001`, and DTR `4004` with an empty environment
-file. No container was started, and no partner endpoint, credentials, network
-route, or end-to-end Connectathon transaction was available to test. Confirm the
-partner contracts and external reachability before the event.
+The examples describe environment forwarding and the fixed endpoint contracts;
+they do not provision DNS, TLS, ingress, partner credentials, or a particular
+third-party integration. Before a rehearsal, confirm the selected profile with
+the Activity tab, the EHR's `/api/crd-hooks` response, and the partner's own
+request identifiers. Do not treat a successful local service check as evidence
+that a remote partner contract or production PAS conformance has been verified.
 
 The maintained implementation points are the EHR [CRD proxy](./apps/ehr/app/api/crd-hooks/route.ts),
 [PAS proxy](./apps/ehr/app/api/pa-submit/route.ts), and
