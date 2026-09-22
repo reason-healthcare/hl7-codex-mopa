@@ -30,6 +30,7 @@ export type LogType =
   | "dtr.package" // Partner DTR $questionnaire-package exchange
   | "dtr.submit" // DTR questionnaire submitted
   | "pa.submit" // PA $submit received by PAS
+  | "pa.inquire" // User-initiated PA $inquire status check
   | "pa.evaluate" // Payer policy evaluation invoked
   | "pa.result" // PA determination returned
   | "smart.launch" // SMART App launch initiated

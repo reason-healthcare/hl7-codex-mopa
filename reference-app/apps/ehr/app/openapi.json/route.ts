@@ -130,11 +130,16 @@ const SPEC = {
             "application/json": {
               schema: {
                 type: "object",
-                required: ["patientId"],
+                required: ["patientId", "regimenId", "draftOrders", "claimId"],
                 properties: {
                   patientId: { type: "string", example: "jane-smith" },
                   regimenId: { type: "string", example: "TH" },
                   regimenLabel: { type: "string", example: "TH — Trastuzumab + Paclitaxel" },
+                  draftOrders: {
+                    type: "object",
+                    description: "Signed RequestGroup and medication Bundle",
+                  },
+                  claimId: { type: "string", example: "claim-demo-12345678" },
                 },
               },
             },
@@ -143,6 +148,39 @@ const SPEC = {
         responses: {
           200: { description: "ClaimResponse with outcome and disposition" },
           502: { description: "PAS service unreachable" },
+        },
+      },
+    },
+    "/api/pa-inquire": {
+      post: {
+        tags: ["PA"],
+        summary: "Check a submitted prior authorization",
+        description:
+          "User-initiated Claim/$inquire to the configured synthetic partner, using the original Claim.id. No polling.",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["patientId", "regimenId", "draftOrders", "claimId"],
+                properties: {
+                  patientId: { type: "string", example: "maria-garcia" },
+                  regimenId: { type: "string", example: "TH" },
+                  draftOrders: {
+                    type: "object",
+                    description: "The previously signed order Bundle",
+                  },
+                  claimId: { type: "string", description: "The Claim.id used for $submit" },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: { description: "Latest ClaimResponse decision" },
+          400: { description: "Missing or invalid submitted claim context" },
+          503: { description: "Partner PAS inquiry not configured" },
         },
       },
     },

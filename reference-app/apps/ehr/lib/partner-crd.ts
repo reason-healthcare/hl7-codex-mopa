@@ -28,7 +28,7 @@ export function isPartnerDtrConfigured(): boolean {
   return Boolean(process.env.DTR_PARTNER_BASE_URL ?? process.env.CRD_PARTNER_BASE_URL);
 }
 
-async function partnerToken(): Promise<string> {
+export async function partnerToken(): Promise<string> {
   const now = Date.now();
   if (cachedToken && cachedToken.expiresAt > now + 60_000) return cachedToken.value;
 
@@ -53,7 +53,11 @@ async function partnerToken(): Promise<string> {
 }
 
 async function searchBundle(baseUrl: string, path: string): Promise<FhirBundle> {
-  const response = await fetch(`${baseUrl}/${path}`);
+  // A completed DTR response must be visible to the very next CRD call. HAPI
+  // can otherwise reuse an older search result that predates the FHIR write.
+  const response = await fetch(`${baseUrl}/${path}`, {
+    headers: { "Cache-Control": "no-cache" },
+  });
   if (!response.ok) throw new Error(`Local FHIR prefetch failed: HTTP ${response.status}`);
   return (await response.json()) as FhirBundle;
 }
@@ -66,6 +70,7 @@ export async function buildPartnerPrefetch(patientId: string): Promise<Record<st
     coverageBundle,
     conditionBundle,
     observationBundle,
+    questionnaireResponseBundle,
     priorMedicationRequestBundle,
   ] = await Promise.all([
     fetch(`${baseUrl}/Patient/${encodedPatient}`).then(async (response) => {
@@ -78,6 +83,7 @@ export async function buildPartnerPrefetch(patientId: string): Promise<Record<st
     ),
     searchBundle(baseUrl, `Condition?patient=${encodedPatient}&clinical-status=active&_count=100`),
     searchBundle(baseUrl, `Observation?patient=${encodedPatient}&_count=200`),
+    searchBundle(baseUrl, `QuestionnaireResponse?subject=Patient/${encodedPatient}&_count=100`),
     searchBundle(
       baseUrl,
       `MedicationRequest?patient=${encodedPatient}&status=completed,stopped&_count=100`
@@ -88,6 +94,7 @@ export async function buildPartnerPrefetch(patientId: string): Promise<Record<st
     coverageBundle,
     conditionBundle,
     observationBundle,
+    questionnaireResponseBundle,
     priorMedicationRequestBundle,
   };
 }

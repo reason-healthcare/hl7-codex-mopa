@@ -9,15 +9,15 @@ import {
   REGIMENS,
   type Regimen,
 } from "@mopa/oncology-policy";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CdsCardRow, OrderSelectSummary } from "./components/cds-cards";
+import {
+  type CoverageQuestionnaire,
+  findCoverageQuestionnaire,
+} from "./components/coverage-questionnaire";
 import { fireCdsHook } from "./components/crd-hooks";
 import { ClaimResponseDisplay, type ClaimResponseSummary } from "./components/pa-display";
 import { RegimenSelector } from "./components/regimen-selector";
-import {
-  findCoverageQuestionnaire,
-  type CoverageQuestionnaire,
-} from "./components/coverage-questionnaire";
 
 // ---------------------------------------------------------------------------
 // Step status helpers
@@ -244,16 +244,20 @@ function PartnerQuestionnaireLaunchButton({
 // Main component
 // ---------------------------------------------------------------------------
 
-export default function OrderEntryPage({ patientId }: { patientId: string }) {
-  // On DTR return (?dtr-complete=true&regimen=X), pre-populate state from
-  // URL params so the page renders correctly on the first paint — no flash
-  // of "select a regimen" before the useEffect re-fires order-select.
-  const dtrReturnParams =
-    typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
-  const isDtrReturn = dtrReturnParams?.get("dtr-complete") === "true";
-  const dtrRegimenId = dtrReturnParams?.get("regimen");
-  const dtrRegimen =
-    isDtrReturn && dtrRegimenId ? (REGIMENS.find((r) => r.id === dtrRegimenId) ?? null) : null;
+export default function OrderEntryPage({
+  patientId,
+  dtrReturnRegimenId,
+}: {
+  patientId: string;
+  dtrReturnRegimenId?: string;
+}) {
+  // The server page reads the return URL and passes the same initial selection
+  // to server and browser renders. Reading window.location here would hydrate
+  // a different regimen selector than the server rendered.
+  const dtrRegimen = dtrReturnRegimenId
+    ? (REGIMENS.find((r) => r.id === dtrReturnRegimenId) ?? null)
+    : null;
+  const isDtrReturn = Boolean(dtrRegimen);
 
   const [selected, setSelected] = useState<Regimen | null>(dtrRegimen);
 
@@ -272,10 +276,15 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
 
   // Order state
   const [signed, setSigned] = useState(false);
+  const [signedDraftOrders, setSignedDraftOrders] = useState<object | null>(null);
+  const [claimId, setClaimId] = useState<string | null>(null);
+  const activeClaimId = useRef<string | null>(null);
 
   // PAS state
   const [paSubmitting, setPaSubmitting] = useState(false);
+  const [paInquiring, setPaInquiring] = useState(false);
   const [paError, setPaError] = useState<string | null>(null);
+  const [paInquiryError, setPaInquiryError] = useState<string | null>(null);
   const [claimResponse, setClaimResponse] = useState<ClaimResponseSummary | null>(null);
 
   // Biosimilar suggestion state
@@ -363,12 +372,16 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   function onSelectRegimen(regimen: Regimen) {
     setSelected(regimen);
     setSigned(false);
+    setSignedDraftOrders(null);
+    setClaimId(null);
+    activeClaimId.current = null;
     setSelectCards([]);
     setSignCards([]);
     setSelectCoverageQuestionnaire(undefined);
     setSignCoverageQuestionnaire(undefined);
     setClaimResponse(null);
     setPaError(null);
+    setPaInquiryError(null);
     setSuggestionAccepted(false);
     setSuggestionOverridden(false);
     setModifiedDraftOrders(null);
@@ -383,6 +396,15 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
     if (!selected) return;
     const suggestionCard = selectCards.find((c) => c.suggestions?.length);
     if (!suggestionCard?.suggestions) return;
+    // Any order edit after sign must be re-signed before PAS can use it.
+    setSigned(false);
+    setSignCards([]);
+    setSignCoverageQuestionnaire(undefined);
+    setSignedDraftOrders(null);
+    setClaimId(null);
+    activeClaimId.current = null;
+    setClaimResponse(null);
+    setPaInquiryError(null);
     // Substitution suggestions operate on component MedicationRequests. The
     // initial order-select payload is intentionally RequestGroup-only, so
     // rebuild the full order-sign bundle when applying a suggestion.
@@ -442,15 +464,28 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
   }
 
   function onOverrideSuggestion() {
+    setSigned(false);
+    setSignCards([]);
+    setSignCoverageQuestionnaire(undefined);
+    setSignedDraftOrders(null);
+    setClaimId(null);
+    activeClaimId.current = null;
+    setClaimResponse(null);
+    setPaInquiryError(null);
     setSuggestionOverridden(true);
     setSuggestionAccepted(false);
   }
 
   function onSignOrder() {
     if (!selected) return;
+    activeClaimId.current = null;
+    setClaimId(null);
     setClaimResponse(null);
     setPaError(null);
+    setPaInquiryError(null);
     const draftOverride = suggestionAccepted ? (modifiedDraftOrders ?? undefined) : undefined;
+    const orderBundle =
+      draftOverride ?? buildDraftBundle(patientId, selected, { stage: "order-sign" });
     callCrdHook(
       "order-sign",
       selected,
@@ -458,21 +493,32 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
         setSignCards(response.cards);
         setSignCoverageQuestionnaire(findCoverageQuestionnaire(response.systemActions));
         setSigned(true);
+        setSignedDraftOrders(orderBundle);
+        const newClaimId = `claim-${crypto.randomUUID()}`;
+        activeClaimId.current = newClaimId;
+        setClaimId(newClaimId);
       },
       draftOverride
     );
   }
 
   async function submitPa() {
-    if (!selected) return;
+    if (!selected || !signedDraftOrders) return;
     setPaSubmitting(true);
     setPaError(null);
+    setPaInquiryError(null);
     setClaimResponse(null);
     try {
       const res = await fetch("/api/pa-submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ patientId, regimenId: selected.id, regimenLabel: selected.label }),
+        body: JSON.stringify({
+          patientId,
+          regimenId: selected.id,
+          regimenLabel: selected.label,
+          draftOrders: signedDraftOrders,
+          claimId,
+        }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -482,16 +528,56 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
         outcome?: string;
         disposition?: string;
         processNote?: Array<{ text: string }>;
+        preAuthRef?: string;
+        reviewActionCode?: string;
+        reviewActionDisplay?: string;
+        canInquire?: boolean;
       };
       setClaimResponse({
         outcome: cr.outcome ?? "unknown",
         disposition: cr.disposition,
         processNote: cr.processNote,
+        preAuthRef: cr.preAuthRef,
+        reviewActionCode: cr.reviewActionCode,
+        reviewActionDisplay: cr.reviewActionDisplay,
+        canInquire: cr.canInquire,
       });
     } catch (e) {
       setPaError(e instanceof Error ? e.message : "PA submission failed");
     } finally {
       setPaSubmitting(false);
+    }
+  }
+
+  async function inquirePa() {
+    if (!selected || !signedDraftOrders || !claimId || !claimResponse?.canInquire) return;
+    const inquiredClaimId = claimId;
+    setPaInquiring(true);
+    setPaInquiryError(null);
+    try {
+      const res = await fetch("/api/pa-inquire", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId,
+          regimenId: selected.id,
+          draftOrders: signedDraftOrders,
+          claimId: inquiredClaimId,
+        }),
+      });
+      const result = (await res.json().catch(() => ({}))) as ClaimResponseSummary & {
+        error?: string;
+      };
+      if (!res.ok) throw new Error(result.error ?? `HTTP ${res.status}`);
+      // If the clinician changed or re-signed the order during the request,
+      // an old case's answer must not replace the current order's status.
+      if (activeClaimId.current !== inquiredClaimId) return;
+      setClaimResponse({ ...result, outcome: result.outcome ?? "unknown" });
+    } catch (error) {
+      if (activeClaimId.current === inquiredClaimId)
+        setPaInquiryError(error instanceof Error ? error.message : "PA inquiry failed");
+    } finally {
+      setPaInquiring(false);
     }
   }
 
@@ -533,7 +619,9 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
         ? "skipped"
         : "pending"
       : claimResponse
-        ? "complete"
+        ? claimResponse.reviewActionCode === "A4" || claimResponse.outcome === "queued"
+          ? "active"
+          : "complete"
         : paSubmitting
           ? "active"
           : signed
@@ -914,11 +1002,31 @@ export default function OrderEntryPage({ patientId }: { patientId: string }) {
             )}
 
             {claimResponse && (
-              <ClaimResponseDisplay
-                outcome={claimResponse.outcome}
-                disposition={claimResponse.disposition}
-                processNote={claimResponse.processNote}
-              />
+              <>
+                <ClaimResponseDisplay
+                  outcome={claimResponse.outcome}
+                  disposition={claimResponse.disposition}
+                  processNote={claimResponse.processNote}
+                  preAuthRef={claimResponse.preAuthRef}
+                  reviewActionCode={claimResponse.reviewActionCode}
+                  reviewActionDisplay={claimResponse.reviewActionDisplay}
+                />
+                {claimResponse.canInquire && claimId && (
+                  <button
+                    type="button"
+                    onClick={inquirePa}
+                    disabled={paInquiring}
+                    className="w-full rounded border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {paInquiring ? "Checking payer status…" : "Check latest PA status"}
+                  </button>
+                )}
+                {paInquiryError && (
+                  <div className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                    {paInquiryError}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

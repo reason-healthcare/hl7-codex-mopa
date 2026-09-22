@@ -15,24 +15,36 @@ export interface ClaimResponseSummary {
   disposition?: string;
   /** Process notes carrying substitution details when the payer modifies the order. */
   processNote?: ProcessNote[];
+  preAuthRef?: string;
+  reviewActionCode?: string;
+  reviewActionDisplay?: string;
+  /** The partner supports an explicit, user-triggered Claim/$inquire. */
+  canInquire?: boolean;
 }
 
-export function ClaimResponseDisplay({ outcome, disposition, processNote }: ClaimResponseSummary) {
-  const isApproved = outcome === "complete";
-  const isPending = outcome === "queued";
+export function ClaimResponseDisplay({
+  outcome,
+  disposition,
+  processNote,
+  preAuthRef,
+  reviewActionCode,
+  reviewActionDisplay,
+}: ClaimResponseSummary) {
+  const isApproved = reviewActionCode ? reviewActionCode === "A1" : outcome === "complete";
+  const isPending = reviewActionCode ? reviewActionCode === "A4" : outcome === "queued";
 
   let cfg: IndicatorConfig;
   let label: string;
 
   if (isApproved) {
     cfg = INDICATOR_CONFIG.info;
-    label = "PA Approved";
+    label = reviewActionDisplay ?? "PA Approved";
   } else if (isPending) {
     cfg = INDICATOR_CONFIG.warning;
-    label = "Pending Review";
+    label = reviewActionDisplay ?? "Pending Review";
   } else {
     cfg = INDICATOR_CONFIG.critical;
-    label = "PA Denied";
+    label = reviewActionDisplay ?? "PA Denied";
   }
 
   const bgClass = isApproved ? "bg-green-50" : isPending ? "bg-amber-50" : "bg-red-50";
@@ -51,6 +63,10 @@ export function ClaimResponseDisplay({ outcome, disposition, processNote }: Clai
         <div>
           <p className="text-sm font-semibold text-slate-900">{label}</p>
           {disposition && <p className="text-sm text-slate-600 mt-0.5">{disposition}</p>}
+          {reviewActionCode && (
+            <p className="text-xs text-slate-500 mt-1">X12 review action: {reviewActionCode}</p>
+          )}
+          {preAuthRef && <p className="text-xs text-slate-500">Payer reference: {preAuthRef}</p>}
         </div>
       </div>
 

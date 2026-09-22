@@ -4,15 +4,17 @@ This guide runs the reference EHR and FHIR server while directing the workflow t
 partner CRD, DTR, and PAS implementations. It is intended for an integration
 rehearsal, not a production deployment.
 
-The reference EHR makes two outbound calls. Its bundled DTR write-back and compact PAS request
-are demo-only interoperability shims: the DTR path is not a production persistence contract, and
-the PAS path is not a conformant Da Vinci PAS Claim `$submit` package.
+The reference EHR can call partner CRD, DTR, and synthetic PAS endpoints. Its
+bundled DTR write-back and default compact PAS request remain demo-only shims;
+the optional synthetic partner PAS lane constructs a full Claim Bundle. None of
+these paths is a production persistence or adjudication contract.
 
 | Integration | Configuration | Request made by the EHR | Required partner behavior |
 | --- | --- | --- | --- |
 | CRD | `NEXT_PUBLIC_CRD_SERVICE_URL` | `POST {base}/api/cds-services/oncology-crd` | Accept the CDS Hooks `order-select` and `order-sign` requests sent by this EHR and return CDS Hooks cards. |
 | DTR | CRD coverage-information extension or a CDS Hooks card link | When CRD supplies a `questionnaire` canonical, the EHR calls the partner's `$questionnaire-package` operation and launches the bundled DTR with that package. Otherwise the browser opens the card's `type: "smart"` link. | Return a package containing the CRD-selected Questionnaire, or supply a SMART-launchable card link as the fallback. |
-| PAS | `PAS_SERVICE_URL` | `POST {base}/api/fhir/$submit` | Accept this reference app's compact PA request and return its expected ClaimResponse fields. |
+| PAS (bundled demo) | `PAS_SERVICE_URL` | `POST {base}/api/fhir/$submit` | Accept this reference app's compact PA request. Used only when `PAS_PARTNER_BASE_URL` is unset. |
+| PAS (synthetic partner) | `PAS_PARTNER_BASE_URL` | `POST {base}/Claim/$submit` | Send the signed regimen as a profiled Claim Bundle with all medications, patient, Coverage, payer, and the latest matching completed DTR response. Uses the CRD partner OAuth credentials with `pas` scope. |
 
 The values above are base URLs. Do not include the path suffixes that the EHR
 adds itself.
@@ -36,6 +38,7 @@ observations, and prior medication requests.
 | `CRD_PARTNER_PREFETCH` | `true` | EHR server route | Include local FHIR prefetch in partner CRD requests so the partner need not reach a localhost `fhirServer`. |
 | `DTR_PARTNER_BASE_URL` | `CRD_PARTNER_BASE_URL` | EHR server route | Optional separate DTR base. The EHR appends `/Questionnaire/$questionnaire-package`; it uses the same client-credentials configuration as CRD. |
 | `PAS_SERVICE_URL` | `http://localhost:4005` | EHR server route | PAS base URL. The EHR appends `/api/fhir/$submit`. |
+| `PAS_PARTNER_BASE_URL` | unset | EHR server route | When set, replaces the compact demo PAS call with FHIR `Claim/$submit`; use only with the synthetic connectathon partner and provisioned `pas` OAuth scope. |
 | `DTR_CLIENT_URL` | `http://localhost:4004` | Local CRD service only | Base URL used only when the bundled CRD service builds its own DTR link, appending `/launch`. It has no effect when using a partner CRD. |
 | `NEXT_PUBLIC_DTR_CLIENT_URL` | `http://localhost:4004` | Local DTR client | Public callback base used by the bundled DTR client. It is not a way to configure a partner DTR. |
 | `NEXT_PUBLIC_EHR_BASE_URL` | `http://localhost:4001` | EHR server and browser code; local DTR | Public EHR base. It determines the `fhirServer`/`iss` URL sent to CRD and DTR. |
@@ -115,9 +118,28 @@ the EHR FHIR server so the demo can re-run CRD. Its code labels that as demo-onl
 a partner DTR should use the exchange and return pattern agreed for the
 Connectathon rather than relying on this write-back behavior.
 
+For the partner package path, the bundled DTR carries the package's
+`QuestionnaireResponse` `qr-context` and `qr-coverage` references into the
+saved response. The next partner CRD call prefetches patient-scoped completed
+QuestionnaireResponses as well as coded Observations. This matters for text-only
+items such as `priorTherapy`: there is no safe Observation mapping for free text,
+so the payer must receive the completed, order-linked QuestionnaireResponse.
+
+The no-browser regression for this handoff is:
+
+```bash
+./node_modules/.bin/vitest run apps/ehr/app/partner-dtr-headless.test.ts
+```
+
+It exercises the EHR's outbound `context + coverage + RequestGroup` package
+request, the DTR package renderer, QR construction with both links, and the
+next CRD prefetch. It mocks network responses and does not send PHI or create a
+real authorization. A separate live partner test is still needed before
+claiming a full browser-to-payer round trip.
+
 ### PAS
 
-The EHR does not send a full Da Vinci PAS Claim Bundle. Its request body is:
+By default, the EHR uses the bundled compact PAS service. Its request body is:
 
 ```json
 {
@@ -127,12 +149,24 @@ The EHR does not send a full Da Vinci PAS Claim Bundle. Its request body is:
 }
 ```
 
-It expects JSON with at least `outcome`; it displays optional `disposition` and
-`processNote[].text` fields as a ClaimResponse-style result. The outbound request
-has only `Content-Type: application/json`; there is no environment variable for
-partner authentication, request transformation, or another PAS operation path.
-Use a small Connectathon adapter if the partner API requires a FHIR Claim Bundle,
-OAuth credentials, mTLS, or different paths.
+When `PAS_PARTNER_BASE_URL` is set, the EHR instead accepts the exact signed
+RequestGroup and component MedicationRequests from order-sign, validates their
+patient and reference closure, fetches the active Coverage and latest completed
+order-linked QuestionnaireResponse, and sends a profiled Claim Bundle to
+`{PAS_PARTNER_BASE_URL}/Claim/$submit`. The response is summarized from the
+ClaimResponse's X12 review action, not from `outcome` alone (`complete` can mean
+either A1 or A3). It displays the payer reference. This lane is deliberately
+limited to the four synthetic reference patients; it is not a production PAS
+implementation or a generic adapter for arbitrary partner authentication.
+
+For the Hike synthetic connectathon rehearsal, set
+`PAS_PARTNER_BASE_URL=https://connectathon.hike.health/oncology/api/v1` alongside
+the existing `CRD_PARTNER_*` OAuth settings, with scope `crd dtr pas`. The
+bundled PAS remains the fallback if this variable is unset. A guarded live
+rehearsal is available with
+`LIVE_SYNTHETIC_PAS_REHEARSAL=1 vitest run --project ehr app/partner-pas-live.test.ts`;
+it creates synthetic PAS cases and expects Jane/no PAS, Maria/A1,
+Sandra/HER2-negative A3, Katherine/Neulasta A4, and Katherine/Udenyca A1.
 
 `PAYER_BACKEND_URL` is one hop behind this integration: it is used only by the
 bundled PAS service to call the bundled policy evaluator. It has no role when

@@ -15,6 +15,8 @@ interface SubmitRequest {
   answers: Record<string, QuestionnaireAnswer>;
   items?: QItem[];
   questionnaireCanonical?: string;
+  contextReference?: string;
+  coverageReference?: string;
 }
 
 const LAB_CATEGORY = {
@@ -130,7 +132,9 @@ export async function POST(request: NextRequest) {
           body.answers,
           body.items ?? [],
           today,
-          body.questionnaireCanonical
+          body.questionnaireCanonical,
+          body.contextReference,
+          body.coverageReference
         )
       ),
     });

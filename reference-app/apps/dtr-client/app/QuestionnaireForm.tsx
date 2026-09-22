@@ -46,6 +46,8 @@ export default function QuestionnaireForm({
           answers,
           items: questionnaire.items,
           questionnaireCanonical: questionnaire.canonical,
+          contextReference: questionnaire.contextReference,
+          coverageReference: questionnaire.coverageReference,
         }),
       });
       if (!res.ok) {

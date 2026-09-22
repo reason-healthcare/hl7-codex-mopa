@@ -33,6 +33,8 @@ export type QuestionnaireAnswer = AnswerCoding | string;
 export interface QuestionnaireDef {
   items: QItem[];
   canonical?: string;
+  contextReference?: string;
+  coverageReference?: string;
 }
 
 export interface PartnerQuestionnairePackageResult {
@@ -284,9 +286,33 @@ export function buildQuestionnaireFromPackage(
     typeof questionnaire.url === "string"
       ? `${questionnaire.url}${typeof questionnaire.version === "string" ? `|${questionnaire.version}` : ""}`
       : undefined;
+  const responseTemplate = bundle.entry
+    .map((entry) =>
+      entry && typeof entry === "object" ? (entry as { resource?: unknown }).resource : undefined
+    )
+    .find((resource) =>
+      Boolean(resource && typeof resource === "object" &&
+        (resource as { resourceType?: unknown }).resourceType === "QuestionnaireResponse" &&
+        (resource as { questionnaire?: unknown }).questionnaire === canonical)
+    ) as { extension?: unknown } | undefined;
+  const extensions = Array.isArray(responseTemplate?.extension) ? responseTemplate.extension : [];
+  const linkedReference = (suffix: "qr-context" | "qr-coverage", type: "RequestGroup" | "Coverage") => {
+    const extension = extensions.find((value) =>
+      value && typeof value === "object" &&
+      (value as { url?: unknown }).url ===
+        `http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/${suffix}`
+    ) as { valueReference?: { reference?: unknown } } | undefined;
+    const reference = extension?.valueReference?.reference;
+    return typeof reference === "string" &&
+      new RegExp(`^${type}/[A-Za-z0-9.-]+$`).test(reference) ? reference : undefined;
+  };
   // Do not silently omit a partner-supplied question and imply that the
   // documentation is complete.
-  return { questionnaire: { items, canonical } };
+  return { questionnaire: {
+    items, canonical,
+    contextReference: linkedReference("qr-context", "RequestGroup"),
+    coverageReference: linkedReference("qr-coverage", "Coverage"),
+  } };
 }
 
 function isCoding(value: unknown): value is AnswerCoding {

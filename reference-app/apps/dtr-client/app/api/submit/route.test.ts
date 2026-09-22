@@ -25,10 +25,18 @@ describe("buildQuestionnaireResponse", () => {
           },
         ],
         "2026-09-20",
-        "https://partner.example/Questionnaire/breast-cancer|1"
+        "https://partner.example/Questionnaire/breast-cancer|1",
+        "RequestGroup/rg-PHD",
+        "Coverage/mopa-connectathon-coverage"
       )
     ).toMatchObject({
       questionnaire: "https://partner.example/Questionnaire/breast-cancer|1",
+      extension: [
+        { url: "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/qr-context",
+          valueReference: { reference: "RequestGroup/rg-PHD" } },
+        { url: "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/qr-coverage",
+          valueReference: { reference: "Coverage/mopa-connectathon-coverage" } },
+      ],
       item: [
         { linkId: "her2", answer: [{ valueCoding: { code: "10828004" } }] },
         { linkId: "priorTherapy", answer: [{ valueString: "No prior systemic therapy." }] },
