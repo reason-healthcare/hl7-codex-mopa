@@ -21,9 +21,8 @@ docker compose up hapi -d
 # 3. Load all demo patient fixtures
 bash fixtures/load-fixtures.sh
 
-# 4. Configure the local profile and start all apps (Turborepo, hot-reload)
-test -f connectathon.env || cp connectathon.env.example connectathon.env
-set -a; source connectathon.env; set +a
+# 4. Load the committed local-only defaults and start all apps
+set -a; source .env.example; set +a
 pnpm exec turbo run dev --env-mode=loose
 ```
 
@@ -35,11 +34,10 @@ For a fully containerised setup (demos, CI):
 docker compose up   # all apps + HAPI, production builds
 ```
 
-For a Connectathon rehearsal that directs the EHR to partner CRD, DTR, or PAS
-implementations, see [CONNECTATHON.md](./CONNECTATHON.md). It documents the
-supported environment variables, local and partner profiles, endpoint contracts,
-and a development-mode Docker Compose recipe. Never commit the copied
-`connectathon.env` file or partner credentials.
+Partner services are never selected by the default startup above. For an explicit
+Connectathon rehearsal that directs the EHR to partner CRD or DTR services, see
+[CONNECTATHON.md](./CONNECTATHON.md). Keep the opt-in `connectathon.env` file and
+all partner credentials out of Git.
 
 ---
 

@@ -71,6 +71,7 @@ except: pass
   cond_delete "Observation?patient=${patient_id}"
   cond_delete "Condition?patient=${patient_id}"
   cond_delete "QuestionnaireResponse?patient=${patient_id}"
+  cond_delete "Coverage?patient=${patient_id}"
   cond_delete "Patient/${patient_id}"
   echo ""
 

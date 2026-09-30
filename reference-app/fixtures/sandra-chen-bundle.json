@@ -4,6 +4,19 @@
   "type": "transaction",
   "entry": [
     {
+      "fullUrl": "urn:uuid:mopa-demo-payer",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "mopa-demo-payer",
+        "active": true,
+        "name": "MOPA Demo Payer"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/mopa-demo-payer"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:sandra-chen",
       "resource": {
         "resourceType": "Patient",
@@ -43,6 +56,26 @@
       "request": {
         "method": "PUT",
         "url": "Patient/sandra-chen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:sandra-chen-coverage",
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "sandra-chen-coverage",
+        "status": "active",
+        "beneficiary": {
+          "reference": "Patient/sandra-chen"
+        },
+        "payor": [
+          {
+            "reference": "Organization/mopa-demo-payer"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Coverage/sandra-chen-coverage"
       }
     },
     {
