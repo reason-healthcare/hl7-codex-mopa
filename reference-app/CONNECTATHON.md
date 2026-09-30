@@ -36,11 +36,14 @@ variables reach the child apps:
 
 ```bash
 cd reference-app
-test -f connectathon.env || cp connectathon.env.example connectathon.env
-set -a; source connectathon.env; set +a
+set -a; source .env.example; set +a
 pnpm install --frozen-lockfile
 pnpm exec turbo run dev --env-mode=loose
 ```
+
+This default command is local-only and does not read `connectathon.env`.
+Partner routing is opt-in: create the ignored `connectathon.env`, load it
+explicitly instead of `.env.example`, and then run the same Turbo command.
 
 For a partner CRD/DTR run, set `CRD_PARTNER_BASE_URL`,
 `CRD_PARTNER_TOKEN_URL`, `CRD_PARTNER_CLIENT_ID`, and
