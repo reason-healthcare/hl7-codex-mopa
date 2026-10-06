@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Claim xmlns="http://hl7.org/fhir">
+  <id value="324d4f70-205b-60cc-4184-ff388bd1b344"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: Claim 324d4f70-205b-60cc-4184-ff388bd1b344</b></p><a name="324d4f70-205b-60cc-4184-ff388bd1b344"> </a><a name="hc324d4f70-205b-60cc-4184-ff388bd1b344"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title="Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e">Julia241 Julia241 Terán294</a></p><p><b>billablePeriod</b>: 1985-07-25 22:05:30-0500 --&gt; 1985-07-27 08:08:17-0500</p><p><b>created</b>: 1985-07-27 08:08:17-0500</p><p><b>provider</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>priority</b>: <span title="Codes:{http://terminology.hl7.org/CodeSystem/processpriority normal}">Normal</span></p><p><b>facility</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><h3>Diagnoses</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Sequence</b></td><td><b>Diagnosis[x]</b></td></tr><tr><td style="display: none">*</td><td>1</td><td><a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1">Condition Malignant neoplasm of breast (disorder)</a></td></tr></table><h3>Insurances</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Sequence</b></td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style="display: none">*</td><td>1</td><td>true</td><td>Anthem</td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>productOrService</b>: <span title="Codes:{http://snomed.info/sct 185345009}">Encounter for symptom (procedure)</span></p><p><b>encounter</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-58cf-1e7016b4cbfa">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-58cf-1e7016b4cbfa (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Encounter for symptom (procedure); period = 1985-07-25 22:05:30-0500 --&gt; 1985-07-27 08:08:17-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>diagnosisSequence</b>: 1</p><p><b>productOrService</b>: <span title="Codes:{http://snomed.info/sct 254837009}">Malignant neoplasm of breast (disorder)</span></p></blockquote><h3>Totals</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style="display: none">*</td><td>8624.83</td><td>United States dollar</td></tr></table></div>
+  </text>
+  <status value="active"/>
+  <type>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+      <code value="professional"/>
+    </coding>
+  </type>
+  <use value="claim"/>
+  <patient>
+    <reference value="urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"/>
+    <display value="Julia241 Julia241 Terán294"/>
+  </patient>
+  <billablePeriod>
+    <start value="1985-07-25T22:05:30-05:00"/>
+    <end value="1985-07-27T08:08:17-05:00"/>
+  </billablePeriod>
+  <created value="1985-07-27T08:08:17-05:00"/>
+  <provider>
+    <reference value="Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512"/>
+    <display value="OPEN ACCESS VASCULAR ACCESS CENTER INC"/>
+  </provider>
+  <priority>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/processpriority"/>
+      <code value="normal"/>
+    </coding>
+  </priority>
+  <facility>
+    <reference value="Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8"/>
+    <display value="OPEN ACCESS VASCULAR ACCESS CENTER INC"/>
+  </facility>
+  <diagnosis>
+    <sequence value="1"/>
+    <diagnosisReference>
+      <reference value="urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1"/>
+    </diagnosisReference>
+  </diagnosis>
+  <insurance>
+    <sequence value="1"/>
+    <focal value="true"/>
+    <coverage>
+      <display value="Anthem"/>
+    </coverage>
+  </insurance>
+  <item>
+    <sequence value="1"/>
+    <productOrService>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="185345009"/>
+        <display value="Encounter for symptom (procedure)"/>
+      </coding>
+      <text value="Encounter for symptom (procedure)"/>
+    </productOrService>
+    <encounter>
+      <reference value="urn:uuid:324d4f70-205b-60cc-58cf-1e7016b4cbfa"/>
+    </encounter>
+  </item>
+  <item>
+    <sequence value="2"/>
+    <diagnosisSequence value="1"/>
+    <productOrService>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="254837009"/>
+        <display value="Malignant neoplasm of breast (disorder)"/>
+      </coding>
+      <text value="Malignant neoplasm of breast (disorder)"/>
+    </productOrService>
+  </item>
+  <total>
+    <value value="8624.83"/>
+    <currency value="USD"/>
+  </total>
+</Claim>

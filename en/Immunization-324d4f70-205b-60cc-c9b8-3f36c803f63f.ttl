@@ -1,0 +1,56 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Immunization/324d4f70-205b-60cc-c9b8-3f36c803f63f> a fhir:Immunization ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "324d4f70-205b-60cc-c9b8-3f36c803f63f"] ;
+  fhir:Resource.meta [
+     fhir:Meta.profile [
+       fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization" ;
+       fhir:index -1 ;
+       fhir:link <http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization>
+     ]
+  ] ;
+  fhir:Resource.language [ fhir:value "en"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Immunization 324d4f70-205b-60cc-c9b8-3f36c803f63f</b></p><a name=\"324d4f70-205b-60cc-c9b8-3f36c803f63f\"> </a><a name=\"hc324d4f70-205b-60cc-c9b8-3f36c803f63f\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-immunization.html\">US Core Immunization Profile</a></p></div><p><b>status</b>: Completed</p><p><b>vaccineCode</b>: <span title=\"Codes:{http://hl7.org/fhir/sid/cvx 140}\">Influenza, split virus, trivalent, PF</span></p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-daa0-f375f040f2ca\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-daa0-f375f040f2ca (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2022-05-16 22:05:30-0500 --&gt; 2022-05-16 22:20:30-0500</a></p><p><b>occurrence</b>: 2022-05-16 22:05:30-0500</p><p><b>primarySource</b>: true</p><p><b>location</b>: <code>CHILDRENS MEDICAL CARE INC</code></p></div>"
+  ] ;
+  fhir:Immunization.status [ fhir:value "completed"] ;
+  fhir:Immunization.vaccineCode [
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "http://hl7.org/fhir/sid/cvx" ] ;
+       fhir:Coding.code [ fhir:value "140" ] ;
+       fhir:Coding.display [ fhir:value "Influenza, split virus, trivalent, PF" ]
+     ] ;
+     fhir:CodeableConcept.text [ fhir:value "Influenza, split virus, trivalent, PF" ]
+  ] ;
+  fhir:Immunization.patient [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ] ;
+  fhir:Immunization.encounter [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-daa0-f375f040f2ca" ]
+  ] ;
+  fhir:Immunization.occurrenceDateTime [ fhir:value "2022-05-16T22:05:30-05:00"^^xsd:dateTime] ;
+  fhir:Immunization.primarySource [ fhir:value "true"^^xsd:boolean] ;
+  fhir:Immunization.location [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e> ;
+     fhir:Reference.reference [ fhir:value "Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e" ] ;
+     fhir:Reference.display [ fhir:value "CHILDRENS MEDICAL CARE INC" ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Immunization/324d4f70-205b-60cc-c9b8-3f36c803f63f.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/Immunization/324d4f70-205b-60cc-c9b8-3f36c803f63f.ttl> .
+
+# -------------------------------------------------------------------------------------
+

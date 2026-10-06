@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Claim xmlns="http://hl7.org/fhir">
+  <id value="324d4f70-205b-60cc-51b7-9b21c65312d1"/>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: Claim 324d4f70-205b-60cc-51b7-9b21c65312d1</b></p><a name="324d4f70-205b-60cc-51b7-9b21c65312d1"> </a><a name="hc324d4f70-205b-60cc-51b7-9b21c65312d1"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title="Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e">Julia241 Julia241 Terán294</a></p><p><b>billablePeriod</b>: 2021-02-22 21:05:30-0600 --&gt; 2021-02-22 21:20:30-0600</p><p><b>created</b>: 2021-02-22 21:20:30-0600</p><p><b>provider</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>priority</b>: <span title="Codes:{http://terminology.hl7.org/CodeSystem/processpriority normal}">Normal</span></p><p><b>facility</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><h3>SupportingInfos</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Sequence</b></td><td><b>Category</b></td><td><b>Value[x]</b></td></tr><tr><td style="display: none">*</td><td>1</td><td><span title="Codes:{http://terminology.hl7.org/CodeSystem/claiminformationcategory info}">Information</span></td><td><a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9034-26ba188a4c3a">Immunization: status = completed; vaccineCode = Dr. Bertram Pyle; occurrence[x] = 2021-02-22 21:05:30-0600; primarySource = true</a></td></tr></table><h3>Insurances</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Sequence</b></td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style="display: none">*</td><td>1</td><td>true</td><td>Medicare</td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>productOrService</b>: <span title="Codes:{http://snomed.info/sct 33879002}">Administration of vaccine to produce active immunity (procedure)</span></p><p><b>encounter</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fea4-d040f20925df">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-fea4-d040f20925df (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Administration of vaccine to produce active immunity (procedure); period = 2021-02-22 21:05:30-0600 --&gt; 2021-02-22 21:20:30-0600</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>informationSequence</b>: 1</p><p><b>productOrService</b>: <span title="Codes:{http://hl7.org/fhir/sid/cvx 207}">COVID-19, mRNA, LNP-S, PF, 100 mcg/0.5mL dose or 50 mcg/0.25mL dose</span></p><h3>Nets</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style="display: none">*</td><td>136</td><td>United States dollar</td></tr></table></blockquote><h3>Totals</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style="display: none">*</td><td>242.81</td><td>United States dollar</td></tr></table></div>
+  </text>
+  <status value="active"/>
+  <type>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+      <code value="professional"/>
+    </coding>
+  </type>
+  <use value="claim"/>
+  <patient>
+    <reference value="urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"/>
+    <display value="Julia241 Julia241 Terán294"/>
+  </patient>
+  <billablePeriod>
+    <start value="2021-02-22T21:05:30-06:00"/>
+    <end value="2021-02-22T21:20:30-06:00"/>
+  </billablePeriod>
+  <created value="2021-02-22T21:20:30-06:00"/>
+  <provider>
+    <reference value="Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512"/>
+    <display value="OPEN ACCESS VASCULAR ACCESS CENTER INC"/>
+  </provider>
+  <priority>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/processpriority"/>
+      <code value="normal"/>
+    </coding>
+  </priority>
+  <facility>
+    <reference value="Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8"/>
+    <display value="OPEN ACCESS VASCULAR ACCESS CENTER INC"/>
+  </facility>
+  <supportingInfo>
+    <sequence value="1"/>
+    <category>
+      <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/claiminformationcategory"/>
+        <code value="info"/>
+      </coding>
+    </category>
+    <valueReference>
+      <reference value="urn:uuid:324d4f70-205b-60cc-9034-26ba188a4c3a"/>
+    </valueReference>
+  </supportingInfo>
+  <insurance>
+    <sequence value="1"/>
+    <focal value="true"/>
+    <coverage>
+      <display value="Medicare"/>
+    </coverage>
+  </insurance>
+  <item>
+    <sequence value="1"/>
+    <productOrService>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="33879002"/>
+        <display value="Administration of vaccine to produce active immunity (procedure)"/>
+      </coding>
+      <text value="Administration of vaccine to produce active immunity (procedure)"/>
+    </productOrService>
+    <encounter>
+      <reference value="urn:uuid:324d4f70-205b-60cc-fea4-d040f20925df"/>
+    </encounter>
+  </item>
+  <item>
+    <sequence value="2"/>
+    <informationSequence value="1"/>
+    <productOrService>
+      <coding>
+        <system value="http://hl7.org/fhir/sid/cvx"/>
+        <code value="207"/>
+        <display value="Dr. Bertram Pyle"/>
+      </coding>
+      <text value="COVID-19, mRNA, LNP-S, PF, 100 mcg/0.5mL dose or 50 mcg/0.25mL dose"/>
+    </productOrService>
+    <net>
+      <value value="136"/>
+      <currency value="USD"/>
+    </net>
+  </item>
+  <total>
+    <value value="242.81"/>
+    <currency value="USD"/>
+  </total>
+</Claim>

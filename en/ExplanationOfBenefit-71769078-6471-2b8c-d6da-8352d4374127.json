@@ -1,0 +1,258 @@
+{
+  "resourceType" : "ExplanationOfBenefit",
+  "id" : "71769078-6471-2b8c-d6da-8352d4374127",
+  "language" : "en",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ExplanationOfBenefit 71769078-6471-2b8c-d6da-8352d4374127</b></p><a name=\"71769078-6471-2b8c-d6da-8352d4374127\"> </a><a name=\"hc71769078-6471-2b8c-d6da-8352d4374127\"> </a><p><b>identifier</b>: <code>https://bluebutton.cms.gov/resources/variables/clm_id</code>/324d4f70-205b-60cc-80fd-fb51401f0e6b, <code>https://bluebutton.cms.gov/resources/identifier/claim-group</code>/99999999999</p><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}\">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>billablePeriod</b>: 2019-03-17 17:06:12-0500 --&gt; 2020-03-17 17:06:12-0500</p><p><b>created</b>: 2019-03-17 17:06:12-0500</p><p><b>insurer</b>: Medicare</p><p><b>provider</b>: <code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495</code></p><p><b>referral</b>: <a href=\"#hc71769078-6471-2b8c-d6da-8352d4374127/referral\">ServiceRequest: status = completed; intent = order</a></p><p><b>facility</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>claim</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-80fd-fb51401f0e6b\">Claim: status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 16:33:52-0500 --&gt; 2019-03-17 17:06:12-0500; created = 2019-03-17 17:06:12-0500; priority = Normal</a></p><p><b>outcome</b>: Processing Complete</p><h3>CareTeams</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Provider</b></td><td><b>Role</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495</code></td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claimcareteamrole primary}\">Primary provider</span></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>true</td><td><a href=\"#hc71769078-6471-2b8c-d6da-8352d4374127/coverage\">Medicare</a></td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd 1}\">Medical care</span></p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 439740005}\">Postoperative follow-up visit (procedure)</span></p><p><b>serviced</b>: 2019-03-17 16:33:52-0500 --&gt; 2019-03-17 17:06:12-0500</p><p><b>location</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-serviceplace 21}\">Nexis Health</span></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-65ac-50e059411094\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-65ac-50e059411094\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2019-03-17 16:33:52-0500 --&gt; 2019-03-17 17:06:12-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd 1}\">Medical care</span></p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 25656009}\">Physical examination, complete (procedure)</span></p><p><b>serviced</b>: 2019-03-17 16:33:52-0500 --&gt; 2019-03-17 17:06:12-0500</p><p><b>location</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-serviceplace 21}\">Nexis Health</span></p><h3>Nets</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>615.85</td><td>United States dollar</td></tr></table><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt}\">Line Beneficiary Coinsurance Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>123.17000000000002</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt}\">Line Provider Payment Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>492.68000000000006</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt}\">Line Submitted Charge Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>615.85</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt}\">Line Allowed Charge Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>615.85</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt}\">Line Beneficiary Part B Deductible Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>0</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd}\">Line Processing Indicator Code</span></p></blockquote></blockquote><blockquote><p><b>total</b></p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/adjudication submitted}\">Submitted Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>722.66</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>payment</b></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>492.68000000000006</td><td>United States dollar</td></tr></table></blockquote><hr/><blockquote><p class=\"res-header-id\"><b>Generated Narrative: ServiceRequest #referral</b></p><a name=\"71769078-6471-2b8c-d6da-8352d4374127/referral\"> </a><a name=\"hc71769078-6471-2b8c-d6da-8352d4374127/referral\"> </a><p><b>status</b>: Completed</p><p><b>intent</b>: Order</p><p><b>subject</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>requester</b>: <code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495</code></p><p><b>performer</b>: <code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495</code></p></blockquote><hr/><blockquote><p class=\"res-header-id\"><b>Generated Narrative: Coverage #coverage</b></p><a name=\"71769078-6471-2b8c-d6da-8352d4374127/coverage\"> </a><a name=\"hc71769078-6471-2b8c-d6da-8352d4374127/coverage\"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:\">Medicare</span></p><p><b>beneficiary</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>payor</b>: Medicare</p></blockquote></div>"
+  },
+  "contained" : [{
+    "resourceType" : "ServiceRequest",
+    "id" : "referral",
+    "status" : "completed",
+    "intent" : "order",
+    "subject" : {
+      "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+    },
+    "requester" : {
+      "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495"
+    },
+    "performer" : [{
+      "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495"
+    }]
+  },
+  {
+    "resourceType" : "Coverage",
+    "id" : "coverage",
+    "status" : "active",
+    "type" : {
+      "text" : "Medicare"
+    },
+    "beneficiary" : {
+      "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+    },
+    "payor" : [{
+      "display" : "Medicare"
+    }]
+  }],
+  "identifier" : [{
+    "system" : "https://bluebutton.cms.gov/resources/variables/clm_id",
+    "value" : "324d4f70-205b-60cc-80fd-fb51401f0e6b"
+  },
+  {
+    "system" : "https://bluebutton.cms.gov/resources/identifier/claim-group",
+    "value" : "99999999999"
+  }],
+  "status" : "active",
+  "type" : {
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/claim-type",
+      "code" : "professional"
+    }]
+  },
+  "use" : "claim",
+  "patient" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+  },
+  "billablePeriod" : {
+    "start" : "2019-03-17T17:06:12-05:00",
+    "end" : "2020-03-17T17:06:12-05:00"
+  },
+  "created" : "2019-03-17T17:06:12-05:00",
+  "insurer" : {
+    "display" : "Medicare"
+  },
+  "provider" : {
+    "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495"
+  },
+  "referral" : {
+    "reference" : "#referral"
+  },
+  "facility" : {
+    "reference" : "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  },
+  "claim" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-80fd-fb51401f0e6b"
+  },
+  "outcome" : "complete",
+  "careTeam" : [{
+    "sequence" : 1,
+    "provider" : {
+      "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495"
+    },
+    "role" : {
+      "coding" : [{
+        "system" : "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+        "code" : "primary",
+        "display" : "Primary provider"
+      }]
+    }
+  }],
+  "insurance" : [{
+    "focal" : true,
+    "coverage" : {
+      "reference" : "#coverage",
+      "display" : "Medicare"
+    }
+  }],
+  "item" : [{
+    "sequence" : 1,
+    "category" : {
+      "coding" : [{
+        "system" : "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+        "code" : "1",
+        "display" : "Medical care"
+      }]
+    },
+    "productOrService" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "439740005",
+        "display" : "Postoperative follow-up visit (procedure)"
+      }],
+      "text" : "Postoperative follow-up visit (procedure)"
+    },
+    "servicedPeriod" : {
+      "start" : "2019-03-17T16:33:52-05:00",
+      "end" : "2019-03-17T17:06:12-05:00"
+    },
+    "locationCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+        "code" : "21",
+        "display" : "Nexis Health"
+      }]
+    },
+    "encounter" : [{
+      "reference" : "urn:uuid:324d4f70-205b-60cc-65ac-50e059411094"
+    }]
+  },
+  {
+    "sequence" : 2,
+    "category" : {
+      "coding" : [{
+        "system" : "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+        "code" : "1",
+        "display" : "Medical care"
+      }]
+    },
+    "productOrService" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "25656009",
+        "display" : "Physical examination, complete (procedure)"
+      }],
+      "text" : "Physical examination, complete (procedure)"
+    },
+    "servicedPeriod" : {
+      "start" : "2019-03-17T16:33:52-05:00",
+      "end" : "2019-03-17T17:06:12-05:00"
+    },
+    "locationCodeableConcept" : {
+      "coding" : [{
+        "system" : "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+        "code" : "21",
+        "display" : "Nexis Health"
+      }]
+    },
+    "net" : {
+      "value" : 615.85,
+      "currency" : "USD"
+    },
+    "adjudication" : [{
+      "category" : {
+        "coding" : [{
+          "system" : "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+          "code" : "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt",
+          "display" : "Line Beneficiary Coinsurance Amount"
+        }]
+      },
+      "amount" : {
+        "value" : 123.17000000000002,
+        "currency" : "USD"
+      }
+    },
+    {
+      "category" : {
+        "coding" : [{
+          "system" : "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+          "code" : "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt",
+          "display" : "Line Provider Payment Amount"
+        }]
+      },
+      "amount" : {
+        "value" : 492.68000000000006,
+        "currency" : "USD"
+      }
+    },
+    {
+      "category" : {
+        "coding" : [{
+          "system" : "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+          "code" : "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt",
+          "display" : "Line Submitted Charge Amount"
+        }]
+      },
+      "amount" : {
+        "value" : 615.85,
+        "currency" : "USD"
+      }
+    },
+    {
+      "category" : {
+        "coding" : [{
+          "system" : "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+          "code" : "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt",
+          "display" : "Line Allowed Charge Amount"
+        }]
+      },
+      "amount" : {
+        "value" : 615.85,
+        "currency" : "USD"
+      }
+    },
+    {
+      "category" : {
+        "coding" : [{
+          "system" : "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+          "code" : "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt",
+          "display" : "Line Beneficiary Part B Deductible Amount"
+        }]
+      },
+      "amount" : {
+        "value" : 0,
+        "currency" : "USD"
+      }
+    },
+    {
+      "category" : {
+        "coding" : [{
+          "system" : "https://bluebutton.cms.gov/resources/codesystem/adjudication",
+          "code" : "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd",
+          "display" : "Line Processing Indicator Code"
+        }]
+      }
+    }]
+  }],
+  "total" : [{
+    "category" : {
+      "coding" : [{
+        "system" : "http://terminology.hl7.org/CodeSystem/adjudication",
+        "code" : "submitted",
+        "display" : "Submitted Amount"
+      }],
+      "text" : "Submitted Amount"
+    },
+    "amount" : {
+      "value" : 722.66,
+      "currency" : "USD"
+    }
+  }],
+  "payment" : {
+    "amount" : {
+      "value" : 492.68000000000006,
+      "currency" : "USD"
+    }
+  }
+}

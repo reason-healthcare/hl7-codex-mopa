@@ -1,0 +1,67 @@
+%%{init: {'sequence': {'htmlLabels': false}}}%%
+sequenceDiagram
+  autonumber
+  actor Oncologist
+  participant EHR as Oncology EHR
+  participant CRD as CRD Service
+  participant DTR as DTR Client
+  participant PAS as PAS Service
+  participant Payer as Payer Backend
+
+  Oncologist->>EHR: Open chart / begin treatment planning
+  Oncologist->>EHR: Select anti-cancer regimen from order-set
+  EHR->>EHR: Create draft RequestGroup (instantiatesCanonical → PlanDefinition)
+
+  rect rgb(230, 240, 255)
+    Note over Oncologist,EHR: order-select — Informational Approvability Check
+    EHR->>CRD: CDS Hooks order-select (RequestGroup + fhirAuthorization)
+    CRD->>EHR: Query FHIR server for oncology context (Condition, Observation, MedicationRequest)
+    EHR-->>CRD: Patient context (diagnosis, stage, biomarkers, ECOG, prior therapy)
+    CRD->>CRD: Evaluate context completeness and coverage criteria
+
+    alt Context complete + criteria satisfied
+      CRD-->>EHR: Approvable — PA can be bypassed (info)
+    else Context incomplete
+      CRD-->>EHR: DTR launch card (warning)
+      EHR->>DTR: Launch DTR (collects missing data via questionnaire)
+      Note over DTR: DTR collects data but does NOT persist to EHR FHIR server
+      DTR-->>EHR: Completed QuestionnaireResponse (held in EHR session)
+    else Criteria not met
+      CRD-->>EHR: PA will be required (warning)
+    end
+
+    EHR-->>Oncologist: Present approvability cards (advisory, not yet signed)
+  end
+
+  Oncologist->>EHR: Sign order
+  Note over EHR: RequestGroup + finalised component MedicationRequests
+
+  rect rgb(240, 248, 240)
+    Note over Oncologist,EHR: order-sign — Final Determination
+    EHR->>CRD: CDS Hooks order-sign (RequestGroup + MedicationRequests + fhirAuthorization)
+    CRD->>EHR: Query FHIR server for oncology context
+    EHR-->>CRD: Patient context (may still be missing data — DTR responses are not persisted to FHIR server)
+    CRD->>CRD: Final coverage determination
+
+    alt Authorization satisfied
+      CRD-->>EHR: Authorization Satisfied (success) — PA bypassed
+    else PA required
+      CRD-->>EHR: PA required (warning)
+    else Context still incomplete
+      CRD-->>EHR: DTR launch card (warning) — data still missing
+      EHR->>DTR: Launch DTR again (collect remaining missing data)
+      Note over DTR: DTR collects data but does NOT persist to EHR FHIR server
+      DTR-->>EHR: Completed QuestionnaireResponse (held in EHR session)
+      EHR-->>Oncologist: DTR complete — proceed to PA submission
+    end
+
+    EHR-->>Oncologist: Display final determination
+  end
+
+  opt PA required or DTR was launched
+    EHR->>PAS: Submit PA request (including QuestionnaireResponse(s) from DTR)
+    PAS->>Payer: Transmit for adjudication
+    Payer-->>PAS: PA decision (approved / pended / denied)
+    PAS-->>EHR: ClaimResponse with determination
+    EHR-->>Oncologist: Display PA outcome
+  end

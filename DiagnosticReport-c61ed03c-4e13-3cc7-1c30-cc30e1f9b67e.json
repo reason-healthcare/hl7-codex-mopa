@@ -1,0 +1,52 @@
+{
+  "resourceType" : "DiagnosticReport",
+  "id" : "c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"]
+  },
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<p>Structured data from this resource. The JSON and XML tabs provide the complete FHIR representation.</p>\n<table class=\"grid\"><caption>Structured DiagnosticReport data</caption><tbody>\n<tr><th scope=\"row\">Resource ID</th><td>c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e<br/></td></tr>\n<tr><th scope=\"row\">Metadata and profiles</th><td>\n\n\n<p><b>Profile:</b> http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note</p>\n\n\n\n</td></tr>\n\n\n\n\n<tr><th scope=\"row\">Status</th><td>Final<br/></td></tr>\n<tr><th scope=\"row\">Categories</th><td><span title=\"Codes:{http://loinc.org 34117-2}, {http://loinc.org 51847-2}\">History and physical note</span><br/></td></tr>\n<tr><th scope=\"row\">Report type</th><td><span title=\"Codes:{http://loinc.org 34117-2}, {http://loinc.org 51847-2}\">History and physical note</span><br/></td></tr>\n<tr><th scope=\"row\">Subject</th><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a><br/></td></tr>\n<tr><th scope=\"row\">Encounter</th><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d603-07e52baa590b\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-d603-07e52baa590b\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2020-03-27 17:50:19-0500 --&gt; 2020-03-27 18:21:20-0500; reasonCode = Malignant neoplasm of breast (disorder)</a><br/></td></tr>\n<tr><th scope=\"row\">Effective time</th><td>2020-03-27 17:50:19-0500<br/></td></tr>\n<tr><th scope=\"row\">Issued</th><td>2020-03-27 17:50:19-0500<br/></td></tr>\n<tr><th scope=\"row\">Performers</th><td><code>Dr. Bertram Pyle</code><br/></td></tr>\n\n\n\n\n\n\n\n\n\n\n</tbody></table>\n<h3>Attachments</h3>\n\n<table class=\"grid\"><tbody>\n<tr><th scope=\"row\">Content type</th><td>text/plain; charset=utf-8<br/></td></tr>\n\n\n\n\n\n\n\n</tbody></table>\n\n\n<pre><code>\n2020-03-27\n\n# Chief Complaint\nNo complaints.\n\n# History of Present Illness\nJulia241 Julia241 is a 77 year-old hispanic white female.\n\n# Social History\nPatient is single. Patient quit smoking at age 16.\n Patient identifies as heterosexual.\n\nPatient comes from a middle socioeconomic background.\n Patient has completed some college courses.\nPatient currently has Medicare.\n\n# Allergies\nNo Known Allergies.\n\n# Medications\nNo Active Medications.\n\n# Assessment and Plan\n\n\n\n## Plan\n\nThe following procedures were conducted:\n- physical examination, complete (procedure)\n</code></pre>\n\n\n\n</div>"
+  },
+  "status" : "final",
+  "category" : [{
+    "coding" : [{
+      "system" : "http://loinc.org",
+      "code" : "34117-2",
+      "display" : "History and physical note"
+    },
+    {
+      "system" : "http://loinc.org",
+      "code" : "51847-2",
+      "display" : "Evaluation + Plan note"
+    }]
+  }],
+  "code" : {
+    "coding" : [{
+      "system" : "http://loinc.org",
+      "code" : "34117-2",
+      "display" : "History and physical note"
+    },
+    {
+      "system" : "http://loinc.org",
+      "code" : "51847-2",
+      "display" : "Evaluation + Plan note"
+    }]
+  },
+  "subject" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+  },
+  "encounter" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-d603-07e52baa590b"
+  },
+  "effectiveDateTime" : "2020-03-27T17:50:19-05:00",
+  "issued" : "2020-03-27T17:50:19.471-05:00",
+  "performer" : [{
+    "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495",
+    "display" : "Dr. Bertram Pyle"
+  }],
+  "presentedForm" : [{
+    "contentType" : "text/plain; charset=utf-8",
+    "data" : "CjIwMjAtMDMtMjcKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkp1bGlhMjQxIEp1bGlhMjQxIGlzIGEgNzcgeWVhci1vbGQgaGlzcGFuaWMgd2hpdGUgZmVtYWxlLgoKIyBTb2NpYWwgSGlzdG9yeQpQYXRpZW50IGlzIHNpbmdsZS4gUGF0aWVudCBxdWl0IHNtb2tpbmcgYXQgYWdlIDE2LgogUGF0aWVudCBpZGVudGlmaWVzIGFzIGhldGVyb3NleHVhbC4KClBhdGllbnQgY29tZXMgZnJvbSBhIG1pZGRsZSBzb2Npb2Vjb25vbWljIGJhY2tncm91bmQuCiBQYXRpZW50IGhhcyBjb21wbGV0ZWQgc29tZSBjb2xsZWdlIGNvdXJzZXMuClBhdGllbnQgY3VycmVudGx5IGhhcyBNZWRpY2FyZS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKTm8gQWN0aXZlIE1lZGljYXRpb25zLgoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuCgoKCiMjIFBsYW4KClRoZSBmb2xsb3dpbmcgcHJvY2VkdXJlcyB3ZXJlIGNvbmR1Y3RlZDoKLSBwaHlzaWNhbCBleGFtaW5hdGlvbiwgY29tcGxldGUgKHByb2NlZHVyZSkK"
+  }]
+}

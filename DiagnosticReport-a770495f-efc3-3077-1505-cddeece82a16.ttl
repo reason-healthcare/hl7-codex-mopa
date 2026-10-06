@@ -1,0 +1,84 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix loinc: <http://loinc.org/rdf#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/DiagnosticReport/a770495f-efc3-3077-1505-cddeece82a16> a fhir:DiagnosticReport ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "a770495f-efc3-3077-1505-cddeece82a16"] ;
+  fhir:Resource.meta [
+     fhir:Meta.profile [
+       fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note" ;
+       fhir:index 0 ;
+       fhir:link <http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note>
+     ]
+  ] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "extensions" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<p>Structured data from this resource. The JSON and XML tabs provide the complete FHIR representation.</p>\n<table class=\"grid\"><caption>Structured DiagnosticReport data</caption><tbody>\n<tr><th scope=\"row\">Resource ID</th><td>a770495f-efc3-3077-1505-cddeece82a16<br/></td></tr>\n<tr><th scope=\"row\">Metadata and profiles</th><td>\n\n\n<p><b>Profile:</b> http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note</p>\n\n\n\n</td></tr>\n\n\n\n\n<tr><th scope=\"row\">Status</th><td>Final<br/></td></tr>\n<tr><th scope=\"row\">Categories</th><td><span title=\"Codes:{http://loinc.org 34117-2}, {http://loinc.org 51847-2}\">History and physical note</span><br/></td></tr>\n<tr><th scope=\"row\">Report type</th><td><span title=\"Codes:{http://loinc.org 34117-2}, {http://loinc.org 51847-2}\">History and physical note</span><br/></td></tr>\n<tr><th scope=\"row\">Subject</th><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a><br/></td></tr>\n<tr><th scope=\"row\">Encounter</th><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-47b3-71b6fedb37cf\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-47b3-71b6fedb37cf (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2023-04-10 22:44:51-0500 --&gt; 2023-04-10 23:08:22-0500; reasonCode = Malignant neoplasm of breast (disorder)</a><br/></td></tr>\n<tr><th scope=\"row\">Effective time</th><td>2023-04-10 22:44:51-0500<br/></td></tr>\n<tr><th scope=\"row\">Issued</th><td>2023-04-10 22:44:51-0500<br/></td></tr>\n<tr><th scope=\"row\">Performers</th><td><code>Dr. Bertram Pyle</code><br/></td></tr>\n\n\n\n\n\n\n\n\n\n\n</tbody></table>\n<h3>Attachments</h3>\n\n<table class=\"grid\"><tbody>\n<tr><th scope=\"row\">Content type</th><td>text/plain; charset=utf-8<br/></td></tr>\n\n\n\n\n\n\n\n</tbody></table>\n\n\n<pre><code>\n2023-04-10\n\n# Chief Complaint\nNo complaints.\n\n# History of Present Illness\nJulia241 Julia241 is a 80 year-old hispanic white female.\n\n# Social History\nPatient is single. Patient quit smoking at age 16.\n Patient identifies as heterosexual.\n\nPatient comes from a middle socioeconomic background.\n Patient has completed some college courses.\nPatient currently has Medicare.\n\n# Allergies\nNo Known Allergies.\n\n# Medications\nNo Active Medications.\n\n# Assessment and Plan\n\n\n\n## Plan\n\nThe following procedures were conducted:\n- mammography (procedure)\n</code></pre>\n\n\n\n</div>"
+  ] ;
+  fhir:DiagnosticReport.status [ fhir:value "final"] ;
+  fhir:DiagnosticReport.category [
+     fhir:index 0 ;
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       a loinc:34117-2 ;
+       fhir:Coding.system [ fhir:value "http://loinc.org" ] ;
+       fhir:Coding.code [ fhir:value "34117-2" ] ;
+       fhir:Coding.display [ fhir:value "History and physical note" ]
+     ], [
+       fhir:index 1 ;
+       a loinc:51847-2 ;
+       fhir:Coding.system [ fhir:value "http://loinc.org" ] ;
+       fhir:Coding.code [ fhir:value "51847-2" ] ;
+       fhir:Coding.display [ fhir:value "Evaluation + Plan note" ]
+     ]
+  ] ;
+  fhir:DiagnosticReport.code [
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       a loinc:34117-2 ;
+       fhir:Coding.system [ fhir:value "http://loinc.org" ] ;
+       fhir:Coding.code [ fhir:value "34117-2" ] ;
+       fhir:Coding.display [ fhir:value "History and physical note" ]
+     ], [
+       fhir:index 1 ;
+       a loinc:51847-2 ;
+       fhir:Coding.system [ fhir:value "http://loinc.org" ] ;
+       fhir:Coding.code [ fhir:value "51847-2" ] ;
+       fhir:Coding.display [ fhir:value "Evaluation + Plan note" ]
+     ]
+  ] ;
+  fhir:DiagnosticReport.subject [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ] ;
+  fhir:DiagnosticReport.encounter [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-47b3-71b6fedb37cf" ]
+  ] ;
+  fhir:DiagnosticReport.effectiveDateTime [ fhir:value "2023-04-10T22:44:51-05:00"^^xsd:dateTime] ;
+  fhir:DiagnosticReport.issued [ fhir:value "2023-04-10T22:44:51.471-05:00"^^xsd:dateTime] ;
+  fhir:DiagnosticReport.performer [
+     fhir:index 0 ;
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495> ;
+     fhir:Reference.reference [ fhir:value "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495" ] ;
+     fhir:Reference.display [ fhir:value "Dr. Bertram Pyle" ]
+  ] ;
+  fhir:DiagnosticReport.presentedForm [
+     fhir:index 0 ;
+     fhir:Attachment.contentType [ fhir:value "text/plain; charset=utf-8" ] ;
+     fhir:Attachment.data [ fhir:value "CjIwMjMtMDQtMTAKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkp1bGlhMjQxIEp1bGlhMjQxIGlzIGEgODAgeWVhci1vbGQgaGlzcGFuaWMgd2hpdGUgZmVtYWxlLgoKIyBTb2NpYWwgSGlzdG9yeQpQYXRpZW50IGlzIHNpbmdsZS4gUGF0aWVudCBxdWl0IHNtb2tpbmcgYXQgYWdlIDE2LgogUGF0aWVudCBpZGVudGlmaWVzIGFzIGhldGVyb3NleHVhbC4KClBhdGllbnQgY29tZXMgZnJvbSBhIG1pZGRsZSBzb2Npb2Vjb25vbWljIGJhY2tncm91bmQuCiBQYXRpZW50IGhhcyBjb21wbGV0ZWQgc29tZSBjb2xsZWdlIGNvdXJzZXMuClBhdGllbnQgY3VycmVudGx5IGhhcyBNZWRpY2FyZS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKTm8gQWN0aXZlIE1lZGljYXRpb25zLgoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuCgoKCiMjIFBsYW4KClRoZSBmb2xsb3dpbmcgcHJvY2VkdXJlcyB3ZXJlIGNvbmR1Y3RlZDoKLSBtYW1tb2dyYXBoeSAocHJvY2VkdXJlKQo="^^xsd:base64Binary ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/DiagnosticReport/a770495f-efc3-3077-1505-cddeece82a16.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/DiagnosticReport/a770495f-efc3-3077-1505-cddeece82a16.ttl> .
+
+# -------------------------------------------------------------------------------------
+

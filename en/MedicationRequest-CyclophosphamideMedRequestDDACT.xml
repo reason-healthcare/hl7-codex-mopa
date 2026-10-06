@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MedicationRequest xmlns="http://hl7.org/fhir">
+  <id value="CyclophosphamideMedRequestDDACT"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-medication-request"/>
+  </meta>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: MedicationRequest CyclophosphamideMedRequestDDACT</b></p><a name="CyclophosphamideMedRequestDDACT"> </a><a name="hcCyclophosphamideMedRequestDDACT"> </a><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px"/><p style="margin-bottom: 0px">Profile: <a href="http://hl7.org/fhir/us/mcode/STU4/StructureDefinition-mcode-cancer-related-medication-request.html">Cancer-Related Medication Request Profile</a></p></div><p><b>status</b>: Draft</p><p><b>intent</b>: Order</p><p><b>medication</b>: <span title="Codes:{http://www.nlm.nih.gov/research/umls/rxnorm 3002}">cyclophosphamide</span></p><p><b>subject</b>: <a href="Patient-MOPAPatientExample.html">Jane Smith (official) Female, DoB: 1968-04-15 ( http://hospital.example.org/patients#MRN-78432)</a></p><p><b>requester</b>: <a href="Practitioner-MOPAOncologistExample.html">Practitioner Maria Lopez (official)</a></p><p><b>reasonReference</b>: <a href="Condition-MOPABreastCancerConditionExample.html">Condition Malignant neoplasm of breast</a></p><h3>DosageInstructions</h3><table class="grid"><tr><td style="display: none">-</td><td><b>Text</b></td></tr><tr><td style="display: none">*</td><td>600 mg/m² IV day 1 of each 14-day cycle</td></tr></table></div>
+  </text>
+  <status value="draft"/>
+  <intent value="order"/>
+  <medicationCodeableConcept>
+    <coding>
+      <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+      <code value="3002"/>
+      <display value="cyclophosphamide"/>
+    </coding>
+  </medicationCodeableConcept>
+  <subject>
+    <reference value="Patient/MOPAPatientExample"/>
+  </subject>
+  <requester>
+    <reference value="Practitioner/MOPAOncologistExample"/>
+  </requester>
+  <reasonReference>
+    <reference value="Condition/MOPABreastCancerConditionExample"/>
+  </reasonReference>
+  <dosageInstruction>
+    <text value="600 mg/m² IV day 1 of each 14-day cycle"/>
+  </dosageInstruction>
+</MedicationRequest>

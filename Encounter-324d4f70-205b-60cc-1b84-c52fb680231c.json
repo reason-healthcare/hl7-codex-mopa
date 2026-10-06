@@ -1,0 +1,72 @@
+{
+  "resourceType" : "Encounter",
+  "id" : "324d4f70-205b-60cc-1b84-c52fb680231c",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Encounter 324d4f70-205b-60cc-1b84-c52fb680231c</b></p><a name=\"324d4f70-205b-60cc-1b84-c52fb680231c\"> </a><a name=\"hc324d4f70-205b-60cc-1b84-c52fb680231c\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-encounter.html\">US Core Encounter Profile</a></p></div><p><b>identifier</b>: <code>https://github.com/synthetichealth/synthea</code>/324d4f70-205b-60cc-1b84-c52fb680231c\u00a0(use:\u00a0official,\u00a0)</p><p><b>status</b>: Finished</p><p><b>class</b>: <a href=\"http://terminology.hl7.org/7.4.0/CodeSystem-v3-ActCode.html#v3-ActCode-AMB\">ActCode: AMB</a> (ambulatory)</p><p><b>type</b>: <span title=\"Codes:{http://snomed.info/sct 310061009}\">Gynecology service (qualifier value)</span></p><p><b>subject</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Mrs. Julia241 Julia241 Terán294</a></p><h3>Participants</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Type</b></td><td><b>Period</b></td><td><b>Individual</b></td></tr><tr><td style=\"display: none\">*</td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v3-ParticipationType PPRF}\">primary performer</span></td><td>2021-03-01 19:11:15-0600 --&gt; 2021-03-01 19:39:30-0600</td><td><code>Dr. Bertram Pyle</code></td></tr></table><p><b>period</b>: 2021-03-01 19:11:15-0600 --&gt; 2021-03-01 19:39:30-0600</p><p><b>reasonCode</b>: <span title=\"Codes:{http://snomed.info/sct 254837009}\">Malignant neoplasm of breast (disorder)</span></p><h3>Locations</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Location</b></td></tr><tr><td style=\"display: none\">*</td><td><code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></td></tr></table><p><b>serviceProvider</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p></div>"
+  },
+  "identifier" : [{
+    "use" : "official",
+    "system" : "https://github.com/synthetichealth/synthea",
+    "value" : "324d4f70-205b-60cc-1b84-c52fb680231c"
+  }],
+  "status" : "finished",
+  "class" : {
+    "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+    "code" : "AMB"
+  },
+  "type" : [{
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "310061009",
+      "display" : "Gynecology service (qualifier value)"
+    }],
+    "text" : "Gynecology service (qualifier value)"
+  }],
+  "subject" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e",
+    "display" : "Mrs. Julia241 Julia241 Terán294"
+  },
+  "participant" : [{
+    "type" : [{
+      "coding" : [{
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+        "code" : "PPRF",
+        "display" : "primary performer"
+      }],
+      "text" : "primary performer"
+    }],
+    "period" : {
+      "start" : "2021-03-01T19:11:15-06:00",
+      "end" : "2021-03-01T19:39:30-06:00"
+    },
+    "individual" : {
+      "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495",
+      "display" : "Dr. Bertram Pyle"
+    }
+  }],
+  "period" : {
+    "start" : "2021-03-01T19:11:15-06:00",
+    "end" : "2021-03-01T19:39:30-06:00"
+  },
+  "reasonCode" : [{
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "254837009",
+      "display" : "Malignant neoplasm of breast (disorder)"
+    }]
+  }],
+  "location" : [{
+    "location" : {
+      "reference" : "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8",
+      "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+    }
+  }],
+  "serviceProvider" : {
+    "reference" : "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  }
+}

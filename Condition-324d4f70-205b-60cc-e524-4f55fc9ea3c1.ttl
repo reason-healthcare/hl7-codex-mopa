@@ -1,0 +1,72 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sct: <http://snomed.info/id/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Condition/324d4f70-205b-60cc-e524-4f55fc9ea3c1> a fhir:Condition ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "324d4f70-205b-60cc-e524-4f55fc9ea3c1"] ;
+  fhir:Resource.meta [
+     fhir:Meta.profile [
+       fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis" ;
+       fhir:index 0 ;
+       fhir:link <http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis>
+     ]
+  ] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Condition 324d4f70-205b-60cc-e524-4f55fc9ea3c1</b></p><a name=\"324d4f70-205b-60cc-e524-4f55fc9ea3c1\"> </a><a name=\"hc324d4f70-205b-60cc-e524-4f55fc9ea3c1\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-condition-encounter-diagnosis.html\">US Core Condition Encounter Diagnosis Profile</a></p></div><p><b>clinicalStatus</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/condition-clinical active}\">Active</span></p><p><b>verificationStatus</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/condition-ver-status confirmed}\">Confirmed</span></p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/condition-category encounter-diagnosis}\">Encounter Diagnosis</span></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 254837009}\">Malignant neoplasm of breast (disorder)</span></p><p><b>subject</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-58cf-1e7016b4cbfa\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-58cf-1e7016b4cbfa (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Encounter for symptom (procedure); period = 1985-07-25 22:05:30-0500 --&gt; 1985-07-27 08:08:17-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p><p><b>onset</b>: 1985-07-25 22:05:30-0500</p><p><b>recordedDate</b>: 1985-07-25 22:05:30-0500</p></div>"
+  ] ;
+  fhir:Condition.clinicalStatus [
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/condition-clinical" ] ;
+       fhir:Coding.code [ fhir:value "active" ]
+     ]
+  ] ;
+  fhir:Condition.verificationStatus [
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/condition-ver-status" ] ;
+       fhir:Coding.code [ fhir:value "confirmed" ]
+     ]
+  ] ;
+  fhir:Condition.category [
+     fhir:index 0 ;
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/condition-category" ] ;
+       fhir:Coding.code [ fhir:value "encounter-diagnosis" ] ;
+       fhir:Coding.display [ fhir:value "Encounter Diagnosis" ]
+     ]
+  ] ;
+  fhir:Condition.code [
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       a sct:254837009 ;
+       fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+       fhir:Coding.code [ fhir:value "254837009" ] ;
+       fhir:Coding.display [ fhir:value "Malignant neoplasm of breast (disorder)" ]
+     ] ;
+     fhir:CodeableConcept.text [ fhir:value "Malignant neoplasm of breast (disorder)" ]
+  ] ;
+  fhir:Condition.subject [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ] ;
+  fhir:Condition.encounter [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-58cf-1e7016b4cbfa" ]
+  ] ;
+  fhir:Condition.onsetDateTime [ fhir:value "1985-07-25T22:05:30-05:00"^^xsd:dateTime] ;
+  fhir:Condition.recordedDate [ fhir:value "1985-07-25T22:05:30-05:00"^^xsd:dateTime] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Condition/324d4f70-205b-60cc-e524-4f55fc9ea3c1.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/Condition/324d4f70-205b-60cc-e524-4f55fc9ea3c1.ttl> .
+
+# -------------------------------------------------------------------------------------
+

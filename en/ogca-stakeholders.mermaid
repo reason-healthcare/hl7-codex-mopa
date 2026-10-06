@@ -1,0 +1,10 @@
+flowchart TD
+  Clinician(["👤 Oncologist"])
+  Patient(["👤 Cancer Patient"])
+  Payer["Health Plan / Payer"]
+  EHR["EHR / Ordering System"]
+
+  Clinician -- "treats" --> Patient
+  Clinician -- "orders treatment via" --> EHR
+  EHR -- "requests authorization" --> Payer
+  Payer -- "authorizes treatment for" --> Patient

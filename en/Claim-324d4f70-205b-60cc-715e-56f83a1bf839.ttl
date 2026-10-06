@@ -1,0 +1,149 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sct: <http://snomed.info/id/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Claim/324d4f70-205b-60cc-715e-56f83a1bf839> a fhir:Claim ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "324d4f70-205b-60cc-715e-56f83a1bf839"] ;
+  fhir:Resource.language [ fhir:value "en"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Claim 324d4f70-205b-60cc-715e-56f83a1bf839</b></p><a name=\"324d4f70-205b-60cc-715e-56f83a1bf839\"> </a><a name=\"hc324d4f70-205b-60cc-715e-56f83a1bf839\"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}\">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia241 Julia241 Terán294</a></p><p><b>billablePeriod</b>: 2018-03-05 15:02:48-0600 --&gt; 2018-03-05 15:33:52-0600</p><p><b>created</b>: 2018-03-05 15:33:52-0600</p><p><b>provider</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>priority</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/processpriority normal}\">Normal</span></p><p><b>facility</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><blockquote><p><b>procedure</b></p><p><b>sequence</b>: 1</p><p><b>procedure</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5c6d-fa71b7a30f38\">Procedure Manual pelvic examination (procedure)</a></p></blockquote><blockquote><p><b>procedure</b></p><p><b>sequence</b>: 2</p><p><b>procedure</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4ef6-22f142d7d336\">Procedure Cytopathology procedure, preparation of smear, genital source (procedure)</a></p></blockquote><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td>true</td><td>Medicare</td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 310061009}\">Gynecology service (qualifier value)</span></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-af17-52591ce4bfab\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-af17-52591ce4bfab (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2018-03-05 15:02:48-0600 --&gt; 2018-03-05 15:33:52-0600; reasonCode = Malignant neoplasm of breast (disorder)</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>procedureSequence</b>: 1</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 35025007}\">Manual pelvic examination (procedure)</span></p><h3>Nets</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>123.17</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 3</p><p><b>procedureSequence</b>: 2</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 90226004}\">Cytopathology procedure, preparation of smear, genital source (procedure)</span></p><h3>Nets</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>1231.7</td><td>United States dollar</td></tr></table></blockquote><h3>Totals</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>1461.68</td><td>United States dollar</td></tr></table></div>"
+  ] ;
+  fhir:Claim.status [ fhir:value "active"] ;
+  fhir:Claim.type [
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/claim-type" ] ;
+       fhir:Coding.code [ fhir:value "professional" ]
+     ]
+  ] ;
+  fhir:Claim.use [ fhir:value "claim"] ;
+  fhir:Claim.patient [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ] ;
+     fhir:Reference.display [ fhir:value "Julia241 Julia241 Terán294" ]
+  ] ;
+  fhir:Claim.billablePeriod [
+     fhir:Period.start [ fhir:value "2018-03-05T15:02:48-06:00"^^xsd:dateTime ] ;
+     fhir:Period.end [ fhir:value "2018-03-05T15:33:52-06:00"^^xsd:dateTime ]
+  ] ;
+  fhir:Claim.created [ fhir:value "2018-03-05T15:33:52-06:00"^^xsd:dateTime] ;
+  fhir:Claim.provider [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512> ;
+     fhir:Reference.reference [ fhir:value "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512" ] ;
+     fhir:Reference.display [ fhir:value "OPEN ACCESS VASCULAR ACCESS CENTER INC" ]
+  ] ;
+  fhir:Claim.priority [
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/processpriority" ] ;
+       fhir:Coding.code [ fhir:value "normal" ]
+     ]
+  ] ;
+  fhir:Claim.facility [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8> ;
+     fhir:Reference.reference [ fhir:value "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8" ] ;
+     fhir:Reference.display [ fhir:value "OPEN ACCESS VASCULAR ACCESS CENTER INC" ]
+  ] ;
+  fhir:Claim.procedure [
+     fhir:index -1 ;
+     fhir:Claim.procedure.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:Claim.procedure.procedureReference [
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-5c6d-fa71b7a30f38" ]
+     ]
+  ], [
+     fhir:index -1 ;
+     fhir:Claim.procedure.sequence [ fhir:value "2"^^xsd:positiveInteger ] ;
+     fhir:Claim.procedure.procedureReference [
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-4ef6-22f142d7d336" ]
+     ]
+  ] ;
+  fhir:Claim.insurance [
+     fhir:index -1 ;
+     fhir:Claim.insurance.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:Claim.insurance.focal [ fhir:value "true"^^xsd:boolean ] ;
+     fhir:Claim.insurance.coverage [
+       fhir:Reference.display [ fhir:value "Medicare" ]
+     ]
+  ] ;
+  fhir:Claim.item [
+     fhir:index -1 ;
+     fhir:Claim.item.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:Claim.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index -1 ;
+         a sct:310061009 ;
+         fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+         fhir:Coding.code [ fhir:value "310061009" ] ;
+         fhir:Coding.display [ fhir:value "Gynecology service (qualifier value)" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Gynecology service (qualifier value)" ]
+     ] ;
+     fhir:Claim.item.encounter [
+       fhir:index -1 ;
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-af17-52591ce4bfab" ]
+     ]
+  ], [
+     fhir:index -1 ;
+     fhir:Claim.item.sequence [ fhir:value "2"^^xsd:positiveInteger ] ;
+     fhir:Claim.item.procedureSequence [
+       fhir:value "1"^^xsd:positiveInteger ;
+       fhir:index -1
+     ] ;
+     fhir:Claim.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index -1 ;
+         a sct:35025007 ;
+         fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+         fhir:Coding.code [ fhir:value "35025007" ] ;
+         fhir:Coding.display [ fhir:value "Manual pelvic examination (procedure)" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Manual pelvic examination (procedure)" ]
+     ] ;
+     fhir:Claim.item.net [
+       fhir:Money.value [ fhir:value "123.17"^^xsd:decimal ] ;
+       fhir:Money.currency [ fhir:value "USD" ]
+     ]
+  ], [
+     fhir:index -1 ;
+     fhir:Claim.item.sequence [ fhir:value "3"^^xsd:positiveInteger ] ;
+     fhir:Claim.item.procedureSequence [
+       fhir:value "2"^^xsd:positiveInteger ;
+       fhir:index -1
+     ] ;
+     fhir:Claim.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index -1 ;
+         a sct:90226004 ;
+         fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+         fhir:Coding.code [ fhir:value "90226004" ] ;
+         fhir:Coding.display [ fhir:value "Cytopathology procedure, preparation of smear, genital source (procedure)" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Cytopathology procedure, preparation of smear, genital source (procedure)" ]
+     ] ;
+     fhir:Claim.item.net [
+       fhir:Money.value [ fhir:value "1231.7"^^xsd:decimal ] ;
+       fhir:Money.currency [ fhir:value "USD" ]
+     ]
+  ] ;
+  fhir:Claim.total [
+     fhir:Money.value [ fhir:value "1461.68"^^xsd:decimal ] ;
+     fhir:Money.currency [ fhir:value "USD" ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512> a fhir:us .
+
+<http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Claim/324d4f70-205b-60cc-715e-56f83a1bf839.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/Claim/324d4f70-205b-60cc-715e-56f83a1bf839.ttl> .
+
+# -------------------------------------------------------------------------------------
+

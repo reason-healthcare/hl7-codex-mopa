@@ -1,0 +1,68 @@
+{
+  "resourceType" : "DocumentReference",
+  "id" : "eb2d5b15-167c-278e-daff-aaaf7d557fd6",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"]
+  },
+  "language" : "en",
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<p>Structured data from this resource. The JSON and XML tabs provide the complete FHIR representation.</p>\n<table class=\"grid\"><caption>Structured DocumentReference data</caption><tbody>\n<tr><th scope=\"row\">Resource ID</th><td>eb2d5b15-167c-278e-daff-aaaf7d557fd6<br/></td></tr>\n<tr><th scope=\"row\">Metadata and profiles</th><td>\n\n\n<p><b>Profile:</b> http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference</p>\n\n\n\n</td></tr>\n\n\n\n<tr><th scope=\"row\">Identifiers</th><td><a href=\"http://terminology.hl7.org/6.2.0/NamingSystem-uri.html\" title=\"As defined by RFC 3986 (http://www.ietf.org/rfc/rfc3986.txt)(with many schemes defined in many RFCs). For OIDs and UUIDs, use the URN form (urn:oid:(note: lowercase) and urn:uuid:). See http://www.ietf.org/rfc/rfc3001.txt and http://www.ietf.org/rfc/rfc4122.txt \r\n\r\nThis oid is used as an identifier II.root to indicate the the extension is an absolute URI (technically, an IRI). Typically, this is used for OIDs and GUIDs. Note that when this OID is used with OIDs and GUIDs, the II.extension should start with urn:oid or urn:uuid: \r\n\r\nNote that this OID is created to aid with interconversion between CDA and FHIR - FHIR uses urn:ietf:rfc:3986 as equivalent to this OID. URIs as identifiers appear more commonly in FHIR.\r\n\r\nThis OID may also be used in CD.codeSystem.\">Uniform Resource Identifier (URI)</a>/urn:uuid:7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf<br/></td></tr>\n<tr><th scope=\"row\">Status</th><td>Superseded<br/></td></tr>\n\n<tr><th scope=\"row\">Document type</th><td><span title=\"Codes:{http://loinc.org 34117-2}, {http://loinc.org 51847-2}\">History and physical note</span><br/></td></tr>\n<tr><th scope=\"row\">Categories</th><td><span title=\"Codes:{http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category clinical-note}\">Nexis Health</span><br/></td></tr>\n<tr><th scope=\"row\">Subject</th><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a><br/></td></tr>\n<tr><th scope=\"row\">Document date</th><td>2026-04-01 03:17:06-0500<br/></td></tr>\n<tr><th scope=\"row\">Authors</th><td><code>Dr. Bertram Pyle</code><br/></td></tr>\n\n<tr><th scope=\"row\">Custodian</th><td><code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code><br/></td></tr>\n\n\n\n\n<tr><th scope=\"row\">Clinical context</th><td><p><b>Encounter:</b> <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f6ec-9182270fc784\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-f6ec-9182270fc784\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2026-04-01 03:17:06-0500 --&gt; 2026-04-01 03:40:17-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p><p><b>Period:</b> 2026-04-01 03:17:06-0500 --&gt; 2026-04-01 03:40:17-0500</p></td></tr>\n\n\n\n</tbody></table>\n<h3>Attachments</h3>\n\n<table class=\"grid\"><tbody>\n<tr><th scope=\"row\">Content type</th><td>text/plain; charset=utf-8<br/></td></tr>\n\n\n\n\n\n\n\n</tbody></table>\n\n\n<pre><code>\n2026-04-01\n\n# Chief Complaint\nNo complaints.\n\n# History of Present Illness\nJulia241 Julia241 is a 83 year-old hispanic white female.\n\n# Social History\nPatient is single. Patient quit smoking at age 16.\n Patient identifies as heterosexual.\n\nPatient comes from a middle socioeconomic background.\n Patient has completed some college courses.\nPatient currently has Medicare.\n\n# Allergies\nNo Known Allergies.\n\n# Medications\nNo Active Medications.\n\n# Assessment and Plan\n\n\n\n## Plan\n\nThe following procedures were conducted:\n- mammography (procedure)\n</code></pre>\n\n\n\n<p><b>Content format:</b> <a href=\"https://profiles.ihe.net/fhir/ihe.formatcode.fhir/1.1.0/CodeSystem-formatcode.html#formatcode-urn.58ihe.58iti.58xds.582017.58mimeTypeSufficient\">IHE Format Code set for use with Document Sharing: urn:ihe:iti:xds:2017:mimeTypeSufficient</a> (mimeType Sufficient)</p>\n\n\n</div>"
+  },
+  "identifier" : [{
+    "system" : "urn:ietf:rfc:3986",
+    "value" : "urn:uuid:7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf"
+  }],
+  "status" : "superseded",
+  "type" : {
+    "coding" : [{
+      "system" : "http://loinc.org",
+      "code" : "34117-2",
+      "display" : "History and physical note"
+    },
+    {
+      "system" : "http://loinc.org",
+      "code" : "51847-2",
+      "display" : "Evaluation + Plan note"
+    }]
+  },
+  "category" : [{
+    "coding" : [{
+      "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+      "code" : "clinical-note",
+      "display" : "Nexis Health"
+    }]
+  }],
+  "subject" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+  },
+  "date" : "2026-04-01T03:17:06.471-05:00",
+  "author" : [{
+    "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495",
+    "display" : "Dr. Bertram Pyle"
+  }],
+  "custodian" : {
+    "reference" : "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  },
+  "content" : [{
+    "attachment" : {
+      "contentType" : "text/plain; charset=utf-8",
+      "data" : "CjIwMjYtMDQtMDEKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkp1bGlhMjQxIEp1bGlhMjQxIGlzIGEgODMgeWVhci1vbGQgaGlzcGFuaWMgd2hpdGUgZmVtYWxlLgoKIyBTb2NpYWwgSGlzdG9yeQpQYXRpZW50IGlzIHNpbmdsZS4gUGF0aWVudCBxdWl0IHNtb2tpbmcgYXQgYWdlIDE2LgogUGF0aWVudCBpZGVudGlmaWVzIGFzIGhldGVyb3NleHVhbC4KClBhdGllbnQgY29tZXMgZnJvbSBhIG1pZGRsZSBzb2Npb2Vjb25vbWljIGJhY2tncm91bmQuCiBQYXRpZW50IGhhcyBjb21wbGV0ZWQgc29tZSBjb2xsZWdlIGNvdXJzZXMuClBhdGllbnQgY3VycmVudGx5IGhhcyBNZWRpY2FyZS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKTm8gQWN0aXZlIE1lZGljYXRpb25zLgoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuCgoKCiMjIFBsYW4KClRoZSBmb2xsb3dpbmcgcHJvY2VkdXJlcyB3ZXJlIGNvbmR1Y3RlZDoKLSBtYW1tb2dyYXBoeSAocHJvY2VkdXJlKQo="
+    },
+    "format" : {
+      "system" : "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+      "code" : "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+      "display" : "mimeType Sufficient"
+    }
+  }],
+  "context" : {
+    "encounter" : [{
+      "reference" : "urn:uuid:324d4f70-205b-60cc-f6ec-9182270fc784"
+    }],
+    "period" : {
+      "start" : "2026-04-01T03:17:06-05:00",
+      "end" : "2026-04-01T03:40:17-05:00"
+    }
+  }
+}

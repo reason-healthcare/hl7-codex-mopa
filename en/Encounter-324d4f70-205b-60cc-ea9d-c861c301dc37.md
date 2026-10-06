@@ -1,0 +1,102 @@
+# 324d4f70-205b-60cc-ea9d-c861c301dc37 - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926
+
+## Example Encounter: 324d4f70-205b-60cc-ea9d-c861c301dc37
+
+Profile: [US Core Encounter Profile](http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-encounter.html)
+
+**identifier**: `https://github.com/synthetichealth/synthea`/324d4f70-205b-60cc-ea9d-c861c301dc37 (use: official, )
+
+**status**: Finished
+
+**class**: [ActCode: AMB](http://terminology.hl7.org/7.4.0/CodeSystem-v3-ActCode.html#v3-ActCode-AMB) (ambulatory)
+
+**type**: General examination of patient (procedure)
+
+**subject**: [Mrs. Julia241 Julia241 Terán294](Bundle-teran-breast-cancer-r4-clean.md#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e)
+
+### Participants
+
+| | | | |
+| :--- | :--- | :--- | :--- |
+| - | **Type** | **Period** | **Individual** |
+| * | primary performer | 2025-06-02 22:05:30-0500 --> 2025-06-02 22:20:30-0500 | `Dr. Bertram Pyle` |
+
+**period**: 2025-06-02 22:05:30-0500 --> 2025-06-02 22:20:30-0500
+
+### Locations
+
+| | |
+| :--- | :--- |
+| - | **Location** |
+| * | `CHILDRENS MEDICAL CARE INC` |
+
+**serviceProvider**: `CHILDRENS MEDICAL CARE INC`
+
+
+
+## Resource Content
+
+```json
+{
+  "resourceType" : "Encounter",
+  "id" : "324d4f70-205b-60cc-ea9d-c861c301dc37",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"]
+  },
+  "identifier" : [{
+    "use" : "official",
+    "system" : "https://github.com/synthetichealth/synthea",
+    "value" : "324d4f70-205b-60cc-ea9d-c861c301dc37"
+  }],
+  "status" : "finished",
+  "class" : {
+    "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+    "code" : "AMB"
+  },
+  "type" : [{
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "162673000",
+      "display" : "General examination of patient (procedure)"
+    }],
+    "text" : "General examination of patient (procedure)"
+  }],
+  "subject" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e",
+    "display" : "Mrs. Julia241 Julia241 Terán294"
+  },
+  "participant" : [{
+    "type" : [{
+      "coding" : [{
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+        "code" : "PPRF",
+        "display" : "primary performer"
+      }],
+      "text" : "primary performer"
+    }],
+    "period" : {
+      "start" : "2025-06-02T22:05:30-05:00",
+      "end" : "2025-06-02T22:20:30-05:00"
+    },
+    "individual" : {
+      "reference" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493",
+      "display" : "Dr. Bertram Pyle"
+    }
+  }],
+  "period" : {
+    "start" : "2025-06-02T22:05:30-05:00",
+    "end" : "2025-06-02T22:20:30-05:00"
+  },
+  "location" : [{
+    "location" : {
+      "reference" : "Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e",
+      "display" : "CHILDRENS MEDICAL CARE INC"
+    }
+  }],
+  "serviceProvider" : {
+    "reference" : "Organization?identifier=https://github.com/synthetichealth/synthea|74c32b72-16fa-3913-8df2-10e1b22d1bd7",
+    "display" : "CHILDRENS MEDICAL CARE INC"
+  }
+}
+
+```

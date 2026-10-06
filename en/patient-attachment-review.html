@@ -1,0 +1,1822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Decoded Attachment Review - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <link href="assets/css/project.css" rel="stylesheet"/>
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/hl7.css" rel="stylesheet"/>
+    <link href="assets/css/fhir-ig.css" rel="stylesheet"/>
+    <link href="css/mopa.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+    <script type="text/javascript" src="assets/js/direction-management.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script type="text/javascript" src="assets/js/prism.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-fhirpath.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-cql.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"10"}
+    h3,h4,h5,h6{--heading-prefix:"10"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+        <div id="hl7-nav">
+          <a id="hl7-logo" data-no-external="true" href="http://hl7.org">
+            <img height="50" alt="Visit the HL7 website" src="assets/images/hl7-logo-header.png"/>
+          </a>
+        </div>
+        <div id="family-nav">
+          <a id="family-logo" data-no-external="true" href="http://hl7.org/fhir"><img height="50" alt="Visit the FHIR website" src="assets/images/fhir-logo-www.png"/> </a>
+        </div>
+        <div id="hl7-search">
+          <a id="hl7-search-lnk" data-no-external="true" href="searchform.html"><img alt="Search FHIR" src="assets/images/search.png"/></a>
+        </div>
+
+
+        <div id="ig-status" data-fhir="generated">
+          <p><span style="font-size:12pt;font-weight:bold">MOPA — Medical Oncology Prior Authorization</span>
+            <br/>
+            <span style="display:inline-block;">0.1.1-snapshot-080926 - snapshot-080926
+
+
+
+  <img alt="United States of America flag" src="../assets/images/usa.svg" height="16" title="United States of America"/>
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment" data-fhir="generated">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="background.html">Background</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Use Cases
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="use-cases.html">Use Cases and Actors</a>
+      </li>
+      <li>
+        <a href="breast-cancer-pa.html">Use Case 1 - Breast Cancer PA</a>
+      </li>
+      <li>
+        <a href="patient-bundle-review.html">Patient Bundle Review</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Specification
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="regimen-model.html">1-Regimen Modeling</a>
+      </li>
+      <li>
+        <a href="cds-workflow.html">2-CRD Workflow</a>
+      </li>
+      <li>
+        <a href="data-requirements.html">3-Data Requirements</a>
+      </li>
+      <li>
+        <a href="walkthrough.html">Workflow Walkthrough</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Gaps in Specs
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a>
+      </li>
+      <li>
+        <a href="mcode-gap-proposals.html">mCODE Gap Proposals</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="conformance.html">Conformance</a>
+  </li>
+  <li>
+    <a href="artifacts.html">Artifacts</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+</ul>
+            </div>  <!-- /.nav-collapse -->
+
+              
+
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment" data-fhir="generated">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>Decoded Attachment Review</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">MOPA — Medical Oncology Prior Authorization - Local Development build (v0.1.1-snapshot-080926) built by the FHIR (HL7® FHIR® Standard) Build Tools. See the <a href='http://hl7.org/fhir/us/codex-mopa/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  <h2>Decoded Attachment Review</h2>
+  
+
+
+
+  <table class="colsi" data-fhir="generated">
+    <tr>
+  
+      <td>
+        <i>Page standards status:</i> <a href="http://hl7.org/fhir/R4/versions.html#std-process" title="Standards Status">Informative</a>
+        
+      </td>
+  
+  
+      <td id="toggle-change-display" style="text-align: right;border-left-style: hidden" title="Enable this to see changes since the last official release">
+        <label style="margin:0;font-weight:normal" for="showChanges">Highlight text changes?</label>
+  
+        <input style="margin:0" type="checkbox" id="showChanges" onchange="toggleChanges()"/>
+  
+      </td>
+    </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+    <p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc">
+
+</div>
+<p><a href="patient-bundle-review.html#browse-resources">Back to the resource table</a></p>
+
+<p>These notes contain the decoded text of the supplied DiagnosticReport and DocumentReference
+attachments. Select <strong>Read note</strong> in the resource table to open one note. Matching resources
+share a note, with links to both original resource pages below. <strong>Download text</strong> saves the
+exact decoded file; the FHIR JSON retains its original base64 data.</p>
+
+<!-- Generated by scripts/generate-patient-resource-index.mjs. -->
+<div id="teran-attachment-viewer">
+  <p id="teran-attachment-missing" hidden="hidden">This note was not found. Choose a Read note link from the <a href="patient-bundle-review.html#browse-resources">resource table</a>.</p>
+  <section data-note-id="note-9284dab30ba5f964fcc11965045554eda7480bf7345140fa4bcd1272790a4d41">
+  <h3 id="note-9284dab30ba5f964fcc11965045554eda7480bf7345140fa4bcd1272790a4d41">History and physical note — 1985-07-25</h3>
+  <p>Source resources: <a href="DiagnosticReport-bb3b3d35-1dab-d9c1-b72f-d11b97622fd3.html">DiagnosticReport (entry 4)</a> · <a href="DocumentReference-34d599b4-bd48-1345-e786-299461e74712.html">DocumentReference (entry 5)</a>. <a href="teran-attachments/note-9284dab30ba5f964fcc11965045554eda7480bf7345140fa4bcd1272790a4d41.txt" download="note-9284dab30ba5f964fcc11965045554eda7480bf7345140fa4bcd1272790a4d41.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+1985-07-25
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 42 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Anthem.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+Patient is presenting with malignant neoplasm of breast (disorder). 
+
+
+## Plan
+
+</code></pre>
+</section>
+<section data-note-id="note-405b0d8c3870b2c6ac4f2c1c2cc2353bee55f2facbeebcc1c8742eafb25210de">
+  <h3 id="note-405b0d8c3870b2c6ac4f2c1c2cc2353bee55f2facbeebcc1c8742eafb25210de">History and physical note — 2017-02-20</h3>
+  <p>Source resources: <a href="DiagnosticReport-803be58e-714f-100b-66b5-9be4834b049f.html">DiagnosticReport (entry 10)</a> · <a href="DocumentReference-5363ba6c-37e7-603c-3308-59a0059a10cc.html">DocumentReference (entry 11)</a>. <a href="teran-attachments/note-405b0d8c3870b2c6ac4f2c1c2cc2353bee55f2facbeebcc1c8742eafb25210de.txt" download="note-405b0d8c3870b2c6ac4f2c1c2cc2353bee55f2facbeebcc1c8742eafb25210de.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2017-02-20
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 74 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-298c3a5ceadcf449e0ed0e2c52ef8b9379e35d2fd63d0557fbfa7e549080ff31">
+  <h3 id="note-298c3a5ceadcf449e0ed0e2c52ef8b9379e35d2fd63d0557fbfa7e549080ff31">History and physical note — 2017-02-20</h3>
+  <p>Source resources: <a href="DiagnosticReport-7d406308-ccf7-eb57-01bf-602dc69658ed.html">DiagnosticReport (entry 16)</a> · <a href="DocumentReference-6bcd79b4-f9d1-1e02-5f3a-25d8f1ba45cf.html">DocumentReference (entry 17)</a>. <a href="teran-attachments/note-298c3a5ceadcf449e0ed0e2c52ef8b9379e35d2fd63d0557fbfa7e549080ff31.txt" download="note-298c3a5ceadcf449e0ed0e2c52ef8b9379e35d2fd63d0557fbfa7e549080ff31.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2017-02-20
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 74 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-389b98507e9d48468d98500ed0e78ca895906a9b4f5fbad6b46df5aa876eddb3">
+  <h3 id="note-389b98507e9d48468d98500ed0e78ca895906a9b4f5fbad6b46df5aa876eddb3">History and physical note — 2017-02-20</h3>
+  <p>Source resources: <a href="DiagnosticReport-b6c039db-34f7-ef6a-3b3f-37002e965d00.html">DiagnosticReport (entry 23)</a> · <a href="DocumentReference-6b9d04bc-f887-b142-5f09-b0e0f070d90f.html">DocumentReference (entry 24)</a>. <a href="teran-attachments/note-389b98507e9d48468d98500ed0e78ca895906a9b4f5fbad6b46df5aa876eddb3.txt" download="note-389b98507e9d48468d98500ed0e78ca895906a9b4f5fbad6b46df5aa876eddb3.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2017-02-20
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 74 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-87fa0b46e554ee677386f5877af571459b1790ed6d787555c4bc13b0a3229830">
+  <h3 id="note-87fa0b46e554ee677386f5877af571459b1790ed6d787555c4bc13b0a3229830">History and physical note — 2017-04-17</h3>
+  <p>Source resources: <a href="DiagnosticReport-0b9dfc64-4d1b-44dc-7339-61c56cda8e1a.html">DiagnosticReport (entry 29)</a> · <a href="DocumentReference-885cc705-823a-3826-82a6-ba425d654124.html">DocumentReference (entry 30)</a>. <a href="teran-attachments/note-87fa0b46e554ee677386f5877af571459b1790ed6d787555c4bc13b0a3229830.txt" download="note-87fa0b46e554ee677386f5877af571459b1790ed6d787555c4bc13b0a3229830.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2017-04-17
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 74 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-d2555ff7e78233df842c47144aa8b8f3017eb246527cf4ee2c288652b94b12a3">
+  <h3 id="note-d2555ff7e78233df842c47144aa8b8f3017eb246527cf4ee2c288652b94b12a3">History and physical note — 2018-03-05</h3>
+  <p>Source resources: <a href="DiagnosticReport-ad805677-99bb-7506-0ea0-15c0d823106c.html">DiagnosticReport (entry 35)</a> · <a href="DocumentReference-770a1131-8061-f2b4-b3e5-3c3a7e5c3ca7.html">DocumentReference (entry 36)</a>. <a href="teran-attachments/note-d2555ff7e78233df842c47144aa8b8f3017eb246527cf4ee2c288652b94b12a3.txt" download="note-d2555ff7e78233df842c47144aa8b8f3017eb246527cf4ee2c288652b94b12a3.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2018-03-05
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 75 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-d8ffb045593db07ec52407447dc61ad932b99ec3a3b943c62dc700ca45e13a6e">
+  <h3 id="note-d8ffb045593db07ec52407447dc61ad932b99ec3a3b943c62dc700ca45e13a6e">History and physical note — 2018-03-05</h3>
+  <p>Source resources: <a href="DiagnosticReport-18d9193e-e891-43e5-7fb2-7186d863937f.html">DiagnosticReport (entry 41)</a> · <a href="DocumentReference-1798d623-ba95-06b0-aa15-a55a8557462e.html">DocumentReference (entry 42)</a>. <a href="teran-attachments/note-d8ffb045593db07ec52407447dc61ad932b99ec3a3b943c62dc700ca45e13a6e.txt" download="note-d8ffb045593db07ec52407447dc61ad932b99ec3a3b943c62dc700ca45e13a6e.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2018-03-05
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 75 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-bae6050640ff447b87866d058206c78abe446f3d3d8b2a75899a18c52c7965c7">
+  <h3 id="note-bae6050640ff447b87866d058206c78abe446f3d3d8b2a75899a18c52c7965c7">History and physical note — 2018-03-05</h3>
+  <p>Source resources: <a href="DiagnosticReport-9ea36e5b-716f-7dc8-5dec-acc30cd4dee8.html">DiagnosticReport (entry 48)</a> · <a href="DocumentReference-aeb002a3-5159-8657-d9b9-009d9b4cc332.html">DocumentReference (entry 49)</a>. <a href="teran-attachments/note-bae6050640ff447b87866d058206c78abe446f3d3d8b2a75899a18c52c7965c7.txt" download="note-bae6050640ff447b87866d058206c78abe446f3d3d8b2a75899a18c52c7965c7.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2018-03-05
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 75 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-1ca0834091b82f65f82055293fa659953715f42d200cc1423ce01318a96c6881">
+  <h3 id="note-1ca0834091b82f65f82055293fa659953715f42d200cc1423ce01318a96c6881">History and physical note — 2018-04-23</h3>
+  <p>Source resources: <a href="DiagnosticReport-810f2d9d-89f3-1988-1b76-06f5d1e2ebd8.html">DiagnosticReport (entry 54)</a> · <a href="DocumentReference-0459bdb5-def8-b1d7-82ec-3a8515c37416.html">DocumentReference (entry 55)</a>. <a href="teran-attachments/note-1ca0834091b82f65f82055293fa659953715f42d200cc1423ce01318a96c6881.txt" download="note-1ca0834091b82f65f82055293fa659953715f42d200cc1423ce01318a96c6881.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2018-04-23
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 75 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-0d598c6eb763044e311a0e741a446640e4a8bee47b26f7d0a4de5b4bb4c4d1b0">
+  <h3 id="note-0d598c6eb763044e311a0e741a446640e4a8bee47b26f7d0a4de5b4bb4c4d1b0">History and physical note — 2019-03-17</h3>
+  <p>Source resources: <a href="DiagnosticReport-9d3d7489-9293-423a-5393-8685872728b4.html">DiagnosticReport (entry 60)</a> · <a href="DocumentReference-f87c4036-8850-2777-97b0-0de938e0071c.html">DocumentReference (entry 61)</a>. <a href="teran-attachments/note-0d598c6eb763044e311a0e741a446640e4a8bee47b26f7d0a4de5b4bb4c4d1b0.txt" download="note-0d598c6eb763044e311a0e741a446640e4a8bee47b26f7d0a4de5b4bb4c4d1b0.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2019-03-17
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 76 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-b9f317a50ebd26068cb7f9aa5e9cb0cbeec96b0dc41ed6a1daa1f95f4bb0ccc9">
+  <h3 id="note-b9f317a50ebd26068cb7f9aa5e9cb0cbeec96b0dc41ed6a1daa1f95f4bb0ccc9">History and physical note — 2019-03-17</h3>
+  <p>Source resources: <a href="DiagnosticReport-0579b0c9-385b-3c39-b609-906dd78f09eb.html">DiagnosticReport (entry 66)</a> · <a href="DocumentReference-388fced2-345d-64b6-defd-6456b35a89af.html">DocumentReference (entry 67)</a>. <a href="teran-attachments/note-b9f317a50ebd26068cb7f9aa5e9cb0cbeec96b0dc41ed6a1daa1f95f4bb0ccc9.txt" download="note-b9f317a50ebd26068cb7f9aa5e9cb0cbeec96b0dc41ed6a1daa1f95f4bb0ccc9.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2019-03-17
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 76 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-fbb3e1a42e29296f707fbd774cbfb466de07158cef6a0ae344da296515e79218">
+  <h3 id="note-fbb3e1a42e29296f707fbd774cbfb466de07158cef6a0ae344da296515e79218">History and physical note — 2019-03-17</h3>
+  <p>Source resources: <a href="DiagnosticReport-40679c3d-3c07-c049-0d5b-08e95fffa971.html">DiagnosticReport (entry 73)</a> · <a href="DocumentReference-f3c906d9-6f23-c217-b312-45410a892337.html">DocumentReference (entry 74)</a>. <a href="teran-attachments/note-fbb3e1a42e29296f707fbd774cbfb466de07158cef6a0ae344da296515e79218.txt" download="note-fbb3e1a42e29296f707fbd774cbfb466de07158cef6a0ae344da296515e79218.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2019-03-17
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 76 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-fdf1c942c36f54cc0fd394dc57c66d84ffedc148fa480f3b81f9811c91d3c848">
+  <h3 id="note-fdf1c942c36f54cc0fd394dc57c66d84ffedc148fa480f3b81f9811c91d3c848">History and physical note — 2019-04-29</h3>
+  <p>Source resources: <a href="DiagnosticReport-6cb2b349-d7d7-f3e1-1151-e7178a8883c1.html">DiagnosticReport (entry 79)</a> · <a href="DocumentReference-fa4de280-88f7-e2d3-7ecc-dfa582965069.html">DocumentReference (entry 80)</a>. <a href="teran-attachments/note-fdf1c942c36f54cc0fd394dc57c66d84ffedc148fa480f3b81f9811c91d3c848.txt" download="note-fdf1c942c36f54cc0fd394dc57c66d84ffedc148fa480f3b81f9811c91d3c848.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2019-04-29
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 76 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-24eb77182559bead29021486d224a65e8509f12a17cb45001f0179241f5fa15c">
+  <h3 id="note-24eb77182559bead29021486d224a65e8509f12a17cb45001f0179241f5fa15c">History and physical note — 2020-03-27</h3>
+  <p>Source resources: <a href="DiagnosticReport-c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e.html">DiagnosticReport (entry 85)</a> · <a href="DocumentReference-044ec3a5-ac5c-c5cf-381c-76563c3c6a6e.html">DocumentReference (entry 86)</a>. <a href="teran-attachments/note-24eb77182559bead29021486d224a65e8509f12a17cb45001f0179241f5fa15c.txt" download="note-24eb77182559bead29021486d224a65e8509f12a17cb45001f0179241f5fa15c.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2020-03-27
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 77 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-bda8b5bebb64570522475fffdd2b2a576174db233592b46d96cb873490f3bcb4">
+  <h3 id="note-bda8b5bebb64570522475fffdd2b2a576174db233592b46d96cb873490f3bcb4">History and physical note — 2020-03-27</h3>
+  <p>Source resources: <a href="DiagnosticReport-1a43cff7-7a5b-4319-e97a-9ab9b9d9d595.html">DiagnosticReport (entry 91)</a> · <a href="DocumentReference-3684963b-420d-3f4e-2b18-7cb4f863514a.html">DocumentReference (entry 92)</a>. <a href="teran-attachments/note-bda8b5bebb64570522475fffdd2b2a576174db233592b46d96cb873490f3bcb4.txt" download="note-bda8b5bebb64570522475fffdd2b2a576174db233592b46d96cb873490f3bcb4.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2020-03-27
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 77 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-672ec73d20f7aa0baccafada17cfd1557766621ff2c8e9f45123e0510a279c0a">
+  <h3 id="note-672ec73d20f7aa0baccafada17cfd1557766621ff2c8e9f45123e0510a279c0a">History and physical note — 2020-03-27</h3>
+  <p>Source resources: <a href="DiagnosticReport-664240c3-5ece-5799-01a7-a1e31e179601.html">DiagnosticReport (entry 98)</a> · <a href="DocumentReference-a8a3868e-2470-68a4-f296-c3694f79669e.html">DocumentReference (entry 99)</a>. <a href="teran-attachments/note-672ec73d20f7aa0baccafada17cfd1557766621ff2c8e9f45123e0510a279c0a.txt" download="note-672ec73d20f7aa0baccafada17cfd1557766621ff2c8e9f45123e0510a279c0a.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2020-03-27
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 77 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-4fb6648a5f5eb9e4be947e4523c9d09a8690d9de38ff7db5fcd6ec60f55c5a95">
+  <h3 id="note-4fb6648a5f5eb9e4be947e4523c9d09a8690d9de38ff7db5fcd6ec60f55c5a95">History and physical note — 2020-05-04</h3>
+  <p>Source resources: <a href="DiagnosticReport-303bebd6-0fd2-1c3d-16b5-a22c21ce10d1.html">DiagnosticReport (entry 104)</a> · <a href="DocumentReference-6bc547ec-3734-e642-4b69-e72004e796d2.html">DocumentReference (entry 105)</a>. <a href="teran-attachments/note-4fb6648a5f5eb9e4be947e4523c9d09a8690d9de38ff7db5fcd6ec60f55c5a95.txt" download="note-4fb6648a5f5eb9e4be947e4523c9d09a8690d9de38ff7db5fcd6ec60f55c5a95.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2020-05-04
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 77 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-ac3757e117a3ba0554b665aff6e287135a2f40c5275371fc101918b006683193">
+  <h3 id="note-ac3757e117a3ba0554b665aff6e287135a2f40c5275371fc101918b006683193">History and physical note — 2021-02-22</h3>
+  <p>Source resources: <a href="DiagnosticReport-8f8a214c-6c3b-71c8-a186-15e052b5281e.html">DiagnosticReport (entry 110)</a> · <a href="DocumentReference-32d39940-2bed-c1cc-0086-49d00b926100.html">DocumentReference (entry 111)</a>. <a href="teran-attachments/note-ac3757e117a3ba0554b665aff6e287135a2f40c5275371fc101918b006683193.txt" download="note-ac3757e117a3ba0554b665aff6e287135a2f40c5275371fc101918b006683193.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2021-02-22
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 78 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: covid-19, mrna, lnp-s, pf, 100 mcg/0.5ml dose or 50 mcg/0.25ml dose. 
+</code></pre>
+</section>
+<section data-note-id="note-473b032cfb1edd6e01de8efc36556ad2526994adf1b7925494af4ae013111790">
+  <h3 id="note-473b032cfb1edd6e01de8efc36556ad2526994adf1b7925494af4ae013111790">History and physical note — 2021-03-01</h3>
+  <p>Source resources: <a href="DiagnosticReport-3080623e-0093-d6f4-d6ed-f7c27f90fbed.html">DiagnosticReport (entry 116)</a> · <a href="DocumentReference-578f3c65-a224-08fb-40b7-09590ed02cf3.html">DocumentReference (entry 117)</a>. <a href="teran-attachments/note-473b032cfb1edd6e01de8efc36556ad2526994adf1b7925494af4ae013111790.txt" download="note-473b032cfb1edd6e01de8efc36556ad2526994adf1b7925494af4ae013111790.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2021-03-01
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 78 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-8fff567ca9e2b0c965043bce05c5a4e8e4683dbdea7eb71f17344cf3690eb21d">
+  <h3 id="note-8fff567ca9e2b0c965043bce05c5a4e8e4683dbdea7eb71f17344cf3690eb21d">History and physical note — 2021-03-01</h3>
+  <p>Source resources: <a href="DiagnosticReport-24fd9372-65b4-201d-7497-fa4bbdfc0fef.html">DiagnosticReport (entry 122)</a> · <a href="DocumentReference-406c76a1-9630-be4b-7feb-091e6567890d.html">DocumentReference (entry 123)</a>. <a href="teran-attachments/note-8fff567ca9e2b0c965043bce05c5a4e8e4683dbdea7eb71f17344cf3690eb21d.txt" download="note-8fff567ca9e2b0c965043bce05c5a4e8e4683dbdea7eb71f17344cf3690eb21d.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2021-03-01
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 78 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-54e6ab8978e6f3b6d04d45b1f12ad69c30e7a88cf53f2eaf00ffa5ad4325b759">
+  <h3 id="note-54e6ab8978e6f3b6d04d45b1f12ad69c30e7a88cf53f2eaf00ffa5ad4325b759">History and physical note — 2021-03-01</h3>
+  <p>Source resources: <a href="DiagnosticReport-1e448c14-029c-8999-97fa-e225fe911d7f.html">DiagnosticReport (entry 129)</a> · <a href="DocumentReference-c7ab3348-9f86-63ef-6c4a-67165236f3cf.html">DocumentReference (entry 130)</a>. <a href="teran-attachments/note-54e6ab8978e6f3b6d04d45b1f12ad69c30e7a88cf53f2eaf00ffa5ad4325b759.txt" download="note-54e6ab8978e6f3b6d04d45b1f12ad69c30e7a88cf53f2eaf00ffa5ad4325b759.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2021-03-01
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 78 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-b1d4a899eb9ebfbde6775497adcd55d3b97b267d9ad2a3bf14e7f43df1866eb3">
+  <h3 id="note-b1d4a899eb9ebfbde6775497adcd55d3b97b267d9ad2a3bf14e7f43df1866eb3">History and physical note — 2021-03-22</h3>
+  <p>Source resources: <a href="DiagnosticReport-810f5b73-c6ec-3a7b-1b76-34cc0edc0ccb.html">DiagnosticReport (entry 135)</a> · <a href="DocumentReference-cd6155b5-ddf2-3ae6-4bf3-d28514bcfd26.html">DocumentReference (entry 136)</a>. <a href="teran-attachments/note-b1d4a899eb9ebfbde6775497adcd55d3b97b267d9ad2a3bf14e7f43df1866eb3.txt" download="note-b1d4a899eb9ebfbde6775497adcd55d3b97b267d9ad2a3bf14e7f43df1866eb3.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2021-03-22
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 78 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: covid-19, mrna, lnp-s, pf, 100 mcg/0.5ml dose or 50 mcg/0.25ml dose. 
+</code></pre>
+</section>
+<section data-note-id="note-fc76afbd0f54834c0b6967a26b252f03f542cf0ab3dc4651ebe8b6340863d0a9">
+  <h3 id="note-fc76afbd0f54834c0b6967a26b252f03f542cf0ab3dc4651ebe8b6340863d0a9">History and physical note — 2021-05-10</h3>
+  <p>Source resources: <a href="DiagnosticReport-353d2977-c37c-0ec0-3262-23163111933f.html">DiagnosticReport (entry 141)</a> · <a href="DocumentReference-d0fcf862-c0e6-6964-7d20-f04be8b35cd1.html">DocumentReference (entry 142)</a>. <a href="teran-attachments/note-fc76afbd0f54834c0b6967a26b252f03f542cf0ab3dc4651ebe8b6340863d0a9.txt" download="note-fc76afbd0f54834c0b6967a26b252f03f542cf0ab3dc4651ebe8b6340863d0a9.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2021-05-10
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 78 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-d7071151241200acf2c3029d3918d20e4911d76a3041854c544044484db862a3">
+  <h3 id="note-d7071151241200acf2c3029d3918d20e4911d76a3041854c544044484db862a3">History and physical note — 2022-03-25</h3>
+  <p>Source resources: <a href="DiagnosticReport-f95e43d9-6da2-3357-b8a7-824109079477.html">DiagnosticReport (entry 147)</a> · <a href="DocumentReference-63c5dd79-2805-7644-8ece-db7371f8b31f.html">DocumentReference (entry 148)</a>. <a href="teran-attachments/note-d7071151241200acf2c3029d3918d20e4911d76a3041854c544044484db862a3.txt" download="note-d7071151241200acf2c3029d3918d20e4911d76a3041854c544044484db862a3.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2022-03-25
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 79 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-ce929196891d491f3ff8006c391f586bf603b79a7c9339de0786e204659bab33">
+  <h3 id="note-ce929196891d491f3ff8006c391f586bf603b79a7c9339de0786e204659bab33">History and physical note — 2022-03-25</h3>
+  <p>Source resources: <a href="DiagnosticReport-b3943349-1969-b9b2-5833-6716cc1a4992.html">DiagnosticReport (entry 153)</a> · <a href="DocumentReference-61346cb7-94ff-eeb9-e5b3-69dc8e9e5c4e.html">DocumentReference (entry 154)</a>. <a href="teran-attachments/note-ce929196891d491f3ff8006c391f586bf603b79a7c9339de0786e204659bab33.txt" download="note-ce929196891d491f3ff8006c391f586bf603b79a7c9339de0786e204659bab33.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2022-03-25
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 79 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-b9aa8cb54ba3af818f42579dbc4abd616a019e7807521abf66a34338752332f2">
+  <h3 id="note-b9aa8cb54ba3af818f42579dbc4abd616a019e7807521abf66a34338752332f2">History and physical note — 2022-03-25</h3>
+  <p>Source resources: <a href="DiagnosticReport-ac674294-09ee-54f2-9fd3-eeb801d77cbf.html">DiagnosticReport (entry 160)</a> · <a href="DocumentReference-39646991-afa3-7005-82a2-d12d15048fc4.html">DocumentReference (entry 161)</a>. <a href="teran-attachments/note-b9aa8cb54ba3af818f42579dbc4abd616a019e7807521abf66a34338752332f2.txt" download="note-b9aa8cb54ba3af818f42579dbc4abd616a019e7807521abf66a34338752332f2.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2022-03-25
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 79 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-4e13a0888e226e812cd96c117e606e3e7cbf4a1cab3ac44ab188af8cbfc56146">
+  <h3 id="note-4e13a0888e226e812cd96c117e606e3e7cbf4a1cab3ac44ab188af8cbfc56146">History and physical note — 2022-05-16</h3>
+  <p>Source resources: <a href="DiagnosticReport-0e5cedb9-b1f5-ca95-175a-e803a532a5c0.html">DiagnosticReport (entry 166)</a> · <a href="DocumentReference-17b38b00-d4df-7cc5-7e8c-e348c4b1cc5f.html">DocumentReference (entry 167)</a>. <a href="teran-attachments/note-4e13a0888e226e812cd96c117e606e3e7cbf4a1cab3ac44ab188af8cbfc56146.txt" download="note-4e13a0888e226e812cd96c117e606e3e7cbf4a1cab3ac44ab188af8cbfc56146.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2022-05-16
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 79 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-f340b37d8d5a8eb577cc544a0b8de675150edd21472e0da1ac0103b179874e7f">
+  <h3 id="note-f340b37d8d5a8eb577cc544a0b8de675150edd21472e0da1ac0103b179874e7f">History and physical note — 2023-04-10</h3>
+  <p>Source resources: <a href="DiagnosticReport-c2215eb5-e6f2-0def-40b3-db851dbcd02f.html">DiagnosticReport (entry 172)</a> · <a href="DocumentReference-eb08b96d-76c3-1c9e-411a-b5620aa99655.html">DocumentReference (entry 173)</a>. <a href="teran-attachments/note-f340b37d8d5a8eb577cc544a0b8de675150edd21472e0da1ac0103b179874e7f.txt" download="note-f340b37d8d5a8eb577cc544a0b8de675150edd21472e0da1ac0103b179874e7f.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2023-04-10
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 80 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-bdbf71f601c85135ca0347e3cde3ab9ffca002183b4dcadd8096fcd8c2aad1a4">
+  <h3 id="note-bdbf71f601c85135ca0347e3cde3ab9ffca002183b4dcadd8096fcd8c2aad1a4">History and physical note — 2023-04-10</h3>
+  <p>Source resources: <a href="DiagnosticReport-a770495f-efc3-3077-1505-cddeece82a16.html">DiagnosticReport (entry 178)</a> · <a href="DocumentReference-f11e6a04-d423-7636-18eb-5d7180476e20.html">DocumentReference (entry 179)</a>. <a href="teran-attachments/note-bdbf71f601c85135ca0347e3cde3ab9ffca002183b4dcadd8096fcd8c2aad1a4.txt" download="note-bdbf71f601c85135ca0347e3cde3ab9ffca002183b4dcadd8096fcd8c2aad1a4.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2023-04-10
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 80 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-479ad4ca7c410f3f8d1127a541304f8d3c60579a5a745763707a6c055d40e170">
+  <h3 id="note-479ad4ca7c410f3f8d1127a541304f8d3c60579a5a745763707a6c055d40e170">History and physical note — 2023-04-10</h3>
+  <p>Source resources: <a href="DiagnosticReport-ef722d95-1656-3076-df44-7d2f7d2f88be.html">DiagnosticReport (entry 185)</a> · <a href="DocumentReference-9e1826e7-1ee6-5615-68da-6665b163254c.html">DocumentReference (entry 186)</a>. <a href="teran-attachments/note-479ad4ca7c410f3f8d1127a541304f8d3c60579a5a745763707a6c055d40e170.txt" download="note-479ad4ca7c410f3f8d1127a541304f8d3c60579a5a745763707a6c055d40e170.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2023-04-10
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 80 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-6e4c0ef219523844fcdd710a202f8c74599602bbbb8e25b1accf227694a780e8">
+  <h3 id="note-6e4c0ef219523844fcdd710a202f8c74599602bbbb8e25b1accf227694a780e8">History and physical note — 2023-05-22</h3>
+  <p>Source resources: <a href="DiagnosticReport-1346baf8-318e-1f54-5b36-8d47cbf4f8ac.html">DiagnosticReport (entry 191)</a> · <a href="DocumentReference-cb143d49-a165-3b39-01de-ff891ff7b809.html">DocumentReference (entry 192)</a>. <a href="teran-attachments/note-6e4c0ef219523844fcdd710a202f8c74599602bbbb8e25b1accf227694a780e8.txt" download="note-6e4c0ef219523844fcdd710a202f8c74599602bbbb8e25b1accf227694a780e8.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2023-05-22
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 80 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-f92ec82467c7cb9bfeeae41309477cd738bc59e5230cb21f369469a5e5e85852">
+  <h3 id="note-f92ec82467c7cb9bfeeae41309477cd738bc59e5230cb21f369469a5e5e85852">History and physical note — 2024-04-17</h3>
+  <p>Source resources: <a href="DiagnosticReport-a77df40e-86a5-5115-a578-3e01c3807c1e.html">DiagnosticReport (entry 197)</a> · <a href="DocumentReference-e51ade29-614f-a989-be73-2619339f43f0.html">DocumentReference (entry 198)</a>. <a href="teran-attachments/note-f92ec82467c7cb9bfeeae41309477cd738bc59e5230cb21f369469a5e5e85852.txt" download="note-f92ec82467c7cb9bfeeae41309477cd738bc59e5230cb21f369469a5e5e85852.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2024-04-17
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 81 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-cef9d2680ad1becd56f8d3f2875e8a8e2a876c3a7e237391085430e391012343">
+  <h3 id="note-cef9d2680ad1becd56f8d3f2875e8a8e2a876c3a7e237391085430e391012343">History and physical note — 2024-04-18</h3>
+  <p>Source resources: <a href="DiagnosticReport-61ae1cb3-c6f7-d331-e62d-19d8c09640c6.html">DiagnosticReport (entry 203)</a> · <a href="DocumentReference-ac2ef1fb-a79e-75d2-9f9b-9e1f9f879d9f.html">DocumentReference (entry 204)</a>. <a href="teran-attachments/note-cef9d2680ad1becd56f8d3f2875e8a8e2a876c3a7e237391085430e391012343.txt" download="note-cef9d2680ad1becd56f8d3f2875e8a8e2a876c3a7e237391085430e391012343.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2024-04-18
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 81 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-e7e5b929d6784de0b0243a9937dbbf4907763b525f13b30b700e74c2ff7b1c2f">
+  <h3 id="note-e7e5b929d6784de0b0243a9937dbbf4907763b525f13b30b700e74c2ff7b1c2f">History and physical note — 2024-04-18</h3>
+  <p>Source resources: <a href="DiagnosticReport-c729ea8a-2179-f0c8-8969-691c9e492793.html">DiagnosticReport (entry 210)</a> · <a href="DocumentReference-3e3dd483-8ab0-bcd9-b7f4-2a9586a550bf.html">DocumentReference (entry 211)</a>. <a href="teran-attachments/note-e7e5b929d6784de0b0243a9937dbbf4907763b525f13b30b700e74c2ff7b1c2f.txt" download="note-e7e5b929d6784de0b0243a9937dbbf4907763b525f13b30b700e74c2ff7b1c2f.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2024-04-18
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 81 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-b84b1cda08e444408548d1c9285d0fa62791471bcb6e73315d9d0fe59d03c78e">
+  <h3 id="note-b84b1cda08e444408548d1c9285d0fa62791471bcb6e73315d9d0fe59d03c78e">History and physical note — 2024-05-27</h3>
+  <p>Source resources: <a href="DiagnosticReport-e9d0e8d6-9a35-e32c-294f-7b53696cadef.html">DiagnosticReport (entry 217)</a> · <a href="DocumentReference-a3325c89-e3b2-823a-5988-6e85d84668b4.html">DocumentReference (entry 218)</a>. <a href="teran-attachments/note-b84b1cda08e444408548d1c9285d0fa62791471bcb6e73315d9d0fe59d03c78e.txt" download="note-b84b1cda08e444408548d1c9285d0fa62791471bcb6e73315d9d0fe59d03c78e.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2024-05-27
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 81 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf, td (adult), 5 lf tetanus toxoid, preservative free, adsorbed. 
+</code></pre>
+</section>
+<section data-note-id="note-3d45c5a420df39d962310b2b1170fd0b20798335c53432451d0816daa1d60289">
+  <h3 id="note-3d45c5a420df39d962310b2b1170fd0b20798335c53432451d0816daa1d60289">History and physical note — 2025-03-14</h3>
+  <p>Source resources: <a href="DiagnosticReport-c3520393-d01a-7dce-f71f-b6445ffa226d.html">DiagnosticReport (entry 223)</a> · <a href="DocumentReference-ab096977-c407-80df-a82e-6316319d055e.html">DocumentReference (entry 224)</a>. <a href="teran-attachments/note-3d45c5a420df39d962310b2b1170fd0b20798335c53432451d0816daa1d60289.txt" download="note-3d45c5a420df39d962310b2b1170fd0b20798335c53432451d0816daa1d60289.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2025-03-14
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 82 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-ac72963eefd4bc4d451aa633b1dd52d489719e6e36005ce1cb032f43cabe8c4a">
+  <h3 id="note-ac72963eefd4bc4d451aa633b1dd52d489719e6e36005ce1cb032f43cabe8c4a">History and physical note — 2025-03-14</h3>
+  <p>Source resources: <a href="DiagnosticReport-297f9c08-541e-c4a5-962b-c0003d469198.html">DiagnosticReport (entry 229)</a> · <a href="DocumentReference-b2f97ed6-d697-f867-f161-1a3c37b7b7b0.html">DocumentReference (entry 230)</a>. <a href="teran-attachments/note-ac72963eefd4bc4d451aa633b1dd52d489719e6e36005ce1cb032f43cabe8c4a.txt" download="note-ac72963eefd4bc4d451aa633b1dd52d489719e6e36005ce1cb032f43cabe8c4a.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2025-03-14
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 82 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-80f7e62d5a928d034c95215fd0adf93c02b7ba26b29732ca6077128f081ff1dd">
+  <h3 id="note-80f7e62d5a928d034c95215fd0adf93c02b7ba26b29732ca6077128f081ff1dd">History and physical note — 2025-03-14</h3>
+  <p>Source resources: <a href="DiagnosticReport-3a68c8ad-8605-c3c4-4366-c2f779429eef.html">DiagnosticReport (entry 236)</a> · <a href="DocumentReference-98fc4c29-33b7-1b65-ffd5-a47123896aff.html">DocumentReference (entry 237)</a>. <a href="teran-attachments/note-80f7e62d5a928d034c95215fd0adf93c02b7ba26b29732ca6077128f081ff1dd.txt" download="note-80f7e62d5a928d034c95215fd0adf93c02b7ba26b29732ca6077128f081ff1dd.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2025-03-14
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 82 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-2aac78ebd6b1aca78872c03c5bf577f9cd8ae94729502e76f3e7fe1e2a2048d9">
+  <h3 id="note-2aac78ebd6b1aca78872c03c5bf577f9cd8ae94729502e76f3e7fe1e2a2048d9">History and physical note — 2025-06-02</h3>
+  <p>Source resources: <a href="DiagnosticReport-8a6b74b5-e231-2ecf-08fd-f18518fbf10f.html">DiagnosticReport (entry 242)</a> · <a href="DocumentReference-128537af-c773-1cb5-6897-33a45b59966b.html">DocumentReference (entry 243)</a>. <a href="teran-attachments/note-2aac78ebd6b1aca78872c03c5bf577f9cd8ae94729502e76f3e7fe1e2a2048d9.txt" download="note-2aac78ebd6b1aca78872c03c5bf577f9cd8ae94729502e76f3e7fe1e2a2048d9.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2025-06-02
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 82 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+Patient was given the following immunizations: influenza, split virus, trivalent, pf. 
+</code></pre>
+</section>
+<section data-note-id="note-74be4ae1c8ce3371946ec63746a2d2a1f63e2b327fe3c08b97bcb6e67fbdd165">
+  <h3 id="note-74be4ae1c8ce3371946ec63746a2d2a1f63e2b327fe3c08b97bcb6e67fbdd165">History and physical note — 2026-04-01</h3>
+  <p>Source resources: <a href="DiagnosticReport-c4e9b8f6-3605-b8d7-cde7-b34029429402.html">DiagnosticReport (entry 248)</a> · <a href="DocumentReference-98aa1bed-3b39-60e5-ff83-74352b0bb07f.html">DocumentReference (entry 249)</a>. <a href="teran-attachments/note-74be4ae1c8ce3371946ec63746a2d2a1f63e2b327fe3c08b97bcb6e67fbdd165.txt" download="note-74be4ae1c8ce3371946ec63746a2d2a1f63e2b327fe3c08b97bcb6e67fbdd165.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2026-04-01
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 83 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- physical examination, complete (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-d53d52feac8e2ba453ccbc605649c47baac27bad338875c3c2a94aa9abc0b201">
+  <h3 id="note-d53d52feac8e2ba453ccbc605649c47baac27bad338875c3c2a94aa9abc0b201">History and physical note — 2026-04-01</h3>
+  <p>Source resources: <a href="DiagnosticReport-7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf.html">DiagnosticReport (entry 254)</a> · <a href="DocumentReference-eb2d5b15-167c-278e-daff-aaaf7d557fd6.html">DocumentReference (entry 255)</a>. <a href="teran-attachments/note-d53d52feac8e2ba453ccbc605649c47baac27bad338875c3c2a94aa9abc0b201.txt" download="note-d53d52feac8e2ba453ccbc605649c47baac27bad338875c3c2a94aa9abc0b201.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2026-04-01
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 83 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- mammography (procedure)
+</code></pre>
+</section>
+<section data-note-id="note-549472b95bc44776f5963f5a4a56e46a68df32931b04bcbf8c5e59f5dd143794">
+  <h3 id="note-549472b95bc44776f5963f5a4a56e46a68df32931b04bcbf8c5e59f5dd143794">History and physical note — 2026-04-01</h3>
+  <p>Source resources: <a href="DiagnosticReport-d217b1a2-6e82-9345-84c8-41821321c713.html">DiagnosticReport (entry 261)</a> · <a href="DocumentReference-07fff275-f553-ea8f-019e-600b79d2e7b4.html">DocumentReference (entry 262)</a>. <a href="teran-attachments/note-549472b95bc44776f5963f5a4a56e46a68df32931b04bcbf8c5e59f5dd143794.txt" download="note-549472b95bc44776f5963f5a4a56e46a68df32931b04bcbf8c5e59f5dd143794.txt">Download text</a></p>
+  <pre class="mopa-attachment-text"><code>
+2026-04-01
+
+# Chief Complaint
+No complaints.
+
+# History of Present Illness
+Julia241 Julia241 is a 83 year-old hispanic white female.
+
+# Social History
+Patient is single. Patient quit smoking at age 16.
+ Patient identifies as heterosexual.
+
+Patient comes from a middle socioeconomic background.
+ Patient has completed some college courses.
+Patient currently has Medicare.
+
+# Allergies
+No Known Allergies.
+
+# Medications
+No Active Medications.
+
+# Assessment and Plan
+
+
+
+## Plan
+
+The following procedures were conducted:
+- manual pelvic examination (procedure)
+- cytopathology procedure, preparation of smear, genital source (procedure)
+</code></pre>
+</section>
+</div>
+<script src="js/teran-attachment-viewer.js" defer="defer"> </script>
+
+
+
+
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+  <script type="text/javascript" src="assets/js/flags.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <script type="text/javascript" src="assets/js/togglechanges.js"> </script>
+  <script type="text/javascript" src="assets/js/requirements-table.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container" data-fhir="generated">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+
+
+
+          IG © 2026+ <a style="color:var(--footer-hyperlink-text-color)" href="http://www.hl7.org/Special/committees/cic">HL7 International / Clinical Interoperability Council</a>.  
+          Package hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>.
+          Generated 
+  <span title="2026-10-06 14:22:00 -0400">
+    2026-10-06
+  </span>
+
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="../qa.html">QA Report</a>
+                 
+                
+                 | <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir/us/codex-mopa/history.html">Version History</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" rel="license" href="http://hl7.org/fhir/R4/license.html"><img style="border-style: none;" alt="CC0" src="cc0.png"/></a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir-issues">Propose a change</a>
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+

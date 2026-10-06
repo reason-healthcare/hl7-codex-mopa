@@ -1,0 +1,112 @@
+[{
+  "id" : "ocpa-crd-client",
+  "type" : "CapabilityStatement",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/CapabilityStatement/ocpa-crd-client",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "OcpaCrdClientCapabilityStatement"
+},
+{
+  "id" : "ocpa-crd-service",
+  "type" : "CapabilityStatement",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/CapabilityStatement/ocpa-crd-service",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "OcpaCrdServiceCapabilityStatement"
+},
+{
+  "id" : "ocpa-codes",
+  "type" : "CodeSystem",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/ocpa-codes",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "OcpaCodesCS"
+},
+{
+  "id" : "treatment-line-cs",
+  "type" : "CodeSystem",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "TreatmentLineCS"
+},
+{
+  "id" : "hl7.fhir.us.codex-mopa",
+  "type" : "ImplementationGuide",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "MOPAIG"
+},
+{
+  "id" : "RegimenDdACT",
+  "type" : "PlanDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenDdACT",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "RegimenDdACT"
+},
+{
+  "id" : "RegimenPHD",
+  "type" : "PlanDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenPHD",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "RegimenPHD"
+},
+{
+  "id" : "RegimenTH",
+  "type" : "PlanDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenTH",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "RegimenTH"
+},
+{
+  "id" : "anticancer-regimen-plandefinition",
+  "type" : "StructureDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "AntiCancerRegimenPlanDefinition"
+},
+{
+  "id" : "anticancer-regimen-requestgroup",
+  "type" : "StructureDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "AntiCancerRegimenRequestGroup"
+},
+{
+  "id" : "data-requirement-label",
+  "type" : "StructureDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/data-requirement-label",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "DataRequirementLabel"
+},
+{
+  "id" : "line-of-therapy-request-category",
+  "type" : "StructureDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/line-of-therapy-request-category",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "LineOfTherapyRequestCategory"
+},
+{
+  "id" : "regimen-days-of-cycle",
+  "type" : "StructureDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "RegimenDaysOfCycle"
+},
+{
+  "id" : "treatment-intent-request-category",
+  "type" : "StructureDefinition",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/StructureDefinition/treatment-intent-request-category",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "TreatmentIntentRequestCategory"
+},
+{
+  "id" : "regimen-intent-vs",
+  "type" : "ValueSet",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/ValueSet/regimen-intent-vs",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "RegimenIntentVS"
+},
+{
+  "id" : "treatment-line-vs",
+  "type" : "ValueSet",
+  "url" : "http://hl7.org/fhir/us/codex-mopa/ValueSet/treatment-line-vs",
+  "version" : "0.1.1-snapshot-080926",
+  "name" : "TreatmentLineVS"
+}]

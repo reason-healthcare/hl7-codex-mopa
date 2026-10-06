@@ -1,0 +1,65 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sct: <http://snomed.info/id/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Procedure/324d4f70-205b-60cc-7c2d-4382d3c52063> a fhir:Procedure ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "324d4f70-205b-60cc-7c2d-4382d3c52063"] ;
+  fhir:Resource.meta [
+     fhir:Meta.profile [
+       fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure" ;
+       fhir:index -1 ;
+       fhir:link <http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure>
+     ]
+  ] ;
+  fhir:Resource.language [ fhir:value "en"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Procedure 324d4f70-205b-60cc-7c2d-4382d3c52063</b></p><a name=\"324d4f70-205b-60cc-7c2d-4382d3c52063\"> </a><a name=\"hc324d4f70-205b-60cc-7c2d-4382d3c52063\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-procedure.html\">US Core Procedure Profile</a></p></div><p><b>status</b>: Completed</p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 35025007}\">Manual pelvic examination (procedure)</span></p><p><b>subject</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-7e2e-dd08e1c087a0\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-7e2e-dd08e1c087a0 (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2017-02-20 13:36:35-0600 --&gt; 2017-02-20 14:05:01-0600; reasonCode = Malignant neoplasm of breast (disorder)</a></p><p><b>performed</b>: 2017-02-20 13:36:35-0600 --&gt; 2017-02-20 13:47:12-0600</p><p><b>location</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>reasonReference</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1\">Malignant neoplasm of breast (disorder)</a></p></div>"
+  ] ;
+  fhir:Procedure.status [ fhir:value "completed"] ;
+  fhir:Procedure.code [
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       a sct:35025007 ;
+       fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+       fhir:Coding.code [ fhir:value "35025007" ] ;
+       fhir:Coding.display [ fhir:value "Manual pelvic examination (procedure)" ]
+     ] ;
+     fhir:CodeableConcept.text [ fhir:value "Manual pelvic examination (procedure)" ]
+  ] ;
+  fhir:Procedure.subject [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ] ;
+  fhir:Procedure.encounter [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-7e2e-dd08e1c087a0" ]
+  ] ;
+  fhir:Procedure.performedPeriod [
+     fhir:Period.start [ fhir:value "2017-02-20T13:36:35-06:00"^^xsd:dateTime ] ;
+     fhir:Period.end [ fhir:value "2017-02-20T13:47:12-06:00"^^xsd:dateTime ]
+  ] ;
+  fhir:Procedure.location [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8> ;
+     fhir:Reference.reference [ fhir:value "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8" ] ;
+     fhir:Reference.display [ fhir:value "OPEN ACCESS VASCULAR ACCESS CENTER INC" ]
+  ] ;
+  fhir:Procedure.reasonReference [
+     fhir:index -1 ;
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1" ] ;
+     fhir:Reference.display [ fhir:value "Malignant neoplasm of breast (disorder)" ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Procedure/324d4f70-205b-60cc-7c2d-4382d3c52063.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/Procedure/324d4f70-205b-60cc-7c2d-4382d3c52063.ttl> .
+
+# -------------------------------------------------------------------------------------
+

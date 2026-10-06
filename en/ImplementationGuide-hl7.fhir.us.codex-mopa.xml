@@ -1,0 +1,3814 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ImplementationGuide xmlns="http://hl7.org/fhir">
+  <id value="hl7.fhir.us.codex-mopa"/>
+  <language value="en"/>
+  <text>
+    <status value="generated"/><div xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><p class="res-header-id"><b>Generated Narrative: ImplementationGuide hl7.fhir.us.codex-mopa</b></p><a name="hl7.fhir.us.codex-mopa"> </a><a name="hchl7.fhir.us.codex-mopa"> </a><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Language: en</p></div><h2>MOPAIG</h2><p>The official URL for this implementation guide is: </p><pre>http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa</pre><div><p>Informative Medical Oncology Prior Authorization (MOPA) framework covering all cancer types and documenting upstream proposal gaps for Da Vinci CRD/DTR/PAS and mCODE. The guide uses breast cancer prior authorization as the first concrete use case and data requirements implementation.</p>
+</div></div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="draft"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-wg">
+    <valueCode value="cic"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="0"/>
+  </extension>
+  <url value="http://hl7.org/fhir/us/codex-mopa/ImplementationGuide/hl7.fhir.us.codex-mopa"/>
+  <version value="0.1.1-snapshot-080926"/>
+  <name value="MOPAIG"/>
+  <title value="MOPA — Medical Oncology Prior Authorization"/>
+  <status value="draft"/>
+  <date value="2026-10-06T14:22:03-04:00"/>
+  <publisher value="HL7 International / Clinical Interoperability Council"/>
+  <contact>
+    <name value="HL7 International / Clinical Interoperability Council"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/cic"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="ciclist@lists.HL7.org"/>
+    </telecom>
+  </contact>
+  <description value="Informative Medical Oncology Prior Authorization (MOPA) framework covering all cancer types and documenting upstream proposal gaps for Da Vinci CRD/DTR/PAS and mCODE. The guide uses breast cancer prior authorization as the first concrete use case and data requirements implementation."/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+      <display value="United States of America"/>
+    </coding>
+  </jurisdiction>
+  <packageId value="hl7.fhir.us.codex-mopa"/>
+  <license value="CC0-1.0"/>
+  <fhirVersion value="4.0.1"/>
+  <dependsOn id="hl7tx">
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/implementationguide-dependency-comment">
+      <valueMarkdown value="Automatically added as a dependency - all IGs depend on HL7 Terminology"/>
+    </extension>
+    <uri value="http://terminology.hl7.org/ImplementationGuide/hl7.terminology"/>
+    <packageId value="hl7.terminology.r4"/>
+    <version value="7.4.0"/>
+  </dependsOn>
+  <dependsOn id="hl7_fhir_uv_extensions_r4">
+    <uri value="http://hl7.org/fhir/extensions/ImplementationGuide/hl7.fhir.uv.extensions"/>
+    <packageId value="hl7.fhir.uv.extensions.r4"/>
+    <version value="5.2.0"/>
+  </dependsOn>
+  <dependsOn id="hl7fhiruscore">
+    <uri value="http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core"/>
+    <packageId value="hl7.fhir.us.core"/>
+    <version value="7.0.0"/>
+  </dependsOn>
+  <dependsOn id="fhirmcode">
+    <uri value="http://hl7.org/fhir/us/mcode/ImplementationGuide/hl7.fhir.us.mcode"/>
+    <packageId value="hl7.fhir.us.mcode"/>
+    <version value="4.0.0"/>
+  </dependsOn>
+  <dependsOn id="davinciCRD">
+    <uri value="http://hl7.org/fhir/us/davinci-crd/ImplementationGuide/hl7.fhir.us.davinci-crd"/>
+    <packageId value="hl7.fhir.us.davinci-crd"/>
+    <version value="2.2.1"/>
+  </dependsOn>
+  <dependsOn id="davinciDTR">
+    <uri value="http://hl7.org/fhir/us/davinci-dtr/ImplementationGuide/hl7.fhir.us.davinci-dtr"/>
+    <packageId value="hl7.fhir.us.davinci-dtr"/>
+    <version value="2.2.0"/>
+  </dependsOn>
+  <dependsOn id="davinciPAS">
+    <uri value="http://hl7.org/fhir/us/davinci-pas/ImplementationGuide/hl7.fhir.us.davinci-pas"/>
+    <packageId value="hl7.fhir.us.davinci-pas"/>
+    <version value="2.2.1"/>
+  </dependsOn>
+  <definition>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="copyrightyear"/>
+      </extension>
+      <extension url="value">
+        <valueString value="2026+"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="releaselabel"/>
+      </extension>
+      <extension url="value">
+        <valueString value="snapshot-080926"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="show-inherited-invariants"/>
+      </extension>
+      <extension url="value">
+        <valueString value="false"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-liquid"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-history"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/us/codex-mopa/history.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="autoload-resources"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-qa"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/qa"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-temp"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/pages"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-output"/>
+      </extension>
+      <extension url="value">
+        <valueString value="output"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="path-suppressed-warnings"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/ignoreWarnings.txt"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="template-html"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="template-md"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page-md.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-contact"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-context"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-copyright"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-jurisdiction"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-license"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-publisher"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-version"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="apply-wg"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="active-tables"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="fmm-definition"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/versions.html#maturity"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="propagate-status"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="excludelogbinaryformat"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="tabbed-snapshots"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueString value="i18n-default-lang"/>
+      </extension>
+      <extension url="value">
+        <valueString value="en"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-internal-dependency">
+      <valueCode value="hl7.fhir.uv.tools.r4#1.1.2"/>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="copyrightyear"/>
+      </extension>
+      <extension url="value">
+        <valueString value="2026+"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="releaselabel"/>
+      </extension>
+      <extension url="value">
+        <valueString value="snapshot-080926"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="show-inherited-invariants"/>
+      </extension>
+      <extension url="value">
+        <valueString value="false"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-liquid"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-history"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/us/codex-mopa/history.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="autoload-resources"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-liquid-template"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/liquid"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-qa"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/qa"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-temp"/>
+      </extension>
+      <extension url="value">
+        <valueString value="temp/pages"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-output"/>
+      </extension>
+      <extension url="value">
+        <valueString value="output"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="path-suppressed-warnings"/>
+      </extension>
+      <extension url="value">
+        <valueString value="input/ignoreWarnings.txt"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="template-html"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="template-md"/>
+      </extension>
+      <extension url="value">
+        <valueString value="template-page-md.html"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-contact"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-context"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-copyright"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-jurisdiction"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-license"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-publisher"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-version"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="apply-wg"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="active-tables"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="fmm-definition"/>
+      </extension>
+      <extension url="value">
+        <valueString value="http://hl7.org/fhir/versions.html#maturity"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="propagate-status"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="excludelogbinaryformat"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="tabbed-snapshots"/>
+      </extension>
+      <extension url="value">
+        <valueString value="true"/>
+      </extension>
+    </extension>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-parameter">
+      <extension url="code">
+        <valueCode value="i18n-default-lang"/>
+      </extension>
+      <extension url="value">
+        <valueString value="en"/>
+      </extension>
+    </extension>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/0023164a-4998-e288-0fc3-5a02cf3447ec"/>
+      </reference>
+      <name value="0023164a-4998-e288-0fc3-5a02cf3447ec"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/034e73d7-b3e2-6cc5-8e1c-2689d95581dc"/>
+      </reference>
+      <name value="034e73d7-b3e2-6cc5-8e1c-2689d95581dc"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/044ec3a5-ac5c-c5cf-381c-76563c3c6a6e"/>
+      </reference>
+      <name value="044ec3a5-ac5c-c5cf-381c-76563c3c6a6e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/0459bdb5-def8-b1d7-82ec-3a8515c37416"/>
+      </reference>
+      <name value="0459bdb5-def8-b1d7-82ec-3a8515c37416"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/0579b0c9-385b-3c39-b609-906dd78f09eb"/>
+      </reference>
+      <name value="0579b0c9-385b-3c39-b609-906dd78f09eb"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/07fff275-f553-ea8f-019e-600b79d2e7b4"/>
+      </reference>
+      <name value="07fff275-f553-ea8f-019e-600b79d2e7b4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/0b1d6b94-0349-8896-1a58-a12f68ad9b08"/>
+      </reference>
+      <name value="0b1d6b94-0349-8896-1a58-a12f68ad9b08"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/0b9dfc64-4d1b-44dc-7339-61c56cda8e1a"/>
+      </reference>
+      <name value="0b9dfc64-4d1b-44dc-7339-61c56cda8e1a"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/0d603019-569c-3dfd-bf52-0782656f0baf"/>
+      </reference>
+      <name value="0d603019-569c-3dfd-bf52-0782656f0baf"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/0e5cedb9-b1f5-ca95-175a-e803a532a5c0"/>
+      </reference>
+      <name value="0e5cedb9-b1f5-ca95-175a-e803a532a5c0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/0ef7963b-44f0-eed0-a4f7-c994fb472fd7"/>
+      </reference>
+      <name value="0ef7963b-44f0-eed0-a4f7-c994fb472fd7"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/0fc51de2-2205-cd09-2ee2-96d4adb2a834"/>
+      </reference>
+      <name value="0fc51de2-2205-cd09-2ee2-96d4adb2a834"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/128537af-c773-1cb5-6897-33a45b59966b"/>
+      </reference>
+      <name value="128537af-c773-1cb5-6897-33a45b59966b"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/1346baf8-318e-1f54-5b36-8d47cbf4f8ac"/>
+      </reference>
+      <name value="1346baf8-318e-1f54-5b36-8d47cbf4f8ac"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/163e5f23-e6c7-e6ce-e175-29ec2556c67c"/>
+      </reference>
+      <name value="163e5f23-e6c7-e6ce-e175-29ec2556c67c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/1798d623-ba95-06b0-aa15-a55a8557462e"/>
+      </reference>
+      <name value="1798d623-ba95-06b0-aa15-a55a8557462e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/17b38b00-d4df-7cc5-7e8c-e348c4b1cc5f"/>
+      </reference>
+      <name value="17b38b00-d4df-7cc5-7e8c-e348c4b1cc5f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/18a52e2d-fbc6-1025-ff7e-8735cd88d2d2"/>
+      </reference>
+      <name value="18a52e2d-fbc6-1025-ff7e-8735cd88d2d2"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/18d9193e-e891-43e5-7fb2-7186d863937f"/>
+      </reference>
+      <name value="18d9193e-e891-43e5-7fb2-7186d863937f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/19c02e32-9639-794a-7e1a-7db80fef14af"/>
+      </reference>
+      <name value="19c02e32-9639-794a-7e1a-7db80fef14af"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/1a3b3eb0-d10e-5688-c572-0978b6c3ac7c"/>
+      </reference>
+      <name value="1a3b3eb0-d10e-5688-c572-0978b6c3ac7c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/1a43cff7-7a5b-4319-e97a-9ab9b9d9d595"/>
+      </reference>
+      <name value="1a43cff7-7a5b-4319-e97a-9ab9b9d9d595"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/1e2e662e-7c14-60b9-77e4-bc7180db296c"/>
+      </reference>
+      <name value="1e2e662e-7c14-60b9-77e4-bc7180db296c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/1e448c14-029c-8999-97fa-e225fe911d7f"/>
+      </reference>
+      <name value="1e448c14-029c-8999-97fa-e225fe911d7f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/24fd9372-65b4-201d-7497-fa4bbdfc0fef"/>
+      </reference>
+      <name value="24fd9372-65b4-201d-7497-fa4bbdfc0fef"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/297f9c08-541e-c4a5-962b-c0003d469198"/>
+      </reference>
+      <name value="297f9c08-541e-c4a5-962b-c0003d469198"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/2d9f1ccf-b761-0146-34e0-76860da5afa4"/>
+      </reference>
+      <name value="2d9f1ccf-b761-0146-34e0-76860da5afa4"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/303bebd6-0fd2-1c3d-16b5-a22c21ce10d1"/>
+      </reference>
+      <name value="303bebd6-0fd2-1c3d-16b5-a22c21ce10d1"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/3080623e-0093-d6f4-d6ed-f7c27f90fbed"/>
+      </reference>
+      <name value="3080623e-0093-d6f4-d6ed-f7c27f90fbed"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-003d-0101f53e3154"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-003d-0101f53e3154"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-0162-2ce5311b5279"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-0162-2ce5311b5279"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-0297-a5a1bd87d1f0"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-0297-a5a1bd87d1f0"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-0db7-b058ebf14b84"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-0db7-b058ebf14b84"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-0ffb-080f18161ad7"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-0ffb-080f18161ad7"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-1179-6df0b91f7525"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-1179-6df0b91f7525"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-15e5-0fac43d29b6d"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-15e5-0fac43d29b6d"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-16ae-241e134b0576"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-16ae-241e134b0576"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-1962-0ea00b3cda63"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-1962-0ea00b3cda63"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-1b84-c52fb680231c"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-1b84-c52fb680231c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-1c64-64c037697bf3"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-1c64-64c037697bf3"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-1c88-e6cda8ec7531"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-1c88-e6cda8ec7531"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-1de8-a9cbc4e0036a"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-1de8-a9cbc4e0036a"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-2051-e8ee0a6b654f"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-2051-e8ee0a6b654f"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-24a8-4d3ad8b8ae01"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-24a8-4d3ad8b8ae01"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-2538-a83ef5b75ab1"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-2538-a83ef5b75ab1"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-2692-72c2133050cf"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-2692-72c2133050cf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-279b-886aa2782723"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-279b-886aa2782723"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-2837-ffb3962d6ce2"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-2837-ffb3962d6ce2"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-283d-7af8bdc429cc"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-283d-7af8bdc429cc"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-324c-f8d35cb030be"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-324c-f8d35cb030be"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-35e0-61c760c27bcc"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-35e0-61c760c27bcc"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-36ed-00f83f2202f1"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-36ed-00f83f2202f1"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-3b24-763d02e12997"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-3b24-763d02e12997"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-3e41-e5b04e10d69c"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-3e41-e5b04e10d69c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-3eca-e327cc5deb09"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-3eca-e327cc5deb09"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-3fde-27be9c1c7826"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-3fde-27be9c1c7826"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-403a-3d51560b106f"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-403a-3d51560b106f"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-406d-3b0c7ff097ca"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-406d-3b0c7ff097ca"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-4184-ff388bd1b344"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-4184-ff388bd1b344"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-47b3-71b6fedb37cf"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-47b3-71b6fedb37cf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-4a51-7fd58c9a38b2"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-4a51-7fd58c9a38b2"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-4aa7-17255db300c3"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-4aa7-17255db300c3"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-4add-381d14c5ddf7"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-4add-381d14c5ddf7"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-4d78-41a6e431eb81"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-4d78-41a6e431eb81"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-4ef6-22f142d7d336"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-4ef6-22f142d7d336"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-500d-52c21db4e8d4"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-500d-52c21db4e8d4"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-51b7-9b21c65312d1"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-51b7-9b21c65312d1"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-53c4-cfdf2b5dd320"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-53c4-cfdf2b5dd320"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-55c4-fdc38b673678"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-55c4-fdc38b673678"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-55f7-f9f4976b1da5"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-55f7-f9f4976b1da5"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-56b1-5917b91995a7"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-56b1-5917b91995a7"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-5756-faa9406416fb"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5756-faa9406416fb"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-57cb-2e4d766f0fbf"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-57cb-2e4d766f0fbf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-58cf-1e7016b4cbfa"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-58cf-1e7016b4cbfa"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-58eb-26b259294074"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-58eb-26b259294074"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-58ec-40d72349ab5a"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-58ec-40d72349ab5a"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-5a2f-e1a6ea69a91a"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5a2f-e1a6ea69a91a"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-5a82-eca43b90700e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5a82-eca43b90700e"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-5b10-efa5a0f8e7b4"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5b10-efa5a0f8e7b4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-5bdf-a78105e167bf"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5bdf-a78105e167bf"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-5c6d-fa71b7a30f38"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5c6d-fa71b7a30f38"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-5d84-12f20bffd1a0"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5d84-12f20bffd1a0"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-5da8-7e4d633e3065"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5da8-7e4d633e3065"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-5ff8-97b1f4eef88d"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-5ff8-97b1f4eef88d"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-65ac-50e059411094"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-65ac-50e059411094"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-6608-11e9eb72b9ce"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-6608-11e9eb72b9ce"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-6a71-2ed4bfa14ce0"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-6a71-2ed4bfa14ce0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-6b1e-13ab57e5fded"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-6b1e-13ab57e5fded"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-6e65-238220288f48"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-6e65-238220288f48"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-6ea5-936285139eb8"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-6ea5-936285139eb8"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-6fdf-b576336a84a6"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-6fdf-b576336a84a6"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-7094-d2c0c5ac0f16"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-7094-d2c0c5ac0f16"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-70db-c23708019e5e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-70db-c23708019e5e"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-715e-56f83a1bf839"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-715e-56f83a1bf839"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-7c2d-4382d3c52063"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-7c2d-4382d3c52063"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-7e2e-dd08e1c087a0"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-7e2e-dd08e1c087a0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-7fda-a04a956dcc4e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-7fda-a04a956dcc4e"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-8033-ba5bdb4eee1c"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-8033-ba5bdb4eee1c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-80fd-fb51401f0e6b"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-80fd-fb51401f0e6b"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-81ae-b206c7842f06"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-81ae-b206c7842f06"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-8cfc-844c633f72f8"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-8cfc-844c633f72f8"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-8d2d-8f7aecfab0af"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-8d2d-8f7aecfab0af"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-9034-26ba188a4c3a"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-9034-26ba188a4c3a"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-9472-8c7c3d2e45ab"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-9472-8c7c3d2e45ab"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-95ce-922e94744be4"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-95ce-922e94744be4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-9671-6809a100f0ff"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-9671-6809a100f0ff"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-96a9-d91d739652da"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-96a9-d91d739652da"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-976f-e37e8b0f6171"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-976f-e37e8b0f6171"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-9843-105155e736bb"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-9843-105155e736bb"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-9d5c-9755ae6ec44b"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-9d5c-9755ae6ec44b"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-9db2-3e01b33a24dd"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-9db2-3e01b33a24dd"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Patient"/>
+      </extension>
+      <reference>
+        <reference value="Patient/324d4f70-205b-60cc-a081-24b98a0f139e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-a081-24b98a0f139e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-a761-abf04ae61cff"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-a761-abf04ae61cff"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-a7d9-31c7aace7e53"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-a7d9-31c7aace7e53"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-a901-56495c7d7915"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-a901-56495c7d7915"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-ab2b-7e1872e256ad"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-ab2b-7e1872e256ad"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-ac7e-a59622bf63f2"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-ac7e-a59622bf63f2"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-af17-52591ce4bfab"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-af17-52591ce4bfab"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-b275-92eb37de846e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-b275-92eb37de846e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-b87f-486a766d7690"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-b87f-486a766d7690"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-b9b0-4e978d5fbba8"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-b9b0-4e978d5fbba8"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-bb2c-7c63f78b79f2"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-bb2c-7c63f78b79f2"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-bcea-2e77475b36da"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-bcea-2e77475b36da"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-c1ba-e935897de7ef"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c1ba-e935897de7ef"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-c1d4-7b24da488762"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c1d4-7b24da488762"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-c25a-cd7373ad0288"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c25a-cd7373ad0288"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-c292-39c3b263355c"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c292-39c3b263355c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-c3b8-2f51d4c14ab0"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c3b8-2f51d4c14ab0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-c53c-b3838c180ebd"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c53c-b3838c180ebd"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-c9b8-3f36c803f63f"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-c9b8-3f36c803f63f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-cc9b-9a8dac0bf429"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-cc9b-9a8dac0bf429"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-cf00-62e8f31e53f8"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-cf00-62e8f31e53f8"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-d01e-01c162d00a1e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d01e-01c162d00a1e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-d167-ce53d138fb07"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d167-ce53d138fb07"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-d218-8bd9b86f704e"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d218-8bd9b86f704e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-d22e-a00332260b6a"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d22e-a00332260b6a"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-d349-8836c48ba066"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d349-8836c48ba066"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-d5dd-8d9526fc9cac"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d5dd-8d9526fc9cac"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-d603-07e52baa590b"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d603-07e52baa590b"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-d72e-353b774455cf"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d72e-353b774455cf"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-d8d9-4789ddde2599"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d8d9-4789ddde2599"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-d989-86644ae1848a"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-d989-86644ae1848a"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-da21-a0ada8fdccaf"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-da21-a0ada8fdccaf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-daa0-f375f040f2ca"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-daa0-f375f040f2ca"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-e24f-0300820f0d4b"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-e24f-0300820f0d4b"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-e308-404db14d3249"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-e308-404db14d3249"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Condition"/>
+      </extension>
+      <reference>
+        <reference value="Condition/324d4f70-205b-60cc-e524-4f55fc9ea3c1"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-e524-4f55fc9ea3c1"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-e748-241d7cdbbddd"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-e748-241d7cdbbddd"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-e77a-de35e12d61c2"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-e77a-de35e12d61c2"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-e7e7-eeab8432491c"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-e7e7-eeab8432491c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-ea9d-c861c301dc37"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-ea9d-c861c301dc37"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-eb4a-3f746aca7988"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-eb4a-3f746aca7988"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-f07b-ca9c0d01152d"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f07b-ca9c0d01152d"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-f192-9af1d1042e24"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f192-9af1d1042e24"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-f220-dd931dfdd2e5"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f220-dd931dfdd2e5"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-f3af-f8e08dd81174"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f3af-f8e08dd81174"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-f442-d49d506f10a7"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f442-d49d506f10a7"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-f6ec-9182270fc784"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f6ec-9182270fc784"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-f790-a0746ae2fee0"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f790-a0746ae2fee0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-f846-d4397fc18ba4"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f846-d4397fc18ba4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-f89c-1abb9feabaee"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f89c-1abb9feabaee"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-f89e-b677aa848d76"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-f89e-b677aa848d76"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-fb7a-ec524eb0db28"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-fb7a-ec524eb0db28"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Immunization"/>
+      </extension>
+      <reference>
+        <reference value="Immunization/324d4f70-205b-60cc-fb8e-0edef8cb8ac2"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-fb8e-0edef8cb8ac2"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Procedure"/>
+      </extension>
+      <reference>
+        <reference value="Procedure/324d4f70-205b-60cc-fd9c-53747ed763c3"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-fd9c-53747ed763c3"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Claim"/>
+      </extension>
+      <reference>
+        <reference value="Claim/324d4f70-205b-60cc-fe0f-215c3c52d84c"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-fe0f-215c3c52d84c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Encounter"/>
+      </extension>
+      <reference>
+        <reference value="Encounter/324d4f70-205b-60cc-fea4-d040f20925df"/>
+      </reference>
+      <name value="324d4f70-205b-60cc-fea4-d040f20925df"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/32d39940-2bed-c1cc-0086-49d00b926100"/>
+      </reference>
+      <name value="32d39940-2bed-c1cc-0086-49d00b926100"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/34d599b4-bd48-1345-e786-299461e74712"/>
+      </reference>
+      <name value="34d599b4-bd48-1345-e786-299461e74712"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/353d2977-c37c-0ec0-3262-23163111933f"/>
+      </reference>
+      <name value="353d2977-c37c-0ec0-3262-23163111933f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/35e21a02-69ae-8a8c-0394-cbfbd713f5d7"/>
+      </reference>
+      <name value="35e21a02-69ae-8a8c-0394-cbfbd713f5d7"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/3684963b-420d-3f4e-2b18-7cb4f863514a"/>
+      </reference>
+      <name value="3684963b-420d-3f4e-2b18-7cb4f863514a"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/385fb839-1925-0168-27ec-96a6aeb53ecc"/>
+      </reference>
+      <name value="385fb839-1925-0168-27ec-96a6aeb53ecc"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/388fced2-345d-64b6-defd-6456b35a89af"/>
+      </reference>
+      <name value="388fced2-345d-64b6-defd-6456b35a89af"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/39646991-afa3-7005-82a2-d12d15048fc4"/>
+      </reference>
+      <name value="39646991-afa3-7005-82a2-d12d15048fc4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/3a68c8ad-8605-c3c4-4366-c2f779429eef"/>
+      </reference>
+      <name value="3a68c8ad-8605-c3c4-4366-c2f779429eef"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/3e3dd483-8ab0-bcd9-b7f4-2a9586a550bf"/>
+      </reference>
+      <name value="3e3dd483-8ab0-bcd9-b7f4-2a9586a550bf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/40679c3d-3c07-c049-0d5b-08e95fffa971"/>
+      </reference>
+      <name value="40679c3d-3c07-c049-0d5b-08e95fffa971"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/406c76a1-9630-be4b-7feb-091e6567890d"/>
+      </reference>
+      <name value="406c76a1-9630-be4b-7feb-091e6567890d"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/477e74d5-4c1b-7c04-85b9-68940575325a"/>
+      </reference>
+      <name value="477e74d5-4c1b-7c04-85b9-68940575325a"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/4861bb45-5293-1cc3-9ea3-d13930c67679"/>
+      </reference>
+      <name value="4861bb45-5293-1cc3-9ea3-d13930c67679"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/4f30932e-24cc-b82b-e4c1-89a87fe2d698"/>
+      </reference>
+      <name value="4f30932e-24cc-b82b-e4c1-89a87fe2d698"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/5363ba6c-37e7-603c-3308-59a0059a10cc"/>
+      </reference>
+      <name value="5363ba6c-37e7-603c-3308-59a0059a10cc"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/578f3c65-a224-08fb-40b7-09590ed02cf3"/>
+      </reference>
+      <name value="578f3c65-a224-08fb-40b7-09590ed02cf3"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/5c061728-5ba7-2c80-75b2-f2537ad4809a"/>
+      </reference>
+      <name value="5c061728-5ba7-2c80-75b2-f2537ad4809a"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/5c290f77-b687-222e-cca2-b18e241cb2e8"/>
+      </reference>
+      <name value="5c290f77-b687-222e-cca2-b18e241cb2e8"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/5e57b3dd-42f7-a8f5-3982-d3f969fc42a2"/>
+      </reference>
+      <name value="5e57b3dd-42f7-a8f5-3982-d3f969fc42a2"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/61346cb7-94ff-eeb9-e5b3-69dc8e9e5c4e"/>
+      </reference>
+      <name value="61346cb7-94ff-eeb9-e5b3-69dc8e9e5c4e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/61ae1cb3-c6f7-d331-e62d-19d8c09640c6"/>
+      </reference>
+      <name value="61ae1cb3-c6f7-d331-e62d-19d8c09640c6"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/63c5dd79-2805-7644-8ece-db7371f8b31f"/>
+      </reference>
+      <name value="63c5dd79-2805-7644-8ece-db7371f8b31f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/65c2eab5-e79f-e040-9e55-daa11e6aa89d"/>
+      </reference>
+      <name value="65c2eab5-e79f-e040-9e55-daa11e6aa89d"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/664240c3-5ece-5799-01a7-a1e31e179601"/>
+      </reference>
+      <name value="664240c3-5ece-5799-01a7-a1e31e179601"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/683c151d-e1d3-4aa7-8895-cb7421f30547"/>
+      </reference>
+      <name value="683c151d-e1d3-4aa7-8895-cb7421f30547"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Provenance"/>
+      </extension>
+      <reference>
+        <reference value="Provenance/6992255d-3a3e-7e1b-04f7-84eef418d151"/>
+      </reference>
+      <name value="6992255d-3a3e-7e1b-04f7-84eef418d151"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/6b9d04bc-f887-b142-5f09-b0e0f070d90f"/>
+      </reference>
+      <name value="6b9d04bc-f887-b142-5f09-b0e0f070d90f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/6bc547ec-3734-e642-4b69-e72004e796d2"/>
+      </reference>
+      <name value="6bc547ec-3734-e642-4b69-e72004e796d2"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/6bcd79b4-f9d1-1e02-5f3a-25d8f1ba45cf"/>
+      </reference>
+      <name value="6bcd79b4-f9d1-1e02-5f3a-25d8f1ba45cf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/6cb2b349-d7d7-f3e1-1151-e7178a8883c1"/>
+      </reference>
+      <name value="6cb2b349-d7d7-f3e1-1151-e7178a8883c1"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/70686202-c601-8e2f-e11b-ceaf514b753a"/>
+      </reference>
+      <name value="70686202-c601-8e2f-e11b-ceaf514b753a"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/71769078-6471-2b8c-d6da-8352d4374127"/>
+      </reference>
+      <name value="71769078-6471-2b8c-d6da-8352d4374127"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/770a1131-8061-f2b4-b3e5-3c3a7e5c3ca7"/>
+      </reference>
+      <name value="770a1131-8061-f2b4-b3e5-3c3a7e5c3ca7"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/7827663b-151e-c74e-4d71-1994cb7504ba"/>
+      </reference>
+      <name value="7827663b-151e-c74e-4d71-1994cb7504ba"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf"/>
+      </reference>
+      <name value="7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/7d406308-ccf7-eb57-01bf-602dc69658ed"/>
+      </reference>
+      <name value="7d406308-ccf7-eb57-01bf-602dc69658ed"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/803be58e-714f-100b-66b5-9be4834b049f"/>
+      </reference>
+      <name value="803be58e-714f-100b-66b5-9be4834b049f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/810f2d9d-89f3-1988-1b76-06f5d1e2ebd8"/>
+      </reference>
+      <name value="810f2d9d-89f3-1988-1b76-06f5d1e2ebd8"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/810f5b73-c6ec-3a7b-1b76-34cc0edc0ccb"/>
+      </reference>
+      <name value="810f5b73-c6ec-3a7b-1b76-34cc0edc0ccb"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/8709b501-0255-bd34-b3e4-e02359880198"/>
+      </reference>
+      <name value="8709b501-0255-bd34-b3e4-e02359880198"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/880c798b-353e-3f48-3a83-47720e9752d2"/>
+      </reference>
+      <name value="880c798b-353e-3f48-3a83-47720e9752d2"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/885cc705-823a-3826-82a6-ba425d654124"/>
+      </reference>
+      <name value="885cc705-823a-3826-82a6-ba425d654124"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/891d499d-3d50-9810-7cb6-fcd09706ee54"/>
+      </reference>
+      <name value="891d499d-3d50-9810-7cb6-fcd09706ee54"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/8a6b74b5-e231-2ecf-08fd-f18518fbf10f"/>
+      </reference>
+      <name value="8a6b74b5-e231-2ecf-08fd-f18518fbf10f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/8a98d15f-89fb-3c68-e0de-765a88c9961e"/>
+      </reference>
+      <name value="8a98d15f-89fb-3c68-e0de-765a88c9961e"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/8ba2a788-d4ff-1383-613e-0ceca977f286"/>
+      </reference>
+      <name value="8ba2a788-d4ff-1383-613e-0ceca977f286"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/8f8a214c-6c3b-71c8-a186-15e052b5281e"/>
+      </reference>
+      <name value="8f8a214c-6c3b-71c8-a186-15e052b5281e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/98aa1bed-3b39-60e5-ff83-74352b0bb07f"/>
+      </reference>
+      <name value="98aa1bed-3b39-60e5-ff83-74352b0bb07f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/98fc4c29-33b7-1b65-ffd5-a47123896aff"/>
+      </reference>
+      <name value="98fc4c29-33b7-1b65-ffd5-a47123896aff"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/9d1d80e4-2e12-b01e-32ad-88d435ca0e8c"/>
+      </reference>
+      <name value="9d1d80e4-2e12-b01e-32ad-88d435ca0e8c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/9d3d7489-9293-423a-5393-8685872728b4"/>
+      </reference>
+      <name value="9d3d7489-9293-423a-5393-8685872728b4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/9e1826e7-1ee6-5615-68da-6665b163254c"/>
+      </reference>
+      <name value="9e1826e7-1ee6-5615-68da-6665b163254c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/9ea36e5b-716f-7dc8-5dec-acc30cd4dee8"/>
+      </reference>
+      <name value="9ea36e5b-716f-7dc8-5dec-acc30cd4dee8"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/a3325c89-e3b2-823a-5988-6e85d84668b4"/>
+      </reference>
+      <name value="a3325c89-e3b2-823a-5988-6e85d84668b4"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/a770495f-efc3-3077-1505-cddeece82a16"/>
+      </reference>
+      <name value="a770495f-efc3-3077-1505-cddeece82a16"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/a77df40e-86a5-5115-a578-3e01c3807c1e"/>
+      </reference>
+      <name value="a77df40e-86a5-5115-a578-3e01c3807c1e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/a8a3868e-2470-68a4-f296-c3694f79669e"/>
+      </reference>
+      <name value="a8a3868e-2470-68a4-f296-c3694f79669e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/ab096977-c407-80df-a82e-6316319d055e"/>
+      </reference>
+      <name value="ab096977-c407-80df-a82e-6316319d055e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/ac2ef1fb-a79e-75d2-9f9b-9e1f9f879d9f"/>
+      </reference>
+      <name value="ac2ef1fb-a79e-75d2-9f9b-9e1f9f879d9f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/ac674294-09ee-54f2-9fd3-eeb801d77cbf"/>
+      </reference>
+      <name value="ac674294-09ee-54f2-9fd3-eeb801d77cbf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/ad805677-99bb-7506-0ea0-15c0d823106c"/>
+      </reference>
+      <name value="ad805677-99bb-7506-0ea0-15c0d823106c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/aeb002a3-5159-8657-d9b9-009d9b4cc332"/>
+      </reference>
+      <name value="aeb002a3-5159-8657-d9b9-009d9b4cc332"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:resource"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/anticancer-regimen-plandefinition"/>
+      </reference>
+      <name value="Anti-Cancer Regimen PlanDefinition"/>
+      <description value="A canonical, reusable anti-cancer therapy regimen definition represented&#xA;as a FHIR PlanDefinition order set. This resource is NOT patient-specific; it is&#xA;referenced by AntiCancerRegimenRequestGroup instances via RequestGroup.instantiatesCanonical.&#xA;&#xA;A regimen definition describes the protocol — component drugs, timing, cycle structure,&#xA;and sequential phase ordering. Treatment intent and line of therapy are patient-specific&#xA;ordering categories and are carried on the RequestGroup via the category extension; this&#xA;canonical definition does not carry those attributes.&#xA;&#xA;**mCODE Migration Candidate** — This profile is proposed for inclusion in mCODE STU5.&#xA;It addresses the gap documented in the mCODE gap analysis: mCODE does not currently&#xA;represent anti-cancer regimens as first-class, computable entities."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:resource"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/anticancer-regimen-requestgroup"/>
+      </reference>
+      <name value="Anti-Cancer Regimen RequestGroup"/>
+      <description value="A patient-specific ordered anti-cancer therapy regimen instance.&#xA;This resource is included in the CDS Hooks draftOrders Bundle and referenced in&#xA;context.selections at order-select and order-sign.&#xA;&#xA;**CDS Hooks Context.** This profile is designed for use in the Da Vinci CRD workflow.&#xA;The `RequestGroup` is the primary prior-authorization subject — the unit of evaluation&#xA;for coverage policy — not the individual `MedicationRequest` components within it.&#xA;&#xA;**Two-Stage Hook Pattern.** The MOPA workflow uses `order-select` and `order-sign`&#xA;as distinct stages:&#xA;&#xA;- **`order-select`** (informational): The `RequestGroup` is present in `context.draftOrders`&#xA;  but component `MedicationRequest` resources may not yet be finalised. The CRD service&#xA;  returns informational cards indicating approvability. This is advisory — the order is&#xA;  not yet committed.&#xA;- **`order-sign`** (final determination): The `RequestGroup` is accompanied by finalised&#xA;  component `MedicationRequest` resources. The CRD service returns the final coverage&#xA;  determination (Authorization Satisfied, PA required, or DTR required).&#xA;&#xA;**CRD Order Profile Proposal.** This profile serves as the domain-specific layer for&#xA;oncology regimens. A complementary CRD order profile for `RequestGroup` is proposed&#xA;(MOPA-DV-CRD-003) to formalize `RequestGroup` as a standard order type in the Da Vinci&#xA;CRD IG, analogous to existing CRD profiles for `MedicationRequest` and `ServiceRequest`.&#xA;&#xA;RequestGroup.instantiatesCanonical SHALL be populated with the canonical URL of the&#xA;AntiCancerRegimenPlanDefinition when the canonical regimen definition is known.&#xA;&#xA;Two scheduling patterns are supported in regimen actions:&#xA;&#xA;1. **Cycle-day timing** — Each action (or action.action for phased regimens) uses the&#xA;   local extension `http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle`&#xA;   on action.timingTiming to declare which days of the cycle the drug is administered.&#xA;   The action.timingTiming.repeat carries the machine-computable cycle period.&#xA;&#xA;2. **Sequential phase ordering** — For multi-phase regimens (e.g., AC→T),&#xA;   top-level action groups represent phases and action.relatedAction with&#xA;   relationship = after-end declares that the second phase begins after the first.&#xA;&#xA;**mCODE Migration Candidate** — This profile is proposed for inclusion in mCODE STU5.&#xA;It is the MVP artifact for oncology prior authorization: the selected clinical unit&#xA;passed to the CRD service."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/b0ea08e2-af5a-a47f-1e7f-99d92a5bddd6"/>
+      </reference>
+      <name value="b0ea08e2-af5a-a47f-1e7f-99d92a5bddd6"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/b2f97ed6-d697-f867-f161-1a3c37b7b7b0"/>
+      </reference>
+      <name value="b2f97ed6-d697-f867-f161-1a3c37b7b7b0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/b3943349-1969-b9b2-5833-6716cc1a4992"/>
+      </reference>
+      <name value="b3943349-1969-b9b2-5833-6716cc1a4992"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/b3f7ffc6-850d-66e9-60ce-6d5c14dfc5b1"/>
+      </reference>
+      <name value="b3f7ffc6-850d-66e9-60ce-6d5c14dfc5b1"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/b6c039db-34f7-ef6a-3b3f-37002e965d00"/>
+      </reference>
+      <name value="b6c039db-34f7-ef6a-3b3f-37002e965d00"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/bb3b3d35-1dab-d9c1-b72f-d11b97622fd3"/>
+      </reference>
+      <name value="bb3b3d35-1dab-d9c1-b72f-d11b97622fd3"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/c2215eb5-e6f2-0def-40b3-db851dbcd02f"/>
+      </reference>
+      <name value="c2215eb5-e6f2-0def-40b3-db851dbcd02f"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/c3520393-d01a-7dce-f71f-b6445ffa226d"/>
+      </reference>
+      <name value="c3520393-d01a-7dce-f71f-b6445ffa226d"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/c4e9b8f6-3605-b8d7-cde7-b34029429402"/>
+      </reference>
+      <name value="c4e9b8f6-3605-b8d7-cde7-b34029429402"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e"/>
+      </reference>
+      <name value="c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/c729ea8a-2179-f0c8-8969-691c9e492793"/>
+      </reference>
+      <name value="c729ea8a-2179-f0c8-8969-691c9e492793"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/c7ab3348-9f86-63ef-6c4a-67165236f3cf"/>
+      </reference>
+      <name value="c7ab3348-9f86-63ef-6c4a-67165236f3cf"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/cb143d49-a165-3b39-01de-ff891ff7b809"/>
+      </reference>
+      <name value="cb143d49-a165-3b39-01de-ff891ff7b809"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/cd6155b5-ddf2-3ae6-4bf3-d28514bcfd26"/>
+      </reference>
+      <name value="cd6155b5-ddf2-3ae6-4bf3-d28514bcfd26"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/d0fcf862-c0e6-6964-7d20-f04be8b35cd1"/>
+      </reference>
+      <name value="d0fcf862-c0e6-6964-7d20-f04be8b35cd1"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/d217b1a2-6e82-9345-84c8-41821321c713"/>
+      </reference>
+      <name value="d217b1a2-6e82-9345-84c8-41821321c713"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/d244603b-4e72-a986-37a6-64b59d75df22"/>
+      </reference>
+      <name value="d244603b-4e72-a986-37a6-64b59d75df22"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/d5a38635-1611-9360-f3f9-1d96fceaec55"/>
+      </reference>
+      <name value="d5a38635-1611-9360-f3f9-1d96fceaec55"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/data-requirement-label"/>
+      </reference>
+      <name value="Data Requirement Label"/>
+      <description value="A human-readable label that identifies a DataRequirement entry within an&#xA;OncologyDataRequirementsLibrary. Used by tools such as DTR questionnaire generators and CRD&#xA;content viewers to display requirement names without parsing profile URLs.&#xA;&#xA;The first DataRequirement entry in every condition-specific Library (the primary cancer&#xA;condition) SHALL carry a label of the canonical form '[Cancer Type] Diagnosis'&#xA;(e.g., 'Breast Cancer Diagnosis') to make the diagnostic prerequisite explicit and&#xA;machine-discoverable.&#xA;&#xA;**mCODE Migration Candidate** — Proposed for inclusion in mCODE STU5."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/dccd6cab-3a1d-9dad-dabe-d33607d04fae"/>
+      </reference>
+      <name value="dccd6cab-3a1d-9dad-dabe-d33607d04fae"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/ddffdf72-76cb-6956-5b00-913323a69477"/>
+      </reference>
+      <name value="ddffdf72-76cb-6956-5b00-913323a69477"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/e03f31d6-c997-3e18-ff86-81a30f32a37c"/>
+      </reference>
+      <name value="e03f31d6-c997-3e18-ff86-81a30f32a37c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/e280dd4c-ddf5-b03e-046d-cfcc63a28b6a"/>
+      </reference>
+      <name value="e280dd4c-ddf5-b03e-046d-cfcc63a28b6a"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/e51ade29-614f-a989-be73-2619339f43f0"/>
+      </reference>
+      <name value="e51ade29-614f-a989-be73-2619339f43f0"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/e68112fe-e224-d464-532d-8d8e084dff18"/>
+      </reference>
+      <name value="e68112fe-e224-d464-532d-8d8e084dff18"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/e9d0e8d6-9a35-e32c-294f-7b53696cadef"/>
+      </reference>
+      <name value="e9d0e8d6-9a35-e32c-294f-7b53696cadef"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/eb08b96d-76c3-1c9e-411a-b5620aa99655"/>
+      </reference>
+      <name value="eb08b96d-76c3-1c9e-411a-b5620aa99655"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/eb2d5b15-167c-278e-daff-aaaf7d557fd6"/>
+      </reference>
+      <name value="eb2d5b15-167c-278e-daff-aaaf7d557fd6"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/ebff37a8-a34e-2f8a-f3cf-20d1461be23c"/>
+      </reference>
+      <name value="ebff37a8-a34e-2f8a-f3cf-20d1461be23c"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/ef722d95-1656-3076-df44-7d2f7d2f88be"/>
+      </reference>
+      <name value="ef722d95-1656-3076-df44-7d2f7d2f88be"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Practitioner"/>
+      </extension>
+      <reference>
+        <reference value="Practitioner/MOPAOncologistExample"/>
+      </reference>
+      <name value="Example Oncologist: Dr. Maria Lopez"/>
+      <description value="Fictional medical oncologist used across MOPA IG examples."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Patient"/>
+      </extension>
+      <reference>
+        <reference value="Patient/MOPAPatientExample"/>
+      </reference>
+      <name value="Example Patient: Jane Smith"/>
+      <description value="Fictional 57-year-old female patient used consistently across all MOPA&#xA;IG examples. DO NOT use real patient data."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="PlanDefinition"/>
+      </extension>
+      <reference>
+        <reference value="PlanDefinition/RegimenDdACT"/>
+      </reference>
+      <name value="Example Regimen Definition: ddAC→T (Dose-Dense AC then Paclitaxel)"/>
+      <description value="Canonical definition of dose-dense doxorubicin (60 mg/m²) plus&#xA;cyclophosphamide (600 mg/m²) q14d × 4 cycles (AC phase), followed by paclitaxel&#xA;(175 mg/m²) q14d × 4 cycles (T phase) for breast cancer. Demonstrates&#xA;sequential phase ordering using action.relatedAction with relationship = after-end."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="PlanDefinition"/>
+      </extension>
+      <reference>
+        <reference value="PlanDefinition/RegimenPHD"/>
+      </reference>
+      <name value="Example Regimen Definition: PHD (Pertuzumab + Trastuzumab + Docetaxel)"/>
+      <description value="Canonical definition of pertuzumab (840 mg loading, then 420 mg IV) plus&#xA;trastuzumab (8 mg/kg loading, then 6 mg/kg IV) plus docetaxel (75 mg/m² IV), every 21 days,&#xA;for metastatic HER2-positive breast cancer. Treatment intent and line of therapy are&#xA;carried on the RequestGroup via the category extension."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="PlanDefinition"/>
+      </extension>
+      <reference>
+        <reference value="PlanDefinition/RegimenTH"/>
+      </reference>
+      <name value="Example Regimen Definition: TH (Paclitaxel + Trastuzumab, Weekly)"/>
+      <description value="Canonical definition of weekly Paclitaxel (80 mg/m² IV) plus Trastuzumab&#xA;(4 mg/kg loading, then 2 mg/kg IV) for 12 weeks in HER2-positive early breast&#xA;cancer. The canonical definition carries protocol structure only — treatment intent and&#xA;line of therapy are patient-context and live on the RequestGroup."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-plandefinition"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="RequestGroup"/>
+      </extension>
+      <reference>
+        <reference value="RequestGroup/DDACTRegimenOrder"/>
+      </reference>
+      <name value="Example Regimen Order: ddAC→T (Jane Smith, Adjuvant) — Sequential Phases"/>
+      <description value="Patient-specific draft ddAC→T order for Jane Smith. AC phase (doxorubicin +&#xA;cyclophosphamide q14d x4) followed by T phase (paclitaxel q14d x4). Demonstrates sequential&#xA;phase ordering with action.relatedAction relationship = after-end."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="RequestGroup"/>
+      </extension>
+      <reference>
+        <reference value="RequestGroup/PHDRegimenOrder"/>
+      </reference>
+      <name value="Example Regimen Order: PHD (Jane Smith, First-Line Metastatic HER2+)"/>
+      <description value="Patient-specific draft PHD regimen order for Jane Smith, first-line&#xA;metastatic HER2+ breast cancer. Pertuzumab + Trastuzumab + Docetaxel q21d.&#xA;Demonstrates palliative intent and first-line metastatic treatment setting."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="RequestGroup"/>
+      </extension>
+      <reference>
+        <reference value="RequestGroup/THRegimenOrder"/>
+      </reference>
+      <name value="Example Regimen Order: TH (Jane Smith, Adjuvant HER2+) — Typical"/>
+      <description value="Patient-specific draft ordered TH regimen for Jane Smith at order-select.&#xA;instantiatesCanonical references RegimenTH. All Must Support elements populated.&#xA;Demonstrates regimen-days-of-cycle (days 1, 8, 15 of a 21-day cycle) and is the primary&#xA;reference example for AntiCancerRegimenRequestGroup."/>
+      <exampleCanonical value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Bundle"/>
+      </extension>
+      <reference>
+        <reference value="Bundle/ExampleOrderSelectBundle"/>
+      </reference>
+      <name value="Example: CDS Hooks order-select draftOrders Bundle (TH regimen)"/>
+      <description value="Collection Bundle placed in context.draftOrders of an&#xA;order-select CDS Hooks request.  At order-select the RequestGroup is present&#xA;but individual MedicationRequests are still draft and are not required."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Bundle"/>
+      </extension>
+      <reference>
+        <reference value="Bundle/ExampleOrderSignBundle"/>
+      </reference>
+      <name value="Example: CDS Hooks order-sign draftOrders Bundle (TH regimen)"/>
+      <description value="Collection Bundle placed in context.draftOrders of an&#xA;order-sign CDS Hooks request.  At order-sign the RequestGroup plus all&#xA;companion MedicationRequests are present."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/CyclophosphamideMedRequestDDACT"/>
+      </reference>
+      <name value="Example: Cyclophosphamide MedicationRequest (ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for cyclophosphamide 600 mg/m² IV in ddAC phase."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/DocetaxelMedRequestPHD"/>
+      </reference>
+      <name value="Example: Docetaxel MedicationRequest (PHD regimen, draft)"/>
+      <description value="Draft MedicationRequest for docetaxel 75 mg/m² IV q21d in PHD regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/DoxorubicinMedRequestDDACT"/>
+      </reference>
+      <name value="Example: Doxorubicin MedicationRequest (ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for doxorubicin 60 mg/m² IV in ddAC phase."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Condition"/>
+      </extension>
+      <reference>
+        <reference value="Condition/MOPAMetastaticBreastCancerConditionExample"/>
+      </reference>
+      <name value="Example: Metastatic HER2+ Breast Cancer (Stage IV)"/>
+      <description value="Metastatic HER2-positive breast cancer with liver and bone involvement,&#xA;newly diagnosed Stage IV (de novo). Used in PHD regimen examples."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PaclitaxelMedRequestTPHase"/>
+      </reference>
+      <name value="Example: Paclitaxel MedicationRequest (T phase, ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for paclitaxel 175 mg/m² IV q14d in T phase."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PaclitaxelMedRequestTH"/>
+      </reference>
+      <name value="Example: Paclitaxel MedicationRequest (TH regimen, draft)"/>
+      <description value="Draft MedicationRequest for paclitaxel 80 mg/m² IV weekly in TH regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PegfilgrastimMedRequestDDACT"/>
+      </reference>
+      <name value="Example: Pegfilgrastim MedicationRequest (ddAC→T regimen, draft)"/>
+      <description value="Draft MedicationRequest for pegfilgrastim 6 mg subcutaneous on day 2 of each ddAC cycle."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/PertuzumabMedRequestPHD"/>
+      </reference>
+      <name value="Example: Pertuzumab MedicationRequest (PHD regimen, draft)"/>
+      <description value="Draft MedicationRequest for pertuzumab IV q21d in PHD regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Condition"/>
+      </extension>
+      <reference>
+        <reference value="Condition/MOPABreastCancerConditionExample"/>
+      </reference>
+      <name value="Example: Primary HER2+ Breast Cancer (Stage IIB)"/>
+      <description value="Invasive ductal carcinoma of right breast, HER2-positive,&#xA;Stage IIB (T2 N1 M0), diagnosed November 2025. Referenced by all MOPA examples&#xA;depicting Jane Smith's adjuvant treatment course."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/TrastuzumabMedRequestPHD"/>
+      </reference>
+      <name value="Example: Trastuzumab MedicationRequest (PHD regimen, draft)"/>
+      <description value="Draft MedicationRequest for trastuzumab IV q21d in PHD regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="MedicationRequest"/>
+      </extension>
+      <reference>
+        <reference value="MedicationRequest/TrastuzumabMedRequestTH"/>
+      </reference>
+      <name value="Example: Trastuzumab MedicationRequest (TH regimen, draft)"/>
+      <description value="Draft MedicationRequest for trastuzumab IV weekly in TH regimen."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/f11e6a04-d423-7636-18eb-5d7180476e20"/>
+      </reference>
+      <name value="f11e6a04-d423-7636-18eb-5d7180476e20"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ExplanationOfBenefit"/>
+      </extension>
+      <reference>
+        <reference value="ExplanationOfBenefit/f379b045-f0a2-6edb-4bae-0eb38633294b"/>
+      </reference>
+      <name value="f379b045-f0a2-6edb-4bae-0eb38633294b"/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/f3c906d9-6f23-c217-b312-45410a892337"/>
+      </reference>
+      <name value="f3c906d9-6f23-c217-b312-45410a892337"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/f87c4036-8850-2777-97b0-0de938e0071c"/>
+      </reference>
+      <name value="f87c4036-8850-2777-97b0-0de938e0071c"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DiagnosticReport"/>
+      </extension>
+      <reference>
+        <reference value="DiagnosticReport/f95e43d9-6da2-3357-b8a7-824109079477"/>
+      </reference>
+      <name value="f95e43d9-6da2-3357-b8a7-824109079477"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="DocumentReference"/>
+      </extension>
+      <reference>
+        <reference value="DocumentReference/fa4de280-88f7-e2d3-7ecc-dfa582965069"/>
+      </reference>
+      <name value="fa4de280-88f7-e2d3-7ecc-dfa582965069"/>
+      <exampleCanonical value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/line-of-therapy-request-category"/>
+      </reference>
+      <name value="Line of Therapy Request Category"/>
+      <description value="Constrains the Da Vinci CRD Request Category extension for a&#xA;patient-specific anti-cancer regimen line-of-therapy category. The instance extension URL&#xA;remains `http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category`; this&#xA;profile adds oncology terminology semantics only. Its use on RequestGroup requires the proposed&#xA;CRD RequestGroup extension-context expansion.&#xA;&#xA;**mCODE Migration Candidate** — This constraint profile and its terminology semantics are&#xA;proposed for inclusion in mCODE STU5; the underlying extension remains owned by Da Vinci CRD."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CodeSystem"/>
+      </extension>
+      <reference>
+        <reference value="CodeSystem/ocpa-codes"/>
+      </reference>
+      <name value="MOPA Local Code System"/>
+      <description value="Local codes defined by the MOPA IG for concepts that do not yet have&#xA;an established representation in LOINC, SNOMED CT, or mCODE. These codes are migration&#xA;candidates and should be retired in favor of standard codes as they become available."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CapabilityStatement"/>
+      </extension>
+      <reference>
+        <reference value="CapabilityStatement/ocpa-crd-client"/>
+      </reference>
+      <name value="Oncology CRD Client Capability Statement"/>
+      <description value="Capability Statement for systems acting as an **Oncology CRD Client**&#xA;(e.g., an EHR or oncology ordering system).  A conformant client claims support for&#xA;the Da Vinci CRD oncology profile defined in this IG by meeting the requirements below."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CapabilityStatement"/>
+      </extension>
+      <reference>
+        <reference value="CapabilityStatement/ocpa-crd-service"/>
+      </reference>
+      <name value="Oncology CRD Service Capability Statement"/>
+      <description value="Capability Statement for systems acting as an **Oncology CRD Service**&#xA;(e.g., a payer or prior-authorization platform).  A conformant service claims support for&#xA;the Da Vinci CRD oncology profile defined in this IG by meeting the requirements below."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/regimen-days-of-cycle"/>
+      </reference>
+      <name value="Regimen Days of Cycle"/>
+      <description value="Specifies the days within a repeating treatment cycle on which a&#xA;regimen action is to be performed. Semantically identical to the HL7 core extension&#xA;[timing-daysOfCycle](http://hl7.org/fhir/StructureDefinition/timing-daysOfCycle),&#xA;but with context broadened to `Timing` so it can be applied to nested&#xA;`RequestGroup.action.action` elements used in phased multi-agent regimens.&#xA;&#xA;The cycle length is expressed via `Timing.repeat.period` / `Timing.repeat.periodUnit`&#xA;on the same element. Day numbering starts at 1 (day 1 = first day of cycle 1).&#xA;&#xA;This extension is a migration candidate for inclusion in the HL7 FHIR Extensions&#xA;pack with an expanded context. See [regimen-model.html](regimen-model.html)."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ValueSet"/>
+      </extension>
+      <reference>
+        <reference value="ValueSet/regimen-intent-vs"/>
+      </reference>
+      <name value="Regimen Intent Value Set"/>
+      <description value="The clinical intent of an anti-cancer regimen. All codes are drawn from&#xA;the SNOMED CT \&quot;Intents (nature of procedure values)\&quot; hierarchy (363675004).&#xA;&#xA;**mCODE Migration Candidate** — Proposed for mCODE STU5."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="Bundle"/>
+      </extension>
+      <reference>
+        <reference value="Bundle/teran-breast-cancer-r4-clean"/>
+      </reference>
+      <name value="Terán Breast Cancer — Cleaned R4 Bundle"/>
+      <description value="Supplied cleaned R4 transaction Bundle for patient data review. See the Patient Bundle Review page for contents and provenance. Included without asserting MOPA or mCODE conformance."/>
+      <exampleBoolean value="true"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="StructureDefinition:extension"/>
+      </extension>
+      <reference>
+        <reference value="StructureDefinition/treatment-intent-request-category"/>
+      </reference>
+      <name value="Treatment Intent Request Category"/>
+      <description value="Constrains the Da Vinci CRD Request Category extension for a&#xA;patient-specific anti-cancer regimen treatment-intent category. The instance extension URL&#xA;remains `http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category`; this&#xA;profile adds oncology terminology semantics only. Its use on RequestGroup requires the proposed&#xA;CRD RequestGroup extension-context expansion.&#xA;&#xA;**mCODE Migration Candidate** — This constraint profile and its terminology semantics are&#xA;proposed for inclusion in mCODE STU5; the underlying extension remains owned by Da Vinci CRD."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="CodeSystem"/>
+      </extension>
+      <reference>
+        <reference value="CodeSystem/treatment-line-cs"/>
+      </reference>
+      <name value="Treatment Line Code System"/>
+      <description value="Ordinal codes representing the line of systemic anti-cancer therapy.&#xA;These codes are used in TreatmentLineVS and in the LineOfTherapyRequestCategory constraint&#xA;profile for the RequestGroup `lineOfTherapy` category slice.&#xA;&#xA;**mCODE Migration Candidate** — These codes are proposed for adoption in mCODE STU5&#xA;or as a SNOMED CT extension request. Once standard codes are available, this code&#xA;system should be deprecated."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <resource>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/resource-information">
+        <valueString value="ValueSet"/>
+      </extension>
+      <reference>
+        <reference value="ValueSet/treatment-line-vs"/>
+      </reference>
+      <name value="Treatment Line Value Set"/>
+      <description value="Codes representing the ordinal line of systemic anti-cancer therapy.&#xA;Used by LineOfTherapyRequestCategory for the patient-specific RequestGroup category.&#xA;&#xA;**mCODE Migration Candidate** — Proposed for mCODE STU5."/>
+      <exampleBoolean value="false"/>
+    </resource>
+    <page>
+      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+        <valueCode value="informative"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+        <valueUrl value="toc.html"/>
+      </extension>
+      <nameUrl value="toc.html"/>
+      <title value="Table of Contents"/>
+      <generation value="html"/>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="index.html"/>
+        </extension>
+        <nameUrl value="index.html"/>
+        <title value="Home"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="background.html"/>
+        </extension>
+        <nameUrl value="background.html"/>
+        <title value="Background"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="use-cases.html"/>
+        </extension>
+        <nameUrl value="use-cases.html"/>
+        <title value="Use Cases and Actors"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="regimen-model.html"/>
+        </extension>
+        <nameUrl value="regimen-model.html"/>
+        <title value="Regimen Modeling"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="cds-workflow.html"/>
+        </extension>
+        <nameUrl value="cds-workflow.html"/>
+        <title value="CRD Workflow"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="walkthrough.html"/>
+        </extension>
+        <nameUrl value="walkthrough.html"/>
+        <title value="Workflow Walkthrough (Layers 1 &amp; 2)"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="data-requirements.html"/>
+        </extension>
+        <nameUrl value="data-requirements.html"/>
+        <title value="Data Requirements"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="breast-cancer-pa.html"/>
+        </extension>
+        <nameUrl value="breast-cancer-pa.html"/>
+        <title value="Use Case 1: Breast Cancer PA"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="patient-bundle-review.html"/>
+        </extension>
+        <nameUrl value="patient-bundle-review.html"/>
+        <title value="Patient Bundle Review"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="patient-attachment-review.html"/>
+        </extension>
+        <nameUrl value="patient-attachment-review.html"/>
+        <title value="Decoded Attachment Review"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="davinci-gap-proposals.html"/>
+        </extension>
+        <nameUrl value="davinci-gap-proposals.html"/>
+        <title value="Da Vinci Gap Proposals"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="mcode-gap-proposals.html"/>
+        </extension>
+        <nameUrl value="mcode-gap-proposals.html"/>
+        <title value="mCODE Gap Proposals"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="conformance.html"/>
+        </extension>
+        <nameUrl value="conformance.html"/>
+        <title value="Conformance"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="artifacts.html"/>
+        </extension>
+        <nameUrl value="artifacts.html"/>
+        <title value="Artifacts Summary"/>
+        <generation value="html"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="downloads.html"/>
+        </extension>
+        <nameUrl value="downloads.html"/>
+        <title value="Downloads"/>
+        <generation value="markdown"/>
+      </page>
+      <page>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+          <valueCode value="informative"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/tools/StructureDefinition/ig-page-name">
+          <valueUrl value="history.html"/>
+        </extension>
+        <nameUrl value="history.html"/>
+        <title value="Change Log"/>
+        <generation value="markdown"/>
+      </page>
+    </page>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/teran-patient/examples"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/capabilities"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/examples"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/extensions"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/models"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/operations"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/profiles"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/resources"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/vocabulary"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/testing"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="input/history"/>
+    </parameter>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="fsh-generated/resources"/>
+    </parameter>
+    <parameter>
+      <code value="path-pages"/>
+      <value value="template/config"/>
+    </parameter>
+    <parameter>
+      <code value="path-pages"/>
+      <value value="input/assets"/>
+    </parameter>
+    <parameter>
+      <code value="path-pages"/>
+      <value value="input/images"/>
+    </parameter>
+    <parameter>
+      <code value="path-tx-cache"/>
+      <value value="input-cache/txcache"/>
+    </parameter>
+  </definition>
+</ImplementationGuide>

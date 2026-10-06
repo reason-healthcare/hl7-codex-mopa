@@ -1,0 +1,118 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sct: <http://snomed.info/id/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Claim/324d4f70-205b-60cc-4184-ff388bd1b344> a fhir:Claim ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "324d4f70-205b-60cc-4184-ff388bd1b344"] ;
+  fhir:Resource.language [ fhir:value "en"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Claim 324d4f70-205b-60cc-4184-ff388bd1b344</b></p><a name=\"324d4f70-205b-60cc-4184-ff388bd1b344\"> </a><a name=\"hc324d4f70-205b-60cc-4184-ff388bd1b344\"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}\">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia241 Julia241 Terán294</a></p><p><b>billablePeriod</b>: 1985-07-25 22:05:30-0500 --&gt; 1985-07-27 08:08:17-0500</p><p><b>created</b>: 1985-07-27 08:08:17-0500</p><p><b>provider</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>priority</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/processpriority normal}\">Normal</span></p><p><b>facility</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><h3>Diagnoses</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Diagnosis[x]</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1\">Condition Malignant neoplasm of breast (disorder)</a></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td>true</td><td>Anthem</td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 185345009}\">Encounter for symptom (procedure)</span></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-58cf-1e7016b4cbfa\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-58cf-1e7016b4cbfa (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Encounter for symptom (procedure); period = 1985-07-25 22:05:30-0500 --&gt; 1985-07-27 08:08:17-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>diagnosisSequence</b>: 1</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 254837009}\">Malignant neoplasm of breast (disorder)</span></p></blockquote><h3>Totals</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>8624.83</td><td>United States dollar</td></tr></table></div>"
+  ] ;
+  fhir:Claim.status [ fhir:value "active"] ;
+  fhir:Claim.type [
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/claim-type" ] ;
+       fhir:Coding.code [ fhir:value "professional" ]
+     ]
+  ] ;
+  fhir:Claim.use [ fhir:value "claim"] ;
+  fhir:Claim.patient [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ] ;
+     fhir:Reference.display [ fhir:value "Julia241 Julia241 Terán294" ]
+  ] ;
+  fhir:Claim.billablePeriod [
+     fhir:Period.start [ fhir:value "1985-07-25T22:05:30-05:00"^^xsd:dateTime ] ;
+     fhir:Period.end [ fhir:value "1985-07-27T08:08:17-05:00"^^xsd:dateTime ]
+  ] ;
+  fhir:Claim.created [ fhir:value "1985-07-27T08:08:17-05:00"^^xsd:dateTime] ;
+  fhir:Claim.provider [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512> ;
+     fhir:Reference.reference [ fhir:value "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512" ] ;
+     fhir:Reference.display [ fhir:value "OPEN ACCESS VASCULAR ACCESS CENTER INC" ]
+  ] ;
+  fhir:Claim.priority [
+     fhir:CodeableConcept.coding [
+       fhir:index -1 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/processpriority" ] ;
+       fhir:Coding.code [ fhir:value "normal" ]
+     ]
+  ] ;
+  fhir:Claim.facility [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8> ;
+     fhir:Reference.reference [ fhir:value "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8" ] ;
+     fhir:Reference.display [ fhir:value "OPEN ACCESS VASCULAR ACCESS CENTER INC" ]
+  ] ;
+  fhir:Claim.diagnosis [
+     fhir:index -1 ;
+     fhir:Claim.diagnosis.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:Claim.diagnosis.diagnosisReference [
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1" ]
+     ]
+  ] ;
+  fhir:Claim.insurance [
+     fhir:index -1 ;
+     fhir:Claim.insurance.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:Claim.insurance.focal [ fhir:value "true"^^xsd:boolean ] ;
+     fhir:Claim.insurance.coverage [
+       fhir:Reference.display [ fhir:value "Anthem" ]
+     ]
+  ] ;
+  fhir:Claim.item [
+     fhir:index -1 ;
+     fhir:Claim.item.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:Claim.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index -1 ;
+         a sct:185345009 ;
+         fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+         fhir:Coding.code [ fhir:value "185345009" ] ;
+         fhir:Coding.display [ fhir:value "Encounter for symptom (procedure)" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Encounter for symptom (procedure)" ]
+     ] ;
+     fhir:Claim.item.encounter [
+       fhir:index -1 ;
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-58cf-1e7016b4cbfa" ]
+     ]
+  ], [
+     fhir:index -1 ;
+     fhir:Claim.item.sequence [ fhir:value "2"^^xsd:positiveInteger ] ;
+     fhir:Claim.item.diagnosisSequence [
+       fhir:value "1"^^xsd:positiveInteger ;
+       fhir:index -1
+     ] ;
+     fhir:Claim.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index -1 ;
+         a sct:254837009 ;
+         fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+         fhir:Coding.code [ fhir:value "254837009" ] ;
+         fhir:Coding.display [ fhir:value "Malignant neoplasm of breast (disorder)" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Malignant neoplasm of breast (disorder)" ]
+     ]
+  ] ;
+  fhir:Claim.total [
+     fhir:Money.value [ fhir:value "8624.83"^^xsd:decimal ] ;
+     fhir:Money.currency [ fhir:value "USD" ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512> a fhir:us .
+
+<http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Claim/324d4f70-205b-60cc-4184-ff388bd1b344.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/Claim/324d4f70-205b-60cc-4184-ff388bd1b344.ttl> .
+
+# -------------------------------------------------------------------------------------
+

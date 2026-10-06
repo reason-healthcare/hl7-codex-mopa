@@ -1,0 +1,87 @@
+{
+  "resourceType" : "Claim",
+  "id" : "324d4f70-205b-60cc-81ae-b206c7842f06",
+  "language" : "en",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Claim 324d4f70-205b-60cc-81ae-b206c7842f06</b></p><a name=\"324d4f70-205b-60cc-81ae-b206c7842f06\"> </a><a name=\"hc324d4f70-205b-60cc-81ae-b206c7842f06\"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}\">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia241 Julia241 Terán294</a></p><p><b>billablePeriod</b>: 2025-03-14 01:56:16-0500 --&gt; 2025-03-14 02:12:51-0500</p><p><b>created</b>: 2025-03-14 02:12:51-0500</p><p><b>provider</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>priority</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/processpriority normal}\">Normal</span></p><p><b>facility</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><h3>Procedures</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Procedure[x]</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-96a9-d91d739652da\">Procedure Mammography (procedure)</a></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td>true</td><td>Medicare</td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 410410006}\">Screening surveillance (regime/therapy)</span></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-55f7-f9f4976b1da5\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-55f7-f9f4976b1da5\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2025-03-14 01:56:16-0500 --&gt; 2025-03-14 02:12:51-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>procedureSequence</b>: 1</p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 71651007}\">Mammography (procedure)</span></p><h3>Nets</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>261.12</td><td>United States dollar</td></tr></table></blockquote><h3>Totals</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>367.93</td><td>United States dollar</td></tr></table></div>"
+  },
+  "status" : "active",
+  "type" : {
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/claim-type",
+      "code" : "professional"
+    }]
+  },
+  "use" : "claim",
+  "patient" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e",
+    "display" : "Julia241 Julia241 Terán294"
+  },
+  "billablePeriod" : {
+    "start" : "2025-03-14T01:56:16-05:00",
+    "end" : "2025-03-14T02:12:51-05:00"
+  },
+  "created" : "2025-03-14T02:12:51-05:00",
+  "provider" : {
+    "reference" : "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  },
+  "priority" : {
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/processpriority",
+      "code" : "normal"
+    }]
+  },
+  "facility" : {
+    "reference" : "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  },
+  "procedure" : [{
+    "sequence" : 1,
+    "procedureReference" : {
+      "reference" : "urn:uuid:324d4f70-205b-60cc-96a9-d91d739652da"
+    }
+  }],
+  "insurance" : [{
+    "sequence" : 1,
+    "focal" : true,
+    "coverage" : {
+      "display" : "Medicare"
+    }
+  }],
+  "item" : [{
+    "sequence" : 1,
+    "productOrService" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "410410006",
+        "display" : "Screening surveillance (regime/therapy)"
+      }],
+      "text" : "Screening surveillance (regime/therapy)"
+    },
+    "encounter" : [{
+      "reference" : "urn:uuid:324d4f70-205b-60cc-55f7-f9f4976b1da5"
+    }]
+  },
+  {
+    "sequence" : 2,
+    "procedureSequence" : [1],
+    "productOrService" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "71651007",
+        "display" : "Mammography (procedure)"
+      }],
+      "text" : "Mammography (procedure)"
+    },
+    "net" : {
+      "value" : 261.12,
+      "currency" : "USD"
+    }
+  }],
+  "total" : {
+    "value" : 367.93,
+    "currency" : "USD"
+  }
+}

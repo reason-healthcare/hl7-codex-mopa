@@ -1,0 +1,433 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sct: <http://snomed.info/id/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/ExplanationOfBenefit/891d499d-3d50-9810-7cb6-fcd09706ee54> a fhir:ExplanationOfBenefit ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "891d499d-3d50-9810-7cb6-fcd09706ee54"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ExplanationOfBenefit 891d499d-3d50-9810-7cb6-fcd09706ee54</b></p><a name=\"891d499d-3d50-9810-7cb6-fcd09706ee54\"> </a><a name=\"hc891d499d-3d50-9810-7cb6-fcd09706ee54\"> </a><p><b>identifier</b>: <code>https://bluebutton.cms.gov/resources/variables/clm_id</code>/324d4f70-205b-60cc-fe0f-215c3c52d84c, <code>https://bluebutton.cms.gov/resources/identifier/claim-group</code>/99999999999</p><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}\">Professional</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>billablePeriod</b>: 2024-05-27 22:20:30-0500 --&gt; 2025-05-27 22:20:30-0500</p><p><b>created</b>: 2024-05-27 22:20:30-0500</p><p><b>insurer</b>: Medicare</p><p><b>provider</b>: <code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493</code></p><p><b>referral</b>: <a href=\"#hc891d499d-3d50-9810-7cb6-fcd09706ee54/referral\">ServiceRequest: status = completed; intent = order</a></p><p><b>facility</b>: <code>CHILDRENS MEDICAL CARE INC</code></p><p><b>claim</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fe0f-215c3c52d84c\">Claim: status = active; type = Professional; use = claim; billablePeriod = 2024-05-27 22:05:30-0500 --&gt; 2024-05-27 22:20:30-0500; created = 2024-05-27 22:20:30-0500; priority = Normal</a></p><p><b>outcome</b>: Processing Complete</p><h3>CareTeams</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Provider</b></td><td><b>Role</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493</code></td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claimcareteamrole primary}\">Primary provider</span></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>true</td><td><a href=\"#hc891d499d-3d50-9810-7cb6-fcd09706ee54/coverage\">Medicare</a></td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd 1}\">Medical care</span></p><p><b>productOrService</b>: <span title=\"Codes:{http://snomed.info/sct 162673000}\">General examination of patient (procedure)</span></p><p><b>serviced</b>: 2024-05-27 22:05:30-0500 --&gt; 2024-05-27 22:20:30-0500</p><p><b>location</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-serviceplace 19}\">Nexis Health</span></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-3fde-27be9c1c7826\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-3fde-27be9c1c7826 (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2024-05-27 22:05:30-0500 --&gt; 2024-05-27 22:20:30-0500</a></p></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 2</p><p><b>informationSequence</b>: 1</p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd 1}\">Medical care</span></p><p><b>productOrService</b>: <span title=\"Codes:{http://hl7.org/fhir/sid/cvx 140}\">Influenza, split virus, trivalent, PF</span></p><p><b>serviced</b>: 2024-05-27 22:05:30-0500 --&gt; 2024-05-27 22:20:30-0500</p><p><b>location</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-serviceplace 19}\">Nexis Health</span></p><h3>Nets</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>136</td><td>United States dollar</td></tr></table><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt}\">Line Beneficiary Coinsurance Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>27.200000000000003</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt}\">Line Provider Payment Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>108.80000000000001</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt}\">Line Submitted Charge Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>136</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt}\">Line Allowed Charge Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>136</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt}\">Line Beneficiary Part B Deductible Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>0</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd}\">Line Processing Indicator Code</span></p></blockquote></blockquote><blockquote><p><b>item</b></p><p><b>sequence</b>: 3</p><p><b>informationSequence</b>: 2</p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd 1}\">Medical care</span></p><p><b>productOrService</b>: <span title=\"Codes:{http://hl7.org/fhir/sid/cvx 113}\">Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed</span></p><p><b>serviced</b>: 2024-05-27 22:05:30-0500 --&gt; 2024-05-27 22:20:30-0500</p><p><b>location</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-serviceplace 19}\">Nexis Health</span></p><h3>Nets</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>136</td><td>United States dollar</td></tr></table><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt}\">Line Beneficiary Coinsurance Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>27.200000000000003</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt}\">Line Provider Payment Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>108.80000000000001</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt}\">Line Submitted Charge Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>136</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt}\">Line Allowed Charge Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>136</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt}\">Line Beneficiary Part B Deductible Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>0</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>adjudication</b></p><p><b>category</b>: <span title=\"Codes:{https://bluebutton.cms.gov/resources/codesystem/adjudication https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd}\">Line Processing Indicator Code</span></p></blockquote></blockquote><blockquote><p><b>total</b></p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/adjudication submitted}\">Submitted Amount</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>435.63</td><td>United States dollar</td></tr></table></blockquote><blockquote><p><b>payment</b></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>217.60000000000002</td><td>United States dollar</td></tr></table></blockquote><hr/><blockquote><p class=\"res-header-id\"><b>Generated Narrative: ServiceRequest #referral</b></p><a name=\"891d499d-3d50-9810-7cb6-fcd09706ee54/referral\"> </a><a name=\"hc891d499d-3d50-9810-7cb6-fcd09706ee54/referral\"> </a><p><b>status</b>: Completed</p><p><b>intent</b>: Order</p><p><b>subject</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>requester</b>: <code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493</code></p><p><b>performer</b>: <code>Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493</code></p></blockquote><hr/><blockquote><p class=\"res-header-id\"><b>Generated Narrative: Coverage #coverage</b></p><a name=\"891d499d-3d50-9810-7cb6-fcd09706ee54/coverage\"> </a><a name=\"hc891d499d-3d50-9810-7cb6-fcd09706ee54/coverage\"> </a><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:\">Medicare</span></p><p><b>beneficiary</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>payor</b>: Medicare</p></blockquote></div>"
+  ] ;
+  fhir:DomainResource.contained [
+     a fhir:ServiceRequest ;
+     fhir:index 0 ;
+     fhir:Resource.id [ fhir:value "referral" ] ;
+     fhir:ServiceRequest.status [ fhir:value "completed" ] ;
+     fhir:ServiceRequest.intent [ fhir:value "order" ] ;
+     fhir:ServiceRequest.subject [
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+     ] ;
+     fhir:ServiceRequest.requester [
+       fhir:link <http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493> ;
+       fhir:Reference.reference [ fhir:value "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493" ]
+     ] ;
+     fhir:ServiceRequest.performer [
+       fhir:index 0 ;
+       fhir:link <http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493> ;
+       fhir:Reference.reference [ fhir:value "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493" ]
+     ]
+  ], [
+     a fhir:Coverage ;
+     fhir:index 1 ;
+     fhir:Resource.id [ fhir:value "coverage" ] ;
+     fhir:Coverage.status [ fhir:value "active" ] ;
+     fhir:Coverage.type [
+       fhir:CodeableConcept.text [ fhir:value "Medicare" ]
+     ] ;
+     fhir:Coverage.beneficiary [
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+     ] ;
+     fhir:Coverage.payor [
+       fhir:index 0 ;
+       fhir:Reference.display [ fhir:value "Medicare" ]
+     ]
+  ] ;
+  fhir:ExplanationOfBenefit.identifier [
+     fhir:index 0 ;
+     fhir:Identifier.system [ fhir:value "https://bluebutton.cms.gov/resources/variables/clm_id" ] ;
+     fhir:Identifier.value [ fhir:value "324d4f70-205b-60cc-fe0f-215c3c52d84c" ]
+  ], [
+     fhir:index 1 ;
+     fhir:Identifier.system [ fhir:value "https://bluebutton.cms.gov/resources/identifier/claim-group" ] ;
+     fhir:Identifier.value [ fhir:value "99999999999" ]
+  ] ;
+  fhir:ExplanationOfBenefit.status [ fhir:value "active"] ;
+  fhir:ExplanationOfBenefit.type [
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/claim-type" ] ;
+       fhir:Coding.code [ fhir:value "professional" ]
+     ]
+  ] ;
+  fhir:ExplanationOfBenefit.use [ fhir:value "claim"] ;
+  fhir:ExplanationOfBenefit.patient [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ] ;
+  fhir:ExplanationOfBenefit.billablePeriod [
+     fhir:Period.start [ fhir:value "2024-05-27T22:20:30-05:00"^^xsd:dateTime ] ;
+     fhir:Period.end [ fhir:value "2025-05-27T22:20:30-05:00"^^xsd:dateTime ]
+  ] ;
+  fhir:ExplanationOfBenefit.created [ fhir:value "2024-05-27T22:20:30-05:00"^^xsd:dateTime] ;
+  fhir:ExplanationOfBenefit.insurer [
+     fhir:Reference.display [ fhir:value "Medicare" ]
+  ] ;
+  fhir:ExplanationOfBenefit.provider [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493> ;
+     fhir:Reference.reference [ fhir:value "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493" ]
+  ] ;
+  fhir:ExplanationOfBenefit.referral [
+     fhir:Reference.reference [ fhir:value "#referral" ]
+  ] ;
+  fhir:ExplanationOfBenefit.facility [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e> ;
+     fhir:Reference.reference [ fhir:value "Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e" ] ;
+     fhir:Reference.display [ fhir:value "CHILDRENS MEDICAL CARE INC" ]
+  ] ;
+  fhir:ExplanationOfBenefit.claim [
+     fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-fe0f-215c3c52d84c" ]
+  ] ;
+  fhir:ExplanationOfBenefit.outcome [ fhir:value "complete"] ;
+  fhir:ExplanationOfBenefit.careTeam [
+     fhir:index 0 ;
+     fhir:ExplanationOfBenefit.careTeam.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:ExplanationOfBenefit.careTeam.provider [
+       fhir:link <http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493> ;
+       fhir:Reference.reference [ fhir:value "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493" ]
+     ] ;
+     fhir:ExplanationOfBenefit.careTeam.role [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/claimcareteamrole" ] ;
+         fhir:Coding.code [ fhir:value "primary" ] ;
+         fhir:Coding.display [ fhir:value "Primary provider" ]
+       ]
+     ]
+  ] ;
+  fhir:ExplanationOfBenefit.insurance [
+     fhir:index 0 ;
+     fhir:ExplanationOfBenefit.insurance.focal [ fhir:value "true"^^xsd:boolean ] ;
+     fhir:ExplanationOfBenefit.insurance.coverage [
+       fhir:Reference.reference [ fhir:value "#coverage" ] ;
+       fhir:Reference.display [ fhir:value "Medicare" ]
+     ]
+  ] ;
+  fhir:ExplanationOfBenefit.item [
+     fhir:index 0 ;
+     fhir:ExplanationOfBenefit.item.sequence [ fhir:value "1"^^xsd:positiveInteger ] ;
+     fhir:ExplanationOfBenefit.item.category [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd" ] ;
+         fhir:Coding.code [ fhir:value "1" ] ;
+         fhir:Coding.display [ fhir:value "Medical care" ]
+       ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         a sct:162673000 ;
+         fhir:Coding.system [ fhir:value "http://snomed.info/sct" ] ;
+         fhir:Coding.code [ fhir:value "162673000" ] ;
+         fhir:Coding.display [ fhir:value "General examination of patient (procedure)" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "General examination of patient (procedure)" ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.servicedPeriod [
+       fhir:Period.start [ fhir:value "2024-05-27T22:05:30-05:00"^^xsd:dateTime ] ;
+       fhir:Period.end [ fhir:value "2024-05-27T22:20:30-05:00"^^xsd:dateTime ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.locationCodeableConcept [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/ex-serviceplace" ] ;
+         fhir:Coding.code [ fhir:value "19" ] ;
+         fhir:Coding.display [ fhir:value "Nexis Health" ]
+       ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.encounter [
+       fhir:index 0 ;
+       fhir:Reference.reference [ fhir:value "urn:uuid:324d4f70-205b-60cc-3fde-27be9c1c7826" ]
+     ]
+  ], [
+     fhir:index 1 ;
+     fhir:ExplanationOfBenefit.item.sequence [ fhir:value "2"^^xsd:positiveInteger ] ;
+     fhir:ExplanationOfBenefit.item.informationSequence [
+       fhir:value "1"^^xsd:positiveInteger ;
+       fhir:index 0
+     ] ;
+     fhir:ExplanationOfBenefit.item.category [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd" ] ;
+         fhir:Coding.code [ fhir:value "1" ] ;
+         fhir:Coding.display [ fhir:value "Medical care" ]
+       ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://hl7.org/fhir/sid/cvx" ] ;
+         fhir:Coding.code [ fhir:value "140" ] ;
+         fhir:Coding.display [ fhir:value "Influenza, split virus, trivalent, PF" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Influenza, split virus, trivalent, PF" ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.servicedPeriod [
+       fhir:Period.start [ fhir:value "2024-05-27T22:05:30-05:00"^^xsd:dateTime ] ;
+       fhir:Period.end [ fhir:value "2024-05-27T22:20:30-05:00"^^xsd:dateTime ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.locationCodeableConcept [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/ex-serviceplace" ] ;
+         fhir:Coding.code [ fhir:value "19" ] ;
+         fhir:Coding.display [ fhir:value "Nexis Health" ]
+       ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.net [
+       fhir:Money.value [ fhir:value "136"^^xsd:decimal ] ;
+       fhir:Money.currency [ fhir:value "USD" ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.adjudication [
+       fhir:index 0 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Beneficiary Coinsurance Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "27.200000000000003"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 1 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Provider Payment Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "108.80000000000001"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 2 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Submitted Charge Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "136"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 3 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Allowed Charge Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "136"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 4 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Beneficiary Part B Deductible Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "0"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 5 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd" ] ;
+           fhir:Coding.display [ fhir:value "Line Processing Indicator Code" ]
+         ]
+       ]
+     ]
+  ], [
+     fhir:index 2 ;
+     fhir:ExplanationOfBenefit.item.sequence [ fhir:value "3"^^xsd:positiveInteger ] ;
+     fhir:ExplanationOfBenefit.item.informationSequence [
+       fhir:value "2"^^xsd:positiveInteger ;
+       fhir:index 0
+     ] ;
+     fhir:ExplanationOfBenefit.item.category [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd" ] ;
+         fhir:Coding.code [ fhir:value "1" ] ;
+         fhir:Coding.display [ fhir:value "Medical care" ]
+       ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.productOrService [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://hl7.org/fhir/sid/cvx" ] ;
+         fhir:Coding.code [ fhir:value "113" ] ;
+         fhir:Coding.display [ fhir:value "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed" ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.servicedPeriod [
+       fhir:Period.start [ fhir:value "2024-05-27T22:05:30-05:00"^^xsd:dateTime ] ;
+       fhir:Period.end [ fhir:value "2024-05-27T22:20:30-05:00"^^xsd:dateTime ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.locationCodeableConcept [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/ex-serviceplace" ] ;
+         fhir:Coding.code [ fhir:value "19" ] ;
+         fhir:Coding.display [ fhir:value "Nexis Health" ]
+       ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.net [
+       fhir:Money.value [ fhir:value "136"^^xsd:decimal ] ;
+       fhir:Money.currency [ fhir:value "USD" ]
+     ] ;
+     fhir:ExplanationOfBenefit.item.adjudication [
+       fhir:index 0 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Beneficiary Coinsurance Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "27.200000000000003"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 1 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Provider Payment Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "108.80000000000001"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 2 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Submitted Charge Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "136"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 3 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Allowed Charge Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "136"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 4 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt" ] ;
+           fhir:Coding.display [ fhir:value "Line Beneficiary Part B Deductible Amount" ]
+         ]
+       ] ;
+       fhir:ExplanationOfBenefit.item.adjudication.amount [
+         fhir:Money.value [ fhir:value "0"^^xsd:decimal ] ;
+         fhir:Money.currency [ fhir:value "USD" ]
+       ]
+     ], [
+       fhir:index 5 ;
+       fhir:ExplanationOfBenefit.item.adjudication.category [
+         fhir:CodeableConcept.coding [
+           fhir:index 0 ;
+           fhir:Coding.system [ fhir:value "https://bluebutton.cms.gov/resources/codesystem/adjudication" ] ;
+           fhir:Coding.code [ fhir:value "https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd" ] ;
+           fhir:Coding.display [ fhir:value "Line Processing Indicator Code" ]
+         ]
+       ]
+     ]
+  ] ;
+  fhir:ExplanationOfBenefit.total [
+     fhir:index 0 ;
+     fhir:ExplanationOfBenefit.total.category [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/adjudication" ] ;
+         fhir:Coding.code [ fhir:value "submitted" ] ;
+         fhir:Coding.display [ fhir:value "Submitted Amount" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Submitted Amount" ]
+     ] ;
+     fhir:ExplanationOfBenefit.total.amount [
+       fhir:Money.value [ fhir:value "435.63"^^xsd:decimal ] ;
+       fhir:Money.currency [ fhir:value "USD" ]
+     ]
+  ] ;
+  fhir:ExplanationOfBenefit.payment [
+     fhir:ExplanationOfBenefit.payment.amount [
+       fhir:Money.value [ fhir:value "217.60000000000002"^^xsd:decimal ] ;
+       fhir:Money.currency [ fhir:value "USD" ]
+     ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999790493> a fhir:us .
+
+<http://hl7.org/fhir/us/codex-mopa/Location?identifier=https://github.com/synthetichealth/synthea|8d33f2d1-09d6-3578-9fb4-779d57023b3e> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/ExplanationOfBenefit/891d499d-3d50-9810-7cb6-fcd09706ee54.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/ExplanationOfBenefit/891d499d-3d50-9810-7cb6-fcd09706ee54.ttl> .
+
+# -------------------------------------------------------------------------------------
+

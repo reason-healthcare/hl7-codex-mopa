@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Procedure xmlns="http://hl7.org/fhir">
+  <id value="324d4f70-205b-60cc-cc9b-9a8dac0bf429"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: Procedure 324d4f70-205b-60cc-cc9b-9a8dac0bf429</b></p><a name="324d4f70-205b-60cc-cc9b-9a8dac0bf429"> </a><a name="hc324d4f70-205b-60cc-cc9b-9a8dac0bf429"> </a><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px"/><p style="margin-bottom: 0px">Profile: <a href="http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-procedure.html">US Core Procedure Profile</a></p></div><p><b>status</b>: Completed</p><p><b>code</b>: <span title="Codes:{http://snomed.info/sct 35025007}">Manual pelvic examination (procedure)</span></p><p><b>subject</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1b84-c52fb680231c">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-1b84-c52fb680231c (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2021-03-01 19:11:15-0600 --&gt; 2021-03-01 19:39:30-0600; reasonCode = Malignant neoplasm of breast (disorder)</a></p><p><b>performed</b>: 2021-03-01 19:11:15-0600 --&gt; 2021-03-01 19:25:56-0600</p><p><b>location</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>reasonReference</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1">Malignant neoplasm of breast (disorder)</a></p></div>
+  </text>
+  <status value="completed"/>
+  <code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="35025007"/>
+      <display value="Manual pelvic examination (procedure)"/>
+    </coding>
+    <text value="Manual pelvic examination (procedure)"/>
+  </code>
+  <subject>
+    <reference value="urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"/>
+  </subject>
+  <encounter>
+    <reference value="urn:uuid:324d4f70-205b-60cc-1b84-c52fb680231c"/>
+  </encounter>
+  <performedPeriod>
+    <start value="2021-03-01T19:11:15-06:00"/>
+    <end value="2021-03-01T19:25:56-06:00"/>
+  </performedPeriod>
+  <location>
+    <reference value="Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8"/>
+    <display value="OPEN ACCESS VASCULAR ACCESS CENTER INC"/>
+  </location>
+  <reasonReference>
+    <reference value="urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1"/>
+    <display value="Malignant neoplasm of breast (disorder)"/>
+  </reasonReference>
+</Procedure>

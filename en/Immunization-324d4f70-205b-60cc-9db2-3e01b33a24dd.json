@@ -1,0 +1,33 @@
+{
+  "resourceType" : "Immunization",
+  "id" : "324d4f70-205b-60cc-9db2-3e01b33a24dd",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"]
+  },
+  "language" : "en",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Immunization 324d4f70-205b-60cc-9db2-3e01b33a24dd</b></p><a name=\"324d4f70-205b-60cc-9db2-3e01b33a24dd\"> </a><a name=\"hc324d4f70-205b-60cc-9db2-3e01b33a24dd\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-immunization.html\">US Core Immunization Profile</a></p></div><p><b>status</b>: Completed</p><p><b>vaccineCode</b>: <span title=\"Codes:{http://hl7.org/fhir/sid/cvx 207}\">COVID-19, mRNA, LNP-S, PF, 100 mcg/0.5mL dose or 50 mcg/0.25mL dose</span></p><p><b>patient</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-3b24-763d02e12997\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-3b24-763d02e12997\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Administration of vaccine to produce active immunity (procedure); period = 2021-03-22 22:05:30-0500 --&gt; 2021-03-22 22:20:30-0500</a></p><p><b>occurrence</b>: 2021-03-22 22:05:30-0500</p><p><b>primarySource</b>: true</p><p><b>location</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p></div>"
+  },
+  "status" : "completed",
+  "vaccineCode" : {
+    "coding" : [{
+      "system" : "http://hl7.org/fhir/sid/cvx",
+      "code" : "207",
+      "display" : "Dr. Bertram Pyle"
+    }],
+    "text" : "COVID-19, mRNA, LNP-S, PF, 100 mcg/0.5mL dose or 50 mcg/0.25mL dose"
+  },
+  "patient" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+  },
+  "encounter" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-3b24-763d02e12997"
+  },
+  "occurrenceDateTime" : "2021-03-22T22:05:30-05:00",
+  "primarySource" : true,
+  "location" : {
+    "reference" : "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  }
+}

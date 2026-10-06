@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Procedure xmlns="http://hl7.org/fhir">
+  <id value="324d4f70-205b-60cc-e7e7-eeab8432491c"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: Procedure 324d4f70-205b-60cc-e7e7-eeab8432491c</b></p><a name="324d4f70-205b-60cc-e7e7-eeab8432491c"> </a><a name="hc324d4f70-205b-60cc-e7e7-eeab8432491c"> </a><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px"/><p style="margin-bottom: 0px">Profile: <a href="http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-procedure.html">US Core Procedure Profile</a></p></div><p><b>status</b>: Completed</p><p><b>code</b>: <span title="Codes:{http://snomed.info/sct 25656009}">Physical examination, complete (procedure)</span></p><p><b>subject</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c53c-b3838c180ebd">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-c53c-b3838c180ebd (use: official, ); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2025-03-14 01:16:00-0500 --&gt; 2025-03-14 01:56:16-0500; reasonCode = Malignant neoplasm of breast (disorder)</a></p><p><b>performed</b>: 2025-03-14 01:16:00-0500 --&gt; 2025-03-14 01:56:16-0500</p><p><b>location</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>reasonReference</b>: <a href="Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1">Malignant neoplasm of breast (disorder)</a></p></div>
+  </text>
+  <status value="completed"/>
+  <code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="25656009"/>
+      <display value="Physical examination, complete (procedure)"/>
+    </coding>
+    <text value="Physical examination, complete (procedure)"/>
+  </code>
+  <subject>
+    <reference value="urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"/>
+  </subject>
+  <encounter>
+    <reference value="urn:uuid:324d4f70-205b-60cc-c53c-b3838c180ebd"/>
+  </encounter>
+  <performedPeriod>
+    <start value="2025-03-14T01:16:00-05:00"/>
+    <end value="2025-03-14T01:56:16-05:00"/>
+  </performedPeriod>
+  <location>
+    <reference value="Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8"/>
+    <display value="OPEN ACCESS VASCULAR ACCESS CENTER INC"/>
+  </location>
+  <reasonReference>
+    <reference value="urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1"/>
+    <display value="Malignant neoplasm of breast (disorder)"/>
+  </reasonReference>
+</Procedure>

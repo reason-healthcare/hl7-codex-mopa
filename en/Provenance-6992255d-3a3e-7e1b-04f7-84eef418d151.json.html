@@ -1,0 +1,1198 @@
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>6992255d-3a3e-7e1b-04f7-84eef418d151 - JSON Representation - MOPA — Medical Oncology Prior Authorization v0.1.1-snapshot-080926</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <link href="assets/css/project.css" rel="stylesheet"/>
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/hl7.css" rel="stylesheet"/>
+    <link href="assets/css/fhir-ig.css" rel="stylesheet"/>
+    <link href="css/mopa.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+    <script type="text/javascript" src="assets/js/direction-management.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script type="text/javascript" src="assets/js/prism.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-fhirpath.js"></script>
+	  <script type="text/javascript" src="assets/js/prism-cql.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"14.206"}
+    h3,h4,h5,h6{--heading-prefix:"14.206"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+        <div id="hl7-nav">
+          <a id="hl7-logo" data-no-external="true" href="http://hl7.org">
+            <img height="50" alt="Visit the HL7 website" src="assets/images/hl7-logo-header.png"/>
+          </a>
+        </div>
+        <div id="family-nav">
+          <a id="family-logo" data-no-external="true" href="http://hl7.org/fhir"><img height="50" alt="Visit the FHIR website" src="assets/images/fhir-logo-www.png"/> </a>
+        </div>
+        <div id="hl7-search">
+          <a id="hl7-search-lnk" data-no-external="true" href="searchform.html"><img alt="Search FHIR" src="assets/images/search.png"/></a>
+        </div>
+
+
+        <div id="ig-status" data-fhir="generated">
+          <p><span style="font-size:12pt;font-weight:bold">MOPA — Medical Oncology Prior Authorization</span>
+            <br/>
+            <span style="display:inline-block;">0.1.1-snapshot-080926 - snapshot-080926
+
+
+
+  <img alt="United States of America flag" src="../assets/images/usa.svg" height="16" title="United States of America"/>
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment" data-fhir="generated">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="background.html">Background</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Use Cases
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="use-cases.html">Use Cases and Actors</a>
+      </li>
+      <li>
+        <a href="breast-cancer-pa.html">Use Case 1 - Breast Cancer PA</a>
+      </li>
+      <li>
+        <a href="patient-bundle-review.html">Patient Bundle Review</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Specification
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="regimen-model.html">1-Regimen Modeling</a>
+      </li>
+      <li>
+        <a href="cds-workflow.html">2-CRD Workflow</a>
+      </li>
+      <li>
+        <a href="data-requirements.html">3-Data Requirements</a>
+      </li>
+      <li>
+        <a href="walkthrough.html">Workflow Walkthrough</a>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Gaps in Specs
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="davinci-gap-proposals.html">Da Vinci Gap Proposals</a>
+      </li>
+      <li>
+        <a href="mcode-gap-proposals.html">mCODE Gap Proposals</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="conformance.html">Conformance</a>
+  </li>
+  <li>
+    <a href="artifacts.html">Artifacts</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+</ul>
+            </div>  <!-- /.nav-collapse -->
+
+              
+
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment" data-fhir="generated">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><a href='artifacts.html'><b>Artifacts Summary</b></a></li><li><b>6992255d-3a3e-7e1b-04f7-84eef418d151</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<!-- layouts\layout-instance-format -->
+<div style="counter-reset: section 8" class="col-12">
+<!--ReleaseHeader--><p id="publish-box">MOPA — Medical Oncology Prior Authorization - Local Development build (v0.1.1-snapshot-080926) built by the FHIR (HL7® FHIR® Standard) Build Tools. See the <a href='http://hl7.org/fhir/us/codex-mopa/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+
+
+
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs">
+
+  <li>
+    <a href="Provenance-6992255d-3a3e-7e1b-04f7-84eef418d151.html">Narrative Content</a>
+  </li>
+
+
+
+  
+    <li>
+      <a href="Provenance-6992255d-3a3e-7e1b-04f7-84eef418d151.xml.html">XML</a>
+    </li>
+  
+
+
+  
+    <li class="active">
+      <a href="#">JSON</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="Provenance-6992255d-3a3e-7e1b-04f7-84eef418d151.ttl.html">TTL</a>
+    </li>
+  
+
+
+
+</ul>
+
+
+<a name="root"> </a>
+
+
+
+<h2 id="root">: 6992255d-3a3e-7e1b-04f7-84eef418d151</h2>
+
+  <table class="colsi" data-fhir="generated">
+    <tr>
+
+      <td colspan="2">
+        
+          <i>Page standards status:</i> <a href="http://hl7.org/fhir/R4/versions.html#std-process" title="Standards Status">Informative</a>
+          
+        
+      </td>
+
+    </tr>
+  </table>
+
+
+<p><a href="Provenance-6992255d-3a3e-7e1b-04f7-84eef418d151.json" no-download="true">Raw json</a> | <a href="Provenance-6992255d-3a3e-7e1b-04f7-84eef418d151.json" download>Download</a></p>
+
+  <!-- insert intro if present -->
+  
+
+
+
+  <pre class="json" data-fhir="generated" style="white-space: pre; text-wrap: nowrap; width: auto;"><code style="white-space: pre; text-wrap: nowrap;">{
+  "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance">resourceType</a>" : "Provenance",
+  "<a href="http://hl7.org/fhir/R4/resource.html#Provenance.id">id</a>" : "6992255d-3a3e-7e1b-04f7-84eef418d151",
+  "<a href="http://hl7.org/fhir/R4/resource.html#Provenance.meta">meta</a>" : {
+    "<a href="http://hl7.org/fhir/R4/datatypes.html#Meta#Meta.profile">profile</a>" : [
+      <a href="http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-provenance.html" style="color: Maroon">&#x1F517;</a> "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+    ]
+  },
+  "<a href="http://hl7.org/fhir/R4/resource.html#Provenance.language">language</a>" : "en",
+  "<a href="http://hl7.org/fhir/R4/domainresource.html#Provenance.text">text</a>" : {
+    "<a href="http://hl7.org/fhir/R4/datatypes.html#Narrative#Narrative.status">status</a>" : "generated",
+    "<a href="http://hl7.org/fhir/R4/datatypes.html#Narrative#Narrative.div">div</a>" : "&lt;div xmlns=\&quot;http://www.w3.org/1999/xhtml\&quot;&gt;&lt;p class=\&quot;res-header-id\&quot;&gt;&lt;b&gt;Generated Narrative: Provenance 6992255d-3a3e-7e1b-04f7-84eef418d151&lt;/b&gt;&lt;/p&gt;&lt;a name=\&quot;6992255d-3a3e-7e1b-04f7-84eef418d151\&quot;&gt; &lt;/a&gt;&lt;a name=\&quot;hc6992255d-3a3e-7e1b-04f7-84eef418d151\&quot;&gt; &lt;/a&gt;&lt;div style=\&quot;display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\&quot;&gt;&lt;p style=\&quot;margin-bottom: 0px\&quot;/&gt;&lt;p style=\&quot;margin-bottom: 0px\&quot;&gt;Profile: &lt;a href=\&quot;http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-provenance.html\&quot;&gt;US Core Provenance Profile&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&lt;p&gt;Provenance for: &lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\&quot;&gt;Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-58cf-1e7016b4cbfa\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-58cf-1e7016b4cbfa\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Encounter for symptom (procedure); period = 1985-07-25 22:05:30-0500 --&amp;gt; 1985-07-27 08:08:17-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1\&quot;&gt;Condition Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-bb3b3d35-1dab-d9c1-b72f-d11b97622fd3\&quot;&gt;bb3b3d35-1dab-d9c1-b72f-d11b97622fd3&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-34d599b4-bd48-1345-e786-299461e74712\&quot;&gt;34d599b4-bd48-1345-e786-299461e74712&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4184-ff388bd1b344\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 1985-07-25 22:05:30-0500 --&amp;gt; 1985-07-27 08:08:17-0500; created = 1985-07-27 08:08:17-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-d244603b-4e72-a986-37a6-64b59d75df22\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-4184-ff388bd1b344,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 1985-07-27 08:08:17-0500 --&amp;gt; 1986-07-27 08:08:17-0500; created = 1985-07-27 08:08:17-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-2837-ffb3962d6ce2\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-2837-ffb3962d6ce2\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2017-02-20 12:31:24-0600 --&amp;gt; 2017-02-20 13:16:20-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-283d-7af8bdc429cc\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-803be58e-714f-100b-66b5-9be4834b049f\&quot;&gt;803be58e-714f-100b-66b5-9be4834b049f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-5363ba6c-37e7-603c-3308-59a0059a10cc\&quot;&gt;5363ba6c-37e7-603c-3308-59a0059a10cc&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d5dd-8d9526fc9cac\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2017-02-20 12:31:24-0600 --&amp;gt; 2017-02-20 13:16:20-0600; created = 2017-02-20 13:16:20-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-8ba2a788-d4ff-1383-613e-0ceca977f286\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-d5dd-8d9526fc9cac,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2017-02-20 13:16:20-0600 --&amp;gt; 2018-02-20 13:16:20-0600; created = 2017-02-20 13:16:20-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5b10-efa5a0f8e7b4\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-5b10-efa5a0f8e7b4\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2017-02-20 13:16:20-0600 --&amp;gt; 2017-02-20 13:36:35-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5da8-7e4d633e3065\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-7d406308-ccf7-eb57-01bf-602dc69658ed\&quot;&gt;7d406308-ccf7-eb57-01bf-602dc69658ed&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-6bcd79b4-f9d1-1e02-5f3a-25d8f1ba45cf\&quot;&gt;6bcd79b4-f9d1-1e02-5f3a-25d8f1ba45cf&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-eb4a-3f746aca7988\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2017-02-20 13:16:20-0600 --&amp;gt; 2017-02-20 13:36:35-0600; created = 2017-02-20 13:36:35-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-e68112fe-e224-d464-532d-8d8e084dff18\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-eb4a-3f746aca7988,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2017-02-20 13:36:35-0600 --&amp;gt; 2018-02-20 13:36:35-0600; created = 2017-02-20 13:36:35-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-7e2e-dd08e1c087a0\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-7e2e-dd08e1c087a0\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2017-02-20 13:36:35-0600 --&amp;gt; 2017-02-20 14:05:01-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-7c2d-4382d3c52063\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d349-8836c48ba066\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-b6c039db-34f7-ef6a-3b3f-37002e965d00\&quot;&gt;b6c039db-34f7-ef6a-3b3f-37002e965d00&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-6b9d04bc-f887-b142-5f09-b0e0f070d90f\&quot;&gt;6b9d04bc-f887-b142-5f09-b0e0f070d90f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c1ba-e935897de7ef\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2017-02-20 13:36:35-0600 --&amp;gt; 2017-02-20 14:05:01-0600; created = 2017-02-20 14:05:01-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-d5a38635-1611-9360-f3f9-1d96fceaec55\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-c1ba-e935897de7ef,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2017-02-20 14:05:01-0600 --&amp;gt; 2018-02-20 14:05:01-0600; created = 2017-02-20 14:05:01-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-6ea5-936285139eb8\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-6ea5-936285139eb8\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2017-04-17 22:05:30-0500 --&amp;gt; 2017-04-17 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-16ae-241e134b0576\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2017-04-17 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0b9dfc64-4d1b-44dc-7339-61c56cda8e1a\&quot;&gt;0b9dfc64-4d1b-44dc-7339-61c56cda8e1a&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-885cc705-823a-3826-82a6-ba425d654124\&quot;&gt;885cc705-823a-3826-82a6-ba425d654124&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-36ed-00f83f2202f1\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2017-04-17 22:05:30-0500 --&amp;gt; 2017-04-17 22:20:30-0500; created = 2017-04-17 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-7827663b-151e-c74e-4d71-1994cb7504ba\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-36ed-00f83f2202f1,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2017-04-17 22:20:30-0500 --&amp;gt; 2018-04-17 22:20:30-0500; created = 2017-04-17 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-6a71-2ed4bfa14ce0\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-6a71-2ed4bfa14ce0\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2018-03-05 14:05:01-0600 --&amp;gt; 2018-03-05 14:46:38-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-58ec-40d72349ab5a\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ad805677-99bb-7506-0ea0-15c0d823106c\&quot;&gt;ad805677-99bb-7506-0ea0-15c0d823106c&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-770a1131-8061-f2b4-b3e5-3c3a7e5c3ca7\&quot;&gt;770a1131-8061-f2b4-b3e5-3c3a7e5c3ca7&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1de8-a9cbc4e0036a\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2018-03-05 14:05:01-0600 --&amp;gt; 2018-03-05 14:46:38-0600; created = 2018-03-05 14:46:38-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0d603019-569c-3dfd-bf52-0782656f0baf\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-1de8-a9cbc4e0036a,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2018-03-05 14:46:38-0600 --&amp;gt; 2019-03-05 14:46:38-0600; created = 2018-03-05 14:46:38-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-0db7-b058ebf14b84\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-0db7-b058ebf14b84\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2018-03-05 14:46:38-0600 --&amp;gt; 2018-03-05 15:02:48-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-2538-a83ef5b75ab1\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-18d9193e-e891-43e5-7fb2-7186d863937f\&quot;&gt;18d9193e-e891-43e5-7fb2-7186d863937f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-1798d623-ba95-06b0-aa15-a55a8557462e\&quot;&gt;1798d623-ba95-06b0-aa15-a55a8557462e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f220-dd931dfdd2e5\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2018-03-05 14:46:38-0600 --&amp;gt; 2018-03-05 15:02:48-0600; created = 2018-03-05 15:02:48-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0fc51de2-2205-cd09-2ee2-96d4adb2a834\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-f220-dd931dfdd2e5,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2018-03-05 15:02:48-0600 --&amp;gt; 2019-03-05 15:02:48-0600; created = 2018-03-05 15:02:48-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-af17-52591ce4bfab\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-af17-52591ce4bfab\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2018-03-05 15:02:48-0600 --&amp;gt; 2018-03-05 15:33:52-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5c6d-fa71b7a30f38\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4ef6-22f142d7d336\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-9ea36e5b-716f-7dc8-5dec-acc30cd4dee8\&quot;&gt;9ea36e5b-716f-7dc8-5dec-acc30cd4dee8&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-aeb002a3-5159-8657-d9b9-009d9b4cc332\&quot;&gt;aeb002a3-5159-8657-d9b9-009d9b4cc332&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-715e-56f83a1bf839\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2018-03-05 15:02:48-0600 --&amp;gt; 2018-03-05 15:33:52-0600; created = 2018-03-05 15:33:52-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-477e74d5-4c1b-7c04-85b9-68940575325a\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-715e-56f83a1bf839,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2018-03-05 15:33:52-0600 --&amp;gt; 2019-03-05 15:33:52-0600; created = 2018-03-05 15:33:52-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9843-105155e736bb\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-9843-105155e736bb\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2018-04-23 22:05:30-0500 --&amp;gt; 2018-04-23 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-8d2d-8f7aecfab0af\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2018-04-23 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-810f2d9d-89f3-1988-1b76-06f5d1e2ebd8\&quot;&gt;810f2d9d-89f3-1988-1b76-06f5d1e2ebd8&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0459bdb5-def8-b1d7-82ec-3a8515c37416\&quot;&gt;0459bdb5-def8-b1d7-82ec-3a8515c37416&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5a82-eca43b90700e\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2018-04-23 22:05:30-0500 --&amp;gt; 2018-04-23 22:20:30-0500; created = 2018-04-23 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-5c061728-5ba7-2c80-75b2-f2537ad4809a\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-5a82-eca43b90700e,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2018-04-23 22:20:30-0500 --&amp;gt; 2019-04-23 22:20:30-0500; created = 2018-04-23 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-65ac-50e059411094\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-65ac-50e059411094\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2019-03-17 16:33:52-0500 --&amp;gt; 2019-03-17 17:06:12-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5a2f-e1a6ea69a91a\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-9d3d7489-9293-423a-5393-8685872728b4\&quot;&gt;9d3d7489-9293-423a-5393-8685872728b4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-f87c4036-8850-2777-97b0-0de938e0071c\&quot;&gt;f87c4036-8850-2777-97b0-0de938e0071c&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-80fd-fb51401f0e6b\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 16:33:52-0500 --&amp;gt; 2019-03-17 17:06:12-0500; created = 2019-03-17 17:06:12-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-71769078-6471-2b8c-d6da-8352d4374127\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-80fd-fb51401f0e6b,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 17:06:12-0500 --&amp;gt; 2020-03-17 17:06:12-0500; created = 2019-03-17 17:06:12-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e748-241d7cdbbddd\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-e748-241d7cdbbddd\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2019-03-17 17:06:12-0500 --&amp;gt; 2019-03-17 17:23:36-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c1d4-7b24da488762\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0579b0c9-385b-3c39-b609-906dd78f09eb\&quot;&gt;0579b0c9-385b-3c39-b609-906dd78f09eb&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-388fced2-345d-64b6-defd-6456b35a89af\&quot;&gt;388fced2-345d-64b6-defd-6456b35a89af&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-500d-52c21db4e8d4\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 17:06:12-0500 --&amp;gt; 2019-03-17 17:23:36-0500; created = 2019-03-17 17:23:36-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-1a3b3eb0-d10e-5688-c572-0978b6c3ac7c\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-500d-52c21db4e8d4,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 17:23:36-0500 --&amp;gt; 2020-03-17 17:23:36-0500; created = 2019-03-17 17:23:36-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4add-381d14c5ddf7\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-4add-381d14c5ddf7\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2019-03-17 17:23:36-0500 --&amp;gt; 2019-03-17 17:50:19-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5756-faa9406416fb\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1962-0ea00b3cda63\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-40679c3d-3c07-c049-0d5b-08e95fffa971\&quot;&gt;40679c3d-3c07-c049-0d5b-08e95fffa971&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-f3c906d9-6f23-c217-b312-45410a892337\&quot;&gt;f3c906d9-6f23-c217-b312-45410a892337&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c292-39c3b263355c\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 17:23:36-0500 --&amp;gt; 2019-03-17 17:50:19-0500; created = 2019-03-17 17:50:19-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-35e21a02-69ae-8a8c-0394-cbfbd713f5d7\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-c292-39c3b263355c,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2019-03-17 17:50:19-0500 --&amp;gt; 2020-03-17 17:50:19-0500; created = 2019-03-17 17:50:19-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1179-6df0b91f7525\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-1179-6df0b91f7525\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2019-04-29 22:05:30-0500 --&amp;gt; 2019-04-29 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-55c4-fdc38b673678\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2019-04-29 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-6cb2b349-d7d7-f3e1-1151-e7178a8883c1\&quot;&gt;6cb2b349-d7d7-f3e1-1151-e7178a8883c1&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-fa4de280-88f7-e2d3-7ecc-dfa582965069\&quot;&gt;fa4de280-88f7-e2d3-7ecc-dfa582965069&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f07b-ca9c0d01152d\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2019-04-29 22:05:30-0500 --&amp;gt; 2019-04-29 22:20:30-0500; created = 2019-04-29 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-b3f7ffc6-850d-66e9-60ce-6d5c14dfc5b1\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-f07b-ca9c0d01152d,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2019-04-29 22:20:30-0500 --&amp;gt; 2020-04-29 22:20:30-0500; created = 2019-04-29 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d603-07e52baa590b\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-d603-07e52baa590b\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2020-03-27 17:50:19-0500 --&amp;gt; 2020-03-27 18:21:20-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fd9c-53747ed763c3\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e\&quot;&gt;c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-044ec3a5-ac5c-c5cf-381c-76563c3c6a6e\&quot;&gt;044ec3a5-ac5c-c5cf-381c-76563c3c6a6e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-8cfc-844c633f72f8\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2020-03-27 17:50:19-0500 --&amp;gt; 2020-03-27 18:21:20-0500; created = 2020-03-27 18:21:20-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-683c151d-e1d3-4aa7-8895-cb7421f30547\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-8cfc-844c633f72f8,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2020-03-27 18:21:20-0500 --&amp;gt; 2021-03-27 18:21:20-0500; created = 2020-03-27 18:21:20-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-8033-ba5bdb4eee1c\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-8033-ba5bdb4eee1c\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2020-03-27 18:21:20-0500 --&amp;gt; 2020-03-27 18:38:20-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d22e-a00332260b6a\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-1a43cff7-7a5b-4319-e97a-9ab9b9d9d595\&quot;&gt;1a43cff7-7a5b-4319-e97a-9ab9b9d9d595&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-3684963b-420d-3f4e-2b18-7cb4f863514a\&quot;&gt;3684963b-420d-3f4e-2b18-7cb4f863514a&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-7fda-a04a956dcc4e\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2020-03-27 18:21:20-0500 --&amp;gt; 2020-03-27 18:38:20-0500; created = 2020-03-27 18:38:20-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-dccd6cab-3a1d-9dad-dabe-d33607d04fae\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-7fda-a04a956dcc4e,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2020-03-27 18:38:20-0500 --&amp;gt; 2021-03-27 18:38:20-0500; created = 2020-03-27 18:38:20-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d01e-01c162d00a1e\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-d01e-01c162d00a1e\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2020-03-27 18:38:20-0500 --&amp;gt; 2020-03-27 19:09:19-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f192-9af1d1042e24\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a901-56495c7d7915\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-664240c3-5ece-5799-01a7-a1e31e179601\&quot;&gt;664240c3-5ece-5799-01a7-a1e31e179601&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-a8a3868e-2470-68a4-f296-c3694f79669e\&quot;&gt;a8a3868e-2470-68a4-f296-c3694f79669e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e24f-0300820f0d4b\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2020-03-27 18:38:20-0500 --&amp;gt; 2020-03-27 19:09:19-0500; created = 2020-03-27 19:09:19-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-9d1d80e4-2e12-b01e-32ad-88d435ca0e8c\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-e24f-0300820f0d4b,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2020-03-27 19:09:19-0500 --&amp;gt; 2021-03-27 19:09:19-0500; created = 2020-03-27 19:09:19-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-da21-a0ada8fdccaf\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-da21-a0ada8fdccaf\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2020-05-04 22:05:30-0500 --&amp;gt; 2020-05-04 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-ab2b-7e1872e256ad\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2020-05-04 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-303bebd6-0fd2-1c3d-16b5-a22c21ce10d1\&quot;&gt;303bebd6-0fd2-1c3d-16b5-a22c21ce10d1&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-6bc547ec-3734-e642-4b69-e72004e796d2\&quot;&gt;6bc547ec-3734-e642-4b69-e72004e796d2&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-324c-f8d35cb030be\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2020-05-04 22:05:30-0500 --&amp;gt; 2020-05-04 22:20:30-0500; created = 2020-05-04 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-5e57b3dd-42f7-a8f5-3982-d3f969fc42a2\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-324c-f8d35cb030be,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2020-05-04 22:20:30-0500 --&amp;gt; 2021-05-04 22:20:30-0500; created = 2020-05-04 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fea4-d040f20925df\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-fea4-d040f20925df\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Administration of vaccine to produce active immunity (procedure); period = 2021-02-22 21:05:30-0600 --&amp;gt; 2021-02-22 21:20:30-0600&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9034-26ba188a4c3a\&quot;&gt;Immunization: status = completed; vaccineCode = Dr. Bertram Pyle; occurrence[x] = 2021-02-22 21:05:30-0600; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-8f8a214c-6c3b-71c8-a186-15e052b5281e\&quot;&gt;8f8a214c-6c3b-71c8-a186-15e052b5281e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-32d39940-2bed-c1cc-0086-49d00b926100\&quot;&gt;32d39940-2bed-c1cc-0086-49d00b926100&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-51b7-9b21c65312d1\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2021-02-22 21:05:30-0600 --&amp;gt; 2021-02-22 21:20:30-0600; created = 2021-02-22 21:20:30-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-385fb839-1925-0168-27ec-96a6aeb53ecc\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-51b7-9b21c65312d1,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2021-02-22 21:20:30-0600 --&amp;gt; 2022-02-22 21:20:30-0600; created = 2021-02-22 21:20:30-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5ff8-97b1f4eef88d\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-5ff8-97b1f4eef88d\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2021-03-01 18:09:19-0600 --&amp;gt; 2021-03-01 18:46:24-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-bb2c-7c63f78b79f2\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-3080623e-0093-d6f4-d6ed-f7c27f90fbed\&quot;&gt;3080623e-0093-d6f4-d6ed-f7c27f90fbed&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-578f3c65-a224-08fb-40b7-09590ed02cf3\&quot;&gt;578f3c65-a224-08fb-40b7-09590ed02cf3&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c25a-cd7373ad0288\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2021-03-01 18:09:19-0600 --&amp;gt; 2021-03-01 18:46:24-0600; created = 2021-03-01 18:46:24-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ebff37a8-a34e-2f8a-f3cf-20d1461be23c\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-c25a-cd7373ad0288,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2021-03-01 18:46:24-0600 --&amp;gt; 2022-03-01 18:46:24-0600; created = 2021-03-01 18:46:24-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-2692-72c2133050cf\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-2692-72c2133050cf\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2021-03-01 18:46:24-0600 --&amp;gt; 2021-03-01 19:11:15-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-3e41-e5b04e10d69c\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-24fd9372-65b4-201d-7497-fa4bbdfc0fef\&quot;&gt;24fd9372-65b4-201d-7497-fa4bbdfc0fef&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-406c76a1-9630-be4b-7feb-091e6567890d\&quot;&gt;406c76a1-9630-be4b-7feb-091e6567890d&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9472-8c7c3d2e45ab\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2021-03-01 18:46:24-0600 --&amp;gt; 2021-03-01 19:11:15-0600; created = 2021-03-01 19:11:15-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ddffdf72-76cb-6956-5b00-913323a69477\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-9472-8c7c3d2e45ab,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2021-03-01 19:11:15-0600 --&amp;gt; 2022-03-01 19:11:15-0600; created = 2021-03-01 19:11:15-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1b84-c52fb680231c\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-1b84-c52fb680231c\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2021-03-01 19:11:15-0600 --&amp;gt; 2021-03-01 19:39:30-0600; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-cc9b-9a8dac0bf429\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-6608-11e9eb72b9ce\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-1e448c14-029c-8999-97fa-e225fe911d7f\&quot;&gt;1e448c14-029c-8999-97fa-e225fe911d7f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-c7ab3348-9f86-63ef-6c4a-67165236f3cf\&quot;&gt;c7ab3348-9f86-63ef-6c4a-67165236f3cf&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4d78-41a6e431eb81\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2021-03-01 19:11:15-0600 --&amp;gt; 2021-03-01 19:39:30-0600; created = 2021-03-01 19:39:30-0600; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0023164a-4998-e288-0fc3-5a02cf3447ec\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-4d78-41a6e431eb81,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2021-03-01 19:39:30-0600 --&amp;gt; 2022-03-01 19:39:30-0600; created = 2021-03-01 19:39:30-0600; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-3b24-763d02e12997\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-3b24-763d02e12997\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Administration of vaccine to produce active immunity (procedure); period = 2021-03-22 22:05:30-0500 --&amp;gt; 2021-03-22 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9db2-3e01b33a24dd\&quot;&gt;Immunization: status = completed; vaccineCode = Dr. Bertram Pyle; occurrence[x] = 2021-03-22 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-810f5b73-c6ec-3a7b-1b76-34cc0edc0ccb\&quot;&gt;810f5b73-c6ec-3a7b-1b76-34cc0edc0ccb&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-cd6155b5-ddf2-3ae6-4bf3-d28514bcfd26\&quot;&gt;cd6155b5-ddf2-3ae6-4bf3-d28514bcfd26&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5d84-12f20bffd1a0\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2021-03-22 22:05:30-0500 --&amp;gt; 2021-03-22 22:20:30-0500; created = 2021-03-22 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0ef7963b-44f0-eed0-a4f7-c994fb472fd7\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-5d84-12f20bffd1a0,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2021-03-22 22:20:30-0500 --&amp;gt; 2022-03-22 22:20:30-0500; created = 2021-03-22 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-b9b0-4e978d5fbba8\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-b9b0-4e978d5fbba8\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2021-05-10 22:05:30-0500 --&amp;gt; 2021-05-10 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-7094-d2c0c5ac0f16\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2021-05-10 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-353d2977-c37c-0ec0-3262-23163111933f\&quot;&gt;353d2977-c37c-0ec0-3262-23163111933f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-d0fcf862-c0e6-6964-7d20-f04be8b35cd1\&quot;&gt;d0fcf862-c0e6-6964-7d20-f04be8b35cd1&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-24a8-4d3ad8b8ae01\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2021-05-10 22:05:30-0500 --&amp;gt; 2021-05-10 22:20:30-0500; created = 2021-05-10 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0b1d6b94-0349-8896-1a58-a12f68ad9b08\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-24a8-4d3ad8b8ae01,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2021-05-10 22:20:30-0500 --&amp;gt; 2022-05-10 22:20:30-0500; created = 2021-05-10 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-6fdf-b576336a84a6\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-6fdf-b576336a84a6\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2022-03-25 20:39:30-0500 --&amp;gt; 2022-03-25 21:17:03-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-003d-0101f53e3154\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-f95e43d9-6da2-3357-b8a7-824109079477\&quot;&gt;f95e43d9-6da2-3357-b8a7-824109079477&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-63c5dd79-2805-7644-8ece-db7371f8b31f\&quot;&gt;63c5dd79-2805-7644-8ece-db7371f8b31f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a761-abf04ae61cff\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2022-03-25 20:39:30-0500 --&amp;gt; 2022-03-25 21:17:03-0500; created = 2022-03-25 21:17:03-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-18a52e2d-fbc6-1025-ff7e-8735cd88d2d2\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-a761-abf04ae61cff,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2022-03-25 21:17:03-0500 --&amp;gt; 2023-03-25 21:17:03-0500; created = 2022-03-25 21:17:03-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-6e65-238220288f48\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-6e65-238220288f48\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2022-03-25 21:17:03-0500 --&amp;gt; 2022-03-25 21:34:33-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d167-ce53d138fb07\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-b3943349-1969-b9b2-5833-6716cc1a4992\&quot;&gt;b3943349-1969-b9b2-5833-6716cc1a4992&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-61346cb7-94ff-eeb9-e5b3-69dc8e9e5c4e\&quot;&gt;61346cb7-94ff-eeb9-e5b3-69dc8e9e5c4e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d989-86644ae1848a\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2022-03-25 21:17:03-0500 --&amp;gt; 2022-03-25 21:34:33-0500; created = 2022-03-25 21:34:33-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-e03f31d6-c997-3e18-ff86-81a30f32a37c\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-d989-86644ae1848a,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2022-03-25 21:34:33-0500 --&amp;gt; 2023-03-25 21:34:33-0500; created = 2022-03-25 21:34:33-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e308-404db14d3249\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-e308-404db14d3249\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2022-03-25 21:34:33-0500 --&amp;gt; 2022-03-25 22:05:20-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1c64-64c037697bf3\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4a51-7fd58c9a38b2\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ac674294-09ee-54f2-9fd3-eeb801d77cbf\&quot;&gt;ac674294-09ee-54f2-9fd3-eeb801d77cbf&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-39646991-afa3-7005-82a2-d12d15048fc4\&quot;&gt;39646991-afa3-7005-82a2-d12d15048fc4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-403a-3d51560b106f\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2022-03-25 21:34:33-0500 --&amp;gt; 2022-03-25 22:05:20-0500; created = 2022-03-25 22:05:20-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-163e5f23-e6c7-e6ce-e175-29ec2556c67c\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-403a-3d51560b106f,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2022-03-25 22:05:20-0500 --&amp;gt; 2023-03-25 22:05:20-0500; created = 2022-03-25 22:05:20-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-daa0-f375f040f2ca\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-daa0-f375f040f2ca\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2022-05-16 22:05:30-0500 --&amp;gt; 2022-05-16 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c9b8-3f36c803f63f\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2022-05-16 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-0e5cedb9-b1f5-ca95-175a-e803a532a5c0\&quot;&gt;0e5cedb9-b1f5-ca95-175a-e803a532a5c0&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-17b38b00-d4df-7cc5-7e8c-e348c4b1cc5f\&quot;&gt;17b38b00-d4df-7cc5-7e8c-e348c4b1cc5f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-58eb-26b259294074\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2022-05-16 22:05:30-0500 --&amp;gt; 2022-05-16 22:20:30-0500; created = 2022-05-16 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-4861bb45-5293-1cc3-9ea3-d13930c67679\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-58eb-26b259294074,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2022-05-16 22:20:30-0500 --&amp;gt; 2023-05-16 22:20:30-0500; created = 2022-05-16 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f89e-b677aa848d76\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-f89e-b677aa848d76\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2023-04-10 22:05:20-0500 --&amp;gt; 2023-04-10 22:44:51-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-b275-92eb37de846e\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-c2215eb5-e6f2-0def-40b3-db851dbcd02f\&quot;&gt;c2215eb5-e6f2-0def-40b3-db851dbcd02f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-eb08b96d-76c3-1c9e-411a-b5620aa99655\&quot;&gt;eb08b96d-76c3-1c9e-411a-b5620aa99655&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-5bdf-a78105e167bf\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2023-04-10 22:05:20-0500 --&amp;gt; 2023-04-10 22:44:51-0500; created = 2023-04-10 22:44:51-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-f379b045-f0a2-6edb-4bae-0eb38633294b\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-5bdf-a78105e167bf,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2023-04-10 22:44:51-0500 --&amp;gt; 2024-04-10 22:44:51-0500; created = 2023-04-10 22:44:51-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-47b3-71b6fedb37cf\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-47b3-71b6fedb37cf\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2023-04-10 22:44:51-0500 --&amp;gt; 2023-04-10 23:08:22-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c3b8-2f51d4c14ab0\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-a770495f-efc3-3077-1505-cddeece82a16\&quot;&gt;a770495f-efc3-3077-1505-cddeece82a16&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-f11e6a04-d423-7636-18eb-5d7180476e20\&quot;&gt;f11e6a04-d423-7636-18eb-5d7180476e20&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-ac7e-a59622bf63f2\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2023-04-10 22:44:51-0500 --&amp;gt; 2023-04-10 23:08:22-0500; created = 2023-04-10 23:08:22-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-5c290f77-b687-222e-cca2-b18e241cb2e8\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-ac7e-a59622bf63f2,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2023-04-10 23:08:22-0500 --&amp;gt; 2024-04-10 23:08:22-0500; created = 2023-04-10 23:08:22-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d218-8bd9b86f704e\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-d218-8bd9b86f704e\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2023-04-10 23:08:22-0500 --&amp;gt; 2023-04-10 23:42:26-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-1c88-e6cda8ec7531\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-4aa7-17255db300c3\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ef722d95-1656-3076-df44-7d2f7d2f88be\&quot;&gt;ef722d95-1656-3076-df44-7d2f7d2f88be&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-9e1826e7-1ee6-5615-68da-6665b163254c\&quot;&gt;9e1826e7-1ee6-5615-68da-6665b163254c&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-b87f-486a766d7690\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2023-04-10 23:08:22-0500 --&amp;gt; 2023-04-10 23:42:26-0500; created = 2023-04-10 23:42:26-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-65c2eab5-e79f-e040-9e55-daa11e6aa89d\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-b87f-486a766d7690,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2023-04-10 23:42:26-0500 --&amp;gt; 2024-04-10 23:42:26-0500; created = 2023-04-10 23:42:26-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-0162-2ce5311b5279\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-0162-2ce5311b5279\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2023-05-22 22:05:30-0500 --&amp;gt; 2023-05-22 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fb8e-0edef8cb8ac2\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2023-05-22 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-1346baf8-318e-1f54-5b36-8d47cbf4f8ac\&quot;&gt;1346baf8-318e-1f54-5b36-8d47cbf4f8ac&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-cb143d49-a165-3b39-01de-ff891ff7b809\&quot;&gt;cb143d49-a165-3b39-01de-ff891ff7b809&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f3af-f8e08dd81174\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2023-05-22 22:05:30-0500 --&amp;gt; 2023-05-22 22:20:30-0500; created = 2023-05-22 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-1e2e662e-7c14-60b9-77e4-bc7180db296c\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-f3af-f8e08dd81174,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2023-05-22 22:20:30-0500 --&amp;gt; 2024-05-22 22:20:30-0500; created = 2023-05-22 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9d5c-9755ae6ec44b\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-9d5c-9755ae6ec44b\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2024-04-17 23:42:26-0500 --&amp;gt; 2024-04-18 00:21:07-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a7d9-31c7aace7e53\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-a77df40e-86a5-5115-a578-3e01c3807c1e\&quot;&gt;a77df40e-86a5-5115-a578-3e01c3807c1e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-e51ade29-614f-a989-be73-2619339f43f0\&quot;&gt;e51ade29-614f-a989-be73-2619339f43f0&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d8d9-4789ddde2599\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2024-04-17 23:42:26-0500 --&amp;gt; 2024-04-18 00:21:07-0500; created = 2024-04-18 00:21:07-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-e280dd4c-ddf5-b03e-046d-cfcc63a28b6a\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-d8d9-4789ddde2599,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2024-04-18 00:21:07-0500 --&amp;gt; 2025-04-18 00:21:07-0500; created = 2024-04-18 00:21:07-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-9671-6809a100f0ff\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-9671-6809a100f0ff\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2024-04-18 00:21:07-0500 --&amp;gt; 2024-04-18 00:43:48-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-53c4-cfdf2b5dd320\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-61ae1cb3-c6f7-d331-e62d-19d8c09640c6\&quot;&gt;61ae1cb3-c6f7-d331-e62d-19d8c09640c6&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ac2ef1fb-a79e-75d2-9f9b-9e1f9f879d9f\&quot;&gt;ac2ef1fb-a79e-75d2-9f9b-9e1f9f879d9f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-35e0-61c760c27bcc\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2024-04-18 00:21:07-0500 --&amp;gt; 2024-04-18 00:43:48-0500; created = 2024-04-18 00:43:48-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-4f30932e-24cc-b82b-e4c1-89a87fe2d698\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-35e0-61c760c27bcc,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2024-04-18 00:43:48-0500 --&amp;gt; 2025-04-18 00:43:48-0500; created = 2024-04-18 00:43:48-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-406d-3b0c7ff097ca\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-406d-3b0c7ff097ca\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2024-04-18 00:43:48-0500 --&amp;gt; 2024-04-18 01:16:00-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f89c-1abb9feabaee\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-15e5-0fac43d29b6d\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-c729ea8a-2179-f0c8-8969-691c9e492793\&quot;&gt;c729ea8a-2179-f0c8-8969-691c9e492793&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-3e3dd483-8ab0-bcd9-b7f4-2a9586a550bf\&quot;&gt;3e3dd483-8ab0-bcd9-b7f4-2a9586a550bf&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-d72e-353b774455cf\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2024-04-18 00:43:48-0500 --&amp;gt; 2024-04-18 01:16:00-0500; created = 2024-04-18 01:16:00-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-b0ea08e2-af5a-a47f-1e7f-99d92a5bddd6\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-d72e-353b774455cf,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2024-04-18 01:16:00-0500 --&amp;gt; 2025-04-18 01:16:00-0500; created = 2024-04-18 01:16:00-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-3fde-27be9c1c7826\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-3fde-27be9c1c7826\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2024-05-27 22:05:30-0500 --&amp;gt; 2024-05-27 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-cf00-62e8f31e53f8\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2024-05-27 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-56b1-5917b91995a7\&quot;&gt;Immunization: status = completed; vaccineCode = Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed; occurrence[x] = 2024-05-27 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-e9d0e8d6-9a35-e32c-294f-7b53696cadef\&quot;&gt;e9d0e8d6-9a35-e32c-294f-7b53696cadef&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-a3325c89-e3b2-823a-5988-6e85d84668b4\&quot;&gt;a3325c89-e3b2-823a-5988-6e85d84668b4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fe0f-215c3c52d84c\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2024-05-27 22:05:30-0500 --&amp;gt; 2024-05-27 22:20:30-0500; created = 2024-05-27 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-891d499d-3d50-9810-7cb6-fcd09706ee54\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-fe0f-215c3c52d84c,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2024-05-27 22:20:30-0500 --&amp;gt; 2025-05-27 22:20:30-0500; created = 2024-05-27 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-c53c-b3838c180ebd\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-c53c-b3838c180ebd\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2025-03-14 01:16:00-0500 --&amp;gt; 2025-03-14 01:56:16-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e7e7-eeab8432491c\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-c3520393-d01a-7dce-f71f-b6445ffa226d\&quot;&gt;c3520393-d01a-7dce-f71f-b6445ffa226d&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-ab096977-c407-80df-a82e-6316319d055e\&quot;&gt;ab096977-c407-80df-a82e-6316319d055e&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-fb7a-ec524eb0db28\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2025-03-14 01:16:00-0500 --&amp;gt; 2025-03-14 01:56:16-0500; created = 2025-03-14 01:56:16-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-2d9f1ccf-b761-0146-34e0-76860da5afa4\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-fb7a-ec524eb0db28,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2025-03-14 01:56:16-0500 --&amp;gt; 2026-03-14 01:56:16-0500; created = 2025-03-14 01:56:16-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-55f7-f9f4976b1da5\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-55f7-f9f4976b1da5\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2025-03-14 01:56:16-0500 --&amp;gt; 2025-03-14 02:12:51-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-96a9-d91d739652da\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-297f9c08-541e-c4a5-962b-c0003d469198\&quot;&gt;297f9c08-541e-c4a5-962b-c0003d469198&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-b2f97ed6-d697-f867-f161-1a3c37b7b7b0\&quot;&gt;b2f97ed6-d697-f867-f161-1a3c37b7b7b0&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-81ae-b206c7842f06\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2025-03-14 01:56:16-0500 --&amp;gt; 2025-03-14 02:12:51-0500; created = 2025-03-14 02:12:51-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-034e73d7-b3e2-6cc5-8e1c-2689d95581dc\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-81ae-b206c7842f06,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2025-03-14 02:12:51-0500 --&amp;gt; 2026-03-14 02:12:51-0500; created = 2025-03-14 02:12:51-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f442-d49d506f10a7\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-f442-d49d506f10a7\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2025-03-14 02:12:51-0500 --&amp;gt; 2025-03-14 02:34:59-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-279b-886aa2782723\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f846-d4397fc18ba4\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-3a68c8ad-8605-c3c4-4366-c2f779429eef\&quot;&gt;3a68c8ad-8605-c3c4-4366-c2f779429eef&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-98fc4c29-33b7-1b65-ffd5-a47123896aff\&quot;&gt;98fc4c29-33b7-1b65-ffd5-a47123896aff&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-2051-e8ee0a6b654f\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2025-03-14 02:12:51-0500 --&amp;gt; 2025-03-14 02:34:59-0500; created = 2025-03-14 02:34:59-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-8709b501-0255-bd34-b3e4-e02359880198\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-2051-e8ee0a6b654f,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2025-03-14 02:34:59-0500 --&amp;gt; 2026-03-14 02:34:59-0500; created = 2025-03-14 02:34:59-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-ea9d-c861c301dc37\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-ea9d-c861c301dc37\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = General examination of patient (procedure); period = 2025-06-02 22:05:30-0500 --&amp;gt; 2025-06-02 22:20:30-0500&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-0ffb-080f18161ad7\&quot;&gt;Immunization: status = completed; vaccineCode = Influenza, split virus, trivalent, PF; occurrence[x] = 2025-06-02 22:05:30-0500; primarySource = true&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-8a6b74b5-e231-2ecf-08fd-f18518fbf10f\&quot;&gt;8a6b74b5-e231-2ecf-08fd-f18518fbf10f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-128537af-c773-1cb5-6897-33a45b59966b\&quot;&gt;128537af-c773-1cb5-6897-33a45b59966b&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-6b1e-13ab57e5fded\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2025-06-02 22:05:30-0500 --&amp;gt; 2025-06-02 22:20:30-0500; created = 2025-06-02 22:20:30-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-880c798b-353e-3f48-3a83-47720e9752d2\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-6b1e-13ab57e5fded,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2025-06-02 22:20:30-0500 --&amp;gt; 2026-06-02 22:20:30-0500; created = 2025-06-02 22:20:30-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e77a-de35e12d61c2\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-e77a-de35e12d61c2\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Postoperative follow-up visit (procedure); period = 2026-04-01 02:34:59-0500 --&amp;gt; 2026-04-01 03:17:06-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-bcea-2e77475b36da\&quot;&gt;Procedure Physical examination, complete (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-c4e9b8f6-3605-b8d7-cde7-b34029429402\&quot;&gt;c4e9b8f6-3605-b8d7-cde7-b34029429402&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-98aa1bed-3b39-60e5-ff83-74352b0bb07f\&quot;&gt;98aa1bed-3b39-60e5-ff83-74352b0bb07f&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-70db-c23708019e5e\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2026-04-01 02:34:59-0500 --&amp;gt; 2026-04-01 03:17:06-0500; created = 2026-04-01 03:17:06-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-70686202-c601-8e2f-e11b-ceaf514b753a\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-70db-c23708019e5e,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2026-04-01 03:17:06-0500 --&amp;gt; 2027-04-01 03:17:06-0500; created = 2026-04-01 03:17:06-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f6ec-9182270fc784\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-f6ec-9182270fc784\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2026-04-01 03:17:06-0500 --&amp;gt; 2026-04-01 03:40:17-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-976f-e37e8b0f6171\&quot;&gt;Procedure Mammography (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf\&quot;&gt;7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-eb2d5b15-167c-278e-daff-aaaf7d557fd6\&quot;&gt;eb2d5b15-167c-278e-daff-aaaf7d557fd6&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-0297-a5a1bd87d1f0\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2026-04-01 03:17:06-0500 --&amp;gt; 2026-04-01 03:40:17-0500; created = 2026-04-01 03:40:17-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-19c02e32-9639-794a-7e1a-7db80fef14af\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-0297-a5a1bd87d1f0,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2026-04-01 03:40:17-0500 --&amp;gt; 2027-04-01 03:40:17-0500; created = 2026-04-01 03:40:17-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-95ce-922e94744be4\&quot;&gt;Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-95ce-922e94744be4\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Gynecology service (qualifier value); period = 2026-04-01 03:40:17-0500 --&amp;gt; 2026-04-01 04:05:18-0500; reasonCode = Malignant neoplasm of breast (disorder)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-57cb-2e4d766f0fbf\&quot;&gt;Procedure Manual pelvic examination (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-f790-a0746ae2fee0\&quot;&gt;Procedure Cytopathology procedure, preparation of smear, genital source (procedure)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-d217b1a2-6e82-9345-84c8-41821321c713\&quot;&gt;d217b1a2-6e82-9345-84c8-41821321c713&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-07fff275-f553-ea8f-019e-600b79d2e7b4\&quot;&gt;07fff275-f553-ea8f-019e-600b79d2e7b4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-3eca-e327cc5deb09\&quot;&gt;Claim: status = active; type = Professional; use = claim; billablePeriod = 2026-04-01 03:40:17-0500 --&amp;gt; 2026-04-01 04:05:18-0500; created = 2026-04-01 04:05:18-0500; priority = Normal&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=\&quot;Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-8a98d15f-89fb-3c68-e0de-765a88c9961e\&quot;&gt;ExplanationOfBenefit: identifier = https://bluebutton.cms.gov/resources/variables/clm_id#324d4f70-205b-60cc-3eca-e327cc5deb09,https://bluebutton.cms.gov/resources/identifier/claim-group#99999999999; status = active; type = Professional; use = claim; billablePeriod = 2026-04-01 04:05:18-0500 --&amp;gt; 2027-04-01 04:05:18-0500; created = 2026-04-01 04:05:18-0500; outcome = complete&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Summary&lt;/p&gt;&lt;table class=\&quot;grid\&quot;&gt;&lt;tr&gt;&lt;td&gt;Recorded&lt;/td&gt;&lt;td&gt;2026-04-27 22:05:30-0500&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;b&gt;Agents&lt;/b&gt;&lt;/p&gt;&lt;table class=\&quot;grid\&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Type&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;who&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;On Behalf Of&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span title=\&quot;Codes:{http://terminology.hl7.org/CodeSystem/provenance-participant-type author}\&quot;&gt;Author&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;Dr. Bertram Pyle&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;OPEN ACCESS VASCULAR ACCESS CENTER INC&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span title=\&quot;Codes:{http://hl7.org/fhir/us/core/CodeSystem/us-core-provenance-participant-type transmitter}\&quot;&gt;Transmitter&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;Dr. Bertram Pyle&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;OPEN ACCESS VASCULAR ACCESS CENTER INC&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;"
+  },
+  "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.target">target</a>" : [
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-58cf-1e7016b4cbfa"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:bb3b3d35-1dab-d9c1-b72f-d11b97622fd3"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:34d599b4-bd48-1345-e786-299461e74712"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-4184-ff388bd1b344"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:d244603b-4e72-a986-37a6-64b59d75df22"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-2837-ffb3962d6ce2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-283d-7af8bdc429cc"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:803be58e-714f-100b-66b5-9be4834b049f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:5363ba6c-37e7-603c-3308-59a0059a10cc"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d5dd-8d9526fc9cac"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:8ba2a788-d4ff-1383-613e-0ceca977f286"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5b10-efa5a0f8e7b4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5da8-7e4d633e3065"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:7d406308-ccf7-eb57-01bf-602dc69658ed"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:6bcd79b4-f9d1-1e02-5f3a-25d8f1ba45cf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-eb4a-3f746aca7988"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:e68112fe-e224-d464-532d-8d8e084dff18"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-7e2e-dd08e1c087a0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-7c2d-4382d3c52063"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d349-8836c48ba066"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:b6c039db-34f7-ef6a-3b3f-37002e965d00"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:6b9d04bc-f887-b142-5f09-b0e0f070d90f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c1ba-e935897de7ef"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:d5a38635-1611-9360-f3f9-1d96fceaec55"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-6ea5-936285139eb8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-16ae-241e134b0576"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0b9dfc64-4d1b-44dc-7339-61c56cda8e1a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:885cc705-823a-3826-82a6-ba425d654124"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-36ed-00f83f2202f1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:7827663b-151e-c74e-4d71-1994cb7504ba"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-6a71-2ed4bfa14ce0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-58ec-40d72349ab5a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ad805677-99bb-7506-0ea0-15c0d823106c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:770a1131-8061-f2b4-b3e5-3c3a7e5c3ca7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-1de8-a9cbc4e0036a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0d603019-569c-3dfd-bf52-0782656f0baf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-0db7-b058ebf14b84"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-2538-a83ef5b75ab1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:18d9193e-e891-43e5-7fb2-7186d863937f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:1798d623-ba95-06b0-aa15-a55a8557462e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f220-dd931dfdd2e5"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0fc51de2-2205-cd09-2ee2-96d4adb2a834"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-af17-52591ce4bfab"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5c6d-fa71b7a30f38"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-4ef6-22f142d7d336"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:9ea36e5b-716f-7dc8-5dec-acc30cd4dee8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:aeb002a3-5159-8657-d9b9-009d9b4cc332"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-715e-56f83a1bf839"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:477e74d5-4c1b-7c04-85b9-68940575325a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-9843-105155e736bb"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-8d2d-8f7aecfab0af"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:810f2d9d-89f3-1988-1b76-06f5d1e2ebd8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0459bdb5-def8-b1d7-82ec-3a8515c37416"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5a82-eca43b90700e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:5c061728-5ba7-2c80-75b2-f2537ad4809a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-65ac-50e059411094"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5a2f-e1a6ea69a91a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:9d3d7489-9293-423a-5393-8685872728b4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:f87c4036-8850-2777-97b0-0de938e0071c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-80fd-fb51401f0e6b"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:71769078-6471-2b8c-d6da-8352d4374127"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-e748-241d7cdbbddd"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c1d4-7b24da488762"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0579b0c9-385b-3c39-b609-906dd78f09eb"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:388fced2-345d-64b6-defd-6456b35a89af"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-500d-52c21db4e8d4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:1a3b3eb0-d10e-5688-c572-0978b6c3ac7c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-4add-381d14c5ddf7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5756-faa9406416fb"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-1962-0ea00b3cda63"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:40679c3d-3c07-c049-0d5b-08e95fffa971"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:f3c906d9-6f23-c217-b312-45410a892337"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c292-39c3b263355c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:35e21a02-69ae-8a8c-0394-cbfbd713f5d7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-1179-6df0b91f7525"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-55c4-fdc38b673678"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:6cb2b349-d7d7-f3e1-1151-e7178a8883c1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:fa4de280-88f7-e2d3-7ecc-dfa582965069"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f07b-ca9c0d01152d"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:b3f7ffc6-850d-66e9-60ce-6d5c14dfc5b1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d603-07e52baa590b"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-fd9c-53747ed763c3"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:c61ed03c-4e13-3cc7-1c30-cc30e1f9b67e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:044ec3a5-ac5c-c5cf-381c-76563c3c6a6e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-8cfc-844c633f72f8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:683c151d-e1d3-4aa7-8895-cb7421f30547"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-8033-ba5bdb4eee1c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d22e-a00332260b6a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:1a43cff7-7a5b-4319-e97a-9ab9b9d9d595"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:3684963b-420d-3f4e-2b18-7cb4f863514a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-7fda-a04a956dcc4e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:dccd6cab-3a1d-9dad-dabe-d33607d04fae"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d01e-01c162d00a1e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f192-9af1d1042e24"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-a901-56495c7d7915"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:664240c3-5ece-5799-01a7-a1e31e179601"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:a8a3868e-2470-68a4-f296-c3694f79669e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-e24f-0300820f0d4b"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:9d1d80e4-2e12-b01e-32ad-88d435ca0e8c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-da21-a0ada8fdccaf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-ab2b-7e1872e256ad"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:303bebd6-0fd2-1c3d-16b5-a22c21ce10d1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:6bc547ec-3734-e642-4b69-e72004e796d2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-324c-f8d35cb030be"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:5e57b3dd-42f7-a8f5-3982-d3f969fc42a2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-fea4-d040f20925df"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-9034-26ba188a4c3a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:8f8a214c-6c3b-71c8-a186-15e052b5281e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:32d39940-2bed-c1cc-0086-49d00b926100"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-51b7-9b21c65312d1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:385fb839-1925-0168-27ec-96a6aeb53ecc"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5ff8-97b1f4eef88d"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-bb2c-7c63f78b79f2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:3080623e-0093-d6f4-d6ed-f7c27f90fbed"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:578f3c65-a224-08fb-40b7-09590ed02cf3"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c25a-cd7373ad0288"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ebff37a8-a34e-2f8a-f3cf-20d1461be23c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-2692-72c2133050cf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-3e41-e5b04e10d69c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:24fd9372-65b4-201d-7497-fa4bbdfc0fef"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:406c76a1-9630-be4b-7feb-091e6567890d"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-9472-8c7c3d2e45ab"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ddffdf72-76cb-6956-5b00-913323a69477"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-1b84-c52fb680231c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-cc9b-9a8dac0bf429"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-6608-11e9eb72b9ce"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:1e448c14-029c-8999-97fa-e225fe911d7f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:c7ab3348-9f86-63ef-6c4a-67165236f3cf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-4d78-41a6e431eb81"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0023164a-4998-e288-0fc3-5a02cf3447ec"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-3b24-763d02e12997"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-9db2-3e01b33a24dd"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:810f5b73-c6ec-3a7b-1b76-34cc0edc0ccb"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:cd6155b5-ddf2-3ae6-4bf3-d28514bcfd26"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5d84-12f20bffd1a0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0ef7963b-44f0-eed0-a4f7-c994fb472fd7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-b9b0-4e978d5fbba8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-7094-d2c0c5ac0f16"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:353d2977-c37c-0ec0-3262-23163111933f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:d0fcf862-c0e6-6964-7d20-f04be8b35cd1"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-24a8-4d3ad8b8ae01"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0b1d6b94-0349-8896-1a58-a12f68ad9b08"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-6fdf-b576336a84a6"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-003d-0101f53e3154"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:f95e43d9-6da2-3357-b8a7-824109079477"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:63c5dd79-2805-7644-8ece-db7371f8b31f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-a761-abf04ae61cff"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:18a52e2d-fbc6-1025-ff7e-8735cd88d2d2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-6e65-238220288f48"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d167-ce53d138fb07"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:b3943349-1969-b9b2-5833-6716cc1a4992"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:61346cb7-94ff-eeb9-e5b3-69dc8e9e5c4e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d989-86644ae1848a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:e03f31d6-c997-3e18-ff86-81a30f32a37c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-e308-404db14d3249"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-1c64-64c037697bf3"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-4a51-7fd58c9a38b2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ac674294-09ee-54f2-9fd3-eeb801d77cbf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:39646991-afa3-7005-82a2-d12d15048fc4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-403a-3d51560b106f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:163e5f23-e6c7-e6ce-e175-29ec2556c67c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-daa0-f375f040f2ca"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c9b8-3f36c803f63f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:0e5cedb9-b1f5-ca95-175a-e803a532a5c0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:17b38b00-d4df-7cc5-7e8c-e348c4b1cc5f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-58eb-26b259294074"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:4861bb45-5293-1cc3-9ea3-d13930c67679"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f89e-b677aa848d76"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-b275-92eb37de846e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:c2215eb5-e6f2-0def-40b3-db851dbcd02f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:eb08b96d-76c3-1c9e-411a-b5620aa99655"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-5bdf-a78105e167bf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:f379b045-f0a2-6edb-4bae-0eb38633294b"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-47b3-71b6fedb37cf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c3b8-2f51d4c14ab0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:a770495f-efc3-3077-1505-cddeece82a16"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:f11e6a04-d423-7636-18eb-5d7180476e20"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-ac7e-a59622bf63f2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:5c290f77-b687-222e-cca2-b18e241cb2e8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d218-8bd9b86f704e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-1c88-e6cda8ec7531"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-4aa7-17255db300c3"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ef722d95-1656-3076-df44-7d2f7d2f88be"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:9e1826e7-1ee6-5615-68da-6665b163254c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-b87f-486a766d7690"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:65c2eab5-e79f-e040-9e55-daa11e6aa89d"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-0162-2ce5311b5279"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-fb8e-0edef8cb8ac2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:1346baf8-318e-1f54-5b36-8d47cbf4f8ac"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:cb143d49-a165-3b39-01de-ff891ff7b809"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f3af-f8e08dd81174"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:1e2e662e-7c14-60b9-77e4-bc7180db296c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-9d5c-9755ae6ec44b"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-a7d9-31c7aace7e53"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:a77df40e-86a5-5115-a578-3e01c3807c1e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:e51ade29-614f-a989-be73-2619339f43f0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d8d9-4789ddde2599"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:e280dd4c-ddf5-b03e-046d-cfcc63a28b6a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-9671-6809a100f0ff"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-53c4-cfdf2b5dd320"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:61ae1cb3-c6f7-d331-e62d-19d8c09640c6"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ac2ef1fb-a79e-75d2-9f9b-9e1f9f879d9f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-35e0-61c760c27bcc"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:4f30932e-24cc-b82b-e4c1-89a87fe2d698"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-406d-3b0c7ff097ca"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f89c-1abb9feabaee"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-15e5-0fac43d29b6d"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:c729ea8a-2179-f0c8-8969-691c9e492793"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:3e3dd483-8ab0-bcd9-b7f4-2a9586a550bf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-d72e-353b774455cf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:b0ea08e2-af5a-a47f-1e7f-99d92a5bddd6"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-3fde-27be9c1c7826"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-cf00-62e8f31e53f8"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-56b1-5917b91995a7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:e9d0e8d6-9a35-e32c-294f-7b53696cadef"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:a3325c89-e3b2-823a-5988-6e85d84668b4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-fe0f-215c3c52d84c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:891d499d-3d50-9810-7cb6-fcd09706ee54"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-c53c-b3838c180ebd"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-e7e7-eeab8432491c"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:c3520393-d01a-7dce-f71f-b6445ffa226d"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:ab096977-c407-80df-a82e-6316319d055e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-fb7a-ec524eb0db28"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:2d9f1ccf-b761-0146-34e0-76860da5afa4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-55f7-f9f4976b1da5"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-96a9-d91d739652da"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:297f9c08-541e-c4a5-962b-c0003d469198"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:b2f97ed6-d697-f867-f161-1a3c37b7b7b0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-81ae-b206c7842f06"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:034e73d7-b3e2-6cc5-8e1c-2689d95581dc"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f442-d49d506f10a7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-279b-886aa2782723"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f846-d4397fc18ba4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:3a68c8ad-8605-c3c4-4366-c2f779429eef"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:98fc4c29-33b7-1b65-ffd5-a47123896aff"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-2051-e8ee0a6b654f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:8709b501-0255-bd34-b3e4-e02359880198"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-ea9d-c861c301dc37"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-0ffb-080f18161ad7"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:8a6b74b5-e231-2ecf-08fd-f18518fbf10f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:128537af-c773-1cb5-6897-33a45b59966b"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-6b1e-13ab57e5fded"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:880c798b-353e-3f48-3a83-47720e9752d2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-e77a-de35e12d61c2"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-bcea-2e77475b36da"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:c4e9b8f6-3605-b8d7-cde7-b34029429402"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:98aa1bed-3b39-60e5-ff83-74352b0bb07f"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-70db-c23708019e5e"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:70686202-c601-8e2f-e11b-ceaf514b753a"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f6ec-9182270fc784"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-976f-e37e8b0f6171"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:7bf61bd2-84bf-b775-6f32-f6fd8dbdb1bf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:eb2d5b15-167c-278e-daff-aaaf7d557fd6"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-0297-a5a1bd87d1f0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:19c02e32-9639-794a-7e1a-7db80fef14af"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-95ce-922e94744be4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-57cb-2e4d766f0fbf"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-f790-a0746ae2fee0"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:d217b1a2-6e82-9345-84c8-41821321c713"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:07fff275-f553-ea8f-019e-600b79d2e7b4"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:324d4f70-205b-60cc-3eca-e327cc5deb09"
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "urn:uuid:8a98d15f-89fb-3c68-e0de-765a88c9961e"
+    }
+  ],
+  "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.recorded">recorded</a>" : "2026-04-27T22:05:30.471-05:00",
+  "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent">agent</a>" : [
+    {
+      "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent.type">type</a>" : {
+        "<a href="http://hl7.org/fhir/R4/datatypes.html#CodeableConcept#CodeableConcept.coding">coding</a>" : [
+          {
+            "<a href="http://hl7.org/fhir/R4/datatypes.html#Coding#Coding.system">system</a>" : "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+            "<a href="http://hl7.org/fhir/R4/datatypes.html#Coding#Coding.code">code</a>" : "author",
+            "<a href="http://hl7.org/fhir/R4/datatypes.html#Coding#Coding.display">display</a>" : "Author"
+          }
+        ],
+        "<a href="http://hl7.org/fhir/R4/datatypes.html#CodeableConcept#CodeableConcept.text">text</a>" : "Author"
+      },
+      "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent.who">who</a>" : {
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495",
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.display">display</a>" : "Dr. Bertram Pyle"
+      },
+      "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent.onBehalfOf">onBehalfOf</a>" : {
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512",
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.display">display</a>" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+      }
+    },
+    {
+      "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent.type">type</a>" : {
+        "<a href="http://hl7.org/fhir/R4/datatypes.html#CodeableConcept#CodeableConcept.coding">coding</a>" : [
+          {
+            "<a href="http://hl7.org/fhir/R4/datatypes.html#Coding#Coding.system">system</a>" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-provenance-participant-type",
+            "<a href="http://hl7.org/fhir/R4/datatypes.html#Coding#Coding.code">code</a>" : "transmitter",
+            "<a href="http://hl7.org/fhir/R4/datatypes.html#Coding#Coding.display">display</a>" : "Transmitter"
+          }
+        ],
+        "<a href="http://hl7.org/fhir/R4/datatypes.html#CodeableConcept#CodeableConcept.text">text</a>" : "Transmitter"
+      },
+      "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent.who">who</a>" : {
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999968495",
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.display">display</a>" : "Dr. Bertram Pyle"
+      },
+      "<a href="http://hl7.org/fhir/R4/provenance.html#Provenance.agent.onBehalfOf">onBehalfOf</a>" : {
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.reference">reference</a>" : "Organization?identifier=https://github.com/synthetichealth/synthea|22b012cf-d62c-3354-ad66-c36d080d1512",
+        "<a href="http://hl7.org/fhir/R4/references.html#Reference#Reference.display">display</a>" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+      }
+    }
+  ]
+}</code></pre>
+
+
+  <!-- insert notes if present -->
+  
+
+
+
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+  <script type="text/javascript" src="assets/js/flags.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <script type="text/javascript" src="assets/js/togglechanges.js"> </script>
+  <script type="text/javascript" src="assets/js/requirements-table.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container" data-fhir="generated">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+
+
+
+          IG © 2026+ <a style="color:var(--footer-hyperlink-text-color)" href="http://www.hl7.org/Special/committees/cic">HL7 International / Clinical Interoperability Council</a>.  
+          Package hl7.fhir.us.codex-mopa#0.1.1-snapshot-080926 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>.
+          Generated 
+  <span title="2026-10-06 14:22:00 -0400">
+    2026-10-06
+  </span>
+
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="../qa.html">QA Report</a>
+                 
+                
+                 | <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir/us/codex-mopa/history.html">Version History</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" rel="license" href="http://hl7.org/fhir/R4/license.html"><img style="border-style: none;" alt="CC0" src="cc0.png"/></a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" target="_blank" href="http://hl7.org/fhir-issues">Propose a change</a>
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+

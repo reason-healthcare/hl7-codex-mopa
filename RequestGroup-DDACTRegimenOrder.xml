@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RequestGroup xmlns="http://hl7.org/fhir">
+  <id value="DDACTRegimenOrder"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/anticancer-regimen-requestgroup"/>
+  </meta>
+  <text>
+    <status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: RequestGroup DDACTRegimenOrder</b></p><a name="DDACTRegimenOrder"> </a><a name="hcDDACTRegimenOrder"> </a><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px"/><p style="margin-bottom: 0px">Profile: <a href="StructureDefinition-anticancer-regimen-requestgroup.html">Anti-Cancer Regimen RequestGroup</a></p></div><p><b>Request Category</b>: <span title="Codes:{http://snomed.info/sct 373846009}">Adjuvant - intent</span></p><p><b>Request Category</b>: <span title="Codes:{http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs 1L}">First-line</span></p><p><b>instantiatesCanonical</b>: <a href="PlanDefinition-RegimenDdACT.html">ddAC→T: Dose-Dense Doxorubicin/Cyclophosphamide then Paclitaxel — Breast Cancer</a></p><p><b>status</b>: Draft</p><p><b>intent</b>: Order</p><p><b>subject</b>: <a href="Patient-MOPAPatientExample.html">Jane Smith (official) Female, DoB: 1968-04-15 ( http://hospital.example.org/patients#MRN-78432)</a></p><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>ac-phase-order</blockquote><p><b>title</b>: AC Phase (Cycles 1–4, q14d)</p><p><b>timing</b>: Count 4  times, Once per 14 days</p><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>doxorubicin-action</blockquote><p><b>title</b>: Doxorubicin 60 mg/m² IV day 1</p><p><b>timing</b>: Once per 14 days</p><p><b>resource</b>: <a href="MedicationRequest-DoxorubicinMedRequestDDACT.html">MedicationRequest: status = draft; intent = order; medication[x] = doxorubicin</a></p></blockquote><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>cyclophosphamide-action</blockquote><p><b>title</b>: Cyclophosphamide 600 mg/m² IV day 1</p><p><b>timing</b>: Once per 14 days</p><p><b>resource</b>: <a href="MedicationRequest-CyclophosphamideMedRequestDDACT.html">MedicationRequest: status = draft; intent = order; medication[x] = cyclophosphamide</a></p></blockquote><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>pegfilgrastim-action</blockquote><p><b>title</b>: Pegfilgrastim 6 mg subcutaneous day 2</p><p><b>timing</b>: Once per 14 days</p><p><b>resource</b>: <a href="MedicationRequest-PegfilgrastimMedRequestDDACT.html">MedicationRequest: status = draft; intent = order; medication[x] = pegfilgrastim</a></p></blockquote></blockquote><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>t-phase-order</blockquote><p><b>title</b>: T Phase — Paclitaxel (Cycles 5–8, q14d)</p><h3>RelatedActions</h3><table class="grid"><tr><td style="display: none">-</td><td><b>ActionId</b></td><td><b>Relationship</b></td></tr><tr><td style="display: none">*</td><td>ac-phase-order</td><td>After End</td></tr></table><p><b>timing</b>: Count 4  times, Once per 14 days</p><blockquote><p><b>action</b></p><blockquote><p><b>id</b></p>paclitaxel-t-action</blockquote><p><b>title</b>: Paclitaxel 175 mg/m² IV day 1</p><p><b>timing</b>: Once per 14 days</p><p><b>resource</b>: <a href="MedicationRequest-PaclitaxelMedRequestTPHase.html">MedicationRequest: status = draft; intent = order; medication[x] = paclitaxel</a></p></blockquote></blockquote></div>
+  </text>
+  <extension url="http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category">
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="373846009"/>
+        <display value="Adjuvant - intent"/>
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-request-category">
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://hl7.org/fhir/us/codex-mopa/CodeSystem/treatment-line-cs"/>
+        <code value="1L"/>
+        <display value="First-line"/>
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <instantiatesCanonical value="http://hl7.org/fhir/us/codex-mopa/PlanDefinition/RegimenDdACT"/>
+  <status value="draft"/>
+  <intent value="order"/>
+  <subject>
+    <reference value="Patient/MOPAPatientExample"/>
+  </subject>
+  <action id="ac-phase-order">
+    <title value="AC Phase (Cycles 1–4, q14d)"/>
+    <timingTiming>
+      <repeat>
+        <count value="4"/>
+        <period value="14"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timingTiming>
+    <action id="doxorubicin-action">
+      <title value="Doxorubicin 60 mg/m² IV day 1"/>
+      <timingTiming>
+        <extension url="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle">
+          <extension url="day">
+            <valueInteger value="1"/>
+          </extension>
+        </extension>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+      <resource>
+        <reference value="MedicationRequest/DoxorubicinMedRequestDDACT"/>
+      </resource>
+    </action>
+    <action id="cyclophosphamide-action">
+      <title value="Cyclophosphamide 600 mg/m² IV day 1"/>
+      <timingTiming>
+        <extension url="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle">
+          <extension url="day">
+            <valueInteger value="1"/>
+          </extension>
+        </extension>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+      <resource>
+        <reference value="MedicationRequest/CyclophosphamideMedRequestDDACT"/>
+      </resource>
+    </action>
+    <action id="pegfilgrastim-action">
+      <title value="Pegfilgrastim 6 mg subcutaneous day 2"/>
+      <timingTiming>
+        <extension url="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle">
+          <extension url="day">
+            <valueInteger value="2"/>
+          </extension>
+        </extension>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+      <resource>
+        <reference value="MedicationRequest/PegfilgrastimMedRequestDDACT"/>
+      </resource>
+    </action>
+  </action>
+  <action id="t-phase-order">
+    <title value="T Phase — Paclitaxel (Cycles 5–8, q14d)"/>
+    <relatedAction>
+      <actionId value="ac-phase-order"/>
+      <relationship value="after-end"/>
+    </relatedAction>
+    <timingTiming>
+      <repeat>
+        <count value="4"/>
+        <period value="14"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timingTiming>
+    <action id="paclitaxel-t-action">
+      <title value="Paclitaxel 175 mg/m² IV day 1"/>
+      <timingTiming>
+        <extension url="http://hl7.org/fhir/us/codex-mopa/StructureDefinition/regimen-days-of-cycle">
+          <extension url="day">
+            <valueInteger value="1"/>
+          </extension>
+        </extension>
+        <repeat>
+          <period value="14"/>
+          <periodUnit value="d"/>
+        </repeat>
+      </timingTiming>
+      <resource>
+        <reference value="MedicationRequest/PaclitaxelMedRequestTPHase"/>
+      </resource>
+    </action>
+  </action>
+</RequestGroup>

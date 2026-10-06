@@ -1,0 +1,205 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Patient/324d4f70-205b-60cc-a081-24b98a0f139e> a fhir:Patient ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "324d4f70-205b-60cc-a081-24b98a0f139e"] ;
+  fhir:Resource.meta [
+     fhir:Meta.profile [
+       fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient" ;
+       fhir:index 0 ;
+       fhir:link <http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient>
+     ]
+  ] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Patient 324d4f70-205b-60cc-a081-24b98a0f139e</b></p><a name=\"324d4f70-205b-60cc-a081-24b98a0f139e\"> </a><a name=\"hc324d4f70-205b-60cc-a081-24b98a0f139e\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-patient.html\">US Core Patient Profile</a></p></div><p style=\"border: 1px #661aff solid; background-color: #e6e6ff; padding: 10px;\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</p><hr/><table class=\"grid\"><tr><td style=\"background-color: #f3f5da\" title=\"Known Marital status of Patient\">Marital Status:</td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v3-MaritalStatus D}\">Divorced</span></td><td style=\"background-color: #f3f5da\" title=\"Known multipleBirth status of Patient\">Multiple Birth:</td><td colspan=\"3\">false</td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Other Id (see the one above)\">Other Id:</td><td colspan=\"3\">Medical Record Number/324d4f70-205b-60cc-a081-24b98a0f139e</td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Alternate names (see the one above)\">Alt. Name:</td><td colspan=\"3\">Julia Julia Peña (Name changed for Marriage)</td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Ways to contact the Patient\">Contact Detail</td><td colspan=\"3\"><ul><li>ph: 555-435-4794(Home)</li><li>808 Haag Trace North Miami Beach FL 33162 US </li></ul></td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Language spoken\">Language:</td><td colspan=\"3\"><span title=\"Codes:{urn:ietf:bcp:47 es}\">Spanish</span></td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Patient Links\">Links:</td><td colspan=\"3\"><ul><li>General Practitioner: <a href=\"Practitioner/practitioner-43ef4dd8-5724-40a9-a851-c307f5a28609\">Dr. Bertram Pyle</a></li><li>Managing Organization: <a href=\"Organization/organization-dad77b64-438c-4dda-8c77-77c43d550694\">Nexis Health</a></li></ul></td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Concepts classifying the person into a named category of humans sharing common history, traits, geographical origin or nationality.  The ethnicity codes used to represent these concepts are based upon the [CDC ethnicity and Ethnicity Code Set Version 1.0](http://www.cdc.gov/phin/resources/vocabulary/index.html) which includes over 900 concepts for representing race and ethnicity of which 43 reference ethnicity.  The ethnicity concepts are grouped by and pre-mapped to the 2 OMB ethnicity categories: - Hispanic or Latino - Not Hispanic or Latino.\">US Core Ethnicity Extension:</td><td colspan=\"3\"><ul><li>ombCategory: <a href=\"http://hl7.org/fhir/us/core/STU3.1.1/CodeSystem-cdcrec.html#cdcrec-2135-2\">Race &amp; Ethnicity - CDC: 2135-2</a> (Hispanic or Latino)</li><li>text: Hispanic or Latino</li></ul></td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Mother's maiden (unmarried) name, commonly collected to help verify patient identity.\"><a href=\"http://hl7.org/fhir/extensions/5.3.0-ballot-tc1/StructureDefinition-patient-mothersMaidenName.html\">Patient Mother's Maiden Name</a></td><td colspan=\"3\">Magdalena964 Carrasco324</td></tr><tr><td style=\"background-color: #f3f5da\" title=\"The registered place of birth of the patient. A sytem may use the address.text if they don't store the birthPlace address in discrete elements.\"><a href=\"http://hl7.org/fhir/extensions/5.3.0-ballot-tc1/StructureDefinition-patient-birthPlace.html\">Patient Birth Place</a></td><td colspan=\"3\">Lima Lima Province PE </td></tr><tr><td style=\"background-color: #f3f5da\" title=\"A code classifying the person's sex assigned at birth  as specified by the [Office of the National Coordinator for Health IT (ONC)](https://www.healthit.gov/newsroom/about-onc). This extension aligns with the C-CDA Birth Sex Observation (LOINC 76689-9). After version 6.0.0, this extension is no longer a *USCDI Requirement*.\"><a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-birthsex.html\">US Core Birth Sex Extension</a></td><td colspan=\"3\">F</td></tr><tr><td style=\"background-color: #f3f5da\" title=\"Concepts classifying the person into a named category of humans sharing common history, traits, geographical origin or nationality.  The race codes used to represent these concepts are based upon the [CDC Race and Ethnicity Code Set Version 1.0](http://www.cdc.gov/phin/resources/vocabulary/index.html#3) which includes over 900 concepts for representing race and ethnicity of which 921 reference race.  The race concepts are grouped by and pre-mapped to the 5 OMB race categories:#xA;#xA; - American Indian or Alaska Native#xA; - Asian#xA; - Black or African American#xA; - Native Hawaiian or Other Pacific Islander#xA; - White.\">US Core Race Extension:</td><td colspan=\"3\"><ul><li>ombCategory: <a href=\"http://hl7.org/fhir/us/core/STU3.1.1/CodeSystem-cdcrec.html#cdcrec-2106-3\">Race &amp; Ethnicity - CDC: 2106-3</a> (White)</li><li>text: White</li></ul></td></tr></table></div>"
+  ] ;
+  fhir:DomainResource.extension [
+     fhir:index 0 ;
+     fhir:Element.extension [
+       fhir:index 0 ;
+       fhir:Extension.url [ fhir:value "ombCategory" ] ;
+       fhir:Extension.valueCoding [
+         fhir:Coding.system [ fhir:value "urn:oid:2.16.840.1.113883.6.238" ] ;
+         fhir:Coding.code [ fhir:value "2106-3" ] ;
+         fhir:Coding.display [ fhir:value "White" ]
+       ]
+     ], [
+       fhir:index 1 ;
+       fhir:Extension.url [ fhir:value "text" ] ;
+       fhir:Extension.valueString [ fhir:value "White" ]
+     ] ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race" ]
+  ], [
+     fhir:index 1 ;
+     fhir:Element.extension [
+       fhir:index 0 ;
+       fhir:Extension.url [ fhir:value "ombCategory" ] ;
+       fhir:Extension.valueCoding [
+         fhir:Coding.system [ fhir:value "urn:oid:2.16.840.1.113883.6.238" ] ;
+         fhir:Coding.code [ fhir:value "2135-2" ] ;
+         fhir:Coding.display [ fhir:value "Hispanic or Latino" ]
+       ]
+     ], [
+       fhir:index 1 ;
+       fhir:Extension.url [ fhir:value "text" ] ;
+       fhir:Extension.valueString [ fhir:value "Hispanic or Latino" ]
+     ] ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity" ]
+  ], [
+     fhir:index 2 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName" ] ;
+     fhir:Extension.valueString [ fhir:value "Magdalena964 Carrasco324" ]
+  ], [
+     fhir:index 3 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex" ] ;
+     fhir:Extension.valueCode [ fhir:value "F" ]
+  ], [
+     fhir:index 4 ;
+     fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/patient-birthPlace" ] ;
+     fhir:Extension.valueAddress [
+       fhir:Address.city [ fhir:value "Lima" ] ;
+       fhir:Address.state [ fhir:value "Lima Province" ] ;
+       fhir:Address.country [ fhir:value "PE" ]
+     ]
+  ], [
+     fhir:index 5 ;
+     fhir:Extension.url [ fhir:value "http://synthetichealth.github.io/synthea/disability-adjusted-life-years" ] ;
+     fhir:Extension.valueDecimal [ fhir:value "6.63577134524481"^^xsd:decimal ]
+  ], [
+     fhir:index 6 ;
+     fhir:Extension.url [ fhir:value "http://synthetichealth.github.io/synthea/quality-adjusted-life-years" ] ;
+     fhir:Extension.valueDecimal [ fhir:value "76.3642286547552"^^xsd:decimal ]
+  ] ;
+  fhir:Patient.identifier [
+     fhir:index 0 ;
+     fhir:Identifier.system [ fhir:value "https://github.com/synthetichealth/synthea" ] ;
+     fhir:Identifier.value [ fhir:value "324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ], [
+     fhir:index 1 ;
+     fhir:Identifier.type [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/v2-0203" ] ;
+         fhir:Coding.code [ fhir:value "MR" ] ;
+         fhir:Coding.display [ fhir:value "Medical Record Number" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Medical Record Number" ]
+     ] ;
+     fhir:Identifier.system [ fhir:value "http://hospital.smarthealthit.org" ] ;
+     fhir:Identifier.value [ fhir:value "324d4f70-205b-60cc-a081-24b98a0f139e" ]
+  ] ;
+  fhir:Patient.name [
+     fhir:index 0 ;
+     fhir:HumanName.use [ fhir:value "official" ] ;
+     fhir:HumanName.family [ fhir:value "Terán" ] ;
+     fhir:HumanName.given [
+       fhir:value "Julia" ;
+       fhir:index 0
+     ], [
+       fhir:value "Julia" ;
+       fhir:index 1
+     ] ;
+     fhir:HumanName.prefix [
+       fhir:value "Mrs." ;
+       fhir:index 0
+     ]
+  ], [
+     fhir:index 1 ;
+     fhir:HumanName.use [ fhir:value "maiden" ] ;
+     fhir:HumanName.family [ fhir:value "Peña" ] ;
+     fhir:HumanName.given [
+       fhir:value "Julia" ;
+       fhir:index 0
+     ], [
+       fhir:value "Julia" ;
+       fhir:index 1
+     ] ;
+     fhir:HumanName.prefix [
+       fhir:value "Mrs." ;
+       fhir:index 0
+     ]
+  ] ;
+  fhir:Patient.telecom [
+     fhir:index 0 ;
+     fhir:ContactPoint.system [ fhir:value "phone" ] ;
+     fhir:ContactPoint.value [ fhir:value "555-435-4794" ] ;
+     fhir:ContactPoint.use [ fhir:value "home" ]
+  ] ;
+  fhir:Patient.gender [ fhir:value "female"] ;
+  fhir:Patient.birthDate [ fhir:value "1942-11-30"^^xsd:date] ;
+  fhir:Patient.address [
+     fhir:index 0 ;
+     fhir:Element.extension [
+       fhir:index 0 ;
+       fhir:Element.extension [
+         fhir:index 0 ;
+         fhir:Extension.url [ fhir:value "latitude" ] ;
+         fhir:Extension.valueDecimal [ fhir:value "25.94398657692413"^^xsd:decimal ]
+       ], [
+         fhir:index 1 ;
+         fhir:Extension.url [ fhir:value "longitude" ] ;
+         fhir:Extension.valueDecimal [ fhir:value "-80.19398634961932"^^xsd:decimal ]
+       ] ;
+       fhir:Extension.url [ fhir:value "http://hl7.org/fhir/StructureDefinition/geolocation" ]
+     ] ;
+     fhir:Address.line [
+       fhir:value "808 Haag Trace" ;
+       fhir:index 0
+     ] ;
+     fhir:Address.city [ fhir:value "North Miami Beach" ] ;
+     fhir:Address.state [ fhir:value "FL" ] ;
+     fhir:Address.postalCode [ fhir:value "33162" ] ;
+     fhir:Address.country [ fhir:value "US" ]
+  ] ;
+  fhir:Patient.maritalStatus [
+     fhir:CodeableConcept.coding [
+       fhir:index 0 ;
+       fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus" ] ;
+       fhir:Coding.code [ fhir:value "D" ] ;
+       fhir:Coding.display [ fhir:value "Divorced" ]
+     ] ;
+     fhir:CodeableConcept.text [ fhir:value "Divorced" ]
+  ] ;
+  fhir:Patient.multipleBirthBoolean [ fhir:value "false"^^xsd:boolean] ;
+  fhir:Patient.communication [
+     fhir:index 0 ;
+     fhir:Patient.communication.language [
+       fhir:CodeableConcept.coding [
+         fhir:index 0 ;
+         fhir:Coding.system [ fhir:value "urn:ietf:bcp:47" ] ;
+         fhir:Coding.code [ fhir:value "es" ] ;
+         fhir:Coding.display [ fhir:value "Spanish" ]
+       ] ;
+       fhir:CodeableConcept.text [ fhir:value "Spanish" ]
+     ]
+  ] ;
+  fhir:Patient.generalPractitioner [
+     fhir:index 0 ;
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Practitioner/practitioner-43ef4dd8-5724-40a9-a851-c307f5a28609> ;
+     fhir:Reference.reference [ fhir:value "Practitioner/practitioner-43ef4dd8-5724-40a9-a851-c307f5a28609" ] ;
+     fhir:Reference.display [ fhir:value "Dr. Bertram Pyle" ]
+  ] ;
+  fhir:Patient.managingOrganization [
+     fhir:link <http://hl7.org/fhir/us/codex-mopa/Organization/organization-dad77b64-438c-4dda-8c77-77c43d550694> ;
+     fhir:Reference.reference [ fhir:value "Organization/organization-dad77b64-438c-4dda-8c77-77c43d550694" ] ;
+     fhir:Reference.display [ fhir:value "Nexis Health" ]
+  ] .
+
+<http://hl7.org/fhir/us/codex-mopa/Practitioner/practitioner-43ef4dd8-5724-40a9-a851-c307f5a28609> a fhir:us .
+
+<http://hl7.org/fhir/us/codex-mopa/Organization/organization-dad77b64-438c-4dda-8c77-77c43d550694> a fhir:us .
+
+# - ontology header ------------------------------------------------------------
+
+<http://hl7.org/fhir/us/codex-mopa/Patient/324d4f70-205b-60cc-a081-24b98a0f139e.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI <http://build.fhir.org/us/codex-mopa/Patient/324d4f70-205b-60cc-a081-24b98a0f139e.ttl> .
+
+# -------------------------------------------------------------------------------------
+

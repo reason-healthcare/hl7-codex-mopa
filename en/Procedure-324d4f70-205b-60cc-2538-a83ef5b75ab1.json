@@ -1,0 +1,39 @@
+{
+  "resourceType" : "Procedure",
+  "id" : "324d4f70-205b-60cc-2538-a83ef5b75ab1",
+  "meta" : {
+    "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"]
+  },
+  "language" : "en",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Procedure 324d4f70-205b-60cc-2538-a83ef5b75ab1</b></p><a name=\"324d4f70-205b-60cc-2538-a83ef5b75ab1\"> </a><a name=\"hc324d4f70-205b-60cc-2538-a83ef5b75ab1\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU7/StructureDefinition-us-core-procedure.html\">US Core Procedure Profile</a></p></div><p><b>status</b>: Completed</p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 71651007}\">Mammography (procedure)</span></p><p><b>subject</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-a081-24b98a0f139e\">Julia Julia Terán (official) Female, DoB: 1942-11-30 ( https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-a081-24b98a0f139e)</a></p><p><b>encounter</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-0db7-b058ebf14b84\">Encounter: identifier = https://github.com/synthetichealth/synthea#324d4f70-205b-60cc-0db7-b058ebf14b84\u00a0(use:\u00a0official,\u00a0); status = finished; class = ambulatory (ActCode#AMB); type = Screening surveillance (regime/therapy); period = 2018-03-05 14:46:38-0600 --&gt; 2018-03-05 15:02:48-0600; reasonCode = Malignant neoplasm of breast (disorder)</a></p><p><b>performed</b>: 2018-03-05 14:46:38-0600 --&gt; 2018-03-05 15:02:48-0600</p><p><b>location</b>: <code>OPEN ACCESS VASCULAR ACCESS CENTER INC</code></p><p><b>reasonReference</b>: <a href=\"Bundle-teran-breast-cancer-r4-clean.html#urn-uuid-324d4f70-205b-60cc-e524-4f55fc9ea3c1\">Malignant neoplasm of breast (disorder)</a></p></div>"
+  },
+  "status" : "completed",
+  "code" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "71651007",
+      "display" : "Mammography (procedure)"
+    }],
+    "text" : "Mammography (procedure)"
+  },
+  "subject" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-a081-24b98a0f139e"
+  },
+  "encounter" : {
+    "reference" : "urn:uuid:324d4f70-205b-60cc-0db7-b058ebf14b84"
+  },
+  "performedPeriod" : {
+    "start" : "2018-03-05T14:46:38-06:00",
+    "end" : "2018-03-05T15:02:48-06:00"
+  },
+  "location" : {
+    "reference" : "Location?identifier=https://github.com/synthetichealth/synthea|3d038942-40fd-3bd7-a3b8-794b9cc858e8",
+    "display" : "OPEN ACCESS VASCULAR ACCESS CENTER INC"
+  },
+  "reasonReference" : [{
+    "reference" : "urn:uuid:324d4f70-205b-60cc-e524-4f55fc9ea3c1",
+    "display" : "Malignant neoplasm of breast (disorder)"
+  }]
+}
